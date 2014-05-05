@@ -1,0 +1,98 @@
+/* Zefiro Default Icon CSS */
+/* works with Fugue Icons by Yusuke Kamiyamane */
+/* <http://p.yusukekamiyamane.com/> */
+
+.icons li {
+	background-position:left 5px;
+	background-repeat:no-repeat;
+	list-style-type:none;
+	padding-left:20px !important;
+}
+
+.icon {
+	background-position:2px center;
+	background-repeat:no-repeat;
+	padding-left:20px !important;
+}
+
+.icon.inline {
+	padding-left:0 !important;
+}
+
+/* general user interface */
+.icon.yes,				.icons.yes > *,				.icons > .yes				{ background-image:url(../images/fugue-icons_zefiro/tick.png); }
+.icon.ok,				.icons.ok > *,				.icons > .ok				{ background-image:url(../images/fugue-icons_zefiro/tick.png); }
+.icon.no,				.icons.no > *,				.icons > .no				{ background-image:url(../images/fugue-icons_zefiro/cross.png); }
+.icon.cancel,			.icons.cancel > *,			.icons > .cancel			{ background-image:url(../images/fugue-icons_zefiro/cross.png); }
+.icon.add,				.icons.add > *,				.icons > .add				{ background-image:url(../images/fugue-icons_zefiro/plus.png); }
+.icon.edit,				.icons.edit > *,			.icons > .edit				{ background-image:url(../images/fugue-icons_zefiro/pencil.png); }
+.icon.remove,			.icons.remove > *,			.icons > .remove			{ background-image:url(../images/fugue-icons_zefiro/minus.png); }
+.icon.delete,			.icons.delete > *,			.icons > .delete			{ background-image:url(../images/fugue-icons_zefiro/cross.png); }
+.icon.recover,			.icons.recover > *,			.icons > .recover			{ background-image:url(../images/fugue-icons_zefiro/arrow-curve.png); }
+
+/* navigation elements */
+.icon.forward,			.icons.forward > *,			.icons > .forward			{ background-image:url(../images/fugue-icons_zefiro/arrow.png); }
+.icon.back,				.icons.back > *,			.icons > .back				{ background-image:url(../images/fugue-icons_zefiro/arrow-180.png); }
+
+/* process controls */
+.icon.start,			.icons.start > *,			.icons > .start				{ background-image:url(../images/fugue-icons_zefiro/arrow.png); }
+.icon.continue,			.icons.continue > *,		.icons > .continue			{ background-image:url(../images/fugue-icons_zefiro/control.png); }
+.icon.finish,			.icons.finish > *,			.icons > .finish			{ background-image:url(../images/fugue-icons_zefiro/tick.png); }
+.icon.download,			.icons.download > *,		.icons > .download			{ background-image:url(../images/fugue-icons_zefiro/disk.png); }
+
+/* list sorting and browsing */
+.icon.next,				.icons.next > *,			.icons > .next				{ background-image:url(../images/fugue-icons_zefiro/control.png); }
+.icon.previous,			.icons.previous > *,		.icons > .previous			{ background-image:url(../images/fugue-icons_zefiro/control-180.png); }
+.icon.nextSkip,			.icons.nextSkip > *,		.icons > .nextSkip			{ background-image:url(../images/fugue-icons_zefiro/control-double.png); }
+.icon.previousSkip,		.icons.previousSkip > *,	.icons > .previousSkip		{ background-image:url(../images/fugue-icons_zefiro/control-double-180.png); }
+.icon.sortAsc,			.icons.sortAsc > *,			.icons > .sortAsc			{ background-image:url(../images/fugue-icons_zefiro/arrow-090-medium.png); }
+.icon.sortDesc,			.icons.sortDesc > *,		.icons > .sortDesc			{ background-image:url(../images/fugue-icons_zefiro/arrow-270-medium.png); }
+
+/* general site features*/
+.icon.print,			.icons.print > *,			.icons > .print				{ background-image:url(../images/fugue-icons_zefiro/printer.png); }
+.icon.search,			.icons.search > *,			.icons > .search			{ background-image:url(../images/fugue-icons_zefiro/question-balloon.png); }
+.icon.contact,			.icons.contact > *,			.icons > .contact			{ background-image:url(../images/fugue-icons_zefiro/mail.png); }
+
+/* bookmark management */
+.icon.bookmarks,		.icons.bookmarks > *,		.icons > .bookmarks			{ background-image:url(../images/fugue-icons_zefiro/clipboard-list.png); }
+.icon.bookmarksEmpty,	.icons.bookmarksEmpty > *,	.icons > .bookmarksEmpty	{ background-image:url(../images/fugue-icons_zefiro/clipboard-empty.png); }
+.icon.addBookmark,		.icons.addBookmark > *,		.icons > .addBookmark		{ background-image:url(../images/fugue-icons_zefiro/clipboard--pencil.png); }
+.icon.removeBookmark,	.icons.removeBookmark > *,	.icons > .removeBookmark	{ background-image:url(../images/fugue-icons_zefiro/clipboard--minus.png); }
+.icon.dumpBookmarks,	.icons.dumpBookmarks > *,	.icons > .dumpBookmarks		{ background-image:url(../images/fugue-icons_zefiro/clipboard-list--cross.png); }
+.icon.sendBookmarks,	.icons.sendBookmarks > *,	.icons > .sendBookmarks		{ background-image:url(../images/fugue-icons_zefiro/mail-send.png); }
+
+/* admin interface */
+.icon.login,			.icons.login > *,			.icons > .login				{ background-image:url(../images/fugue-icons_zefiro/key.png); }
+.icon.logout,			.icons.logout > *,			.icons > .logout			{ background-image:url(../images/fugue-icons_zefiro/cup.png); }
+.icon.admin,			.icons.admin > *,			.icons > .admin				{ background-image:url(../images/fugue-icons_zefiro/wrench.png); }
+.icon.contents,			.icons.contents > *,		.icons > .contents			{ background-image:url(../images/fugue-icons_zefiro/book-open-text.png); }
+.icon.home,				.icons.home > *,			.icons > .home				{ background-image:url(../images/fugue-icons_zefiro/home.png); }
+
+/* user management */
+.icon.users,			.icons.users > *,			.icons > .users				{ background-image:url(../images/fugue-icons_zefiro/users.png); }
+.icon.user,				.icons.user > *,			.icons > .user				{ background-image:url(../images/fugue-icons_zefiro/user.png); }
+.icon.addUser,			.icons.addUser > *,			.icons > .addUser			{ background-image:url(../images/fugue-icons_zefiro/user--plus.png); }
+.icon.remotes,			.icons.remotes > *,			.icons > .remotes			{ background-image:url(../images/fugue-icons_zefiro/sofa.png); }
+.icon.remote,			.icons.remote > *,			.icons > .remote			{ background-image:url(../images/fugue-icons_zefiro/sofa.png); }
+.icon.addRemote,		.icons.addRemote > *,		.icons > .addRemote			{ background-image:url(../images/fugue-icons_zefiro/sofa--plus.png); }
+
+/* helptext management */
+.icon.helptexts,		.icons.helptexts > *,		.icons > .helptexts			{ background-image:url(../images/fugue-icons_zefiro/light-bulb.png); }
+.icon.helptext,			.icons.helptext > *,		.icons > .helptext			{ background-image:url(../images/fugue-icons_zefiro/light-bulb.png); }
+.icon.addHelptext,		.icons.addHelptext > *,		.icons > .addHelptext		{ background-image:url(../images/fugue-icons_zefiro/light-bulb--plus.png); }
+
+/* textblock management */
+.icon.textblocks,		.icons.textblocks > *,		.icons > .textblocks		{ background-image:url(../images/fugue-icons_zefiro/sticky-note.png); }
+.icon.textblock,		.icons.textblock > *,		.icons > .textblock			{ background-image:url(../images/fugue-icons_zefiro/sticky-note.png); }
+.icon.addTextblock,		.icons.addTextblock > *,	.icons > .addTextblock		{ background-image:url(../images/fugue-icons_zefiro/sticky-note--plus.png); }
+
+/* image management */
+.icon.addImage,			.icons.addImage > *,		.icons > .addImage			{ background-image:url(../images/fugue-icons_zefiro/image--plus.png); }
+
+/* database management */
+.icon.db,				.icons.db > *,				.icons > .db				{ background-image:url(../images/fugue-icons_zefiro/database.png); }
+.icon.dbStatus,			.icons.dbStatus > *,		.icons > .dbStatus			{ background-image:url(../images/fugue-icons_zefiro/database.png); }
+.icon.dbBackup,			.icons.dbBackup > *,		.icons > .dbBackup			{ background-image:url(../images/fugue-icons_zefiro/databases.png); }
+.icon.dbRecovery,		.icons.dbRecovery > *,		.icons > .dbRecovery		{ background-image:url(../images/fugue-icons_zefiro/database-share.png); }
+.icon.dbMaintenance,	.icons.dbMaintenance > *,	.icons > .dbMaintenance		{ background-image:url(../images/fugue-icons_zefiro/database--exclamation.png); }
+.icon.dbImport,			.icons.dbImport > *,		.icons > .dbImport			{ background-image:url(../images/fugue-icons_zefiro/database-import.png); }

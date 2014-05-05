@@ -1,0 +1,485 @@
+/* Zefiro Default CSS */
+/* last known update: 2013-02-04 */
+
+/* * { border:1px dotted silver; }*/
+
+html {
+	overflow: -moz-scrollbars-vertical;
+}
+
+/* BODY --------------------------------------------------------------------- */
+
+body,table,input,textarea {
+	color:#000; /* black */
+	font-family:Arial,sans-serif;
+	font-size:12px;
+	line-height:20px;
+}
+
+body {
+	background-color:#444; /* gray */
+	border:1px solid #222; /* dark gray */
+	margin:20px auto;
+	padding:0;
+	width:860px;
+}
+
+body.print #header {
+	background-image:none;
+	height:70px;
+}
+body.print {
+	border:0;
+}
+
+/* DIVISIONS ---------------------------------------------------------------- */
+
+div {
+	margin:0;
+	padding:0;
+}
+
+div.left {
+	left:0;
+	position:absolute;
+	top:0;
+}
+
+div.right {
+	position:absolute;
+	right:0;
+	top:0;
+}
+
+div.bar {
+	background-color:#ccc; /* bright gray */
+	color:#222; /* very dark gray */
+	font-size:12px;
+	height:20px;
+	line-height:15px;
+	position:relative;
+}
+
+div.bar a {
+	color:#222; /* bright gray */
+	text-decoration:none;
+}
+
+div.bar div {
+	padding:3px 6px;
+}
+
+div.buttons {
+	margin:0;
+	padding:5px 0;
+	line-height:30px;
+}
+
+/* special divisions */
+
+#header {
+	background-color:#eee; /* very bright gray */
+	color:#444; /* dark gray */
+	height:100px;
+	position:relative;
+}
+
+#breadcrumbs {
+	font-weight:bold;
+}
+
+#options {
+	position:relative;
+	background-color:#fff; /* white */
+	font-size:12px;
+	line-height:15px;
+	padding:5px;
+}
+
+#options ul {
+	padding:0;
+	margin:0;
+}
+
+#options li {
+	display: inline;
+}
+
+#body {
+	background-color:#fff; /* white */
+	position:relative;
+}
+
+#content {
+	min-height:600px;
+	padding:15px 20px 15px 20px;
+	width:580px;
+}
+
+#sidebar {
+	min-height:600px;
+	padding:15px 20px 15px 20px;
+	width:220px;
+}
+
+/* HEADINGS ----------------------------------------------------------------- */
+
+h1,h2,h3,h4 {
+	font-weight:bold;
+	margin:0;
+	padding:0;
+}
+
+h1 {
+	font-size:24px;
+	line-height:30px;
+	padding:20px 0 10px 20px;
+}
+
+h2 {
+	font-size:18px;
+	line-height:20px;
+	padding:5px 0;
+}
+
+h3 {
+	font-size:14px;
+	line-height:20px;
+	padding:5px 0;
+}
+
+h4 {
+	font-size:12px;
+	line-height:20px;
+	padding:5px 0;
+}
+
+/* PARAGRAPHS --------------------------------------------------------------- */
+
+p {
+	margin:0;
+	padding:5px 0;
+}
+
+#header p {
+	padding:0 20px;
+}
+
+#sidebar p.simplemarkup {
+	font-size:11px;
+	line-height:15px;
+}
+
+p.icon {
+	background-position:left center;
+	background-repeat:no-repeat;
+	padding-left:20px;
+}
+
+p.small {
+	padding:2px 0;
+}
+
+/* TABLES ------------------------------------------------------------------- */
+
+table,tr,th,td {
+	border:0;
+	border-collapse:collapse;
+	margin:0;
+	padding:0;
+}
+
+th {
+	font-weight:bold;
+	text-align:left;
+	vertical-align:top;
+	font-size:12px;
+}
+
+td {
+	text-align:left;
+	vertical-align:top;
+}
+
+td.align-right {
+	text-align:right;
+}
+
+td.nowrap {
+	white-space:nowrap;
+}
+
+/* table designs */
+
+table.grid {
+	margin:5px 0;
+}
+
+table.grid th,table.grid td {
+	padding:2px 6px;
+	border:1px solid #ccc; /* bright gray */
+}
+
+table.rows, table.columns {
+	border:1px solid #ccc;
+	margin:5px 0;
+}
+
+table.rows th, table.rows td {
+	padding:2px 6px;
+	border-top:1px solid #ccc; /* bright gray */
+	border-bottom:1px solid #ccc; /* bright gray */
+}
+
+table.columns th, table.columns td {
+	padding:2px 6px;
+	border-left:1px solid #ccc; /* bright gray */
+	border-right:1px solid #ccc; /* bright gray */
+}
+
+table.grid th,
+table.rows th,
+table.columns th {
+	background-color:#f8f8ff;
+}
+
+table.invisible {
+	margin:5px 0;
+}
+
+table.indented {
+	margin-left:20px !important;
+}
+
+td.boxed {
+	border:1px solid #ccc; /* bright gray */
+}
+
+table.dataview {
+	margin:10px 0;
+}
+
+table.dataview th, table.dataview td {
+	padding:2px 10px 2px 0;
+}
+
+/* form layout */
+
+form table th {
+	padding:2px 10px 2px 0;
+}
+
+form table td {
+	padding:2px 10px 2px 0;
+}
+
+form table a {
+	text-decoration:none;
+}
+
+/* LISTS -------------------------------------------------------------------- */
+
+ol,ul {
+	margin:0 0 0 20px;
+	padding:5px 0;
+	text-indent:0;
+}
+
+ul.no-indent {
+	margin-left:0;
+}
+
+table ul {
+	padding:0;
+	margin:0;
+}
+
+li.indent {
+	margin-left:20px;
+}
+
+/* LIST ELEMENTS ------------------------------------------------------------ */
+
+li {
+	font-weight:normal;
+	padding:3px 0;
+}
+
+/* LINKS -------------------------------------------------------------------- */
+
+a {
+	color:#47c; /* blue */
+	text-decoration:none;
+}
+
+a:hover {
+	color:#8bf; /* blue */
+	text-decoration:none;
+}
+
+/* button styled links */
+
+span.button,a.button,span.smallbutton,a.smallbutton {
+	border:1px solid #ccc; /* light gray */
+	color:#000; /* black */
+	text-decoration:none;
+}
+
+span.button,a.button {
+	font-size:13px;
+	line-height:15px;
+	padding:1px 3px;
+}
+
+span.smallbutton,a.smallbutton {
+	font-size:11px;
+	line-height:15px;
+	padding:0 2px;
+}
+
+span.button:hover,a.button:hover,span.smallbutton:hover,a.smallbutton:hover {
+	background-color:#f8f8ff; /* bright blue */
+	border-color:#888;
+}
+
+span.button,span.smallbutton {
+	cursor:pointer;
+}
+
+/* TEXT --------------------------------------------------------------------- */
+
+em {
+	color:#888; /* light gray */
+	font-style:normal;
+	font-weight:normal;
+}
+
+h2 em {
+	font-weight:bold;
+}
+
+/* IMAGES ------------------------------------------------------------------- */
+
+img {
+	border:0;
+}
+
+img.icon,
+ul.icons img,
+li.icon img,
+a.button img,
+a.smallbutton img,
+#options img {
+	vertical-align:text-bottom;
+}
+
+/* FORMS -------------------------------------------------------------------- */
+
+form {
+	margin:5px 0;
+	padding:0;
+}
+
+form label {
+	font-weight:bold;
+	font-size:12px;
+	line-height:20px;
+}
+
+form input,form textarea {
+	font-size:12px;
+	line-height:20px;
+	border:1px solid #ccc; /* bright gray */
+	padding:1px 2px;
+	margin:0;
+	color:#333; /* gray */
+}
+
+form select {
+	font-size:12px;
+	line-height:20px;
+	border:1px solid #ccc; /* bright gray */
+	padding:0;
+	margin:0;
+	color:#333; /* gray */
+}
+
+form option {
+	background-color:#fff; /* white */
+}
+
+form input:hover,form select:hover,form textarea:hover {
+	background-color:#f8f8ff; /* bright blue */
+	border-color:#888; /* light gray */
+}
+
+form input:focus,form select:focus,form textarea:focus {
+	background-color:#f0f0ff; /* light blue */
+	border-color:#666;
+	color:black;
+}
+
+form input.button {
+	padding:2px 4px;
+	margin:10px 0px;
+	font-size:13px;
+	line-height:15px;
+	font-weight:bold;
+	border:2px outset #ccc; /* light gray */
+	background-color:#fff; /* white */
+}
+
+form button {
+	font-size:13px;
+	margin:10px 0;
+	padding:0 15px;
+}
+
+/* GENERAL CLASSES ---------------------------------------------------------- */
+
+.small {
+	font-size:11px;
+	color:#888;
+}
+
+.inactive {
+	color:#888 !important;
+}
+
+.inactive:hover {
+	background-color:#fff !important;
+	border-color:#ccc !important;
+}
+
+.align-left {
+	text-align:left !important;
+}
+
+.align-right {
+	text-align:right !important;
+}
+
+/* JQUERY UI ---------------------------------------------------------------- */
+
+.ui-autocomplete {
+	position:absolute;
+}
+
+.ui-menu {
+	width:200px;
+	border:1px solid #444;
+	background-color:white;
+	list-style: none outside none;
+}
+
+.ui-menu-item {
+	font-size:11px;
+	line-height:15px;
+	padding:5px;
+	margin:0;
+	cursor:pointer;
+}
+
+.ui-menu-item:hover {
+	background-color:#f8f8f8;
+}

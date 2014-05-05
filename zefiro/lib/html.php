@@ -1,0 +1,153 @@
+<?php
+
+// generic functions
+
+function buildElement () {
+	$args = func_get_args();
+	switch (func_num_args()) {
+		
+		case 2: // 0:name, 1:content
+			return
+				'<'.$args[0].'>'.PHP_EOL.
+				$args[1].
+				'</'.$args[0].'>'.PHP_EOL;
+		
+		case 3: // 0:name, 1:class/id, 2:content
+			return
+				'<'.$args[0].
+				($args[1][0] == '#'
+					? ' id="'.substr($args[1],1).'"'
+					: ' class="'.$args[1].'"').
+				'>'.PHP_EOL.
+				$args[2].
+				'</'.$args[0].'>'.PHP_EOL;
+		
+		default:
+			return false;
+	}
+}
+
+function buildRow($rowElementName, $cellElementName, $cellContentArray) {
+	// hier die Parameter noch flexibilisieren
+	$cellHtml = '';
+	foreach ($cellContentArray as $cellContent) {
+		$cellHtml .= '<'.$cellElementName.'>'.$cellContent.'</'.$cellElementName.'>'.PHP_EOL;
+	}
+	return buildElement($rowElementName,$cellHtml);
+}
+
+// query functions
+
+// single values
+
+function getValueFromQuery($querystring) {
+	$result = mysql_query($querystring);
+	if ($result) {
+		// nur erste Zeile, erste Zelle
+		$row = mysql_fetch_array($result,MYSQL_NUM);
+		return $row[0];
+	}
+	else return '[invalid query]';
+}
+
+// tables and rows
+
+function buildRowsFromQuery($rowElementName, $cellElementName, $querystring, $maskArray) {
+	$result = mysql_query($querystring);
+	if ($result) {
+		$html = NULL;
+		while ($row = mysql_fetch_object($result)) {
+			$html .= '<'.$rowElementName.'>'.PHP_EOL;
+			foreach ($maskArray as $mask) {
+				// ersetzt jedes {x} durch $row->x
+				$cellElementContent = preg_replace('/(\{(\w*)\})/e',"\$row->$2",$mask);
+				$html .= '<'.$cellElementName.'>'.$cellElementContent.'</'.$cellElementName.'>'.PHP_EOL;
+			}
+			$html .= '</'.$rowElementName.'>'.PHP_EOL;
+		}
+		return $html;
+	}
+	else return 'invalid query';
+}
+
+function buildTableFromQuery () {
+	$args = func_get_args();
+	switch (func_num_args()) {
+		
+		case 2: // 0:querystring, 1:mask
+			return buildElement('table',
+				buildRowsFromQuery('tr','td',$args[0],$args[1])
+			);
+		
+		case 3: // 0:querystring, 1:mask, 2:headerArray
+			return buildElement('table',
+				buildRow('tr','th',$args[2]).
+				buildRowsFromQuery('tr','td',$args[0],$args[1])
+			);
+		
+		case 4: // 0:querystring, 1:mask, 2:headerArray, 3:class/Id 
+			return buildElement('table',$args[3],
+				buildRow('tr','th',$args[2]).
+				buildRowsFromQuery('tr','td',$args[0],$args[1])
+			);
+		
+		default: return false;
+	}
+	
+}
+
+// lists
+
+function buildListFromQuery($listElementName, $querystring, $mask) {
+	$result = mysql_query($querystring);
+	if ($result) {
+		$html = NULL;
+		while ($row = mysql_fetch_object($result)) {
+			// ersetzt jedes {x} durch $row->x
+			$listElementContent = preg_replace('/(\{(\w*)\})/e',"\$row->$2",$mask);
+			$html .= '<'.$listElementName.'>'.$listElementContent.'</'.$listElementName.'>'.PHP_EOL;
+		}
+		return $html;
+	}
+	else return 'invalid query';
+}
+
+function buildUlFromQuery () {
+	$args = func_get_args();
+	switch (func_num_args()) {
+		
+		case 2: // 0:querystring, 1:mask
+			return buildElement('ul',
+				buildListFromQuery('li',$args[0],$args[1])
+			);
+		
+		case 3: // 0:class/Id, 1:querystring, 2:mask
+			return buildElement('ul',$args[0],
+				buildListFromQuery('li',$args[1],$args[2])
+			);
+		
+		default: return false;
+	}
+	
+}
+
+function buildOlFromQuery () {
+	$args = func_get_args();
+	switch (func_num_args()) {
+		
+		case 2: // 0:querystring, 1:mask
+			return buildElement('ol',
+				buildListFromQuery('li',$args[0],$args[1])
+			);
+		
+		case 3: // 0:class/Id, 1:querystring, 2:mask
+			return buildElement('ol',$args[0],
+				buildListFromQuery('li',$args[1],$args[2])
+			);
+		
+		default: return false;
+	}
+	
+}
+
+?>

@@ -1,0 +1,35 @@
+## Zefiro htaccess
+## last modified: 2014-01-28
+
+RewriteEngine on
+RewriteBase  /
+Options +FollowSymlinks -MultiViews
+
+## Default Error Pages
+ErrorDocument 404 /dbi_error_404.php
+
+## Blocked IPs
+order allow,deny
+deny from 202.117.80.215
+deny from 80.82.209.34
+deny from 66.135.40.74
+deny from 218.29.115.152
+deny from 91.44.90.50
+allow from all 
+
+## redirect to www subdomain (uncomment if required)
+#RewriteCond %{HTTP_HOST} ^example.org [NC]
+#RewriteRule (.*) http://www.example.org/$1  [R=301,L]
+
+# hide .php
+
+# to make `/path/index.php` to /path/
+RewriteCond %{THE_REQUEST} ^GET\s(.*/)index\.php [NC]
+RewriteRule . %1 [NE,R=301,L]
+
+RewriteCond %{THE_REQUEST} ^GET\s.+\.php [NC]
+RewriteRule ^(.+)\.php$ /$1 [NE,R=301,L,NC]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/$1.php -f
+RewriteRule ^(.*?)/?$ $1.php [L]
