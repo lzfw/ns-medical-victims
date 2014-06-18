@@ -6,6 +6,6 @@ $layout->declareString ('title');
 $layout->declareBlock ('content');
 $layout->declareBlock ('sidebar');
 
-$layout->setTemplate ('custom/layout/switch.php');
+$layout->setTemplate ('custom/layout/constructor.php');
 
 ?>

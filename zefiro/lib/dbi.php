@@ -166,7 +166,7 @@ class DBI {
 		$args = func_get_args();
 		require_once 'dbi_view.php';
 		require_once 'dbi_view_list.php';
-		require_once 'dbi_view_list_'.$args[0].'.php';
+		require_once 'custom/views/dbi_view_list_'.$args[0].'.php';
 		$this->View = call_user_func('view_list_'.$args[0].'::create',$this);
 		switch (count($args)) {
 			case 1: return $this->View->get_HTML (); break;
@@ -180,7 +180,7 @@ class DBI {
 		$args = func_get_args();
 		require_once 'dbi_view.php';
 		require_once 'dbi_view_record.php';
-		require_once 'dbi_view_record_'.$args[0].'.php';
+		require_once 'custom/views/dbi_view_record_'.$args[0].'.php';
 		$this->View = call_user_func('view_record_'.$args[0].'::create',$this);
 		switch (count($args)) {
 			case 1: return $this->View->get_HTML (); break;
