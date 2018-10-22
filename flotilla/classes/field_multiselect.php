@@ -1,12 +1,12 @@
 <?php
 
 class Field_MultiSelect extends Field {
-	
+
 	public $Options = array();
-	
+
 	// CONSTRUCTORS --------------------------------------------------------------
-	
-	protected function __construct ($Creator, $name, $size = AUTOSIZE, $required, $default_option) {
+
+	protected function __construct (Form $Creator, $name, $size = AUTOSIZE, $required, $default_option) {
 		if (isset($name)) {
 			$this->Creator = $Creator;
 			$this->name = $name;
@@ -17,7 +17,7 @@ class Field_MultiSelect extends Field {
 		}
 		else $this->Creator->debuglog->Write(DEBUG_ERROR,'. could not create new Multiple Select Field - name not specified');
 	}
-	
+
 	static public function create() {
 		// create ( name [, required [, default_option ]] )
 		$args = func_get_args();
@@ -28,9 +28,9 @@ class Field_MultiSelect extends Field {
 			default: $this->Creator->debuglog->Write(DEBUG_WARNING,'. could not create new Multiple Select - invalid number of arguments');
 		}
 	}
-	
+
 	// SELECT OPTIONS ------------------------------------------------------------
-	
+
 	public function addOption () {
 		// addOption ( [ value [, title ]] )
 		$args = func_get_args();
@@ -43,7 +43,7 @@ class Field_MultiSelect extends Field {
 		$this->Creator->debuglog->Write(DEBUG_INFO,'. . new Multiple Select Option "'.(isset($args[0])?$args[0]:'').'" created');
 		return $this;
 	}
-	
+
 	public function addOptionsFromTable () {
 		// addOption ( table , value_column , title_column [, where_statement ] )
 		$args = func_get_args();
@@ -53,20 +53,20 @@ class Field_MultiSelect extends Field {
 			".(isset($args[3])?'WHERE '.$args[3]:'')."
 			ORDER BY {$args[2]}
 		";
-		$options_query = mysql_query($options_querystring);
-		while ($option = mysql_fetch_object($options_query)) {
+		$options_query = $this->Creator->Connection->link->query($options_querystring);
+		while ($option = $options_query->fetch_object()) {
 			$this->Options[] = new MultiSelect_Option ($option->value,$option->title);
 			$this->Creator->debuglog->Write(DEBUG_INFO,'. . new Multiple Select Option "'.$option->value.'" created');
 		}
 		return $this;
 	}
-	
+
 	// HTML OUTPUT ---------------------------------------------------------------
-	
+
 	protected function HTMLStyle () {
 		return $this->css_style ? " style=\"$this->css_style\"" : NULL;
 	}
-	
+
 	public function HTMLOutput () {
 		$output = NULL;
 		if ($this->is_appended()) {
@@ -91,35 +91,35 @@ class Field_MultiSelect extends Field {
 		foreach ($this->Options as $option) {
 			$is_selected = (isset($this->user_value) && in_array($option->getValue(),$this->user_value));
 			$output .= $option->HTMLOutput($is_selected);
-		} 
+		}
 		$output .= "\t\t\t</select>".PHP_EOL;
 		return $output;
 	}
-	
+
 } // end class Field_Select
 
 // SUBORDINATE CLASSES ---------------------------------------------------------
 
 class MultiSelect_Option {
-	
+
 	protected $value;
 	protected $title;
-	
+
 	// CONSTRUCTORS --------------------------------------------------------------
-	
+
 	public function __construct ($value,$title) {
 		$this->value = $value;
 		$this->title = $title;
 	}
-	
+
 	// PROPERTIES ----------------------------------------------------------------
-	
+
 	public function getValue () {
 		return $this->value;
 	}
-	
+
 	// HTML OUTPUT ---------------------------------------------------------------
-	
+
 	public function HTMLOutput ($is_selected) {
 		$output = "\t\t\t\t<option";
 		if ($this->title) $output .= ' value="'.$this->value.'"';
@@ -129,7 +129,7 @@ class MultiSelect_Option {
 		$output .= '</option>'.PHP_EOL;
 		return $output;
 	}
-	
+
 } // end class MultiSelect_Option
 
 ?>

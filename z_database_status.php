@@ -25,6 +25,9 @@ $querystring = "
 ";
 
 $query = $dbi->connection->query($querystring);
+if (!$query) {
+    return DBI_ERROR_ABORTED;
+}
 $totals = array();
 while ($fetch = $query->fetch_object()) {
 	$totals[] = number_format($fetch->total,0,DBI_DECIMAL_SEPARATOR,DBI_THOUSANDS_SEPARATOR);

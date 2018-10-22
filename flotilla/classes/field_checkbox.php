@@ -1,12 +1,12 @@
 <?php
 
 class Field_Checkbox extends Field {
-	
+
 	protected $default_value = 1;
-	
+
 	// CONSTRUCTORS --------------------------------------------------------------
-	
-	protected function __construct ($Creator, $name, $value, $required, $checked) {
+
+	protected function __construct (Form $Creator, $name, $value, $required, $checked) {
 		if (isset($name)) {
 			$this->Creator = $Creator;
 			$this->name = $name;
@@ -17,7 +17,7 @@ class Field_Checkbox extends Field {
 		}
 		else $this->Creator->debuglog->Write(DEBUG_ERROR,'. could not create Checkbox - name not specified');
 	}
-	
+
 	static public function create() {
 		// create ( Creator, name [, value [, required [, checked ]]] )
 		$args = func_get_args();
@@ -29,13 +29,13 @@ class Field_Checkbox extends Field {
 			default: $this->Creator->debuglog->Write(DEBUG_WARNING,'. could not create Checkbox - invalid number of arguments');
 		}
 	}
-	
+
 	// HTML OUTPUT ---------------------------------------------------------------
-	
+
 	protected function HTMLStyle () {
 		return $this->css_style ? ' style="'.$this->css_style.'"' : NULL;
 	}
-	
+
 	public function HTMLOutput () {
 		$output = '';
 		$output .= "\t\t\t<input";
@@ -54,7 +54,7 @@ class Field_Checkbox extends Field {
 		$output .= '/>'.PHP_EOL;
 		return $output;
 	}
-	
+
 } // end class Field_Checkbox
 
 ?>

@@ -3,10 +3,10 @@
 class Field_Upload extends Field {
 
 	var $temp_name;
-	
+
 	// CONSTRUCTORS -----------------------------------------------------------
-	
-	protected function __construct ($Creator, $name, $max_filesize = FLO_UPLOAD_FILESIZE, $filetype = NULL, $required = OPTIONAL, $target_dir = FLO_UPLOAD_DIR, $prefix = NULL) {
+
+	protected function __construct (Form $Creator, $name, $max_filesize = FLO_UPLOAD_FILESIZE, $filetype = NULL, $required = OPTIONAL, $target_dir = FLO_UPLOAD_DIR, $prefix = NULL) {
 		if (isset($name)) {
 			$this->Creator = $Creator;
 			$this->name = $name;
@@ -21,7 +21,7 @@ class Field_Upload extends Field {
 			$this->Creator->debuglog->Write(DEBUG_ERROR,'could not create new Upload Field - name not specified');
 		}
 	}
-	
+
 	static public function create() {
 		// create ( upload_name [, max_filesize [, required [, target_directory ]]]] )
 		$args = func_get_args();
@@ -35,9 +35,9 @@ class Field_Upload extends Field {
 			default: $this->Creator->debuglog->Write(DEBUG_WARNING,'. could not create new Upload Field - invalid number of arguments');
 		}
 	}
-	
+
 	// EVALUATION -------------------------------------------------------------
-	
+
 	public function EvaluatePost () {
 		$this->error = NULL;
 		// Datei

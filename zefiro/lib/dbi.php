@@ -110,7 +110,7 @@ class DBI {
 		}
 		$html = NULL;
 		$html .= '<a href="./">'.Z_HOME.'</a>';
-		while (list($index, $crumb) = each($this->breadcrumbs)) {
+		foreach($this->breadcrumbs as $index => $crumb) {
 			switch (count($crumb)) {
 				case 1:
 					$html .= Z_BREADCRUMB_SYMBOL.$crumb[0];
@@ -139,7 +139,7 @@ class DBI {
 	public function showOptions () {
 		reset ($this->options);
 		$options = array();
-		while (list($index, $option) = each($this->options)) {
+		foreach($this->options as $index => $option) {
 			$options[] =
 				'<li'.(isset($option[2])?' class="icon '.$option[2].'"':'').'>'
 				.'<a href="'.$option[1].'">'.$option[0].'</a></li>'.PHP_EOL;

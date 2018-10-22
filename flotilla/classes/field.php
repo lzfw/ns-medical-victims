@@ -3,6 +3,10 @@
 abstract class Field {
 
 	public $name;
+	/**
+	 *
+	 * @var Form
+	 */
 	public $Creator;
 
 	// field configuration
@@ -369,5 +373,3 @@ abstract class Field {
 	}
 
 } // end class Field
-
-?>

@@ -249,7 +249,7 @@ class Form {
 	protected function evaluateGet () {
 		if (!empty($_GET)) {
 			reset($this->Fields);
-			while (list($index, $field) = each($this->Fields)) {
+			foreach($this->Fields as $index => $field) {
 				if (!$field->evaluateGet()) {
 					$this->error = FLO_INVALID_POST;
 				}
@@ -262,7 +262,7 @@ class Form {
 		// try to fill in GET values for all fields
 		if (!empty($_GET)) {
 			reset($this->Fields);
-			while (list($index, $field) = each($this->Fields)) {
+			foreach($this->Fields as $index => $field) {
 				if (!$field->evaluateGet2()) {
 					$this->error = FLO_CHECK_PARAMETER;
 				} else {
@@ -345,12 +345,12 @@ class Form {
 		$output .= $this->getLabel();
 		// form table body: fields
 		reset($this->Fields);
-		while (list($field_name, $field) = each($this->Fields)) {
+		foreach($this->Fields as $field_name => $field) {
 			if (!$field->is_appended()) {
 				$output .= $field->HTMLLeadIn();
 				$output .= $field->HTMLOutput();
 				reset($this->Fields);
-				while (list($appended_field_name, $appended_field) = each($this->Fields)) {
+				foreach($this->Fields as $appended_field_name => $appended_field) {
 					if ($appended_field->appended_to == $field_name) {
 						$output .= "\t\t<label for=\"$appended_field->name\">";
 						if ($appended_field->label) $output .= $appended_field->label;
@@ -372,7 +372,7 @@ class Form {
 		// form table foot: buttons
 		$output .= "\t<tr>".PHP_EOL."\t\t<td colspan=\"2\"></td>".PHP_EOL."\t\t<td colspan=\"2\">".PHP_EOL;
 		reset($this->Buttons);
-		while (list($index, $Button) = each($this->Buttons)) {
+		foreach($this->Buttons as $index => $Button) {
 			if ($Button->getType() == RELOAD) {
 				if (get_class($this) == 'DatabaseForm' && $this->GetPrimaryKeyValue()) {
 					$Button->setTarget('?'.$this->GetPrimaryKey().'='.$this->GetPrimaryKeyValue());

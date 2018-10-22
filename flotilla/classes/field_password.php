@@ -1,10 +1,10 @@
 <?php
 
 class Field_Password extends Field {
-	
+
 	// CONSTRUCTORS -----------------------------------------------------------
-	
-	protected function __construct ($Creator, $name, $length, $required) {
+
+    protected function __construct (Form $Creator, $name, $length, $required) {
 		if (isset($name)) {
 			$this->Creator = $Creator;
 			$this->name = $name;
@@ -14,7 +14,7 @@ class Field_Password extends Field {
 		}
 		else $this->Creator->debuglog->Write(DEBUG_ERROR,'. PASSWORD FIELD - name not specified');
 	}
-	
+
 	static public function create() {
 		// create ( name [, length [, required [, default_value ]]] )
 		$args = func_get_args();
@@ -25,9 +25,9 @@ class Field_Password extends Field {
 			default: $this->Creator->debuglog->Write(DEBUG_WARNING,'. PASSWORD FIELD - invalid number of arguments');
 		}
 	}
-	
+
 	// HTML OUTPUT ------------------------------------------------------------
-	
+
 	public function HTMLOutput () {
 		$output = NULL;
 		$output .= "\t\t\t<input";
@@ -44,7 +44,7 @@ class Field_Password extends Field {
 		$output .= '/>'.PHP_EOL;
 		return $output;
 	}
-	
+
 } // end class Field_Password
 
 ?>

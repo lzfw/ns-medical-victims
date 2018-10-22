@@ -6,7 +6,7 @@ function array_to_string($array, $delimiter = NULL, $last_delimiter = NULL, $ski
 	if ($skip_empty_values) {
 		// remove empty values from array
 		reset($array);
-		while(list($key,$value) = each($array)) {
+		foreach($array as $key => $value) {
 			if ($value == '') unset($array[$key]);
 		}
 	}

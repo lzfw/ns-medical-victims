@@ -1,15 +1,15 @@
 <?php
 
 class Field_SubtableComp extends Field {
-	
+
 	public $subtable_name;
 	public $subtable_key_column;
 	public $subtable_value_column;
 	public $Relation;
-	
+
 	// CONSTRUCTORS -----------------------------------------------------------
-	
-	protected function __construct ($Creator, $name, $subtable_key_column, $subtable_value_column, $required) {
+
+	protected function __construct (Form $Creator, $name, $subtable_key_column, $subtable_value_column, $required) {
 		if (isset($name)) {
 			$this->Creator = $Creator;
 			$this->name = $name;
@@ -21,7 +21,7 @@ class Field_SubtableComp extends Field {
 		}
 		else $this->Creator->debuglog->Write(DEBUG_ERROR,'. could not create new Subtable Field - name not specified');
 	}
-	
+
 	static public function create() {
 		// create ( name [, required [, default_option ]] )
 		$args = func_get_args();
@@ -33,9 +33,9 @@ class Field_SubtableComp extends Field {
 			default: $this->Creator->debuglog->Write(DEBUG_WARNING,'. could not create new Subtable Field - invalid number of arguments');
 		}
 	}
-	
+
 	// SUBTABLE RELATION ------------------------------------------------------
-	
+
 	public function addRelation () {
 		// addRelation ( subtable_name )
 		$args = func_get_args();
@@ -45,9 +45,9 @@ class Field_SubtableComp extends Field {
 		}
 		return $this;
 	}
-	
+
 	// HTML OUTPUT ------------------------------------------------------------
-	
+
 	public function HTMLOutput () {
 		$output = NULL;
 		// display related rows
@@ -66,16 +66,16 @@ class Field_SubtableComp extends Field {
 					USING (`$this->subtable_key_column`)
 				WHERE nm.{$this->Creator->Connection->getPrimaryKeyName()} = {$this->Creator->Connection->getPrimaryKeyValue()}
 				ORDER BY `value`";
-			if ($relation_query = mysql_query($relation_querystring)) {
+			if ($relation_query = $this->Creator->Connection->link->query($relation_querystring)) {
 				$row_num = 0;
-				while ($row = mysql_fetch_object($relation_query)) {
+				while ($row = $relation_query->fetch_object()) {
 					$output .= "\t\t\t".'<div>';
 					$output .= '<input type="checkbox" name="'.$this->name.'-remove[]" id="'.$this->getId().'-remove-'.$row_num.'" value="'.$row->key.'" title="'.FLO_REMOVE_SUBTABLE_FIELD.'" class="remove-subtable-checkbox"/>';
 					$output .= '<label for="'.$this->getId().'-remove-'.$row_num.'">'.$row->value.'</label>';
 					$output .= '</div>'.PHP_EOL;
 					$row_num++;
 				}
-				
+
 			}
 			else {
 				$this->Creator->debuglog->Write(DEBUG_WARNING,'. HTML OUTPUT: mysql error in '.$relation_querystring);
@@ -102,17 +102,17 @@ class Field_SubtableComp extends Field {
 		$output .= "/>".PHP_EOL;
 		return $output;
 	}
-	
+
 } // end class Field_Subtable
 
 class Subtable_Relation {
-	
+
 	public $table;
-	
+
 	public function __construct ($table) {
 		$this->table = $table;
 	}
-	
+
 } // end class Subtable_Relation
 
 ?>

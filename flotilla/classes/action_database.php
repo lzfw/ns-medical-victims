@@ -101,7 +101,7 @@ class Action_Database extends Action {
 		$querystring = 'UPDATE `'.$this->table.'`';
 		$update_values = array();
 		reset($this->Creator->Fields);
-		while (list($index, $Field) = each($this->Creator->Fields)) {
+		foreach($this->Creator->Fields as $index => $Field) {
 			// all fields except subtable references will be updated
 			if ($Field->name != $this->Creator->Connection->GetPrimaryKeyName()) {
 				switch (get_class($Field)) {
@@ -180,7 +180,7 @@ class Action_Database extends Action {
 
 	function Query_Update_Subtables () {
 		reset($this->Creator->Fields);
-		while (list($index, $Field) = each($this->Creator->Fields)) {
+		foreach($this->Creator->Fields as $index => $Field) {
 			if ( (get_class($Field) == 'Field_Subtable') && (is_array($Field->user_value)) ) {
 				// check if the value already exists in subtable
 				if (is_array($Field->subtable_value_column)) {
@@ -209,7 +209,7 @@ class Action_Database extends Action {
 							$values = explode(',',$Field->user_value);
 							$values_array = array();
 							$fields_array = array();
-							while (list($index, $val) = each($values)) {
+							foreach($values as $index => $val) {
 								$values_array[$index] = addslashes(trim($val));
 								$fields_array[$index] = $Field->subtable_value_column[$index];
 							}
@@ -267,7 +267,7 @@ class Action_Database extends Action {
 				$this->Creator->debuglog->Write(DEBUG_INFO,'SELECT successful');
 				$db_fields = $query->fetch_array();
 				reset($db_fields);
-				while (list($field_name, $field_value) = each($db_fields)) {
+				foreach($db_fields as $field_name => $field_value) {
 					if (isset($this->Creator->Fields[$field_name])
 						&& $this->Creator->Fields[$field_name]->is_not_hidden()) {
 						$this->Creator->Fields[$field_name]->user_value = $field_value;

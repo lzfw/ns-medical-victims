@@ -1,12 +1,12 @@
 <?php
 
 class Field_StaticText extends Field {
-	
+
 	public $autowidth = false; // default is true
-	
+
 	// CONSTRUCTORS -----------------------------------------------------------
-	
-	protected function __construct ($Creator, $name, $default_value = NULL) {
+
+	protected function __construct (Form $Creator, $name, $default_value = NULL) {
 		if (isset($name)) {
 			$this->Creator = $Creator;
 			$this->name = $name;
@@ -17,7 +17,7 @@ class Field_StaticText extends Field {
 			$this->Creator->debuglog->Write(DEBUG_ERROR,'. could not create new StaticText - name not specified');
 		}
 	}
-	
+
 	static public function create() {
 		// create ( name [, length [, required [, default_value ]]] )
 		$args = func_get_args();
@@ -27,7 +27,7 @@ class Field_StaticText extends Field {
 			default: $this->Creator->debuglog->Write(DEBUG_WARNING,'. could not create new StaticText - invalid number of arguments');
 		}
 	}
-	
+
 	public function HTMLOutput () {
 		$output = NULL;
 		$output .= "\t\t\t<div";
@@ -45,7 +45,7 @@ class Field_StaticText extends Field {
 		$output .= '</div>'.PHP_EOL;
 		return $output;
 	}
-	
+
 } // end class Field_StaticText
 
 ?>
