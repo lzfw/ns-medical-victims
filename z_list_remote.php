@@ -10,7 +10,7 @@ $dbi->addBreadcrumb (Z_ADMIN,'z_menu_admin.php');
 
 // query
 $remote_querystring = "SELECT * FROM z_users WHERE remote <> '' ORDER BY name";
-$remote_query = mysql_query($remote_querystring);
+$remote_query = $dbi->connection->query($remote_querystring);
 
 // content
 $content = '';
@@ -20,7 +20,7 @@ if ($dbi->checkUserPermission('system')) {
 	$content .= '<th>'.Z_OPTIONS.'</th>';
 }
 $content .= '</tr>';
-while ($remote = mysql_fetch_object($remote_query)) {
+while ($remote = $remote_query->fetch_object()) {
 	$content .= '<tr>';
 	$content .= "<td>$remote->display_name</td>";
 	$content .= "<td>$remote->name</td>";
@@ -48,5 +48,3 @@ $layout
 	->set('title',Z_REMOTE_ACCESS)
 	->set('content',$content)
 	->cast();
-
-?>

@@ -14,21 +14,21 @@ $user_confirm = getUrlParameter('confirm',NULL);
 // database connection
 openDB ($db_host,$db_user,$db_pass,$db_name);
 
-if ($item_query = mysql_query ('SELECT * FROM z_textblocks WHERE textblock_id='.$item_id)) {
-	$item = mysql_fetch_object($item_query);
+if ($item_query = $dbi->connection->query('SELECT * FROM z_textblocks WHERE textblock_id='.$item_id)) {
+    $item = $item_query->fetch_object();
 	switch ($user_confirm) {
-		
+
 		case 'yes':
 			// deletion confirmed
-			mysql_query ('DELETE FROM z_textblocks WHERE textblock_id='.$item_id);
+		    $dbi->connection->query('DELETE FROM z_textblocks WHERE textblock_id='.$item_id);
 			header('Location: z_list_helptexts');
 			break;
-		
+
 		case 'no':
 			// deletion cancelled
 			header('Location: z_list_helptexts');
 			break;
-		
+
 		default:
 			break;
 	}

@@ -32,7 +32,7 @@ if (!empty($_GET)) {
 	$double_fields = array (
 		'ar_lexeme','ar_expression','ar_reference'
 	);
-	
+
 	// GET-String rekonstruieren
 	// wichtig fuer Blaetterfunktion
 	$query = array();
@@ -74,15 +74,15 @@ if (!empty($_GET)) {
 	}
 	$querystring_count .= $querystring_where;
 	$querystring .= $querystring_where;
-	// Gesamtanzahl der Suchergebnisse feststellen 
-	$total_results_query = mysql_query($querystring_count);
-	$total_results = mysql_fetch_object($total_results_query);
+	// Gesamtanzahl der Suchergebnisse feststellen
+	$total_results_query = $dbi->connection->query($querystring_count);
+	$total_results = $total_results_query->fetch_object();
 	$dbi->setUserVar('total_results',$total_results->total);
 }
 
 // suchstring fuer mysql-query
 $querystring_orderby = " ORDER BY g.gr_lexeme='', g.ar_lexeme='', {$dbi->user['sort']} {$dbi->user['order']} LIMIT ".($dbi->user['skip']).','.DBI_LIST_ROWS_PAGE;
-$words_query = mysql_query($querystring.$querystring_orderby);
+$words_query = $dbi->connection->query($querystring.$querystring_orderby);
 
 // anzahl der gefundenen titel ausgeben
 
@@ -131,4 +131,3 @@ $template_sidebar .= $dbi->getHelptext_HTML ('results');
 // call template
 require_once 'templates/ini.php';
 
-?>

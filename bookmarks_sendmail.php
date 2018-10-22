@@ -17,7 +17,7 @@ $template_sidebar = '';
 // COMPOSE MAIL ----------------------------------------------------------------
 
 switch (getUrlParameter('action')) {
-	
+
 	case 'send':
 		// compose mail
 		$bookmarks = implode(',',$_SESSION[BOOKMARKS]);
@@ -36,10 +36,10 @@ switch (getUrlParameter('action')) {
 				LEFT OUTER JOIN arabic_pos ap ON (g.ar_pos = ap.name)
 			WHERE g.word_id IN ($bookmarks)
 			ORDER BY g.gr_lexeme,g.ar_lexeme";
-		$bookmarks_query = mysql_query($bookmarks_querystring);
+		$bookmarks_query = $dbi->connection->query($bookmarks_querystring);
 		$mail_content = '';
 		$row = 0;
-		while ($word = mysql_fetch_object($bookmarks_query)) {
+		while ($word = $bookmarks_query->fetch_object()) {
 			$row++;
 			$mail_content .= '('.$row.')'.PHP_EOL.getCitation($word,getPostValue('format')).PHP_EOL;
 		}
@@ -58,37 +58,37 @@ switch (getUrlParameter('action')) {
 			mail(getPostValue('email'), GGA_BOOKMARKS_MAIL_SUBJECT, $mail_content, $additional_headers, $this->additional_parameters);
 		header ('Location: bookmarks.php');
 		break;
-	
+
 	default:
-		
+
 		$form = new Form ('mail_bookmarks','?action=send');
-		
+
 		$form
 			->setLabel(DBI_BOOKMARKS_ASK_EMAIL);
-		
+
 		$form->addField ('email',TEXT,30,REQUIRED)
 			->setLabel (DBI_EMAIL)
 			->addCondition (ALLOWED_CHARS,EMAIL);
-		
+
 		$form->addField ('format',RADIO,REQUIRED,'gr-ar')
 			->setLabel (DBI_FORMAT)
 			->addRadioButton ('gr-ar','Greek-Arabic')
 			->addRadioButton ('ar-gr','Arabic-Greek')
 			->addRadioButton ('list','Complete records with field names');
-		
+
 		$form->addField ('comment',TEXT,120)
 			->setLabel (DBI_COMMENT);
-		
+
 		$form
 			->addButton (BACK,DEFAULT_LABEL,'bookmarks.php')
 			->addButton (SUBMIT,DBI_OK);
-		
+
 		$template_title .= DBI_SEND_BOOKMARKS;
 		$template_content .= $form->run ();
-				
+
 		$template_sidebar .= '<h3>'.DBI_HELP.'</h3>';
 		$template_sidebar .= $dbi->getHelptext_HTML ('bookmarks_send');
-		
+
 		require_once 'templates/ini.php';
 		break;
 }

@@ -17,10 +17,10 @@ $querystring .= " FROM `$table` WHERE `$field` LIKE '%$input%' ORDER BY `$field`
 $jsonList = '[ ';
 
 //Initialisierung des SOLR Interface
-$query = mysql_query ($querystring); 
+$query = $dbi->connection->query($querystring);
 
 $jsonStr = '';
-while ($result = mysql_fetch_object($query)) {
+while ($result = $query->fetch_object()) {
 	$jsonStr .= '{ "value":"'.$result->value.'"';
 	if ($label) $jsonStr .= '{ "label":"'.$result->label.'"';
 	$jsonStr .= ' },';
@@ -29,4 +29,3 @@ $jsonStr = rtrim($jsonStr, ',');
 $jsonList .= $jsonStr." ]";
 echo $jsonList;
 
-?>
