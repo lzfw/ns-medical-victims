@@ -6,12 +6,12 @@ class Button {
 	protected $type;
 	protected $label;
 	protected $target;
-	
+
 	protected $title;
 	protected $htmltype;
-	
+
 	// CONSTRUCTORS --------------------------------------------------------------
-	
+
 	protected function __construct ( $Creator, $type, $label = DEFAULT_LABEL, $target = NULL) {
 		$this->Creator = $Creator;
 		$this->type = $type;
@@ -24,7 +24,7 @@ class Button {
 			default:		$this->htmltype = 'button'; break;
 		}
 	}
-	
+
 	static public function create () {
 		// create ( Creator , type [, label [, target ]] )
 		$args = func_get_args();
@@ -35,9 +35,9 @@ class Button {
 			default: DebugWarning ('addButton ignored: invalid number of arguments');
 		}
 	}
-	
+
 	// PROPERTIES ----------------------------------------------------------------
-	
+
 	protected function setLabel ($label) {
 		if (is_null($label)) {
 			switch ($this->type) {
@@ -55,17 +55,17 @@ class Button {
 			$this->label = $label;
 		}
 	}
-	
+
 	public function getType() {
 		return $this->type;
 	}
-	
+
 	public function setTarget ($target) {
 		$this->target = $target;
 	}
-	
+
 	// HTML OUTPUT METHODS -------------------------------------------------------
-	
+
 	protected function HTMLLeadIn () {
 		$lead_in = NULL;
 		$lead_in .= "\t\t\t<button name=\"{$this->type}-button\" type=\"".$this->htmltype.'" class="button '.$this->type.'-button"';
@@ -75,7 +75,9 @@ class Button {
 			case REFRESH:	$lead_in .= ' onclick="location.href=\''.$_SERVER['SCRIPT_NAME'].'\'"'; break;
 			case RELOAD:	$lead_in .= ' onclick="location.reload()"'; break;
 			case LINK:
-				$this->target = preg_replace('/(\{(\w*)\})/e',"\$this->Creator->Fields['$2']->user_value",$this->target);
+				$this->target = preg_replace_callback('/(\{(\w*)\})/', function ($matches) {
+				    return $this->Creator->Fields[$matches[2]]->user_value;
+				}, $this->target);
 				$lead_in .= ' onclick="location.href=\''.$this->target.'\'"';
 				break;
 		}
@@ -94,17 +96,17 @@ class Button {
 		$lead_in .= '>';
 		return $lead_in;
 	}
-	
+
 	protected function HTMLLeadOut () {
 		$lead_out = NULL;
 		$lead_out .= '</button>';
 		return $lead_out;
 	}
-	
+
 	protected function HTMLContent () {
 		return $this->label;
 	}
-	
+
 	public function HTMLOutput () {
 		return $this->HTMLLeadIn().$this->HTMLContent().$this->HTMLLeadOut().PHP_EOL;
 	}

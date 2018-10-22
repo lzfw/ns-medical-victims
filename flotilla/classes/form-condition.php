@@ -31,7 +31,6 @@ class FormCondition {
 			switch ($this->type) {
 				case MYSQL_STATEMENT:
 					$this->Creator->debuglog->Write(DEBUG_INFO,' . . testing FormCondition (MySQL statement)');
-					//$this->parameter = preg_replace('/(\{(\w*)\})/e',"\$this->Creator->Fields['$2']->user_value",$this->parameter);
 					$this->parameter = preg_replace_callback('/(\{(\w*)\})/', function ($matches) {
 					    return $this->Creator->Fields[$matches[2]]->user_value;
 					}, $this->parameter);

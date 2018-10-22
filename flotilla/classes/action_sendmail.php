@@ -3,9 +3,9 @@
 define('SENDMAIL_WRAP',70);
 
 class Action_Sendmail extends Action {
-	
+
 	protected $querystring;
-	
+
 	protected function __construct () {
 		$args = func_get_args();
 		$this->Creator = $args[0];
@@ -20,7 +20,7 @@ class Action_Sendmail extends Action {
 		$this->additional_parameters = NULL;
 		$this->Creator->debuglog->Write(DEBUG_INFO,'. SENDMAIL ACTION created');
 	}
-	
+
 	static public function create () {
 		// create ( Creator , recipient_email , subject , content , from_email , from_name , from_sender )
 		$args = func_get_args();
@@ -31,16 +31,22 @@ class Action_Sendmail extends Action {
 			default: $this->Creator->debuglog->Write(DEBUG_WARNING,'. SENDMAIL ACTION - invalid number of arguments');
 		}
 	}
-	
+
 	function onSubmit () {
 		$this->Creator->debuglog->Write(DEBUG_INFO,'SENDMAIL ACTION - composing mail');
 		// if required: wrap content
 		if (SENDMAIL_WRAP > 0) $this->content = wordwrap($this->content,SENDMAIL_WRAP);
 		// if required: get field values
 		// TODO: this should also be implemented for the other fields
-		$this->recipient_email = preg_replace('/(\{(\w*)\})/e',"\$this->Creator->Fields[$2]->user_value",$this->recipient_email);
-		$this->subject = preg_replace('/(\{(\w*)\})/e',"\$this->Creator->Fields[$2]->user_value",$this->subject);
-		$this->content = preg_replace('/(\{(\w*)\})/e',"\$this->Creator->Fields[$2]->user_value",$this->content);
+		$this->recipient_email = preg_replace_callback('/(\{(\w*)\})/', function ($matches) {
+		    return $this->Creator->Fields[$matches[2]]->user_value;
+		}, $this->recipient_email);
+		$this->subject = preg_replace_callback('/(\{(\w*)\})/', function ($matches) {
+			return $this->Creator->Fields[$matches[2]]->user_value;
+		}, $this->subject);
+		$this->content = preg_replace_callback('/(\{(\w*)\})/', function ($matches) {
+			return $this->Creator->Fields[$matches[2]]->user_value;
+		}, $this->content);
 		// if required: format name
 		if ($this->from_name)
 			$this->additional_headers .= 'From: "'.$this->from_name.'" <'.$this->from_email.">\r\n";

@@ -56,7 +56,9 @@ class Field_Upload extends Field {
 					$this->error = FLO_UPLOAD_ERR_FILESIZE.$this->max_filesize.' KB.';
 				}
 				if (is_null($this->error)) {
-					if ($this->prefix) $this->prefix = preg_replace('/(\{(\w*)\})/e',"\$this->Creator->Fields['$2']->user_value",$this->prefix);
+					if ($this->prefix) $this->prefix = preg_replace_callback('/(\{(\w*)\})/', function ($matches) {
+					    return $this->Creator->Fields[$matches[2]]->user_value;
+					}, $this->prefix);
 					$this->user_value = ($this->prefix?$this->prefix.'_':'').$_FILES[$this->name]['name'];
 					$destination = $this->target_dir.$this->user_value;
 					if (move_uploaded_file($_FILES[$this->name]['tmp_name'],$destination)) {

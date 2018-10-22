@@ -1,6 +1,6 @@
 <?php
-$template_breadcrumbs = preg_replace("/<\/?a[^>]*>/e",'',$dbi->getBreadcrumbs_HTML());
-$template_content = preg_replace("/<\/?a[^>]*>/e",'',$template_content);
+$template_breadcrumbs = preg_replace("/<\/?a[^>]*>/",'',$dbi->getBreadcrumbs_HTML());
+$template_content = preg_replace("/<\/?a[^>]*>/",'',$template_content);
 ?>
 <body class="print">
 	<div id="page" cellspacing="0">

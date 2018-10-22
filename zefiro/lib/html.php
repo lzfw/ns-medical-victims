@@ -64,7 +64,10 @@ function buildRowsFromQuery($rowElementName, $cellElementName, $querystring, $ma
 			$html .= '<'.$rowElementName.'>'.PHP_EOL;
 			foreach ($maskArray as $mask) {
 				// ersetzt jedes {x} durch $row->x
-				$cellElementContent = preg_replace('/(\{(\w*)\})/e',"\$row->$2",$mask);
+				$cellElementContent = preg_replace_callback('/(\{(\w*)\})',
+				    function ($matches) {
+				        return $row->{$matches[2]};
+				    }, $mask);
 				$html .= '<'.$cellElementName.'>'.$cellElementContent.'</'.$cellElementName.'>'.PHP_EOL;
 			}
 			$html .= '</'.$rowElementName.'>'.PHP_EOL;
@@ -110,7 +113,10 @@ function buildListFromQuery($listElementName, $querystring, $mask) {
 		$html = NULL;
 		while ($row = $result->fetch_object()) {
 			// ersetzt jedes {x} durch $row->x
-			$listElementContent = preg_replace('/(\{(\w*)\})/e',"\$row->$2",$mask);
+		    $listElementContent = preg_replace_callback('/(\{(\w*)\})',
+		        function ($matches) {
+		            return $row->{$matches[2]};
+		        }, $mask);
 			$html .= '<'.$listElementName.'>'.$listElementContent.'</'.$listElementName.'>'.PHP_EOL;
 		}
 		return $html;
