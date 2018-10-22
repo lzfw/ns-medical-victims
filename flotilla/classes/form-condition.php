@@ -4,17 +4,17 @@ class FormCondition {
 
 	public $type;
 	public $error_message;
-	
+
 	private $Creator;
 	private $error;
-	
-	protected function __construct ( $Creator, $type, $parameter, $error_message ) {
+
+	protected function __construct ( Form $Creator, $type, $parameter, $error_message ) {
 		$this->Creator = $Creator;
 		$this->type = $type;
 		$this->parameter = $parameter;
 		$this->error_message = $error_message;
 	}
-	
+
 	static public function create () {
 		// addFormCondition ( Creator, type [, parameter [, error_message ]] )
 		$args = func_get_args();
@@ -24,16 +24,19 @@ class FormCondition {
 			default: $this->Creator->debuglog->Write(DEBUG_WARNING,'addFormCondition ignored: invalid number of arguments');
 		}
 	}
-	
+
 	function Evaluate () {
 		$parent = &$this->parent;
 		if (isset($this->parameter)) {
-			switch ($this->type) {	
+			switch ($this->type) {
 				case MYSQL_STATEMENT:
 					$this->Creator->debuglog->Write(DEBUG_INFO,' . . testing FormCondition (MySQL statement)');
-					$this->parameter = preg_replace('/(\{(\w*)\})/e',"\$this->Creator->Fields['$2']->user_value",$this->parameter);
-					$query = mysql_query($this->parameter);
-					if (mysql_num_rows($query)==0) {
+					//$this->parameter = preg_replace('/(\{(\w*)\})/e',"\$this->Creator->Fields['$2']->user_value",$this->parameter);
+					$this->parameter = preg_replace_callback('/(\{(\w*)\})/', function ($matches) {
+					    return $this->Creator->Fields[$matches[2]]->user_value;
+					}, $this->parameter);
+					$query = $this->Creator->Connection->link->query($this->parameter);
+					if ($query->num_rows===0) {
 						$this->error = $this->error_message;
 						$this->Creator->debuglog->Write(DEBUG_INFO,' . . MySQL statement returned no row: '.$this->parameter);
 					}

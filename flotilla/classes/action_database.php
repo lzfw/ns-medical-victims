@@ -1,22 +1,26 @@
 <?php
 
 class Action_Database extends Action {
-	
+
 	protected $numeric_vartypes = array('int','tinyint','smallint','mediumint','longint','bigint');
 	protected $string_vartypes = array('char','varchar','text','date','time');
-	
+
 	private $table;
 	private $autoinsert;
-	
+
 	// CONSTRUCTORS --------------------------------------------------------------
-	
-	protected function __construct ($Creator,$table,$autoinsert = AUTOINSERT_OFF) {
+
+	protected function __construct (Form $Creator,$table,$autoinsert = AUTOINSERT_OFF) {
+	    /**
+	     *
+	     * @var Form $Creator
+	     */
 		$this->Creator = $Creator;
 		$this->table = $table;
 		$this->autoinsert = $autoinsert;
 		$this->Creator->debuglog->Write(DEBUG_INFO,'. DATABASE ACTION created');
 	}
-	
+
 	static public function create () {
 		// create ( Creator )
 		$args = func_get_args();
@@ -26,28 +30,28 @@ class Action_Database extends Action {
 			default: $this->Creator->debuglog->Write(DEBUG_WARNING,'. DATABASE ACTION - invalid number of arguments');
 		}
 	}
-	
+
 	// QUERIES -------------------------------------------------------------------
-	
+
 	function Query ($querystring) {
-		$result = mysql_query($querystring);
+		$result = $this->Creator->Connection->link->query($querystring);
 		if (!$result) $this->Creator->debuglog->Write(DEBUG_ERROR,'. mysql> '.$querystring);
 		else $this->Creator->debuglog->Write(DEBUG_INFO,'. mysql> '.$querystring);
 		return $result;
 	}
-	
+
 	function Query_Select () {
 		$querystring = 'SELECT * FROM `'.$this->table.'`';
 		$querystring .= ' WHERE `'.$this->Creator->Connection->GetPrimaryKeyName().'`='.$this->Creator->Connection->GetPrimaryKeyValue();
 		return $this->Query($querystring);
 	}
-	
+
 	function Query_Insert () {
 		$querystring = 'INSERT INTO `'.$this->table.'`';
 		$insert_names = array();
 		$insert_values = array();
 		reset($this->Creator->Fields);
-		while (list($index, $Field) = each($this->Creator->Fields)) {
+		foreach($this->Creator->Fields as $index => $Field) {
 			// all field values except subtable references will be inserted
 			if ($Field->name != $this->Creator->Connection->GetPrimaryKeyName()) {
 				switch (get_class($Field)) {
@@ -63,7 +67,8 @@ class Action_Database extends Action {
 					default:
 						// check for numeric fields
 						$column_qs = "SHOW COLUMNS FROM `$this->table` LIKE '$Field->name'";
-						$column_info = mysql_fetch_object(mysql_query($column_qs));
+						$column_result = $this->Creator->Connection->link->query($column_qs);
+						$column_info = $column_result->fetch_object();
 						$column_type = preg_replace ('#(\(.+\))? ?(unsigned)?#','',$column_info->Type);
 						if (in_array($column_type,$this->numeric_vartypes)) {
 							// insert numeric data
@@ -86,12 +91,12 @@ class Action_Database extends Action {
 		$querystring .= ' ('.(implode(',',$insert_names)).')';
 		$querystring .= ' VALUES ('.(implode(',',$insert_values)).')';
 		$query = $this->Query($querystring);
-		$new_id = mysql_insert_id();
+		$new_id = $this->Creator->Connection->link->insert_id;
 		$this->Creator->Connection->setPrimaryKeyValue($new_id);
 		$this->Creator->debuglog->Write(DEBUG_INFO,'. new ID: '.$new_id);
 		return $query;
 	}
-	
+
 	function Query_Update () {
 		$querystring = 'UPDATE `'.$this->table.'`';
 		$update_values = array();
@@ -111,7 +116,8 @@ class Action_Database extends Action {
 					default:
 						// check for numeric fields
 						$column_qs = "SHOW COLUMNS FROM `$this->table` LIKE '$Field->name'";
-						$column_info = mysql_fetch_object(mysql_query($column_qs));
+						$column_result = $this->Creator->Connection->link->query($column_qs);
+						$column_info = $column_result->fetch_object();
 						$column_type = preg_replace ('#(\(.+\))? ?(unsigned)?#','',$column_info->Type);
 						if (in_array($column_type,$this->numeric_vartypes)) {
 							// update numeric field
@@ -135,7 +141,7 @@ class Action_Database extends Action {
 		$query = $this->Query($querystring);
 		return $query;
 	}
-	
+
 	/*
 		if (isset($_POST[$Field->name.'-subtable'])) {
 			// retrieve all entries stored in the database
@@ -171,7 +177,7 @@ class Action_Database extends Action {
 			}
 		}
 	*/
-	
+
 	function Query_Update_Subtables () {
 		reset($this->Creator->Fields);
 		while (list($index, $Field) = each($this->Creator->Fields)) {
@@ -192,8 +198,8 @@ class Action_Database extends Action {
 					FROM `$Field->subtable_name`
 					WHERE $fields='".addslashes($Field->user_value)."'
 				";
-				$subtable_check_query = mysql_query ($subtable_check_querystring);
-				if (mysql_num_rows($subtable_check_query)==0) {
+				$subtable_check_query = $this->Creator->Connection->link->query($subtable_check_querystring);
+				if ($subtable_check_query->num_rows===0) {
 					// if value does not exist, check whether autoinsert is enabled
 					if ($this->autoinsert) {
 						// create a new entry in the subtable
@@ -218,7 +224,7 @@ class Action_Database extends Action {
 						}
 						$subtable_insert_query = $this->Query($subtable_insert_querystring);
 						// get the new id
-						$new_id = mysql_insert_id();
+						$new_id = $this->Creator->Connection->link->insert_id;
 					}
 					else {
 						// do not create a new entry
@@ -229,7 +235,7 @@ class Action_Database extends Action {
 				else {
 					// if value exists, look up the corresponding id
 					$this->Creator->debuglog->Write(DEBUG_INFO,'. reference field found');
-					$row = mysql_fetch_object($subtable_check_query);
+					$row = $subtable_check_query->fetch_object();
 					$new_id = $row->{$Field->subtable_key_column};
 				}
 				// now update the relation table
@@ -245,21 +251,21 @@ class Action_Database extends Action {
 		}
 		return true;
 	}
-	
+
 	function Query_Delete () {
 		$querystring = 'DELETE FROM '.$this->table;
 		$querystring .= ' WHERE '.$this->Creator->Connection->GetPrimaryKeyName().'='.$this->Creator->Connection->GetPrimaryKeyValue();
 		return $this->Query($querystring);
 	}
-	
+
 	// DATA INPUT / OUTPUT -------------------------------------------------------
-	
+
 	function onLoad () {
 		if ($this->Creator->Connection->getPrimaryKeyValue()) {
 			$this->Creator->debuglog->Write(DEBUG_INFO,'PRIMARY KEY found');
 			if ($query = $this->Query_Select()) {
 				$this->Creator->debuglog->Write(DEBUG_INFO,'SELECT successful');
-				$db_fields = mysql_fetch_array($query);
+				$db_fields = $query->fetch_array();
 				reset($db_fields);
 				while (list($field_name, $field_value) = each($db_fields)) {
 					if (isset($this->Creator->Fields[$field_name])
@@ -276,7 +282,7 @@ class Action_Database extends Action {
 			$this->Creator->debuglog->Write(DEBUG_INFO,'PRIMARY KEY not found');
 		}
 	}
-	
+
 	function onSubmit () {
 		$this->Creator->debuglog->Write(DEBUG_INFO,'DATABASE ACTION');
 		if ($this->Creator->Connection->getPrimaryKeyValue()) {
@@ -301,4 +307,3 @@ class Action_Database extends Action {
 
 }
 
-?>
