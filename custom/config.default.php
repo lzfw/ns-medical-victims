@@ -1,6 +1,6 @@
 <?php
 // Zefiro Configuration File
-// last update: 2014-01-27
+// last update: 2018-10-22
 
 // PHP DEBUGGING INFO ==========================================================
 
@@ -75,4 +75,6 @@ define('DBI_LIST_ROWS_MAX',				5000);
 define('DBI_LIST_ROWS_PAGE',			20);
 define('DBI_LIST_ROWS_SKIP',			200); // 0 = disabled
 
-?>
+// SYMBOLS ==========================================================
+define('Z_SEPARATOR_SYMBOL',			'|');
+

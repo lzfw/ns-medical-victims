@@ -13,7 +13,11 @@ session_start();
 // - delete custom/config.php
 // - make a copy of custom/config.default.php
 // - rename this file to custom/config.php
-require_once 'custom/config.php';
+if(file_exists('custom/config.php')) {
+    require_once 'custom/config.php';
+} else {
+    require_once 'custom/config.default.php';
+}
 
 // set default language, if neccessary
 if (!isset ($_SESSION[Z_SESSION_NAME]['language'])) {
