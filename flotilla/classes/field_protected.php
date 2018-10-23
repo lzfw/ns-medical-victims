@@ -1,13 +1,13 @@
 <?php
 
 class Field_Protected extends Field {
-	
+
 	// data interaction:
 	// - default value can be overridden by database connection
-	
+
 	// CONSTRUCTORS -----------------------------------------------------------
-	
-	protected function __construct ($Creator, $name, $default_value) {
+
+    protected function __construct (Form $Creator, $name, $default_value) {
 		if (isset($name)) {
 			$this->Creator = $Creator;
 			$this->name = $name;
@@ -16,7 +16,7 @@ class Field_Protected extends Field {
 		}
 		else $this->Creator->debuglog->Write(DEBUG_ERROR,'. could not create new Protected Field - name not specified');
 	}
-	
+
 	static public function create() {
 		// create ( name [, value ] )
 		$args = func_get_args();
@@ -26,9 +26,9 @@ class Field_Protected extends Field {
 			default: $this->Creator->debuglog->Write(DEBUG_WARNING,'. could not create new Protected Field - invalid number of arguments');
 		}
 	}
-	
+
 	// HTML OUTPUT ------------------------------------------------------------
-	
+
 	public function HTMLOutput () {
 		$output = NULL;
 		$output .= '<input';
@@ -40,7 +40,7 @@ class Field_Protected extends Field {
 		$output .= '/>'.PHP_EOL;
 		return $output;
 	}
-	
+
 } // end class Field_Protected
 
 ?>

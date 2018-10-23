@@ -23,8 +23,8 @@ if ($dbi->getUserVar('user_id')) {
 		FROM z_users u
 		WHERE u.user_id = {$dbi->user['user_id']}
 	";
-	$user_query = mysql_query($user_querystring);
-	$user = mysql_fetch_object($user_query);
+	$user_query = $dbi->connection->query($user_querystring);
+	$user = $user_query->fetch_object();
 	$title .= $user->display_name;
 	$content .= SimpleMarkup_HTML($user->profile);
 }
@@ -35,8 +35,8 @@ elseif ($dbi->getUserVar('user_name')) {
 		FROM z_users u
 		WHERE u.name = '{$dbi->user['user_name']}'
 	";
-	$user_query = mysql_query($user_querystring);
-	$user = mysql_fetch_object($user_query);
+	$user_query = $dbi->connection->query($user_querystring);
+	$user = $user_query->fetch_object();
 	$title .= $user->display_name;
 	$content .= SimpleMarkup_HTML($user->profile);
 }
@@ -47,10 +47,10 @@ else {
 		FROM z_users u
 		ORDER BY u.order_name, u.display_name
 	";
-	$users_query = mysql_query($users_querystring);
+	$users_query = $dbi->connection->query($users_querystring);
 	$title .= Z_USERS;
 	$content .= '<ul>'.PHP_EOL;
-	while ($user = mysql_fetch_object($users_query)) {
+	while ($user = $users_query->fetch_object()) {
 		$content .= '<li>';
 		$content .= '<a href="z_profile.php?user_id='.$user->user_id.'">'.$user->display_name.'</a>';
 		$content .= '</li>'.PHP_EOL;

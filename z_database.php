@@ -26,5 +26,3 @@ $layout
 	)
 	->set('sidebar',$dbi->getTextblock_HTML ('z_database'))
 	->cast();
-
-?>

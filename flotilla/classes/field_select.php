@@ -1,12 +1,12 @@
 <?php
 
 class Field_Select extends Field {
-	
+
 	public $Options = array();
-	
+
 	// CONSTRUCTORS --------------------------------------------------------------
-	
-	protected function __construct ($Creator, $name, $required, $default_option) {
+
+	protected function __construct (Form $Creator, $name, $required, $default_option) {
 		if (isset($name)) {
 			$this->Creator = $Creator;
 			$this->name = $name;
@@ -16,7 +16,7 @@ class Field_Select extends Field {
 		}
 		else $this->Creator->debuglog->Write(DEBUG_ERROR,'. could not create new Select Field - name not specified');
 	}
-	
+
 	static public function create() {
 		// create ( name [, required [, default_option ]] )
 		$args = func_get_args();
@@ -27,9 +27,9 @@ class Field_Select extends Field {
 			default: $this->Creator->debuglog->Write(DEBUG_WARNING,'. could not create new Select Field - invalid number of arguments');
 		}
 	}
-	
+
 	// SELECT OPTIONS ------------------------------------------------------------
-	
+
 	public function addOption () {
 		// addOption ( [ value [, title ]] )
 		$args = func_get_args();
@@ -42,14 +42,14 @@ class Field_Select extends Field {
 		$this->Creator->debuglog->Write(DEBUG_INFO,'. . new Select Option "'.(isset($args[0])?$args[0]:'').'" created');
 		return $this;
 	}
-	
+
 	public function addOptionsFromTable () {
 		// addOption ( table , value_column , title_column [, where_statement [, db_connection]] )
 		// example: addOption ('contacts','contact_id','contact_name','`contact_name` LIKE 'A*', $db_connection);
-		
+
 		// remark: if you use the 5th parameter, a database connection must be declared before
 		// example: $db_connection = mysql_connect('example.com', 'mysql_user', 'mysql_password');
-		
+
 		$args = func_get_args();
 		$options_querystring = "
 			SELECT {$args[1]} AS value, {$args[2]} AS title
@@ -58,29 +58,31 @@ class Field_Select extends Field {
 			ORDER BY {$args[2]}
 		";
 		if (isset($args[4])) {
-			$options_query = mysql_query($options_querystring,$args[4]);
-			mysql_select_db($this->Creator->Connection->link);
+		    $options_query = $args[4]->query($options_querystring);
+			// FIXME: WTF??? This switched the db connection for
+			//        all statemes executed later in pre-mysqli times
+			// mysql_select_db($this->Creator->Connection->link);
 		}
 		else {
-			$options_query = mysql_query($options_querystring);
+		    $options_query = $this->Creator->Connection->link->query($options_querystring);
 		}
-		while ($option = mysql_fetch_object($options_query)) {
+		while ($option = $options_query->fetch_object()) {
 			$this->Options[] = new Select_Option ($option->value,$option->title);
 			$this->Creator->debuglog->Write(DEBUG_INFO,'. . new Select Option "'.$option->value.'" created');
 		}
 		return $this;
 	}
-	
+
 	public function addOptionsFromQuery ($querystring, $value_column = 'value', $title_column = 'title') {
 		$args = func_get_args();
-		$query = mysql_query($querystring);
-		while ($option = mysql_fetch_object($query)) {
+		$query = $this->Creator->Connection->link->query($querystring);
+		while ($option = $query->fetch_object()) {
 			$this->Options[] = new Select_Option ($option->value,$option->title);
 			$this->Creator->debuglog->Write(DEBUG_INFO,'. . new Select Option "'.$option->value.'" created');
 		}
 		return $this;
 	}
-	
+
 	public function addOptionsFromArray ( $array ) {
 		// addOption ( array )
 		foreach ($array as $key => $value) {
@@ -89,14 +91,14 @@ class Field_Select extends Field {
 		}
 		return $this;
 	}
-	
+
 	public function addOptionsFromXML () {
 		// addOption ( Resource-URL , namespace, division , value , title)
 		$args = func_get_args();
 		$feed = simplexml_load_file($args[0]);
-		
+
 		$xml =  $feed->children($args[1]);
-		
+
 		foreach ($xml->$args[2] as $entries) {
 			$child = $entries->children($args[1]);
 			$this->Options[] = new Select_Option ($child->$args[3],$child->$args[4]);
@@ -104,8 +106,8 @@ class Field_Select extends Field {
 		}
 		return $this;
 		// written by Stefan Dumont
-	} 
-	
+	}
+
 	public function addOptionsFromRange () {
 		// addOption ( [to]|[from, to] [, skip [, prefix [, suffix ]]] )
 		$args = func_get_args();
@@ -143,13 +145,13 @@ class Field_Select extends Field {
 		}
 		return $this;
 	}
-	
+
 	// HTML OUTPUT ---------------------------------------------------------------
-	
+
 	protected function HTMLStyle () {
 		return $this->css_style ? " style=\"$this->css_style\"" : NULL;
 	}
-	
+
 	public function HTMLOutput () {
 		$output = NULL;
 		$output .= "\t\t\t<select";
@@ -169,31 +171,31 @@ class Field_Select extends Field {
 		$output .= "\t\t\t</select>".PHP_EOL;
 		return $output;
 	}
-	
+
 } // end class Field_Select
 
 // SUBORDINATE CLASSES ---------------------------------------------------------
 
 class Select_Option {
-	
+
 	protected $value;
 	protected $title;
-	
+
 	// CONSTRUCTORS --------------------------------------------------------------
-	
+
 	public function __construct ($value,$title) {
 		$this->value = $value;
 		$this->title = $title;
 	}
-	
+
 	// PROPERTIES ----------------------------------------------------------------
-	
+
 	public function getValue () {
 		return $this->value;
 	}
-	
+
 	// HTML OUTPUT ---------------------------------------------------------------
-	
+
 	public function HTMLOutput ($is_selected) {
 		$output = "\t\t\t\t<option";
 		if ($this->title) $output .= ' value="'.$this->value.'"';
@@ -203,7 +205,6 @@ class Select_Option {
 		$output .= '</option>'.PHP_EOL;
 		return $output;
 	}
-	
+
 } // end class Select_Option
 
-?>

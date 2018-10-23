@@ -1,12 +1,12 @@
 <?php
 
 class Field_MultiCheckbox extends Field {
-	
+
 	public $Options = array();
-	
+
 	// CONSTRUCTORS --------------------------------------------------------------
-	
-	protected function __construct ($Creator, $name, $required, $default_option) {
+
+	protected function __construct (Form $Creator, $name, $required, $default_option) {
 		if (isset($name)) {
 			$this->Creator = $Creator;
 			$this->name = $name;
@@ -16,7 +16,7 @@ class Field_MultiCheckbox extends Field {
 		}
 		else $this->Creator->debuglog->Write(DEBUG_ERROR,'. could not create new Multiple Checkbox Field - name not specified');
 	}
-	
+
 	static public function create() {
 		// create ( name [, required [, default_option ]] )
 		$args = func_get_args();
@@ -27,9 +27,9 @@ class Field_MultiCheckbox extends Field {
 			default: $this->Creator->debuglog->Write(DEBUG_WARNING,'. could not create new Multiple Checkbox Field - invalid number of arguments');
 		}
 	}
-	
+
 	// SELECT OPTIONS ------------------------------------------------------------
-	
+
 	public function addOption () {
 		// addOption ( name, [ value [, title ]] )
 		$args = func_get_args();
@@ -42,7 +42,7 @@ class Field_MultiCheckbox extends Field {
 		$this->Creator->debuglog->Write(DEBUG_INFO,'. . new Multiple Checkbox Option "'.(isset($args[0])?$args[0]:'').'" created');
 		return $this;
 	}
-	
+
 	public function addOptionsFromTable () {
 		// addOption ( table , value_column , title_column [, where_statement ] )
 		$args = func_get_args();
@@ -52,20 +52,20 @@ class Field_MultiCheckbox extends Field {
 			".(isset($args[3])?'WHERE '.$args[3]:'')."
 			ORDER BY {$args[2]}
 		";
-		$options_query = mysql_query($options_querystring);
-		while ($option = mysql_fetch_object($options_query)) {
+		$options_query = $this->Creator->Connection->link->query($options_querystring);
+		while ($option = $options_query->fetch_object()) {
 			$this->Options[] = new MultiCheckbox_Option ($this->name,$option->value,$option->title);
 			$this->Creator->debuglog->Write(DEBUG_INFO,'. . new Multiple Checkbox Option "'.$option->value.'" created');
 		}
 		return $this;
 	}
-	
+
 	// HTML OUTPUT ---------------------------------------------------------------
-	
+
 	protected function HTMLStyle () {
 		return $this->css_style ? " style=\"$this->css_style\"" : NULL;
 	}
-	
+
 	public function HTMLOutput () {
 		$output = NULL;
 		if ($this->is_appended()) {
@@ -82,41 +82,41 @@ class Field_MultiCheckbox extends Field {
 		foreach ($this->Options as $option) {
 			$is_checked = (isset($this->user_value) && in_array($option->getValue(),$this->user_value));
 			$output .= $option->HTMLOutput($is_checked);
-		} 
+		}
 		$output .= "\t\t\t</div>".PHP_EOL;
 		return $output;
 	}
-	
+
 } // end class Field_MultiCheckbox
 
 // SUBORDINATE CLASSES ---------------------------------------------------------
 
 class MultiCheckbox_Option {
-	
+
 	protected $name;
 	protected $value;
 	protected $title;
-	
+
 	// CONSTRUCTORS --------------------------------------------------------------
-	
+
 	public function __construct ($name,$value,$title) {
 		$this->name = $name;
 		$this->value = $value;
 		$this->title = $title;
 	}
-	
+
 	// PROPERTIES ----------------------------------------------------------------
-	
+
 	public function getValue () {
 		return $this->value;
 	}
-	
+
 	public function getId () {
 		return $this->name.'-'.$this->value;
 	}
-	
+
 	// HTML OUTPUT ---------------------------------------------------------------
-	
+
 	public function HTMLOutput ($is_checked) {
 		$output = "\t\t\t\t<input";
 		$output .= ' name="'.$this->name.'[]"';
@@ -130,7 +130,7 @@ class MultiCheckbox_Option {
 		$output .= '</label><br/>'.PHP_EOL;
 		return $output;
 	}
-	
+
 } // end class MultiCheckbox_Option
 
 ?>

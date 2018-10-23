@@ -3,10 +3,10 @@
 class Field_Upload extends Field {
 
 	var $temp_name;
-	
+
 	// CONSTRUCTORS -----------------------------------------------------------
-	
-	protected function __construct ($Creator, $name, $max_filesize = FLO_UPLOAD_FILESIZE, $filetype = NULL, $required = OPTIONAL, $target_dir = FLO_UPLOAD_DIR, $prefix = NULL) {
+
+	protected function __construct (Form $Creator, $name, $max_filesize = FLO_UPLOAD_FILESIZE, $filetype = NULL, $required = OPTIONAL, $target_dir = FLO_UPLOAD_DIR, $prefix = NULL) {
 		if (isset($name)) {
 			$this->Creator = $Creator;
 			$this->name = $name;
@@ -21,7 +21,7 @@ class Field_Upload extends Field {
 			$this->Creator->debuglog->Write(DEBUG_ERROR,'could not create new Upload Field - name not specified');
 		}
 	}
-	
+
 	static public function create() {
 		// create ( upload_name [, max_filesize [, required [, target_directory ]]]] )
 		$args = func_get_args();
@@ -35,9 +35,9 @@ class Field_Upload extends Field {
 			default: $this->Creator->debuglog->Write(DEBUG_WARNING,'. could not create new Upload Field - invalid number of arguments');
 		}
 	}
-	
+
 	// EVALUATION -------------------------------------------------------------
-	
+
 	public function EvaluatePost () {
 		$this->error = NULL;
 		// Datei
@@ -56,7 +56,9 @@ class Field_Upload extends Field {
 					$this->error = FLO_UPLOAD_ERR_FILESIZE.$this->max_filesize.' KB.';
 				}
 				if (is_null($this->error)) {
-					if ($this->prefix) $this->prefix = preg_replace('/(\{(\w*)\})/e',"\$this->Creator->Fields['$2']->user_value",$this->prefix);
+					if ($this->prefix) $this->prefix = preg_replace_callback('/(\{(\w*)\})/', function ($matches) {
+					    return $this->Creator->Fields[$matches[2]]->user_value;
+					}, $this->prefix);
 					$this->user_value = ($this->prefix?$this->prefix.'_':'').$_FILES[$this->name]['name'];
 					$destination = $this->target_dir.$this->user_value;
 					if (move_uploaded_file($_FILES[$this->name]['tmp_name'],$destination)) {

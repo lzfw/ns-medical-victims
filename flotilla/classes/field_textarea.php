@@ -1,10 +1,10 @@
 <?php
 
 class Field_TextArea extends Field {
-	
+
 	// CONSTRUCTORS --------------------------------------------------------------
-	
-	protected function __construct ($Creator, $name, $rows = FLO_TEXTAREA_ROWS, $required = OPTIONAL, $default_text = NO_DEFAULT) {
+
+    protected function __construct (Form $Creator, $name, $rows = FLO_TEXTAREA_ROWS, $required = OPTIONAL, $default_text = NO_DEFAULT) {
 		if (isset($name)) {
 			$this->Creator = $Creator;
 			$this->name = $name;
@@ -15,7 +15,7 @@ class Field_TextArea extends Field {
 		}
 		else $this->Creator->debuglog->Write(DEBUG_ERROR,'. could not create new TextArea Field - name not specified');
 	}
-	
+
 	static public function create() {
 		// create ( textarea_name [, rows [, required [, default_text ]]] )
 		$args = func_get_args();
@@ -27,9 +27,9 @@ class Field_TextArea extends Field {
 			default: $this->Creator->debuglog->Write(DEBUG_WARNING,'. could not create new TextArea Field - invalid number of arguments'); break;
 		}
 	}
-	
+
 	// HTML OUTPUT ---------------------------------------------------------------
-	
+
 	protected function HTMLStyle () {
 		$style = NULL;
 		// AUTO WIDTH goes first, so it can be overridden by user style
@@ -43,7 +43,7 @@ class Field_TextArea extends Field {
 		}
 		return (isset($style) ? ' style="'.$style.'"' : NULL);
 	}
-	
+
 	public function HTMLOutput () {
 		$output = NULL;
 		$output .= "\t\t\t<textarea";

@@ -10,7 +10,7 @@ function createBackLink ($title,$url = 'javascript:history.back()') {
 }
 
 function isServerScriptName ($string) {
-	return basename($_SERVER['SCRIPT_NAME']) == $string; 
+	return basename($_SERVER['SCRIPT_NAME']) == $string;
 }
 
 function getPostValue ($parameter_name) {
@@ -33,18 +33,23 @@ function roman_numeral ($integer) {
 }
 
 function mysql_get_random_row($table, $column) {
+    global $dbi;
+
 	$rows_querystring = "SELECT max($column) AS max_id, min($column) AS min_id FROM $table";
-	$rows = mysql_fetch_object(mysql_query($rows_querystring));
+	$rows_result = $dbi->connection->query($rows_querystring);
+	$rows = $rows_result->fetch_object();
 	$random_number = mt_rand($rows->min_id, $rows->max_id);
 	$random_sql = "SELECT * FROM $table
-		WHERE $column >= $random_number 
+		WHERE $column >= $random_number
 		ORDER BY $column ASC LIMIT 1";
-	$random_row = mysql_fetch_object(mysql_query($random_sql));
+	$random_result = $dbi->connection->query($random_sql);
+	$random_row = $random_result->fetch_object();
 	if (!is_array($random_row)) {
 		$random_sql = "SELECT * FROM $table
-			WHERE $column < $random_number 
+			WHERE $column < $random_number
 			ORDER BY $column DESC LIMIT 1";
-		$random_row = mysql_fetch_object(mysql_query($random_sql));
+		$random_result = $dbi->connection->query($random_sql);
+		$random_row = $random_result->fetch_object();
 	}
 	return $random_row;
 }
@@ -166,6 +171,8 @@ function historicalDateFormat ($date) {
 }
 
 function mysql_backup ($tableNames,$appendix='') {
+    global $dbi;
+
 	// tableNames: comma-separated list of 1 or more table names
 	// appendix: additional command for table selects (WHILE, LIMIT, ...)
 	$tableNames = explode (',',$tableNames);
@@ -173,33 +180,33 @@ function mysql_backup ($tableNames,$appendix='') {
 	foreach ($tableNames as $tableName) {
 		// get show create table
 		$qs = "SHOW CREATE TABLE `$tableName`";
-		$results = mysql_query($qs);
-		while ($result = mysql_fetch_assoc($results)) {
+		$results = $dbi->connection->query($qs);
+		while ($result = $results->fetch_assoc()) {
 			$backupString .= $result['Create Table'].';'.PHP_EOL;
 		}
-		
+
 		// get field names
 		$qs = "SHOW COLUMNS FROM `$tableName`";
-		$results = mysql_query($qs);
+		$results = $dbi->connection->query($qs);
 		$fieldNames = array();
-		while ($result = mysql_fetch_assoc($results)) {
+		while ($result = $results->fetch_assoc()) {
 			$fieldNames[] = $result['Field'];
 		}
-		
+
 		// get table content
 		$qs = "SELECT * FROM `$tableName` ".$appendix;
-		$results = mysql_query($qs);
+		$results = $dbi->connection->query($qs);
 		$tableContents = array();
-		
+
 		$values = array();
-		while ($row=mysql_fetch_row($results)) {
+		while ($row=$results->fetch_row()) {
 			$temp=array();
 			foreach ($row as $key=>$value) {
 				$temp[$key]="'".$value."'";
 			}
 			$values[]="(".implode(",",$temp).")";
 		}
-		
+
 		$backupString .=
 			"INSERT INTO `{$tableName}` (`".implode("`,`",$fieldNames)."`)".PHP_EOL.
 			"VALUES".PHP_EOL.
@@ -208,4 +215,3 @@ function mysql_backup ($tableNames,$appendix='') {
 	return $backupString;
 }
 
-?>

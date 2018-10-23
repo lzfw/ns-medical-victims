@@ -19,7 +19,7 @@ $textblocks_querystring = "
 	WHERE permission = 'system'
 	ORDER BY name
 ";
-$textblocks_query = mysql_query($textblocks_querystring);
+$textblocks_query = $dbi->connection->query($textblocks_querystring);
 
 // content
 $content = '';
@@ -27,7 +27,7 @@ $content .= '<table class="grid">'.PHP_EOL;
 $content .= '<tr><th>'.Z_HELPTEXT_NAME.'</th>';
 $content .= '<th>'.Z_OPTIONS.'</th>';
 $content .= '</tr>'.PHP_EOL;
-while ($textblock = mysql_fetch_object($textblocks_query)) {
+while ($textblock = $textblocks_query->fetch_object()) {
 	$content .= '<tr>'.PHP_EOL;
 	$content .= "<td>$textblock->name</td>";
 	$content .= '<td class="nowrap">'.
@@ -46,5 +46,3 @@ $layout
 	->set('title',Z_HELPTEXTS)
 	->set('content',$content)
 	->cast();
-
-?>

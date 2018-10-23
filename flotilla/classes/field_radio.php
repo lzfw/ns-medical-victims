@@ -1,12 +1,12 @@
 <?php
 
 class Field_Radio extends Field {
-	
+
 	public $RadioButtons = array();
-	
+
 	// CONSTRUCTORS -----------------------------------------------------------
-	
-	protected function __construct ($Creator, $name, $required, $default, $alignment = AUTO_ALIGN) {
+
+	protected function __construct (Form $Creator, $name, $required, $default, $alignment = AUTO_ALIGN) {
 		if (isset($name)) {
 			$this->Creator = $Creator;
 			$this->name = $name;
@@ -17,7 +17,7 @@ class Field_Radio extends Field {
 		}
 		else $this->Creator->debuglog->Write(DEBUG_ERROR,'. could not create new Radio Field - name not specified');
 	}
-	
+
 	static public function create() {
 		// create ( name [, required [, default ]] )
 		$args = func_get_args();
@@ -29,9 +29,9 @@ class Field_Radio extends Field {
 			default: $this->Creator->debuglog->Write(DEBUG_WARNING,'. could not create new Radio Field - invalid number of arguments');
 		}
 	}
-	
+
 	// RADIO BUTTONS ----------------------------------------------------------
-	
+
 	public function addRadioButton () {
 		// addRadioButton ( [ value [, title ]] )
 		$args = func_get_args();
@@ -44,7 +44,7 @@ class Field_Radio extends Field {
 		$this->Creator->debuglog->Write(DEBUG_INFO,'. . new Radio Button "'.$args[0].'" created');
 		return $this;
 	}
-	
+
 	public function setAlignment () {
 		// setAlignment ( AUTO_ALIGN|VERTICAL|HORIZONTAL )
 		$args = func_get_args();
@@ -54,13 +54,13 @@ class Field_Radio extends Field {
 		}
 		return $this;
 	}
-	
+
 	// HTML OUTPUT ------------------------------------------------------------
-	
+
 	protected function HTMLStyle () {
 		return $this->css_style ? " style=\"$this->css_style\"" : NULL;
 	}
-	
+
 	public function HTMLOutput () {
 		$output = NULL;
 		// AUTO ALIGN
@@ -84,21 +84,21 @@ class Field_Radio extends Field {
 		}
 		return $output;
 	}
-	
+
 } // end class Field_Radio
 
 // SUBORDINATE CLASSES --------------------------------------------------------
-	
+
 class RadioButton {
-	
+
 	public $value;
 	public $title;
-	
+
 	public function __construct ($value,$title) {
 		$this->value = $value;
 		$this->title = $title;
 	}
-	
+
 } // end class RadioButton
 
 ?>

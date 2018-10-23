@@ -39,7 +39,7 @@ $order = isset($_GET['order'])?$_GET['order']:NULL;					// Sortierfeld (optional
 $limit = isset($_GET['limit'])?$_GET['limit']:AC_DEFAULT_LIMIT;		// Maximale Einträge (optional)
 
 // Daten abfragen
-if ($label) { 
+if ($label) {
 	$querystring = "
 		SELECT `$field` AS value, $label AS label
 		FROM `$table`
@@ -57,12 +57,12 @@ else {
 		LIMIT 0,$limit
 	";
 }
-$query = mysql_query ($querystring); 
+$query = $connection->query($querystring);
 
 // json-String erzeugen
 $jsonList = '[ ';
 $jsonStr = '';
-while ($result = mysql_fetch_object($query)) {
+while ($result = $query->fetch_object()) {
 	$jsonStr .= '{ "value":"'.$result->value.'"';
 	if ($label) $jsonStr .= ', "label":"'.$result->label.'"';
 	else $jsonStr .= ', "label":"'.$result->value.'"';
@@ -78,4 +78,3 @@ echo $jsonList;
 // dies hier dient nur Testzwecken
 echo $querystring;
 
-?>

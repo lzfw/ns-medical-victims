@@ -24,9 +24,12 @@ $querystring = "
 	UNION (SELECT 'words-filecard' AS description, COUNT(g.word_id) AS total FROM glossary g WHERE g.filecard_id=0)
 ";
 
-$query = mysql_query($querystring);
+$query = $dbi->connection->query($querystring);
+if (!$query) {
+    return DBI_ERROR_ABORTED;
+}
 $totals = array();
-while ($fetch = mysql_fetch_object($query)) {
+while ($fetch = $query->fetch_object()) {
 	$totals[] = number_format($fetch->total,0,DBI_DECIMAL_SEPARATOR,DBI_THOUSANDS_SEPARATOR);
 }
 

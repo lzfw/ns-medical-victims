@@ -11,7 +11,7 @@ $dbi->addBreadcrumb (Z_ADMIN,'z_menu_admin');
 // query: get user data
 //$user_querystring = "SELECT * FROM z_users WHERE password <> '' ORDER BY `group`,`permissions` DESC,`order_name`";
 $user_querystring = "SELECT * FROM z_users WHERE password <> '' ORDER BY `order_name`";
-$user_query = mysql_query($user_querystring);
+$user_query = $dbi->connection->query($user_querystring);
 
 $content = '';
 $content .= '<table class="grid">';
@@ -20,7 +20,7 @@ if ($dbi->checkUserPermission('admin')) {
 	$content .= '<th>'.Z_OPTIONS.'</th>';
 }
 $content .= '</tr>';
-while ($user = mysql_fetch_object($user_query)) {
+while ($user = $user_query->fetch_object()) {
 	$content .= '<tr>';
 	$content .= '<td><a href="z_profile?user_id='.$user->user_id.'">'.$user->display_name.'</a></td>';
 	$content .= "<td>$user->name</td>";

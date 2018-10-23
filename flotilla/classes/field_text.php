@@ -1,12 +1,12 @@
 <?php
 
 class Field_Text extends Field {
-	
+
 	public $autowidth = true;
-	
+
 	// CONSTRUCTORS -----------------------------------------------------------
-	
-	protected function __construct ($Creator, $name, $length = FLO_FIELD_LENGTH, $required = OPTIONAL, $default_value = NULL) {
+
+	protected function __construct (Form $Creator, $name, $length = FLO_FIELD_LENGTH, $required = OPTIONAL, $default_value = NULL) {
 		if (isset($name)) {
 			$this->Creator = $Creator;
 			$this->name = $name;
@@ -19,7 +19,7 @@ class Field_Text extends Field {
 			$this->Creator->debuglog->Write(DEBUG_ERROR,'. TEXT FIELD - name not specified');
 		}
 	}
-	
+
 	static public function create() {
 		// create ( Creator, name [, length [, required [, default_value ]]] )
 		$args = func_get_args();
@@ -31,7 +31,7 @@ class Field_Text extends Field {
 			default: $this->Creator->debuglog->Write(DEBUG_WARNING,'. TEXT FIELD - invalid number of arguments');
 		}
 	}
-	
+
 	public function HTMLOutput () {
 		$output = NULL;
 		$output .= "\t\t\t<input";
@@ -50,7 +50,7 @@ class Field_Text extends Field {
 		$output .= '/>'.PHP_EOL;
 		return $output;
 	}
-	
+
 } // end class Field_Text
 
 ?>

@@ -17,7 +17,7 @@ $dbi->addBreadcrumb (DBI_DATABASE_MAINTENANCE,'zo_database_maintenance.php');
 $template_content = '';
 // task
 switch ($task) {
-	
+
 	case 'optimize':
 		// title
 		$template_title = DBI_DATABASE_OPTIMIZE;
@@ -38,15 +38,15 @@ switch ($task) {
 				`links`,
 				`sources`
 		";
-		$optimize_q = mysql_query($optimize_qs);
-		while ($row = mysql_fetch_row($optimize_q)) {
+		$optimize_q = $dbi->connection->query($optimize_qs);
+		while ($row = $optimize_q->fetch_row()) {
 			$template_content .= '<p>'.$row[0].': '.$row[1].' / '.$row[2].': '.$row[3].'</p>'.PHP_EOL;
 		}
 		$template_content .= '<p>'.createButton (DBI_OK,'zo_database_maintenance.php','icon ok').'</p>'.PHP_EOL;
 	break;
-	
+
 	// CUSTOM FUNCTIONS -------------------------------------------------------
-	
+
 	case 'completeWordSources':
 		// title
 		$template_title = GGA_COMPLETE_MISSING_SOURCES;
@@ -56,14 +56,14 @@ switch ($task) {
 		$template_content .= '<p>';
 		$template_content .= 'Wörter mit erschließbarer Source-Referenz einlesen ... ';
 		$words_querystring = "
-			SELECT g.word_id, f.source_id 
+			SELECT g.word_id, f.source_id
 			FROM glossary g
 			LEFT OUTER JOIN filecards f USING (filecard_id)
 			WHERE g.source_id = 0 AND g.filecard_id <> 0 AND f.source_id <> 0
 		";
-		$words_query = mysql_query($words_querystring);
-		$template_content .= mysql_num_rows($words_query).'</p>';
-		while ($word = mysql_fetch_object ($words_query)) {
+		$words_query = $dbi->connection->query($words_querystring);
+		$template_content .= $words_query->num_rows.'</p>';
+		while ($word = $words_query->fetch_object()) {
 			echo $update_querystring = '
 				UPDATE glossary g
 				SET (g.source_id)
@@ -74,9 +74,9 @@ switch ($task) {
 		$template_content .= createButton (DBI_OK,'zo_database_maintenance.php','icon ok');
 		$template_content .= '</div>';
 	break;
-	
+
 	// END CUSTOM FUNCTIONS ---------------------------------------------------
-	
+
 	default:
 		// title
 		$template_title = DBI_DATABASE_MAINTENANCE;

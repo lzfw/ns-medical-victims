@@ -1,10 +1,10 @@
 <?php
 
 class Action_DataFile extends Action {
-	
+
 	var $filename;
 	var $separator;
-	
+
 	protected function __construct ($Creator, $filename, $separator = ACTION_DATAFILE_SEPARATOR) {
 		$this->Creator = $Creator;
 		if (is_file($filename)) {
@@ -18,7 +18,7 @@ class Action_DataFile extends Action {
 		if (isset($separator)) $this->separator = $separator;
 		$this->Creator->debuglog->Write(DEBUG_INFO,'. ACTION DATAFILE created');
 	}
-	
+
 	static public function create () {
 		// create ( Creator [, filename [, separator ]] )
 		$args = func_get_args();
@@ -29,13 +29,13 @@ class Action_DataFile extends Action {
 			default: $this->Creator->debuglog->Write(DEBUG_WARNING,'. ACTION DATAFILE invalid number of arguments');
 		}
 	}
-	
+
 	public function onLoad () {
 		$this->Creator->debuglog->Write(DEBUG_INFO,'. ACTION DATAFILE reading from '.$this->filename.'...');
 		if (is_file($this->filename)) {
 			$file = file($this->filename);
 			reset($file);
-			while (list($index, $row) = each($file)) {
+			foreach($file as $index => $row) {
 				$separator = strpos($row,$this->separator);
 				$field_name = trim(substr($row,0,$separator));
 				$field_value = trim(substr($row,$separator+1));
@@ -58,7 +58,7 @@ class Action_DataFile extends Action {
 		if (is_file($this->filename)) {
 			$file = file($this->filename);
 			reset($file);
-			while (list($index, $row) = each($file)) {
+			foreach($file as $index => $row) {
 				if ($separator = strpos($row,$this->separator)) {
 					$fields_in_file[$index] = trim(substr($row,0,$separator));
 					//DebugInfo ("FIELD '".$fields_in_file[$index]."' found at line $index");
@@ -67,7 +67,7 @@ class Action_DataFile extends Action {
 		}
 		// Write contents to existing fields
 		reset($this->Creator->Fields);
-		while (list($index, $field) = each($this->Creator->Fields)) {
+		foreach($this->Creator->Fields as $index => $field) {
 			$new_line = $field->name.$this->separator.$field->user_value.PHP_EOL;
 			$line = array_search($field->name,$fields_in_file);
 			if ($line !== false) {
@@ -81,7 +81,7 @@ class Action_DataFile extends Action {
 			file_put_contents($this->filename,$file);
 		}
 	}
-	
+
 }
 
 ?>

@@ -1,16 +1,20 @@
 <?php
 
 abstract class Field {
-	
+
 	public $name;
+	/**
+	 *
+	 * @var Form
+	 */
 	public $Creator;
-	
+
 	// field configuration
 	protected $length = FLO_FIELD_LENGTH;
 	protected $required = OPTIONAL;
 	protected $default_value = NULL;
 	public $user_value;
-	
+
 	// appearance
 	public $label; // displayed field name (=html:label)
 	public $title; // tooltip (=html:title)
@@ -22,92 +26,92 @@ abstract class Field {
 	public $css_style; // =html:style
 	public $appended_to; // field name of the first field in row
 	public $autowidth = false; // set field width automatically
-	
+
 	// sub-object arrays
 	public $Conditions = array();
-	
+
 	// validation properties
 	public $error = NULL;
 	public $valid = NULL;
-	
+
 	// PROPERTIES -------------------------------------------------------------
-	
+
 	public function is_hidden () {
 		return ($this->htmltype == 'hidden');
 	}
-	
+
 	public function is_not_hidden () {
 		return ($this->htmltype != 'hidden');
 	}
-	
+
 	protected function makeRequired () {
 		$this->required = REQUIRED;
 	}
-	
+
 	protected function makeOptional () {
 		$this->required = OPTIONAL;
 	}
-	
+
 	public function getId () {
 		return ($this->Creator->name.'-'.$this->name);
 	}
-	
+
 	// APPEARANCE -------------------------------------------------------------
-	
+
 	public function setLabel ($label) {
 		$this->label = $label;
 		$this->Creator->debuglog->Write(DEBUG_INFO,". . LABEL \"$label\" set");
 		return $this;
 	}
-	
+
 	public function setTitle ($title) {
 		$this->title = $title;
 		return $this;
 	}
-	
+
 	public function setLanguage ($language) {
 		$this->language = $language;
 		return $this;
 	}
-	
+
 	public function setDirection ($direction) {
 		$this->direction = $direction;
 		return $this;
 	}
-	
+
 	public function setDescription ($description) {
 		$this->description = $description;
 		return $this;
 	}
-	
+
 	public function setClass ($css_class) {
 		$this->css_class = $css_class;
 		return $this;
 	}
-	
+
 	public function setStyle ($css_style) {
 		$this->css_style = $css_style;
 		return $this;
 	}
-	
+
 	// APPEARANCE : FIELD GROUPS ----------------------------------------------
-	
+
 	public function appendTo ($field_name) {
 		$this->appended_to = $field_name;
 		return $this;
 	}
-	
+
 	public function unappend () {
 		$this->appended_to = NULL;
 		return $this;
 	}
-	
+
 	public function is_appended () {
 		return ($this->appended_to);
 	}
-	
+
 	// CONDITIONS -------------------------------------------------------------
-	
+
 	public function addCondition () {
 		require_once 'field-condition.php';
 		$args = func_get_args();
@@ -117,20 +121,20 @@ abstract class Field {
 		$this->Conditions[] = call_user_func_array('FieldCondition_'.$type.'::create',$args);
 		return $this;
 	}
-	
+
 	protected function CheckConditions () {
 		reset($this->Conditions);
-		while (list($index, $Condition) = each($this->Conditions)) {
-			$this->error = $Condition->Check($this->user_value);
-			if ($this->error) {
-				break;
-			}
+		foreach($this->Conditions as $index => $Condition) {
+		    $this->error = $Condition->Check($this->user_value);
+		    if ($this->error) {
+		        break;
+		    }
 		}
 		return $this->error;
 	}
-	
+
 	// EVALUATION -------------------------------------------------------------
-	
+
 	public function evaluatePost () {
 		switch (get_class($this)) {
 			case 'Field_Checkbox':
@@ -195,7 +199,7 @@ abstract class Field {
 		}
 		return (is_null($this->error));
 	}
-	
+
 	public function evaluateGet () {
 		switch (get_class($this)) {
 			case 'Field_Checkbox':
@@ -253,7 +257,7 @@ abstract class Field {
 		}
 		return (is_null($this->error));
 	}
-	
+
 	public function evaluateGet2 () {
 		// try to fill in GET value
 		$this->error = NULL;
@@ -272,9 +276,9 @@ abstract class Field {
 		}
 		return (is_null($this->error));
 	}
-	
+
 	// HTML OUTPUT ------------------------------------------------------------
-	
+
 	public function HTMLLeadIn () {
 		// contains:
 		// - field label
@@ -300,7 +304,7 @@ abstract class Field {
 		}
 		return $leadin;
 	}
-	
+
 	public function HTMLLeadOut () {
 		// contains:
 		// - cell delimiters
@@ -318,19 +322,19 @@ abstract class Field {
 		}
 		return $leadout;
 	}
-	
+
 	protected function HTMLTitle () {
 		$title = NULL;
 		if ($this->title) $title .= " title=\"$this->title\"";
 		return $title;
 	}
-	
+
 	protected function HTMLClass () {
 		$class = NULL;
 		if ($this->css_class) $class = " class=\"$this->css_class\"";
 		return $class;
 	}
-	
+
 	protected function HTMLStyle () {
 		$style = NULL;
 		// AUTO WIDTH goes first, so it can be overridden by user style
@@ -350,24 +354,22 @@ abstract class Field {
 		}
 		return (isset($style) ? " style=\"$style\"" : NULL);
 	}
-	
+
 	// METHOD CALL PASS -------------------------------------------------------
 
 	public function addField () {
 		$args = func_get_args();
 		return call_user_func_array(array($this->Creator,'addField'),$args);
-	}	
-	
+	}
+
 	public function addButton () {
 		$args = func_get_args();
 		return call_user_func_array(array($this->Creator,'addButton'),$args);
-	}	
-	
+	}
+
 	public function addImageButton () {
 		$args = func_get_args();
 		return call_user_func_array(array($this->Creator,'addImageButton'),$args);
-	}	
-	
-} // end class Field
+	}
 
-?>
+} // end class Field
