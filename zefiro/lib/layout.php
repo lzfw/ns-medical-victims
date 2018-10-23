@@ -13,21 +13,21 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 abstract class Variable {
-	
+
 	public $value;
-	
+
 	public function getType () {
 		return get_class($this);
 	}
-	
-	public function set ( $value ) { 
+
+	public function set ( $value ) {
 		$this->value = $value;
 	}
-	
+
 	public function get () {
 		return $this->value;
 	}
-	
+
 }
 
 class StringType extends Variable {
@@ -38,15 +38,15 @@ class StringType extends Variable {
 }
 
 class BlockType extends Variable {
-	
+
 	public $element;
 	public $id;
-	
+
 	public function __construct ($element = NULL, $id = NULL) {
 		$this->element = $element;
 		$this->id = $id;
 	}
-	
+
 	public function cast () {
 		echo
 			($this->element ? '<'.$this->element.
@@ -61,43 +61,43 @@ class ListType extends Variable {
 }
 
 class Layout {
-	
+
 	public $Variables = array();
 	public $template;
-	
+
 	// CONSTRUCTORS -----------------------------------------------------------
-	
+
 	public function __construct () {
 	}
-	
+
 	public function setTemplate ( $url ) {
 		$this->template = $url;
 	}
-	
+
 	public function declareString ($name) {
-		$this->Variables[$name] = new StringType ($value);
+		$this->Variables[$name] = new StringType ();
 		return $this;
 	}
-	
+
 	public function declareBlock ($name, $element = NULL, $id = NULL) {
 		$this->Variables[$name] = new BlockType ($element, $id);
 		return $this;
 	}
-	
+
 	public function declareList ($name, $value = NULL) {
-		$this->Variables[$name] = new ListType ($value);
+		$this->Variables[$name] = new ListType ();
 		return $this;
 	}
-	
+
 	public function set ( $varName, $varValue ) {
 		$this->Variables[$varName]->set($varValue);
 		return $this;
 	}
-	
+
 	public function get ( $varName ) {
 		return $this->Variables[$varName]->get();
 	}
-	
+
 	public function cast ( $varName = NULL ) {
 		if ($varName) {
 			$this->Variables[$varName]->cast();
@@ -108,7 +108,5 @@ class Layout {
 			//echo $this->template;
 		}
 	}
-	
-} // end class LAYOUT
 
-?>
+} // end class LAYOUT
