@@ -4,9 +4,9 @@ require_once 'zefiro/ini.php';
 if (
 	(isset($_SERVER['HTTP_REFERER']))
 	&& (
-		stripos($_SERVER['HTTP_REFERER'],'http://'.$_SERVER['SERVER_NAME']) === 0
+		stripos($_SERVER['HTTP_REFERER'],'https://'.$_SERVER['SERVER_NAME']) === 0
 		|| 
-		stripos($_SERVER['HTTP_REFERER'],'http://www.'.$_SERVER['SERVER_NAME']) === 0
+		stripos($_SERVER['HTTP_REFERER'],'https://www.'.$_SERVER['SERVER_NAME']) === 0
 		)
 	) {
 	$redirect_url = $_SERVER['HTTP_REFERER'];
