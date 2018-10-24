@@ -10,9 +10,9 @@ $dbi->requireUserPermission ('admin');
 $task = isset($_GET['task'])?$_GET['task']:NULL;
 
 // breadcrumbs
-$dbi->addBreadcrumb (DBI_ADMIN,'zo_admin.php');
-$dbi->addBreadcrumb (DBI_DATABASE,'zo_database.php');
-$dbi->addBreadcrumb (DBI_DATABASE_MAINTENANCE,'zo_database_maintenance.php');
+$dbi->addBreadcrumb (Z_ADMIN,'z_admin.php');
+$dbi->addBreadcrumb (Z_DATABASE,'z_database.php');
+$dbi->addBreadcrumb (Z_DATABASE_MAINTENANCE,'z_database_maintenance.php');
 
 $template_content = '';
 // task
@@ -20,15 +20,15 @@ switch ($task) {
 
 	case 'optimize':
 		// title
-		$template_title = DBI_DATABASE_OPTIMIZE;
+		$template_title = Z_DATABASE_OPTIMIZE;
 		// breadcrumbs
-		$dbi->addBreadcrumb (DBI_DATABASE_OPTIMIZE);
+		$dbi->addBreadcrumb (Z_DATABASE_OPTIMIZE);
 		// content
 		$optimize_qs = "
 			OPTIMIZE TABLE
-				`zo_helptexts`,
-				`zo_textblocks`,
-				`zo_users`,
+				`z_helptexts`,
+				`z_textblocks`,
+				`z_users`,
 				`abbreviations`,
 				`arabic_letters`,
 				`arabic_pos`,
@@ -42,7 +42,7 @@ switch ($task) {
 		while ($row = $optimize_q->fetch_row()) {
 			$template_content .= '<p>'.$row[0].': '.$row[1].' / '.$row[2].': '.$row[3].'</p>'.PHP_EOL;
 		}
-		$template_content .= '<p>'.createButton (DBI_OK,'zo_database_maintenance.php','icon ok').'</p>'.PHP_EOL;
+		$template_content .= '<p>'.createButton (Z_OK,'z_database_maintenance.php','icon ok').'</p>'.PHP_EOL;
 	break;
 
 	// CUSTOM FUNCTIONS -------------------------------------------------------
@@ -71,7 +71,7 @@ switch ($task) {
 				WHERE g.word_id='.$word->word_id.'</br>';
 		}
 		$template_content .= '<div class="buttons">';
-		$template_content .= createButton (DBI_OK,'zo_database_maintenance.php','icon ok');
+		$template_content .= createButton (Z_OK,'z_database_maintenance.php','icon ok');
 		$template_content .= '</div>';
 	break;
 
@@ -79,13 +79,13 @@ switch ($task) {
 
 	default:
 		// title
-		$template_title = DBI_DATABASE_MAINTENANCE;
+		$template_title = Z_DATABASE_MAINTENANCE;
 		// content
 		$template_content .= '<ul class="icons">';
-		$template_content .= createListItem(DBI_DATABASE_OPTIMIZE,'zo_database_maintenance.php?task=optimize','dbStatus');
-		$template_content .= createListItem(GGA_COMPLETE_MISSING_SOURCES,'zo_database_maintenance.php?task=completeWordSources','dbStatus');
+		$template_content .= createListItem(Z_DATABASE_OPTIMIZE,'z_database_maintenance.php?task=optimize','dbStatus');
+		$template_content .= createListItem('[custom maintenance task]','z_database_maintenance.php?task=task_id','dbStatus');
 		$template_content .= '</ul>';
-		$template_content .= createBackLink (DBI_DATABASE,'zo_database.php');
+		$template_content .= createBackLink (Z_DATABASE,'z_database.php');
 	break;
 
 }

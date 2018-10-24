@@ -25,10 +25,10 @@ $template_content = '';
 $template_sidebar = '';
 
 // title
-$template_title .= DBI_BOOKMARKS;
+$template_title .= Z_BOOKMARKS;
 
 // breadcrumbs
-$dbi->addBreadcrumb (DBI_BOOKMARKS,'bookmarks.php');
+$dbi->addBreadcrumb (Z_BOOKMARKS,'bookmarks.php');
 
 // user action
 switch ($dbi->getUserVar('action')) {
@@ -60,10 +60,10 @@ switch ($dbi->getUserVar('action')) {
 	break;
 
 	case 'dump':
-		$dbi->addBreadcrumb (DBI_DUMP_BOOKMARKS);
+		$dbi->addBreadcrumb (Z_DUMP_BOOKMARKS);
 		// REMOVE ALL WORDS FROM BOOKMARKS
 		$_SESSION[BOOKMARKS] = array();
-		$template_content .= '<p>'.DBI_BOOKMARKS_DUMPED.'</p>';
+		$template_content .= '<p>'.Z_BOOKMARKS_DUMPED.'</p>';
 	break;
 
 	default:
@@ -78,17 +78,17 @@ switch ($dbi->getUserVar('action')) {
 				LEFT OUTER JOIN filecards f USING (filecard_id)
 				WHERE word_id IN ($bookmarks)
 				ORDER BY {$dbi->getUserVar('sort')} {$dbi->getUserVar('order')}
-				LIMIT {$dbi->getUserVar('skip')},".DBI_LIST_ROWS_PAGE;
+				LIMIT {$dbi->getUserVar('skip')},".Z_LIST_ROWS_PAGE;
 			$bookmarks_query = $dbi->connection->query($bookmarks_querystring);
 			$dbi->setUserVar('total_results',count($_SESSION[BOOKMARKS]));
 			// LIST
 			$template_content .= $dbi->getListView ('gga_wordsbyquery',$bookmarks_query);
 			// OPTIONS
-			$dbi->addOption (DBI_SEND_BOOKMARKS,'bookmarks_sendmail.php','icon sendBookmarks');
-			$dbi->addOption (DBI_DUMP_BOOKMARKS,"?action=dump",'icon dumpBookmarks');
+			$dbi->addOption (Z_SEND_BOOKMARKS,'bookmarks_sendmail.php','icon sendBookmarks');
+			$dbi->addOption (Z_DUMP_BOOKMARKS,"?action=dump",'icon dumpBookmarks');
 		}
 		else {
-			$template_content .= '<p>'.DBI_BOOKMARKS_EMPTY.'</p>'.PHP_EOL;
+			$template_content .= '<p>'.Z_BOOKMARKS_EMPTY.'</p>'.PHP_EOL;
 		}
 		$template_content .= createHomeLink();
 	break;
@@ -102,7 +102,7 @@ if ($dbi->getUserVar('return') == 'yes') {
 
 // sidebar
 $template_sidebar .= $dbi->getRubrics_HTML ();
-$template_sidebar .= '<h3>'.DBI_HELP.'</h3>';
+$template_sidebar .= '<h3>'.Z_HELP.'</h3>';
 $template_sidebar .= $dbi->getHelptext_HTML ('bookmarks');
 $template_sidebar .= $dbi->getReferences_HTML ();
 

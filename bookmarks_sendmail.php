@@ -64,29 +64,29 @@ switch (getUrlParameter('action')) {
 		$form = new Form ('mail_bookmarks','?action=send');
 
 		$form
-			->setLabel(DBI_BOOKMARKS_ASK_EMAIL);
+			->setLabel(Z_BOOKMARKS_ASK_EMAIL);
 
 		$form->addField ('email',TEXT,30,REQUIRED)
-			->setLabel (DBI_EMAIL)
+			->setLabel (Z_EMAIL)
 			->addCondition (ALLOWED_CHARS,EMAIL);
 
 		$form->addField ('format',RADIO,REQUIRED,'gr-ar')
-			->setLabel (DBI_FORMAT)
+			->setLabel (Z_FORMAT)
 			->addRadioButton ('gr-ar','Greek-Arabic')
 			->addRadioButton ('ar-gr','Arabic-Greek')
 			->addRadioButton ('list','Complete records with field names');
 
 		$form->addField ('comment',TEXT,120)
-			->setLabel (DBI_COMMENT);
+			->setLabel (Z_COMMENT);
 
 		$form
 			->addButton (BACK,DEFAULT_LABEL,'bookmarks.php')
-			->addButton (SUBMIT,DBI_OK);
+			->addButton (SUBMIT,Z_OK);
 
-		$template_title .= DBI_SEND_BOOKMARKS;
+		$template_title .= Z_SEND_BOOKMARKS;
 		$template_content .= $form->run ();
 
-		$template_sidebar .= '<h3>'.DBI_HELP.'</h3>';
+		$template_sidebar .= '<h3>'.Z_HELP.'</h3>';
 		$template_sidebar .= $dbi->getHelptext_HTML ('bookmarks_send');
 
 		require_once 'templates/ini.php';

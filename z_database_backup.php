@@ -15,12 +15,12 @@ $template_content = '';
 $template_sidebar = '';
 
 // title
-$template_title = DBI_DATABASE_BACKUP;
+$template_title = Z_DATABASE_BACKUP;
 
 // breadcrumbs
-$dbi->addBreadcrumb (DBI_ADMIN,'z_admin');
-$dbi->addBreadcrumb (DBI_DATABASE,'z_database');
-$dbi->addBreadcrumb (DBI_DATABASE_BACKUP);
+$dbi->addBreadcrumb (Z_ADMIN,'z_admin');
+$dbi->addBreadcrumb (Z_DATABASE,'z_database');
+$dbi->addBreadcrumb (Z_DATABASE_BACKUP);
 
 // user action
 $action = getUrlParameter('action');
@@ -29,7 +29,7 @@ switch ($action) {
 
 	case 'backup':
 		//$filename = 'backup/database_'.date("Y-m-d_H-i-s").'.sql';
-		$backup = mysql_backup('abbreviations,arabic_letters,arabic_pos,zo_helptexts,zo_textblocks,filecards,glossary,greek_pos,links,sources');
+		$backup = mysql_backup('abbreviations,arabic_letters,arabic_pos,z_helptexts,z_textblocks,filecards,glossary,greek_pos,links,sources');
 		header('Content-Disposition: attachment; filename=gga_backup.sql');
 		header('Content-type: application/force-download');
 		echo $backup;
@@ -39,8 +39,8 @@ switch ($action) {
 	default:
 		$template_content .= $dbi->getHelptext_HTML ('database_backup');
 		$template_content .= '<div class="buttons">';
-		$template_content .= createButton (DBI_NO_THANKS,'zo_database.php','icon no');
-		$template_content .= createButton (DBI_DOWNLOAD,'zo_database_backup.php?action=backup','icon download');
+		$template_content .= createButton (Z_NO_THANKS,'z_database.php','icon no');
+		$template_content .= createButton (Z_DOWNLOAD,'z_database_backup.php?action=backup','icon download');
 		$template_content .= '</div>';
 	break;
 

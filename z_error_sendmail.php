@@ -1,12 +1,12 @@
 <?php
 
 // sender
-$from_address = DBI_REPORTER_MAIL;
-$from_name = DBI_REPORTER_NAME;
+$from_address = Z_REPORTER_MAIL;
+$from_name = Z_REPORTER_NAME;
 
 // address
-$to_address = DBI_SITEOWNER_MAIL;
-//$to_address = DBI_WEBMASTER_MAIL;
+$to_address = Z_SITEOWNER_MAIL;
+//$to_address = Z_WEBMASTER_MAIL;
 
 // mail subject
 $subject = 'Error Report from '.$_SERVER["SERVER_NAME"];

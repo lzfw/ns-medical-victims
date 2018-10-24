@@ -91,16 +91,16 @@ $form->addField ('ar_expression',TEXT,250)
 $form
 	->addButton (BACK)
 	->addButton (RESET)
-	->addButton (SUBMIT,DBI_SEARCH);
+	->addButton (SUBMIT,Z_SEARCH);
 
 // breadcrumbs
-$dbi->addBreadcrumb (DBI_SEARCH);
+$dbi->addBreadcrumb (Z_SEARCH);
 
 // template variables
-$template_title .= DBI_SEARCH;
+$template_title .= Z_SEARCH;
 $template_content .= getVirtualKeyboard ();
 $template_content .= $form->run ();
-$template_sidebar .= '<h3>'.DBI_HELP.'</h3>';
+$template_sidebar .= '<h3>'.Z_HELP.'</h3>';
 $template_sidebar .= $dbi->getHelptext_HTML ('search');
 
 // call template

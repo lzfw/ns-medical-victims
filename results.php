@@ -13,7 +13,7 @@ if (implode('',$_GET) == '') {
 $dbi->setUserVar ('view',getUrlParameter('view'),'default');
 
 // sort options
-$dbi->setUserVar ('sort',getUrlParameter('sort'),'gr_lexeme');
+$dbi->setUserVar ('sort',getUrlParameter('sort'),'my_item_1');
 $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 
@@ -22,15 +22,14 @@ if (!empty($_GET)) {
 	// GET-Parameter auslesen
 	$exact_fields = array (
 		'source_id',
-		'gr_pos',
-		'ar_pos',
-		'ar_root_1','ar_root_2','ar_root_3','ar_root_4','ar_root_5','ar_stem',
+		'my_item_1',
+		'my_item_2'
 	);
 	$like_fields = array (
-		'gr_lexeme','gr_expression','gr_reference'
+		'my_item_3','my_item_4'
 	);
 	$double_fields = array (
-		'ar_lexeme','ar_expression','ar_reference'
+		'my_item_5','my_item_6'
 	);
 
 	// GET-String rekonstruieren
@@ -81,7 +80,7 @@ if (!empty($_GET)) {
 }
 
 // suchstring fuer mysql-query
-$querystring_orderby = " ORDER BY g.gr_lexeme='', g.ar_lexeme='', {$dbi->user['sort']} {$dbi->user['order']} LIMIT ".($dbi->user['skip']).','.DBI_LIST_ROWS_PAGE;
+$querystring_orderby = " ORDER BY g.gr_lexeme='', g.ar_lexeme='', {$dbi->user['sort']} {$dbi->user['order']} LIMIT ".($dbi->user['skip']).','.Z_LIST_ROWS_PAGE;
 $words_query = $dbi->connection->query($querystring.$querystring_orderby);
 
 // anzahl der gefundenen titel ausgeben
@@ -92,40 +91,27 @@ $template_content = '';
 $template_sidebar = '';
 
 // title
-$template_title .= DBI_RESULTS;
+$template_title .= Z_RESULTS;
 
 // breadcrumbs
-$dbi->addBreadcrumb (DBI_SEARCH,'search.php');
-$dbi->addBreadcrumb (DBI_RESULTS);
+$dbi->addBreadcrumb (Z_SEARCH,'search.php');
+$dbi->addBreadcrumb (Z_RESULTS);
 
 // content
 $template_content .= '<p><em>';
 $suche_nach = array();
-if (isset($_GET['source_id']) && $_GET['source_id']) $suche_nach[] = GGA_SOURCE.' = '.$_GET['source_id'];
-if (isset($_GET['gr_lexeme']) && $_GET['gr_lexeme']) $suche_nach[] = GGA_GREEK_LEXEME.' = '.$_GET['gr_lexeme'];
-if (isset($_GET['gr_pos']) && $_GET['gr_pos']) $suche_nach[] = GGA_GREEK_POS.' = '.$_GET['gr_pos'];
-if (isset($_GET['gr_expression']) && $_GET['gr_expression']) $suche_nach[] = GGA_GREEK_EXPRESSION.' = '.$_GET['gr_expression'];
-if (isset($_GET['gr_reference']) && $_GET['gr_reference']) $suche_nach[] = GGA_GREEK_REFERENCE.' = '.$_GET['gr_reference'];
-if (isset($_GET['ar_lexeme']) && $_GET['ar_lexeme']) $suche_nach[] = GGA_ARABIC_LEXEME.' = '.$_GET['ar_lexeme'];
-if (isset($_GET['ar_root_1']) && $_GET['ar_root_1']) $suche_nach[] = GGA_ARABIC_ROOT_1.' = '.$_GET['ar_root_1'];
-if (isset($_GET['ar_root_2']) && $_GET['ar_root_2']) $suche_nach[] = GGA_ARABIC_ROOT_2.' = '.$_GET['ar_root_2'];
-if (isset($_GET['ar_root_3']) && $_GET['ar_root_3']) $suche_nach[] = GGA_ARABIC_ROOT_3.' = '.$_GET['ar_root_3'];
-if (isset($_GET['ar_root_4']) && $_GET['ar_root_4']) $suche_nach[] = GGA_ARABIC_ROOT_4.' = '.$_GET['ar_root_4'];
-if (isset($_GET['ar_root_5']) && $_GET['ar_root_5']) $suche_nach[] = GGA_ARABIC_ROOT_5.' = '.$_GET['ar_root_5'];
-if (isset($_GET['ar_stem']) && $_GET['ar_stem']) $suche_nach[] = GGA_ARABIC_STEM.' = '.$_GET['ar_stem'];
-if (isset($_GET['ar_pos']) && $_GET['ar_pos']) $suche_nach[] = GGA_ARABIC_POS.' = '.$_GET['ar_pos'];
-if (isset($_GET['ar_expression']) && $_GET['ar_expression']) $suche_nach[] = GGA_ARABIC_EXPRESSION.' = '.$_GET['ar_expression'];
-if (isset($_GET['ar_reference']) && $_GET['ar_reference']) $suche_nach[] = GGA_ARABIC_REFERENCE.' = '.$_GET['ar_reference'];
+if (isset($_GET['my_id']) && $_GET['my_id']) $suche_nach[] = 'my_id = '.$_GET['source_id'];
+if (isset($_GET['my_item']) && $_GET['my_item']) $suche_nach[] = 'my_item = '.$_GET['gr_lexeme'];
 $template_content .= implode(', ',$suche_nach);
 $template_content .= '</em></p>';
 
 $template_content .= $dbi->getListView('gga_wordsbyquery',$words_query);
 $template_content .= '<div class="buttons">';
-$template_content .= createButton (DBI_MODIFY_SEARCH,'search.php?'.$dbi->getUserVar('querystring'),'icon search');
-$template_content .= createButton (DBI_NEW_SEARCH,'search.php','icon search');
+$template_content .= createButton (Z_MODIFY_SEARCH,'search.php?'.$dbi->getUserVar('querystring'),'icon search');
+$template_content .= createButton (Z_NEW_SEARCH,'search.php','icon search');
 $template_content .= '</div>';
 
-$template_sidebar = '<h3>'.DBI_HELP.'</h3>';
+$template_sidebar = '<h3>'.Z_HELP.'</h3>';
 $template_sidebar .= $dbi->getHelptext_HTML ('results');
 
 // call template

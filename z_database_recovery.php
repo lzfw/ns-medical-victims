@@ -18,12 +18,12 @@ $template_content = '';
 $template_sidebar = '';
 
 // title
-$template_title .= DBI_DATABASE_RECOVERY;
+$template_title .= Z_DATABASE_RECOVERY;
 
 // breadcrumbs
-$dbi->addBreadcrumb (DBI_ADMIN,'zo_admin.php');
-$dbi->addBreadcrumb (DBI_DATABASE,'zo_database.php');
-$dbi->addBreadcrumb (DBI_DATABASE_RECOVERY);
+$dbi->addBreadcrumb (Z_ADMIN,'z_admin.php');
+$dbi->addBreadcrumb (Z_DATABASE,'z_database.php');
+$dbi->addBreadcrumb (Z_DATABASE_RECOVERY);
 
 // database connection
 openDB ($db_host,$db_user,$db_pass,$db_name);
@@ -43,12 +43,12 @@ switch ($user_action) {
 				$filename = 'backup/'.$user_file;
 				$command = $mysqldir.'mysql -h '.$db_host.' -u '.$db_user.' -p"'.$db_pass.'" glossga < '.$filename;
 				if (system($command)) {
-					$template_content .= '<p>'.DBI_DATABASE_RECOVERY_OK.'</p>';
+					$template_content .= '<p>'.Z_DATABASE_RECOVERY_OK.'</p>';
 				} else {
-					$template_content .= '<p>'.DBI_ERROR_ABORTED.'</p>';
+					$template_content .= '<p>'.Z_ERROR_ABORTED.'</p>';
 				}
 				$template_content .= '<div class="buttons">';
-				$template_content .= createButton (DBI_OK,'database.php',ICON_OK);
+				$template_content .= createButton (Z_OK,'database.php',ICON_OK);
 				$template_content .= '</div>';
 			break;
 			case 'no':
@@ -57,10 +57,10 @@ switch ($user_action) {
 			break;
 			default:
 				// recovery must be confirmed
-				$template_content .= '<p>'.DBI_ARE_YOU_SURE.'</p>';
+				$template_content .= '<p>'.Z_ARE_YOU_SURE.'</p>';
 				$template_content .= '<div class="buttons">';
-				$template_content .= createButton (DBI_NO,'zo_database_recovery.php?action=recover&file='.$user_file.'&confirm=no','icon no');
-				$template_content .= createButton (DBI_YES,'zo_database_recovery.php?action=recover&file='.$user_file.'&confirm=yes','icon yes');
+				$template_content .= createButton (Z_NO,'z_database_recovery.php?action=recover&file='.$user_file.'&confirm=no','icon no');
+				$template_content .= createButton (Z_YES,'z_database_recovery.php?action=recover&file='.$user_file.'&confirm=yes','icon yes');
 				$template_content .= '</div>';
 			break;
 		}
@@ -71,18 +71,18 @@ switch ($user_action) {
 			case 'yes':
 				// deletion confirmed
 				unlink ('backup/'.$user_file);
-				header('Location: zo_database_recovery.php');
+				header('Location: z_database_recovery.php');
 			break;
 			case 'no':
 				// deletion cancelled
-				header('Location: zo_database_recovery.php');
+				header('Location: z_database_recovery.php');
 			break;
 			default:
 				// deletion must be confirmed
-				$template_content .= '<p>'.DBI_ARE_YOU_SURE.'</p>';
+				$template_content .= '<p>'.Z_ARE_YOU_SURE.'</p>';
 				$template_content .= '<div class="buttons">';
-				$template_content .= createButton (DBI_NO,'zo_database_recovery.php?action=remove&file='.$user_file.'&confirm=no','icon no');
-				$template_content .= createButton (DBI_YES,'zo_database_recovery.php?action=remove&file='.$user_file.'&confirm=yes','icon yes');
+				$template_content .= createButton (Z_NO,'z_database_recovery.php?action=remove&file='.$user_file.'&confirm=no','icon no');
+				$template_content .= createButton (Z_YES,'z_database_recovery.php?action=remove&file='.$user_file.'&confirm=yes','icon yes');
 				$template_content .= '</div>';
 			break;
 		}
@@ -95,15 +95,15 @@ switch ($user_action) {
 			while (false !== ($file = readdir($handle))) {
 				if ($file != '.' && $file != '..') {
 					$template_content .= '<li>'.preg_replace($suchmuster, $ersetzung, $file).' '.
-						createSmallButton(DBI_RECOVER,'database_recovery.php?action=recover&file='.$file,'icon recover').
-						createSmallButton(DBI_DELETE,'database_recovery.php?action=remove&file='.$file,'icon delete');
+						createSmallButton(Z_RECOVER,'database_recovery.php?action=recover&file='.$file,'icon recover').
+						createSmallButton(Z_DELETE,'database_recovery.php?action=remove&file='.$file,'icon delete');
 				}
 			}
 			closedir($handle);
 		}
 		$template_content .= '</ul>';
 		$template_content .= '<div class="buttons">';
-		$template_content .= createButton (DBI_OK,'zo_database.php','icon ok');
+		$template_content .= createButton (Z_OK,'z_database.php','icon ok');
 		$template_content .= '</div>';
 	break;
 }
