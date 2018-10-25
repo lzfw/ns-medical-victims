@@ -50,31 +50,27 @@ switch ($_SERVER['SERVER_NAME']) {
 // DATABASE INTERFACE ==========================================================
 
 // language
-define('DBI_LANGUAGE',					'de');
+define('Z_LANGUAGE',				'de');
 
 // webmaster / reporter addresses
-define('DBI_WEBMASTER_MAIL',			'webmaster@example.com');
-define('DBI_WEBMASTER_NAME',			'Webmaster');
-define('DBI_REPORTER_MAIL',				'bot@example.com');
-define('DBI_REPORTER_NAME',				'Report Bot');
+define('Z_WEBMASTER_MAIL',			'webmaster@example.com');
+define('Z_WEBMASTER_NAME',			'Webmaster');
+define('Z_REPORTER_MAIL',			'bot@example.com');
+define('Z_REPORTER_NAME',			'Report Bot');
 
 // symbols
-define('DBI_BREADCRUMB_SYMBOL',			'<span class="pointer" dir="ltr">&#x25ba;</span>'.PHP_EOL);
-define('DBI_SEPARATOR_SYMBOL',			'<span class="separator" dir="ltr">|</span>'.PHP_EOL);
-define('DBI_UP_SYMBOL',					'<span class="pointer" dir="ltr">&#x25b2;</span>');
-define('DBI_DOWN_SYMBOL',				'<span class="pointer" dir="ltr">&#x25bc;</span>');
-define('DBI_FIRST_SYMBOL',				'<span class="pointer" dir="ltr">&#x25c4;</span> ');
-define('DBI_SKIP_BACK_SYMBOL',			'<span class="pointer" dir="ltr">&#x25c4;&#x25c4;</span> ');
-define('DBI_PREVIOUS_SYMBOL',			'<span class="pointer" dir="ltr">&#x25c4;</span> ');
-define('DBI_NEXT_SYMBOL',				'<span class="pointer" dir="ltr">&#x25ba;</span> ');
-define('DBI_SKIP_FORWARD_SYMBOL',		'<span class="pointer" dir="ltr">&#x25ba;&#x25ba;</span> ');
-define('DBI_LAST_SYMBOL',				'<span class="pointer" dir="ltr">&#x25ba;</span> ');
+define('Z_BREADCRUMB_SYMBOL',		'<span class="pointer" dir="ltr">&#x25ba;</span>'.PHP_EOL);
+define('Z_SEPARATOR_SYMBOL',		'<span class="separator" dir="ltr">|</span>'.PHP_EOL);
+define('Z_UP_SYMBOL',				'<span class="pointer" dir="ltr">&#x25b2;</span>');
+define('Z_DOWN_SYMBOL',				'<span class="pointer" dir="ltr">&#x25bc;</span>');
+define('Z_FIRST_SYMBOL',			'<span class="pointer" dir="ltr">&#x25c4;</span> ');
+define('Z_SKIP_BACK_SYMBOL',		'<span class="pointer" dir="ltr">&#x25c4;&#x25c4;</span> ');
+define('Z_PREVIOUS_SYMBOL',			'<span class="pointer" dir="ltr">&#x25c4;</span> ');
+define('Z_NEXT_SYMBOL',				'<span class="pointer" dir="ltr">&#x25ba;</span> ');
+define('Z_SKIP_FORWARD_SYMBOL',		'<span class="pointer" dir="ltr">&#x25ba;&#x25ba;</span> ');
+define('Z_LAST_SYMBOL',				'<span class="pointer" dir="ltr">&#x25ba;</span> ');
 
 // lists
-define('DBI_LIST_ROWS_MAX',				5000);
-define('DBI_LIST_ROWS_PAGE',			20);
-define('DBI_LIST_ROWS_SKIP',			200); // 0 = disabled
-
-// SYMBOLS ==========================================================
-define('Z_SEPARATOR_SYMBOL',			'|');
-
+define('Z_LIST_ROWS_MAX',			5000);
+define('Z_LIST_ROWS_PAGE',			20);
+define('Z_LIST_ROWS_SKIP',			200); // 0 = disabled

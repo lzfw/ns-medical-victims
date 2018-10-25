@@ -34,16 +34,16 @@ if ($item_query = $dbi->connection->query('SELECT * FROM z_users WHERE user_id='
 	}
 }
 
-$dbi->addBreadcrumb (Z_ADMIN,'z_menu_admin');
-$dbi->addBreadcrumb (Z_USER_ACCOUNTS,'z_list_users');
+$dbi->addBreadcrumb (L_ADMIN,'z_menu_admin');
+$dbi->addBreadcrumb (L_USER_ACCOUNTS,'z_list_users');
 
 $layout
-	->set('title',Z_REMOVE_USER_ACCOUNT)
+	->set('title',L_REMOVE_USER_ACCOUNT)
 	->set('content',
-		buildElement('p',Z_REMOVE_USER_ACCOUNT.': "<em>'.$item->name.'</em>". '.Z_ARE_YOU_SURE).
+		buildElement('p',L_REMOVE_USER_ACCOUNT.': "<em>'.$item->name.'</em>". '.L_ARE_YOU_SURE).
 		buildElement('div','buttons',
-			createButton (Z_NO_CANCEL,'z_remove_user?user_id='.$item_id.'&confirm=no','icon no').
-			createButton (Z_YES_CONTINUE,'z_remove_user?user_id='.$item_id.'&confirm=yes','icon yes')
+			createButton (L_NO_CANCEL,'z_remove_user?user_id='.$item_id.'&confirm=no','icon no').
+			createButton (L_YES_CONTINUE,'z_remove_user?user_id='.$item_id.'&confirm=yes','icon yes')
 		)
 	)
 	->cast();

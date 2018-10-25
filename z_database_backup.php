@@ -15,12 +15,12 @@ $template_content = '';
 $template_sidebar = '';
 
 // title
-$template_title = Z_DATABASE_BACKUP;
+$template_title = L_DATABASE_BACKUP;
 
 // breadcrumbs
-$dbi->addBreadcrumb (Z_ADMIN,'z_admin');
-$dbi->addBreadcrumb (Z_DATABASE,'z_database');
-$dbi->addBreadcrumb (Z_DATABASE_BACKUP);
+$dbi->addBreadcrumb (L_ADMIN,'z_admin');
+$dbi->addBreadcrumb (L_DATABASE,'z_database');
+$dbi->addBreadcrumb (L_DATABASE_BACKUP);
 
 // user action
 $action = getUrlParameter('action');
@@ -39,8 +39,8 @@ switch ($action) {
 	default:
 		$template_content .= $dbi->getHelptext_HTML ('database_backup');
 		$template_content .= '<div class="buttons">';
-		$template_content .= createButton (Z_NO_THANKS,'z_database.php','icon no');
-		$template_content .= createButton (Z_DOWNLOAD,'z_database_backup.php?action=backup','icon download');
+		$template_content .= createButton (L_NO_THANKS,'z_database.php','icon no');
+		$template_content .= createButton (L_DOWNLOAD,'z_database_backup.php?action=backup','icon download');
 		$template_content .= '</div>';
 	break;
 

@@ -9,7 +9,7 @@
 				<img src="<?php echo MY_LOGO ?>" alt="<?php echo MY_LOGO_ALT ?>" title="<?php echo MY_LOGO_TITLE ?>">
 			</div> <!-- .right -->
 		</div> <!-- #header -->
-		<div class="bar"><div class="left"><?php echo DBI_HOME ?></div></div>
+		<div class="bar"><div class="left"><?php echo L_HOME ?></div></div>
 		<div id="body">
 			<div id="content">
 				<h2>Maintenance</h2>
@@ -20,7 +20,7 @@
 		</div> <!-- #body -->
 		<div class="bar">
 			<div class="left">
-				<?php echo Z_VERSION; ?>
+				<?php echo L_VERSION; ?>
 			</div> <!-- .left -->
 		</div> <!-- .bar -->
 	</div> <!-- #page -->

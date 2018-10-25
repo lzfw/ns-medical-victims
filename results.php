@@ -91,11 +91,11 @@ $template_content = '';
 $template_sidebar = '';
 
 // title
-$template_title .= Z_RESULTS;
+$template_title .= L_RESULTS;
 
 // breadcrumbs
-$dbi->addBreadcrumb (Z_SEARCH,'search.php');
-$dbi->addBreadcrumb (Z_RESULTS);
+$dbi->addBreadcrumb (L_SEARCH,'search.php');
+$dbi->addBreadcrumb (L_RESULTS);
 
 // content
 $template_content .= '<p><em>';
@@ -107,11 +107,11 @@ $template_content .= '</em></p>';
 
 $template_content .= $dbi->getListView('gga_wordsbyquery',$words_query);
 $template_content .= '<div class="buttons">';
-$template_content .= createButton (Z_MODIFY_SEARCH,'search.php?'.$dbi->getUserVar('querystring'),'icon search');
-$template_content .= createButton (Z_NEW_SEARCH,'search.php','icon search');
+$template_content .= createButton (L_MODIFY_SEARCH,'search.php?'.$dbi->getUserVar('querystring'),'icon search');
+$template_content .= createButton (L_NEW_SEARCH,'search.php','icon search');
 $template_content .= '</div>';
 
-$template_sidebar = '<h3>'.Z_HELP.'</h3>';
+$template_sidebar = '<h3>'.L_HELP.'</h3>';
 $template_sidebar .= $dbi->getHelptext_HTML ('results');
 
 // call template

@@ -6,7 +6,7 @@ require_once 'zefiro/ini.php';
 
 $dbi->requireUserPermission ('admin');
 
-$dbi->addBreadcrumb (Z_ADMIN,'z_menu_admin.php');
+$dbi->addBreadcrumb (L_ADMIN,'z_menu_admin.php');
 
 // query
 $remote_querystring = "SELECT * FROM z_users WHERE remote <> '' ORDER BY name";
@@ -15,9 +15,9 @@ $remote_query = $dbi->connection->query($remote_querystring);
 // content
 $content = '';
 $content .= '<table class="grid">';
-$content .= '<tr><th>'.Z_USER_DISPLAY_NAME.'</th><th>'.Z_USER_NAME.'</th><th>'.Z_IP_ADDRESS.'</th><th>'.Z_USER_GROUP.'</th><th>'.Z_USER_PERMISSIONS.'</th>';
+$content .= '<tr><th>'.L_USER_DISPLAY_NAME.'</th><th>'.L_USER_NAME.'</th><th>'.L_IP_ADDRESS.'</th><th>'.L_USER_GROUP.'</th><th>'.L_USER_PERMISSIONS.'</th>';
 if ($dbi->checkUserPermission('system')) {
-	$content .= '<th>'.Z_OPTIONS.'</th>';
+	$content .= '<th>'.L_OPTIONS.'</th>';
 }
 $content .= '</tr>';
 while ($remote = $remote_query->fetch_object()) {
@@ -29,22 +29,22 @@ while ($remote = $remote_query->fetch_object()) {
 	$content .= "<td>$remote->permissions</td>";
 	if ($dbi->checkUserPermission('system')) {
 		$content .= '<td class="nowrap">'.
-			createSmallButton(Z_EDIT,'z_edit_remote.php?user_id='.$remote->user_id,'icon edit').
-			createSmallButton(Z_DELETE,'z_remove_remote.php?user_id='.$remote->user_id,'icon delete').
+			createSmallButton(L_EDIT,'z_edit_remote.php?user_id='.$remote->user_id,'icon edit').
+			createSmallButton(L_DELETE,'z_remove_remote.php?user_id='.$remote->user_id,'icon delete').
 			"</td>";
 	}
 	$content .= '</tr>';
 }
-$content .= '<tr><td>('.Z_CURRENT.')</td><td>&ndash;</td><td>'.$_SERVER['REMOTE_ADDR'].'</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>';
+$content .= '<tr><td>('.L_CURRENT.')</td><td>&ndash;</td><td>'.$_SERVER['REMOTE_ADDR'].'</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>';
 $content .= '</table>';
 if ($dbi->checkUserPermission('system')) {
 	$content .= '<div class="buttons">';
-	$content .= createButton (Z_NEW_REMOTE_ACCESS,'z_edit_remote.php','icon addRemote');
+	$content .= createButton (L_NEW_REMOTE_ACCESS,'z_edit_remote.php','icon addRemote');
 	$content .= '</div>';
 }
-$content .= createBackLink (Z_ADMIN,'z_menu_admin.php');
+$content .= createBackLink (L_ADMIN,'z_menu_admin.php');
 
 $layout
-	->set('title',Z_REMOTE_ACCESS)
+	->set('title',L_REMOTE_ACCESS)
 	->set('content',$content)
 	->cast();

@@ -11,7 +11,7 @@ require_once 'dbi_error_sendmail.php';
 $dbi->setUserVar ('view',getUrlParameter('view'),'default');
 
 // title
-$template_title = Z_ERROR_404;
+$template_title = L_ERROR_404;
 
 // content
 $template_content = $dbi->getHelptext_HTML('error_404');

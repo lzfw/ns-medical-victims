@@ -10,7 +10,7 @@ $form
 	->setLabel(NO_LABEL);
 
 $form->addField ('filename',UPLOAD,3000,ALL_FILETYPES,REQUIRED,'images/')
-	->setLabel (EJK_FILE);
+	->setLabel (L_FILE);
 
 $form
 	->addButton (BACK)
@@ -21,9 +21,9 @@ $form
 	->addAction (REDIRECT,'ejk_contents.php');
 
 if (getUrlParameter('image_filename'))
-	$template_title = EJK_EDIT_FILE;
+	$template_title = L_EDIT_FILE;
 else
-	$template_title = EJK_NEW_FILE;
+	$template_title = L_NEW_FILE;
 
 // content
 $template_content = '';

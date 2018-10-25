@@ -23,7 +23,7 @@ class DBI {
 	public function __construct ($db_host,$db_user,$db_pass,$db_name) {
 	    $this->connection = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
 	    if ($this->connection->connect_error) {
-			echo Z_ERROR_CONNECTION;
+			echo L_ERROR_CONNECTION;
 			die;
 		} else {
 		    $this->connection->set_charset('utf8');
@@ -109,7 +109,7 @@ class DBI {
 			$this->addBreadcrumb($GLOBALS['layout']->get('title'));
 		}
 		$html = NULL;
-		$html .= '<a href="./">'.Z_HOME.'</a>';
+		$html .= '<a href="./">'.L_HOME.'</a>';
 		foreach($this->breadcrumbs as $index => $crumb) {
 			switch (count($crumb)) {
 				case 1:
@@ -150,10 +150,10 @@ class DBI {
 	public function addLoginOption () {
 		if (!isServerScriptName('z_login.php') && !isServerScriptName('z_logout.php')) {
 			if (isset($_SESSION[Z_SESSION_NAME]['user']) && isset($_SESSION[Z_SESSION_NAME]['user']['name']) && isset($_SESSION[Z_SESSION_NAME]['user']['password'])) {
-				$this->addOption (Z_LOGOUT,'z_logout','logout');
+				$this->addOption (L_LOGOUT,'z_logout','logout');
 			}
 			else {
-				$this->addOption (Z_LOGIN,'z_login','login');
+				$this->addOption (L_LOGIN,'z_login','login');
 			}
 		}
 	}
@@ -204,12 +204,12 @@ class DBI {
 			if ($textblock->title) $html .= '<h4>'.$textblock->title.'</h4>'.PHP_EOL;
 			$html .= SimpleMarkup_HTML($textblock->content);
 			if ($this->checkUserPermission($textblock->permission)) {
-				$html .= '<p>'.createSmallButton(Z_EDIT,'z_edit_textblock?textblock_id='.$textblock->textblock_id,'icon edit').'</p>'.PHP_EOL;
+				$html .= '<p>'.createSmallButton(L_EDIT,'z_edit_textblock?textblock_id='.$textblock->textblock_id,'icon edit').'</p>'.PHP_EOL;
 			}
 		}
 		else {
 			if ($this->checkUserPermission('system')) {
-				$html .= '<p>'.createSmallButton(Z_NEW_TEXTBLOCK,'z_edit_textblock?name='.$name,'icon addTextblock').'</p>'.PHP_EOL;
+				$html .= '<p>'.createSmallButton(L_NEW_TEXTBLOCK,'z_edit_textblock?name='.$name,'icon addTextblock').'</p>'.PHP_EOL;
 			}
 		}
 		return $html;

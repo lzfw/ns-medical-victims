@@ -7,12 +7,12 @@ require_once 'zefiro/ini.php';
 $dbi->requireUserPermission ('system');
 
 // title
-$template_title = Z_DATABASE_STATUS;
+$template_title = L_DATABASE_STATUS;
 
 // breadcrumbs
-$dbi->addBreadcrumb (Z_ADMIN,'z_admin.php');
-$dbi->addBreadcrumb (Z_DATABASE,'z_database.php');
-$dbi->addBreadcrumb (Z_DATABASE_STATUS);
+$dbi->addBreadcrumb (L_ADMIN,'z_admin.php');
+$dbi->addBreadcrumb (L_DATABASE,'z_database.php');
+$dbi->addBreadcrumb (L_DATABASE_STATUS);
 
 // status query
 $querystring = "
@@ -23,11 +23,11 @@ $querystring = "
 
 $query = $dbi->connection->query($querystring);
 if (!$query) {
-    return Z_ERROR_ABORTED;
+    return L_ERROR_ABORTED;
 }
 $totals = array();
 while ($fetch = $query->fetch_object()) {
-	$totals[] = number_format($fetch->total,0,Z_DECIMAL_SEPARATOR,Z_THOUSANDS_SEPARATOR);
+	$totals[] = number_format($fetch->total,0,L_DECIMAL_SEPARATOR,L_THOUSANDS_SEPARATOR);
 }
 
 // content
@@ -39,7 +39,7 @@ $template_content .= '<tr><td>my item 3</td><td class="align-right">'.$totals[2]
 $template_content .= '</table>';
 
 $template_content .= '<div class="buttons">';
-$template_content .= createButton (Z_OK,'z_database.php','icon ok');
+$template_content .= createButton (L_OK,'z_database.php','icon ok');
 $template_content .= '</div>';
 
 // sidebar

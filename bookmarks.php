@@ -25,10 +25,10 @@ $template_content = '';
 $template_sidebar = '';
 
 // title
-$template_title .= Z_BOOKMARKS;
+$template_title .= L_BOOKMARKS;
 
 // breadcrumbs
-$dbi->addBreadcrumb (Z_BOOKMARKS,'bookmarks.php');
+$dbi->addBreadcrumb (L_BOOKMARKS,'bookmarks.php');
 
 // user action
 switch ($dbi->getUserVar('action')) {
@@ -60,10 +60,10 @@ switch ($dbi->getUserVar('action')) {
 	break;
 
 	case 'dump':
-		$dbi->addBreadcrumb (Z_DUMP_BOOKMARKS);
+		$dbi->addBreadcrumb (L_DUMP_BOOKMARKS);
 		// REMOVE ALL WORDS FROM BOOKMARKS
 		$_SESSION[BOOKMARKS] = array();
-		$template_content .= '<p>'.Z_BOOKMARKS_DUMPED.'</p>';
+		$template_content .= '<p>'.L_BOOKMARKS_DUMPED.'</p>';
 	break;
 
 	default:
@@ -84,11 +84,11 @@ switch ($dbi->getUserVar('action')) {
 			// LIST
 			$template_content .= $dbi->getListView ('gga_wordsbyquery',$bookmarks_query);
 			// OPTIONS
-			$dbi->addOption (Z_SEND_BOOKMARKS,'bookmarks_sendmail.php','icon sendBookmarks');
-			$dbi->addOption (Z_DUMP_BOOKMARKS,"?action=dump",'icon dumpBookmarks');
+			$dbi->addOption (L_SEND_BOOKMARKS,'bookmarks_sendmail.php','icon sendBookmarks');
+			$dbi->addOption (L_DUMP_BOOKMARKS,"?action=dump",'icon dumpBookmarks');
 		}
 		else {
-			$template_content .= '<p>'.Z_BOOKMARKS_EMPTY.'</p>'.PHP_EOL;
+			$template_content .= '<p>'.L_BOOKMARKS_EMPTY.'</p>'.PHP_EOL;
 		}
 		$template_content .= createHomeLink();
 	break;
@@ -102,7 +102,7 @@ if ($dbi->getUserVar('return') == 'yes') {
 
 // sidebar
 $template_sidebar .= $dbi->getRubrics_HTML ();
-$template_sidebar .= '<h3>'.Z_HELP.'</h3>';
+$template_sidebar .= '<h3>'.L_HELP.'</h3>';
 $template_sidebar .= $dbi->getHelptext_HTML ('bookmarks');
 $template_sidebar .= $dbi->getReferences_HTML ();
 

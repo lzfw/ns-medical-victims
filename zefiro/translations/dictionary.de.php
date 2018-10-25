@@ -7,201 +7,201 @@ setlocale (LC_ALL,'de_DE@euro','de_DE','de','ge');
 
 // ZEFIRO FRAMEWORK -----------------------------------------------------------
 
-define('Z_ERROR_404',					'Fehler 404');
-define('Z_LANGUAGE',					'Sprache');
-define('Z_SITE_CONTACT',				'Kontakt');
-define('Z_SITE_NOTICE',					'Impressum');
-define('Z_PRINT',						'Drucken');
-define('Z_PRINTABLE_PAGE',				'Druckansicht');
-define('Z_VERSION',						'Zefiro 4.0.0');
+define('L_ERROR_404',					'Fehler 404');
+define('L_LANGUAGE',					'Sprache');
+define('L_SITE_CONTACT',				'Kontakt');
+define('L_SITE_NOTICE',					'Impressum');
+define('L_PRINT',						'Drucken');
+define('L_PRINTABLE_PAGE',				'Druckansicht');
+define('L_VERSION',						'Zefiro 4.0.0');
 
 // general phrases ------------------------------------------------------------
 
-define('Z_HOME',						'Startseite');
-define('Z_CONTACT',						'Kontakt');
-define('Z_EMAIL',						'E-Mail');
-define('Z_COMMENT',						'Kommentar');
-define('Z_FORMAT',						'Format');
+define('L_HOME',						'Startseite');
+define('L_CONTACT',						'Kontakt');
+define('L_EMAIL',						'E-Mail');
+define('L_COMMENT',						'Kommentar');
+define('L_FORMAT',						'Format');
 
-define('Z_SEARCH',						'Suche');
-define('Z_QUICK_SEARCH',				'Schnellsuche');
-define('Z_ADVANCED_SEARCH',				'Erweiterte Suche');
-define('Z_MODIFY_SEARCH',				'Suche verändern');
-define('Z_NEW_SEARCH',					'Neue Suche');
+define('L_SEARCH',						'Suche');
+define('L_QUICK_SEARCH',				'Schnellsuche');
+define('L_ADVANCED_SEARCH',				'Erweiterte Suche');
+define('L_MODIFY_SEARCH',				'Suche verändern');
+define('L_NEW_SEARCH',					'Neue Suche');
 
 // list browser ---------------------------------------------------------------
 
-define('Z_RESULTS_NEXT',				'nächste ');
-define('Z_RESULTS_PREVIOUS',			'vorige ');
-define('Z_RESULTS_FIRST',				'Anfang');
-define('Z_RESULTS_LAST',				'Ende');
-define('Z_OF_TOTAL_RESULTS',			'von');
-define('Z_RESULTS_ORDER',				'Reihenfolge');
-define('Z_RESULTS',						'Ergebnisse');
-define('Z_NO_RESULTS',					'Die Anfrage ergab keine Ergebnisse.');
-define('Z_ERROR_QUERY',					'Die Anfrage konnte nicht ausgeführt werden.');
+define('L_RESULTS_NEXT',				'nächste ');
+define('L_RESULTS_PREVIOUS',			'vorige ');
+define('L_RESULTS_FIRST',				'Anfang');
+define('L_RESULTS_LAST',				'Ende');
+define('L_OF_TOTAL_RESULTS',			'von');
+define('L_RESULTS_ORDER',				'Reihenfolge');
+define('L_RESULTS',						'Ergebnisse');
+define('L_NO_RESULTS',					'Die Anfrage ergab keine Ergebnisse.');
+define('L_ERROR_QUERY',					'Die Anfrage konnte nicht ausgeführt werden.');
 
 // browsing -------------------------------------------------------------------
 
-define('Z_FORWARD',						'vor');
-define('Z_BACK',						'zurück');
+define('L_FORWARD',						'vor');
+define('L_BACK',						'zurück');
 
 // bookmarks ------------------------------------------------------------------
 
-define('Z_BOOKMARK',					'Lesezeichen');
-define('Z_BOOKMARKS',					'Lesezeichen');
-define('Z_BOOKMARKS_EMPTY',				'Momentan sind keine Lesezeichen auf der Liste.');
-define('Z_BOOKMARKS_DUMPED',			'Alle Lesezeichen wurden entfernt.');
-define('Z_VIEW_BOOKMARKS',				'Lesezeichen öffnen');
-define('Z_ADD_BOOKMARK',				'Lesezeichen hinzufügen');
-define('Z_REMOVE_BOOKMARK',				'Lesezeichen entfernen');
-define('Z_SEND_BOOKMARKS',				'Lesezeichen versenden');
-define('Z_DUMP_BOOKMARKS',				'Alle Lesezeichen entfernen');
-define('Z_BOOKMARKS_ASK_EMAIL',			'Bitte geben Sie die E-Mail-Adresse des Empfängers ein.');
+define('L_BOOKMARK',					'Lesezeichen');
+define('L_BOOKMARKS',					'Lesezeichen');
+define('L_BOOKMARKS_EMPTY',				'Momentan sind keine Lesezeichen auf der Liste.');
+define('L_BOOKMARKS_DUMPED',			'Alle Lesezeichen wurden entfernt.');
+define('L_VIEW_BOOKMARKS',				'Lesezeichen öffnen');
+define('L_ADD_BOOKMARK',				'Lesezeichen hinzufügen');
+define('L_REMOVE_BOOKMARK',				'Lesezeichen entfernen');
+define('L_SEND_BOOKMARKS',				'Lesezeichen versenden');
+define('L_DUMP_BOOKMARKS',				'Alle Lesezeichen entfernen');
+define('L_BOOKMARKS_ASK_EMAIL',			'Bitte geben Sie die E-Mail-Adresse des Empfängers ein.');
 
 // user authentication --------------------------------------------------------
 
-define('Z_LOGIN',						'Login');
-define('Z_LOGOUT',						'Logout');
-define('Z_LOGIN_PROMPT',				'Bitte geben Sie Ihren Benutzernamen und Ihr Passwort ein.');
-define('Z_INVALID_LOGIN',				'Ungültiger Login. Bitte überprüfen Sie die Angaben.');
-define('Z_LOGGED_OUT',					'Ihre Sitzung wurde beendet.');
-define('Z_AUTHENTICATED_AS',			'angemeldet als');
+define('L_LOGIN',						'Login');
+define('L_LOGOUT',						'Logout');
+define('L_LOGIN_PROMPT',				'Bitte geben Sie Ihren Benutzernamen und Ihr Passwort ein.');
+define('L_INVALID_LOGIN',				'Ungültiger Login. Bitte überprüfen Sie die Angaben.');
+define('L_LOGGED_OUT',					'Ihre Sitzung wurde beendet.');
+define('L_AUTHENTICATED_AS',			'angemeldet als');
 
 // user permissions -----------------------------------------------------------
 
-define('Z_PERMISSION_REQUIRED',			'Berechtigung erforderlich');
-define('Z_PERMISSIONS_INSUFFICIENT',	'Sie haben keine ausreichende Berechtigung, diese Seite aufzurufen.');
-define('Z_LOGIN_OR_GO_HOME',			'Bitte loggen Sie sich ein oder kehren Sie zur Startseite zurück.');
-define('Z_RELOGIN_OR_GO_HOME',			'Bitte loggen Sie sich mit einem anderen Account ein, welches über diese Berechtigungen verfügt, oder kehren Sie zur Startseite zurück.');
+define('L_PERMISSION_REQUIRED',			'Berechtigung erforderlich');
+define('L_PERMISSIONS_INSUFFICIENT',	'Sie haben keine ausreichende Berechtigung, diese Seite aufzurufen.');
+define('L_LOGIN_OR_GO_HOME',			'Bitte loggen Sie sich ein oder kehren Sie zur Startseite zurück.');
+define('L_RELOGIN_OR_GO_HOME',			'Bitte loggen Sie sich mit einem anderen Account ein, welches über diese Berechtigungen verfügt, oder kehren Sie zur Startseite zurück.');
 
 // admin tools ----------------------------------------------------------------
 
-define('Z_ADMIN',						'Systemsteuerung');
-define('Z_DATABASE',					'Datenbank');
-define('Z_DATABASE_STATUS',				'Status');
-define('Z_DATABASE_MAINTENANCE',		'Wartungsaufgaben');
-define('Z_DATABASE_OPTIMIZE',			'Optimieren');
-define('Z_DATABASE_NO_TASKS',			'Es stehen keine Wartungsaufgaben an.');
-define('Z_DATABASE_IMPORT',				'Import');
-define('Z_DATABASE_IMPORT_OK',			'Der Import der Daten ist abgeschlossen.');
-define('Z_DATABASE_BACKUP',				'Sicherung');
-define('Z_DATABASE_BACKUP_OK',			'Eine Sicherung der Daten wurde erstellt.');
-define('Z_DATABASE_RECOVERY',			'Wiederherstellung');
-define('Z_DATABASE_RECOVERY_OK',		'Die Wiederherstellung der Daten ist abgeschlossen.');
+define('L_ADMIN',						'Systemsteuerung');
+define('L_DATABASE',					'Datenbank');
+define('L_DATABASE_STATUS',				'Status');
+define('L_DATABASE_MAINTENANCE',		'Wartungsaufgaben');
+define('L_DATABASE_OPTIMIZE',			'Optimieren');
+define('L_DATABASE_NO_TASKS',			'Es stehen keine Wartungsaufgaben an.');
+define('L_DATABASE_IMPORT',				'Import');
+define('L_DATABASE_IMPORT_OK',			'Der Import der Daten ist abgeschlossen.');
+define('L_DATABASE_BACKUP',				'Sicherung');
+define('L_DATABASE_BACKUP_OK',			'Eine Sicherung der Daten wurde erstellt.');
+define('L_DATABASE_RECOVERY',			'Wiederherstellung');
+define('L_DATABASE_RECOVERY_OK',		'Die Wiederherstellung der Daten ist abgeschlossen.');
 
 // user accounts --------------------------------------------------------------
 
-define('Z_USERS',						'Nutzer');
-define('Z_USER_ACCOUNT',				'Nutzerkonto');
-define('Z_USER_ACCOUNTS',				'Nutzerkonten');
-define('Z_NEW_USER_ACCOUNT',			'Neues Nutzerkonto');
-define('Z_EDIT_USER_ACCOUNT',			'Nutzerkonto bearbeiten');
-define('Z_REMOVE_USER_ACCOUNT',			'Nutzerkonto entfernen');
+define('L_USERS',						'Nutzer');
+define('L_USER_ACCOUNT',				'Nutzerkonto');
+define('L_USER_ACCOUNTS',				'Nutzerkonten');
+define('L_NEW_USER_ACCOUNT',			'Neues Nutzerkonto');
+define('L_EDIT_USER_ACCOUNT',			'Nutzerkonto bearbeiten');
+define('L_REMOVE_USER_ACCOUNT',			'Nutzerkonto entfernen');
 
-define('Z_REMOTE_ACCESS',				'Remotezugriff');
-define('Z_REMOTE_ACCESSES',				'Remotezugriffe');
-define('Z_NEW_REMOTE_ACCESS',			'Neuer Remotezugriff');
-define('Z_EDIT_REMOTE_ACCESS',			'Remotezugriff bearbeiten');
-define('Z_REMOVE_REMOTE_ACCESS',		'Remotezugriff entfernen');
+define('L_REMOTE_ACCESS',				'Remotezugriff');
+define('L_REMOTE_ACCESSES',				'Remotezugriffe');
+define('L_NEW_REMOTE_ACCESS',			'Neuer Remotezugriff');
+define('L_EDIT_REMOTE_ACCESS',			'Remotezugriff bearbeiten');
+define('L_REMOVE_REMOTE_ACCESS',		'Remotezugriff entfernen');
 
-define('Z_IP_ADDRESS',					'IP-Addresss');
-define('Z_CURRENT',						'derzeit');
+define('L_IP_ADDRESS',					'IP-Addresss');
+define('L_CURRENT',						'derzeit');
 
-define('Z_USER_NAME',					'Login-Name');
-define('Z_USER_DISPLAY_NAME',			'Anzeigename');
-define('Z_USER_ORDER_NAME',				'Sortiername');
-define('Z_USER_PASSWORD',				'Passwort');
-define('Z_USER_GROUP',					'Gruppe');
-define('Z_USER_PERMISSIONS',			'Berechtigungen');
-define('Z_USER_PROFILE',				'Profil');
-define('Z_USER_PROFILE_HIDE',			'verstecken');
+define('L_USER_NAME',					'Login-Name');
+define('L_USER_DISPLAY_NAME',			'Anzeigename');
+define('L_USER_ORDER_NAME',				'Sortiername');
+define('L_USER_PASSWORD',				'Passwort');
+define('L_USER_GROUP',					'Gruppe');
+define('L_USER_PERMISSIONS',			'Berechtigungen');
+define('L_USER_PROFILE',				'Profil');
+define('L_USER_PROFILE_HIDE',			'verstecken');
 
 // help -----------------------------------------------------------------------
 
-define('Z_HELP',						'Hilfe');
-define('Z_HELPTEXT',					'Hilfetext');
-define('Z_HELPTEXTS',					'Hilfetexte');
-define('Z_NEW_HELPTEXT',				'Neuer Hilfetext');
-define('Z_ADD_HELPTEXT',				'Hilfetext hinzufügen');
-define('Z_EDIT_HELPTEXT',				'Hilfetext bearbeiten');
-define('Z_REMOVE_HELPTEXT',				'Hilfetext entfernen');
+define('L_HELP',						'Hilfe');
+define('L_HELPTEXT',					'Hilfetext');
+define('L_HELPTEXTS',					'Hilfetexte');
+define('L_NEW_HELPTEXT',				'Neuer Hilfetext');
+define('L_ADD_HELPTEXT',				'Hilfetext hinzufügen');
+define('L_EDIT_HELPTEXT',				'Hilfetext bearbeiten');
+define('L_REMOVE_HELPTEXT',				'Hilfetext entfernen');
 
-define('Z_HELPTEXT_NAME',				'Name');
-define('Z_HELPTEXT_PERMISSION',			'Änderungsrechte');
-define('Z_HELPTEXT_TITLE',				'Titel');
-define('Z_HELPTEXT_CONTENT',			'Inhalt');
+define('L_HELPTEXT_NAME',				'Name');
+define('L_HELPTEXT_PERMISSION',			'Änderungsrechte');
+define('L_HELPTEXT_TITLE',				'Titel');
+define('L_HELPTEXT_CONTENT',			'Inhalt');
 
 // content management ---------------------------------------------------------
 
-define('Z_CONTENTS',					'Inhaltsverwaltung');
+define('L_CONTENTS',					'Inhaltsverwaltung');
 
-define('Z_TEXTBLOCK',					'Textblock');
-define('Z_TEXTBLOCKS',					'Textblöcke');
-define('Z_NEW_TEXTBLOCK',				'Neuer Textblock');
-define('Z_ADD_TEXTBLOCK',				'Textblock hinzufügen');
-define('Z_EDIT_TEXTBLOCK',				'Textblock bearbeiten');
-define('Z_REMOVE_TEXTBLOCK',			'Textblock entfernen');
+define('L_TEXTBLOCK',					'Textblock');
+define('L_TEXTBLOCKS',					'Textblöcke');
+define('L_NEW_TEXTBLOCK',				'Neuer Textblock');
+define('L_ADD_TEXTBLOCK',				'Textblock hinzufügen');
+define('L_EDIT_TEXTBLOCK',				'Textblock bearbeiten');
+define('L_REMOVE_TEXTBLOCK',			'Textblock entfernen');
 
-define('Z_TEXTBLOCK_NAME',				'Name');
-define('Z_TEXTBLOCK_PERMISSION',		'Änderungsrechte');
-define('Z_TEXTBLOCK_TITLE',				'Titel');
-define('Z_TEXTBLOCK_CONTENT',			'Inhalt');
+define('L_TEXTBLOCK_NAME',				'Name');
+define('L_TEXTBLOCK_PERMISSION',		'Änderungsrechte');
+define('L_TEXTBLOCK_TITLE',				'Titel');
+define('L_TEXTBLOCK_CONTENT',			'Inhalt');
 
 // images ---------------------------------------------------------------------
 
-define('Z_IMAGE',						'Bild');
-define('Z_IMAGES',						'Bilder');
-define('Z_UPLOAD_IMAGE',				'Bild hochladen');
-define('Z_UPLOAD_IMAGES',				'Bilder hochladen');
+define('L_IMAGE',						'Bild');
+define('L_IMAGES',						'Bilder');
+define('L_UPLOAD_IMAGE',				'Bild hochladen');
+define('L_UPLOAD_IMAGES',				'Bilder hochladen');
 
 // interface ------------------------------------------------------------------
 
-define('Z_OPTIONS',						'Optionen');
-define('Z_NEW',							'neu erstellen');
-define('Z_ADD',							'hinzufügen');
-define('Z_EDIT',						'bearbeiten');
-define('Z_REMOVE',						'entfernen');
-define('Z_RECOVER',						'wiederherstellen');
-define('Z_DELETE',						'löschen');
+define('L_OPTIONS',						'Optionen');
+define('L_NEW',							'neu erstellen');
+define('L_ADD',							'hinzufügen');
+define('L_EDIT',						'bearbeiten');
+define('L_REMOVE',						'entfernen');
+define('L_RECOVER',						'wiederherstellen');
+define('L_DELETE',						'löschen');
 
-define('Z_ARE_YOU_SURE',				'Sind Sie sicher?');
-define('Z_YES_CONTINUE',				'Ja, weiter');
-define('Z_NO_CANCEL',					'Nein, halt');
+define('L_ARE_YOU_SURE',				'Sind Sie sicher?');
+define('L_YES_CONTINUE',				'Ja, weiter');
+define('L_NO_CANCEL',					'Nein, halt');
 
-define('Z_YES',							'Ja');
-define('Z_NO',							'Nein');
-define('Z_NO_THANKS',					'Nein, danke');
-define('Z_OK',							'OK');
-define('Z_CANCEL',						'Abbrechen');
-define('Z_START',						'Start');
-define('Z_CONTINUE',					'Weiter');
-define('Z_FINISH',						'Fertigstellen');
+define('L_YES',							'Ja');
+define('L_NO',							'Nein');
+define('L_NO_THANKS',					'Nein, danke');
+define('L_OK',							'OK');
+define('L_CANCEL',						'Abbrechen');
+define('L_START',						'Start');
+define('L_CONTINUE',					'Weiter');
+define('L_FINISH',						'Fertigstellen');
 
-define('Z_DOWNLOAD',					'Download');
+define('L_DOWNLOAD',					'Download');
 
 // data history ---------------------------------------------------------------
 
-define('Z_DATASET',						'Datensatz');
-define('Z_DATETIME_FORMAT',				'd.m.Y H:i');
-define('Z_DATE_FORMAT',					'd.m.Y');
-define('Z_YEAR_MONTH_FORMAT',			'M Y');
-define('Z_YEAR_FORMAT',					'Y');
-define('Z_DECIMAL_SEPARATOR',			',');
-define('Z_THOUSANDS_SEPARATOR',			'.');
-define('Z_STAMP_CREATED',				'erstellt');
-define('Z_STAMP_MODIFIED',				'bearbeitet');
-define('Z_STAMP_ON_DATE',				' am ');
-define('Z_STAMP_BY_USER',				' von ');
+define('L_DATASET',						'Datensatz');
+define('L_DATETIME_FORMAT',				'd.m.Y H:i');
+define('L_DATE_FORMAT',					'd.m.Y');
+define('L_YEAR_MONTH_FORMAT',			'M Y');
+define('L_YEAR_FORMAT',					'Y');
+define('L_DECIMAL_SEPARATOR',			',');
+define('L_THOUSANDS_SEPARATOR',			'.');
+define('L_STAMP_CREATED',				'erstellt');
+define('L_STAMP_MODIFIED',				'bearbeitet');
+define('L_STAMP_ON_DATE',				' am ');
+define('L_STAMP_BY_USER',				' von ');
 
 // errors ---------------------------------------------------------------------
 
-define('Z_SUCCESSFUL',					'erfolgreich');
-define('Z_FAILED',						'fehlgeschlagen');
+define('L_SUCCESSFUL',					'erfolgreich');
+define('L_FAILED',						'fehlgeschlagen');
 
-define('Z_ERROR',						'Fehler');
-define('Z_ERROR_INVALID_ID',			'Die übergebene ID ist ungültig.');
-define('Z_ERROR_ABORTED',				'Ein Fehler ist aufgetreten. Der Vorgang wurde abgebrochen.');
-define('Z_ERROR_CONNECTION',			'Die Verbindung zur Datenbank konnte nicht hergestellt werden.');
+define('L_ERROR',						'Fehler');
+define('L_ERROR_INVALID_ID',			'Die übergebene ID ist ungültig.');
+define('L_ERROR_ABORTED',				'Ein Fehler ist aufgetreten. Der Vorgang wurde abgebrochen.');
+define('L_ERROR_CONNECTION',			'Die Verbindung zur Datenbank konnte nicht hergestellt werden.');
 
 ?>
