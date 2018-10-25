@@ -16,13 +16,13 @@
 				<span id="breadcrumbs"><?php echo $dbi->getBreadcrumbs_HTML(); ?></span>
 			</div> <!-- .left -->
 			<div class="right">
-				<span id="print"><a href="<?php echo $_SERVER['REQUEST_URI'].'?'.($_SERVER['QUERY_STRING']?$_SERVER['QUERY_STRING'].'&':'') ?>view=print"><?php echo Z_PRINTABLE_PAGE ?></a></span>
+				<span id="print"><a href="<?php echo $_SERVER['REQUEST_URI'].'?'.($_SERVER['QUERY_STRING']?$_SERVER['QUERY_STRING'].'&':'') ?>view=print"><?php echo L_PRINTABLE_PAGE ?></a></span>
 				<?php echo Z_SEPARATOR_SYMBOL ?>
 				<span id="languages">
-				<?php echo Z_LANGUAGE.': ' ?>
+				<?php echo L_LANGUAGE.': ' ?>
 				<?php
 					$languages_html = array();
-					foreach ($GLOBALS['zefiroLanguages'] as $languageName => $languageTitle) {
+					foreach ($GLOBALS['z_languages'] as $languageName => $languageTitle) {
 						$languagesHtml[] = '<a href="z_actions?action=setLanguage&language='.$languageName.'" title="'.$languageTitle.'">'.$languageName.'</a>';
 					}
 					echo implode(' ',$languagesHtml)
@@ -34,24 +34,24 @@
 			<?php
 			// search
 			if (!isServerScriptName('search.php') && !isServerScriptName('results.php')) {
-				$dbi->addOption (Z_SEARCH,'search','icon search');
+				$dbi->addOption (L_SEARCH,'search','icon search');
 			}
 			if (isServerScriptName('results.php')) {
-				$dbi->addOption (Z_MODIFY_SEARCH,'search?'.$dbi->getUserVar('querystring'),'icon search');
+				$dbi->addOption (L_MODIFY_SEARCH,'search?'.$dbi->getUserVar('querystring'),'icon search');
 			}
 			// bookmarks
 			if (basename($_SERVER['SCRIPT_NAME']) != 'bookmarks') {
 				if (count($_SESSION[Z_SESSION_NAME]['bookmarks'])>0)
-					$dbi->addOption (Z_BOOKMARKS,'bookmarks','icon bookmarks');
+					$dbi->addOption (L_BOOKMARKS,'bookmarks','icon bookmarks');
 				else
-					$dbi->addOption (Z_BOOKMARKS,'bookmarks','icon bookmarksEmpty');
+					$dbi->addOption (L_BOOKMARKS,'bookmarks','icon bookmarksEmpty');
 			}
 			// admin
 			if ($dbi->checkUserPermission('edit') && !isServerScriptName('z_menu_contents.php')) {
-				$dbi->addOption (Z_CONTENTS,'z_menu_contents','icon contents');
+				$dbi->addOption (L_CONTENTS,'z_menu_contents','icon contents');
 			}
 			if ($dbi->checkUserPermission('admin') && !isServerScriptName('z_menu_admin.php')) {
-				$dbi->addOption (Z_ADMIN,'z_menu_admin','icon admin');
+				$dbi->addOption (L_ADMIN,'z_menu_admin','icon admin');
 			}
 			// authentication
 			$dbi->addLoginOption();
@@ -70,14 +70,14 @@
 		<div class="bar">
 			<div class="left">
 				<?php
-					echo Z_VERSION;
-					if ($dbi->user) echo ' - '.Z_AUTHENTICATED_AS.' <b>'.$dbi->user['display_name'].'</b>';
+					echo L_VERSION;
+					if ($dbi->user) echo ' - '.L_AUTHENTICATED_AS.' <b>'.$dbi->user['display_name'].'</b>';
 				?>
 			</div> <!-- .left -->
 			<div class="right">
-				<a href="contact"><?php echo Z_SITE_CONTACT ?></a>
+				<a href="contact"><?php echo L_SITE_CONTACT ?></a>
 				<?php echo Z_SEPARATOR_SYMBOL ?>
-				<a href="notice"><?php echo Z_SITE_NOTICE ?></a>
+				<a href="notice"><?php echo L_SITE_NOTICE ?></a>
 			</div> <!-- .right -->
 		</div> <!-- .bar -->
 	</div> <!-- #page -->

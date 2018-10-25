@@ -7,7 +7,7 @@ require_once 'zefiro/ini.php';
 $dbi->setUserVar ('view',getUrlParameter('view'),'default');
 
 $layout
-	->set('title',Z_SITE_NOTICE)
+	->set('title',L_SITE_NOTICE)
 	->set('content',
 		$dbi->getTextblock_HTML ('notice')
 		.createHomeLink()

@@ -6,7 +6,7 @@ RewriteBase  /
 Options +FollowSymlinks -MultiViews
 
 ## Default Error Pages
-ErrorDocument 404 /dbi_error_404.php
+ErrorDocument 404 /z_error_404.php
 
 ## Blocked IPs
 order allow,deny

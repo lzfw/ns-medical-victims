@@ -7,11 +7,11 @@ require_once 'zefiro/ini.php';
 $dbi->requireUserPermission ('edit');
 
 $layout
-	->set('title',Z_CONTENTS)
+	->set('title',L_CONTENTS)
 	->set('content',
 		'<ul class="icons">'.
 		($dbi->checkUserPermission('system')
-			? createListItem(Z_TEXTBLOCKS,'z_list_textblocks','textblocks')
+			? createListItem(L_TEXTBLOCKS,'z_list_textblocks','textblocks')
 			: NULL
 		).
 		'</ul>'.

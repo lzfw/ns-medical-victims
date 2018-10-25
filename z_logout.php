@@ -11,9 +11,9 @@ unset($_SESSION[Z_SESSION_NAME]['user']);
 $dbi->importUserData();
 
 $layout
-	->set('title',Z_LOGOUT)
+	->set('title',L_LOGOUT)
 	->set('content',
-		'<p>'.Z_LOGGED_OUT.'</p>'.
+		'<p>'.L_LOGGED_OUT.'</p>'.
 		createHomeLink ()
 	)
 	->cast();

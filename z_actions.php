@@ -19,7 +19,7 @@ switch ($_GET['action']) {
 
 	// LANGUAGE SETTING
 	case 'setLanguage':
-		if (isset($_GET['language']) && isset($GLOBALS['zefiroLanguages'][$_GET['language']])) {
+		if (isset($_GET['language']) && isset($GLOBALS['z_languages'][$_GET['language']])) {
 			$_SESSION[Z_SESSION_NAME]['language'] = $_GET['language'];
 		}
 		break;

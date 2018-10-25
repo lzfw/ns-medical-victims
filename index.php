@@ -7,7 +7,7 @@ require_once 'zefiro/ini.php';
 $dbi->setUserVar ('view',getUrlParameter('view'),'default');
 
 $layout
-	->set('title',Z_HOME)
+	->set('title',L_HOME)
 	->set('content',$dbi->getTextblock_HTML ('home'))
 	->cast();
 

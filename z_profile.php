@@ -48,7 +48,7 @@ else {
 		ORDER BY u.order_name, u.display_name
 	";
 	$users_query = $dbi->connection->query($users_querystring);
-	$title .= Z_USERS;
+	$title .= L_USERS;
 	$content .= '<ul>'.PHP_EOL;
 	while ($user = $users_query->fetch_object()) {
 		$content .= '<li>';
