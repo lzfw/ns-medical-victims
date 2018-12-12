@@ -116,6 +116,7 @@ define('L_USER_GROUP',					'Group');
 define('L_USER_PERMISSIONS',			'Permissions');
 define('L_USER_PROFILE',				'Profile');
 define('L_USER_PROFILE_HIDE',			'hide');
+define('L_PASSWORD_UPDATE_FAILED',		'Error updating the password.');
 
 // help ------------------------------------------------------------------------
 

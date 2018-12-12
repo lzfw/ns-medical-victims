@@ -66,7 +66,7 @@ INSERT INTO `z_textblocks` (`textblock_id`, `name`, `permission`, `created_date`
 CREATE TABLE IF NOT EXISTS `z_users` (
   `user_id` int(6) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
-  `password` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `remote` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `display_name` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
   `order_name` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
