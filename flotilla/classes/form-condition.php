@@ -43,7 +43,7 @@ class FormCondition {
 						$this->Creator->debuglog->Write(DEBUG_INFO,' . . MySQL statement returned at least one row');
 					}
 					break;
-				case USER_STATEMENT:
+				case USER_FUNCTION:
 					if (!call_user_func($this->parameter)) {
 						$this->error = $this->error_message;
 					}

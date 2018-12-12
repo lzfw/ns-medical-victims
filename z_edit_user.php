@@ -7,6 +7,8 @@ require_once 'flotilla/ini.php';
 
 $dbi->requireUserPermission ('admin');
 
+$uid = getUrlParameter('user_id');
+
 $form = new Form ('z_edit_user');
 
 $form
@@ -19,7 +21,12 @@ $form
 $form->addField ('display_name',TEXT,60,REQUIRED)	->setLabel (L_USER_DISPLAY_NAME);
 $form->addField ('order_name',TEXT,60,REQUIRED)		->setLabel (L_USER_ORDER_NAME);
 $form->addField ('name',TEXT,15,REQUIRED)			->setLabel (L_USER_NAME);
-$form->addField ('password',PASSWORD,15,REQUIRED)	->setLabel (L_USER_PASSWORD);
+if ($uid) {
+	$form->addField ('password_text',PASSWORD,15)	->setLabel (L_USER_PASSWORD);
+} else {
+	$form->addField ('password_text',PASSWORD,15,REQUIRED)	->setLabel (L_USER_PASSWORD);
+}
+
 
 if ($dbi->checkUserPermission('system')) {
 	$form->addField ('group',TEXT,15,REQUIRED)
@@ -52,6 +59,19 @@ elseif ($dbi->checkUserPermission('admin')) {
 $form->addField ('profile_'.USER_LANGUAGE,TEXTAREA,6) ->setLabel (L_USER_PROFILE);
 $form->addField ('profile_hide',CHECKBOX) ->setLabel (L_USER_PROFILE_HIDE);
 
+$form->addCondition (USER_FUNCTION, function() use ($form, $uid) {
+	$pass = $form->Fields['password_text']->user_value;
+	if ($pass) {
+		$form->addField ('password',PASSWORD,15);
+		$form->Fields['password']->user_value = password_hash($pass, PASSWORD_DEFAULT);
+	}
+	if (!$uid && !$pass) {
+		return false;
+	}
+	unset($form->Fields['password_text']);
+	return true;
+}, L_PASSWORD_UPDATE_FAILED);
+
 $form
 	->addButton (BACK)
 	->addButton (APPLY)
@@ -65,7 +85,7 @@ $dbi->addBreadcrumb (L_ADMIN,'z_menu_admin');
 $dbi->addBreadcrumb (L_USER_ACCOUNTS,'z_list_users');
 
 $layout
-	->set('title',getUrlParameter('user_id') ? L_EDIT_USER_ACCOUNT : L_NEW_USER_ACCOUNT)
+	->set('title',$uid ? L_EDIT_USER_ACCOUNT : L_NEW_USER_ACCOUNT)
 	->set('content',$form->run ())
 	->cast();
 
