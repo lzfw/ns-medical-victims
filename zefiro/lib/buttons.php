@@ -20,7 +20,7 @@ function createButton () {
 }
 
 function createBackButton () {
-	return createButton(Z_BACK,'javascript:history.back()','icon back');
+	return createButton(L_BACK,'javascript:history.back()','icon back');
 }
 
 function createSmallButton () {

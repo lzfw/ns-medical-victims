@@ -48,6 +48,18 @@ class Form {
 		if (isset($args[2])) $this->method = $args[2];
 		$this->debuglog->Write(DEBUG_INFO,'new Form created');
 		// are last page and referer already defined?
+		if (isset ($_SESSION['flotilla']['last_page']) && isset ($_SERVER['HTTP_REFERER']) ) {
+			// is last page different from the referer?
+			if ($_SESSION['flotilla']['last_page'] != $_SERVER['HTTP_REFERER']) {
+				// is referer different from the current url? 
+				if ($_SERVER['HTTP_REFERER'] != 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'])
+					$_SESSION['flotilla']['last_page'] = $_SERVER['HTTP_REFERER'];
+			}
+		}
+		else {
+			$_SESSION['flotilla']['last_page'] = '.';
+		}
+		/*
 		if (isset ($_SESSION['flotilla']['last_page'])) {
 			if (isset ($_SERVER['HTTP_REFERER'])) {
 				// is last page different from the referer?
@@ -67,6 +79,7 @@ class Form {
 		else {
 			$_SESSION['flotilla']['last_page'] = '.';
 		}
+		*/
 		return $this;
 	}
 
