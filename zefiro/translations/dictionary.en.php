@@ -13,7 +13,7 @@ define('L_SITE_CONTACT',				'Contact');
 define('L_SITE_NOTICE',					'Publishing Information');
 define('L_PRINT',						'Print');
 define('L_PRINTABLE_PAGE',				'Printable Page');
-define('L_VERSION',						'Zefiro 4.0.0');
+define('L_VERSION',						'Zefiro 4.1.0');
 
 // general phrases -------------------------------------------------------------
 

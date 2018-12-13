@@ -55,7 +55,7 @@ class Field_Subtable extends Field {
 			// 1:n relation
 			// when more than one column is given, separate their values by commas
 			if (is_array($this->subtable_value_column))
-				$fields = 'CONCAT('.implode(',\','.$separator.'\',',$this->subtable_value_column).')';
+				$fields = 'CONCAT(`'.implode('`,\''.$this->separator.'\',`',$this->subtable_value_column).'`)';
 			else
 				$fields = '`'.$this->subtable_value_column.'`';
 			// perform query
@@ -72,7 +72,6 @@ class Field_Subtable extends Field {
 					//$output .= '<label for="'.$this->getId().'-remove-'.$row_num.'">'.$row->value.'</label>';
 					$output .= $row->value;
 					$output .= '</div>'.PHP_EOL;
-					$row_num++;
 				}
 			}
 			else {
@@ -83,7 +82,7 @@ class Field_Subtable extends Field {
 			// n:m relation
 			// when more than one column is given, separate their values by commas
 			if (is_array($this->subtable_value_column))
-				$fields = 'CONCAT(m.`'.implode('`,\','.$separator.'\',m.`',$this->subtable_value_column).'`)';
+				$fields = 'CONCAT(m.`'.implode('`,\''.$this->separator.'\',m.`',$this->subtable_value_column).'`)';
 			else
 				$fields = 'm.`'.$this->subtable_value_column.'`';
 			// perform query
