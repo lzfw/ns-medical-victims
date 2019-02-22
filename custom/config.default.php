@@ -1,6 +1,5 @@
 <?php
 // Zefiro Configuration File
-// last update: 2018-10-22
 
 // PHP DEBUGGING INFO ==========================================================
 
@@ -14,13 +13,14 @@ error_reporting(E_ALL);
 
 // LOCALIZATION ================================================================
 
-$zfLanguageList = array(
+$z_languages = array(
 	'de' => 'Deutsch',
 	'en' => 'English'
+	// add more languages to choose from, requires translation files!
 );
 
-// language parameters
-define ('Z_DEFAULT_LANGUAGE',	'de');
+define ('Z_DEFAULT_LANGUAGE', 'en');
+define ('Z_DEFAULT_TIMEZONE', 'Europe/Berlin');
 
 // SESSION =====================================================================
 
