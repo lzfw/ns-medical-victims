@@ -3,11 +3,15 @@ require_once 'zefiro/ini.php';
 
 header('Content-type: text/html; charset=utf-8');
 
+$dbi->requireUserPermission ('view');
+
 // Benutzereingabe
-$table = $_GET['table'];
-$field = $_GET['field'];
-$input = $_GET['term'];
-$label = isset($_GET['label'])?$_GET['label']:NULL;
+$table = $dbi->connection->escape_string( $_GET['table'] );
+$field = $dbi->connection->escape_string( $_GET['field'] );
+$input = $dbi->connection->escape_string( $_GET['term'] );
+$label = isset($_GET['label'])
+    ? $dbi->connection->escape_string($_GET['label'])
+    : NULL;
 
 // Suchstring der aktiven Datenansicht
 $querystring = "SELECT `$field` AS value";
@@ -16,7 +20,6 @@ $querystring .= " FROM `$table` WHERE `$field` LIKE '%$input%' ORDER BY `$field`
 
 $jsonList = '[ ';
 
-//Initialisierung des SOLR Interface
 $query = $dbi->connection->query($querystring);
 
 $jsonStr = '';

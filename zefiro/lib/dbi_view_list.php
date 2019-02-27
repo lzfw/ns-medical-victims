@@ -20,7 +20,7 @@ abstract class View_List extends View {
 		foreach ($this->SortOptions as $option) {
 			$sort_options[] = $option->getHTML($this->Creator);
 		}
-		$html .= '<p>'.DBI_RESULTS_ORDER.': '.implode(DBI_SEPARATOR_SYMBOL,$sort_options).'</p>'.PHP_EOL;
+		$html .= '<p>'.L_RESULTS_ORDER.': '.implode(Z_SEPARATOR_SYMBOL,$sort_options).'</p>'.PHP_EOL;
 		return $html;
 	}
 	
@@ -30,7 +30,7 @@ abstract class View_List extends View {
 		// addGroupOption ( title , field_name )
 		$args = func_get_args();
 		require_once 'groupoptions.php';
-		return $this->GroupOptions[] = call_user_func_array('SortOption::create',$args);
+		return $this->GroupOptions[] = call_user_func_array('GroupOption::create',$args);
 	}
 	
 	public function getGroupOptions_HTML () {
@@ -39,7 +39,7 @@ abstract class View_List extends View {
 		foreach ($this->GroupOptions as $option) {
 			$group_options[] = $option->getHTML($this->Creator);
 		}
-		$html .= '<p>'.DBI_RESULTS_ORDER.': '.implode(DBI_SEPARATOR_SYMBOL,$group_options).'</p>'.PHP_EOL;
+		$html .= '<p>'.L_RESULTS_ORDER.': '.implode(Z_SEPARATOR_SYMBOL,$group_options).'</p>'.PHP_EOL;
 		return $html;
 	}
 	
@@ -47,53 +47,53 @@ abstract class View_List extends View {
 	
 	public function getBrowseOptions_HTML () {
 		$html = NULL;
-		if ($this->Creator->getUserVar('total_results') > DBI_LIST_ROWS_PAGE) {
+		if ($this->Creator->getUserVar('total_results') > Z_LIST_ROWS_PAGE) {
 			$first = $this->Creator->getUserVar('skip') + 1;
-			$last = ($this->Creator->getUserVar('skip') + DBI_LIST_ROWS_PAGE < $this->Creator->getUserVar('total_results'))
-				? ($this->Creator->getUserVar('skip') + DBI_LIST_ROWS_PAGE)
+			$last = ($this->Creator->getUserVar('skip') + Z_LIST_ROWS_PAGE < $this->Creator->getUserVar('total_results'))
+				? ($this->Creator->getUserVar('skip') + Z_LIST_ROWS_PAGE)
 				: ($this->Creator->getUserVar('total_results'));
 			$next = ($last < $this->Creator->getUserVar('total_results'))
-				? ($first + DBI_LIST_ROWS_PAGE)
+				? ($first + Z_LIST_ROWS_PAGE)
 				: 0;
-			$previous = ($first > DBI_LIST_ROWS_PAGE)
-				? ($first - DBI_LIST_ROWS_PAGE)
+			$previous = ($first > Z_LIST_ROWS_PAGE)
+				? ($first - Z_LIST_ROWS_PAGE)
 				: 0;
-			if (DBI_LIST_ROWS_SKIP) {
-				$last_skip = ($this->Creator->getUserVar('skip') + DBI_LIST_ROWS_SKIP < $this->Creator->getUserVar('total_results'))
-					? ($this->Creator->getUserVar('skip') + DBI_LIST_ROWS_SKIP)
+			if (Z_LIST_ROWS_SKIP) {
+				$last_skip = ($this->Creator->getUserVar('skip') + Z_LIST_ROWS_SKIP < $this->Creator->getUserVar('total_results'))
+					? ($this->Creator->getUserVar('skip') + Z_LIST_ROWS_SKIP)
 					: ($this->Creator->getUserVar('total_results'));
 				$next_skip = ($last_skip < $this->Creator->getUserVar('total_results'))
-					? ($first + DBI_LIST_ROWS_SKIP)
+					? ($first + Z_LIST_ROWS_SKIP)
 					: 0;
-				$previous_skip = ($first > DBI_LIST_ROWS_SKIP)
-					? ($first - DBI_LIST_ROWS_SKIP)
+				$previous_skip = ($first > Z_LIST_ROWS_SKIP)
+					? ($first - Z_LIST_ROWS_SKIP)
 					: 0;
 			}
 			// list navigation
 			$html .= '<p>';
 			// total results
-			$html .= DBI_RESULTS.': <b>'.$first.' – '.$last.'</b> '.DBI_OF_TOTAL_RESULTS.' <b>'.$this->Creator->getUserVar('total_results').'</b>. ';
+			$html .= L_RESULTS.': <b>'.$first.' – '.$last.'</b> '.L_OF_TOTAL_RESULTS.' <b>'.$this->Creator->getUserVar('total_results').'</b>. ';
 			// link to first page
 			if ($this->Creator->getUserVar('skip') > 0) {
 				$html .= '<a class="button" href="?'.$this->Creator->getUserVar('querystring');
 				if ($this->Creator->getUserVar('sort')) $html .= '&sort='.$this->Creator->getUserVar('sort');
 				if ($this->Creator->getUserVar('order')) $html .= '&order='.$this->Creator->getUserVar('order');
-				$html .= '">'.DBI_FIRST_SYMBOL.DBI_RESULTS_FIRST.'</a> ';
+				$html .= '">'.Z_FIRST_SYMBOL.L_RESULTS_FIRST.'</a> ';
 			}
 			else {
-				$html .= '<a class="button inactive">'.DBI_FIRST_SYMBOL.DBI_RESULTS_FIRST.'</a> ';
+				$html .= '<a class="button inactive">'.Z_FIRST_SYMBOL.L_RESULTS_FIRST.'</a> ';
 			}
 			// skip back
-			if (DBI_LIST_ROWS_SKIP) {
+			if (Z_LIST_ROWS_SKIP) {
 				if ($previous_skip) {
 					$html .= '<a class="button" href="?'.$this->Creator->getUserVar('querystring');
 					if ($this->Creator->getUserVar('sort')) $html .= '&sort='.$this->Creator->getUserVar('sort');
 					if ($this->Creator->getUserVar('order')) $html .= '&order='.$this->Creator->getUserVar('order');
 					if ($previous_skip > 1) $html .= '&skip='.($previous_skip - 1);
-					$html .= '">'.DBI_SKIP_BACK_SYMBOL.DBI_LIST_ROWS_SKIP.'</a> ';
+					$html .= '">'.Z_SKIP_BACK_SYMBOL.Z_LIST_ROWS_SKIP.'</a> ';
 				}
 				else {
-					$html .= '<a class="button inactive">'.DBI_SKIP_BACK_SYMBOL.DBI_LIST_ROWS_SKIP.'</a> ';
+					$html .= '<a class="button inactive">'.Z_SKIP_BACK_SYMBOL.Z_LIST_ROWS_SKIP.'</a> ';
 				}
 			}
 			// previous page
@@ -102,10 +102,10 @@ abstract class View_List extends View {
 				if ($this->Creator->getUserVar('sort')) $html .= '&sort='.$this->Creator->getUserVar('sort');
 				if ($this->Creator->getUserVar('order')) $html .= '&order='.$this->Creator->getUserVar('order');
 				if ($previous > 1) $html .= '&skip='.($previous - 1);
-				$html .= '">'.DBI_PREVIOUS_SYMBOL.DBI_RESULTS_PREVIOUS.DBI_LIST_ROWS_PAGE.'</a> ';
+				$html .= '">'.Z_PREVIOUS_SYMBOL.L_RESULTS_PREVIOUS.Z_LIST_ROWS_PAGE.'</a> ';
 			}
 			else {
-				$html .= '<a class="button inactive">'.DBI_PREVIOUS_SYMBOL.DBI_RESULTS_PREVIOUS.DBI_LIST_ROWS_PAGE.'</a> ';
+				$html .= '<a class="button inactive">'.Z_PREVIOUS_SYMBOL.L_RESULTS_PREVIOUS.Z_LIST_ROWS_PAGE.'</a> ';
 			}
 			// next page
 			if ($next) {
@@ -113,41 +113,41 @@ abstract class View_List extends View {
 				if ($this->Creator->getUserVar('sort')) $html .= '&sort='.$this->Creator->getUserVar('sort');
 				if ($this->Creator->getUserVar('order')) $html .= '&order='.$this->Creator->getUserVar('order');
 				$html .= '&skip='.($next - 1);
-				$html .= '">'.DBI_NEXT_SYMBOL.DBI_RESULTS_NEXT.DBI_LIST_ROWS_PAGE.'</a> ';
+				$html .= '">'.Z_NEXT_SYMBOL.L_RESULTS_NEXT.Z_LIST_ROWS_PAGE.'</a> ';
 			}
 			else {
-				$html .= '<a class="button inactive">'.DBI_NEXT_SYMBOL.DBI_RESULTS_NEXT.DBI_LIST_ROWS_PAGE.'</a> ';
+				$html .= '<a class="button inactive">'.Z_NEXT_SYMBOL.L_RESULTS_NEXT.Z_LIST_ROWS_PAGE.'</a> ';
 			}
 			// skip forward
-			if (DBI_LIST_ROWS_SKIP) {
+			if (Z_LIST_ROWS_SKIP) {
 				if ($next_skip) {
 					$html .= '<a class="button" href="?'.$this->Creator->getUserVar('querystring');
 					if ($this->Creator->getUserVar('sort')) $html .= '&sort='.$this->Creator->getUserVar('sort');
 					if ($this->Creator->getUserVar('order')) $html .= '&order='.$this->Creator->getUserVar('order');
 					$html .= '&skip='.($next_skip - 1);
-					$html .= '">'.DBI_SKIP_FORWARD_SYMBOL.DBI_LIST_ROWS_SKIP.'</a> ';
+					$html .= '">'.Z_SKIP_FORWARD_SYMBOL.Z_LIST_ROWS_SKIP.'</a> ';
 				}
 				else {
-					$html .= '<a class="button inactive">'.DBI_SKIP_FORWARD_SYMBOL.DBI_LIST_ROWS_SKIP.'</a> ';
+					$html .= '<a class="button inactive">'.Z_SKIP_FORWARD_SYMBOL.Z_LIST_ROWS_SKIP.'</a> ';
 				}
 			}
 			// link to last page
-			$lastpage = $this->Creator->getUserVar('total_results') - $this->Creator->getUserVar('total_results') % DBI_LIST_ROWS_PAGE;
+			$lastpage = $this->Creator->getUserVar('total_results') - $this->Creator->getUserVar('total_results') % Z_LIST_ROWS_PAGE;
 			if ($this->Creator->getUserVar('skip') < $lastpage) {
 				$html .= '<a class="button" href="?'.$this->Creator->getUserVar('querystring');
 				if ($this->Creator->getUserVar('sort')) $html .= '&sort='.$this->Creator->getUserVar('sort');
 				if ($this->Creator->getUserVar('order')) $html .= '&order='.$this->Creator->getUserVar('order');
 				$html .= '&skip='.($lastpage);
-				$html .= '">'.DBI_LAST_SYMBOL.DBI_RESULTS_LAST.'</a> ';
+				$html .= '">'.Z_LAST_SYMBOL.L_RESULTS_LAST.'</a> ';
 			}
 			else {
-				$html .= '<a class="button inactive">'.DBI_LAST_SYMBOL.DBI_RESULTS_LAST.'</a> ';
+				$html .= '<a class="button inactive">'.Z_LAST_SYMBOL.L_RESULTS_LAST.'</a> ';
 			}
 			$html .= '</p>';
 		}
 		elseif ($this->Creator->getUserVar('total_results')>0) {
 			// no list navigation
-			$html .= '<p>'.DBI_RESULTS.': <b>1 - '.$this->Creator->getUserVar('total_results').'</b> '.DBI_OF_TOTAL_RESULTS.' <b>'.$this->Creator->getUserVar('total_results').'</b>.</p>';
+			$html .= '<p>'.L_RESULTS.': <b>1 - '.$this->Creator->getUserVar('total_results').'</b> '.L_OF_TOTAL_RESULTS.' <b>'.$this->Creator->getUserVar('total_results').'</b>.</p>';
 		}
 		return $html;
 	}
@@ -204,7 +204,7 @@ abstract class View_List extends View {
 			// list navigation
 			$html .= '<p>';
 			// total results
-			$html .= DBI_RESULTS.': <b>'.$first.' – '.$last.'</b> '.DBI_OF_TOTAL_RESULTS.' <b>'.$this->Creator->getUserVar('total_results').'</b>. ';
+			$html .= DBI_RESULTS.': <b>'.$first.' â '.$last.'</b> '.DBI_OF_TOTAL_RESULTS.' <b>'.$this->Creator->getUserVar('total_results').'</b>. ';
 			// link to first page
 			if ($this->Creator->getUserVar('skip') > 0) {
 				$html .= '<a class="button" href="?'.$this->Creator->getUserVar('querystring');
@@ -268,9 +268,9 @@ abstract class View_List extends View {
 				$html .= '<a class="button inactive">'.DBI_LIST_ROWS_SKIP.' &gt;</a> ';
 			}
 			// link to last page
-			$lastpage = $this->Creator->getUserVar('total_results')-$this->Creator->getUserVar('total_results')%DBI_LIST_ROWS_PAGE;
+			$lastpage = $this->Creator->getUserVar('total_results')-$this->Creator->getUserVar('total_results')ÛI_LIST_ROWS_PAGE;
 			if ($this->Creator->getUserVar('skip') < $lastpage) {
-				$html .= '<a class="button" href="?'.$this->Creator->getUserVar('querystring');
+				$html .= '<a class="button" href="?#@|.$this->Creator->getUserVar('querystring');
 				if ($this->Creator->getUserVar('sort')) $html .= '&sort='.$this->Creator->getUserVar('sort');
 				if ($this->Creator->getUserVar('order')) $html .= '&order='.$this->Creator->getUserVar('order');
 				$html .= '&skip='.($lastpage);
@@ -290,4 +290,3 @@ abstract class View_List extends View {
 	
 }
 */
-?>

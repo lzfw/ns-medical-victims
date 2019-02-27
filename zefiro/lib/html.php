@@ -5,7 +5,6 @@
 function buildElement () {
 	$args = func_get_args();
 	switch (func_num_args()) {
-
 		case 2: // 0:name, 1:content
 			return
 				'<'.$args[0].'>'.PHP_EOL.
@@ -21,7 +20,6 @@ function buildElement () {
 				'>'.PHP_EOL.
 				$args[2].
 				'</'.$args[0].'>'.PHP_EOL;
-
 		default:
 			return false;
 	}
@@ -34,6 +32,29 @@ function buildRow($rowElementName, $cellElementName, $cellContentArray) {
 		$cellHtml .= '<'.$cellElementName.'>'.$cellContent.'</'.$cellElementName.'>'.PHP_EOL;
 	}
 	return buildElement($rowElementName,$cellHtml);
+}
+
+/**
+ * Create a row for a data sheet containing a key in a heading cell and a value
+ * in a regular HTML table cell.
+ *
+ * @param string      $thContent  key/heading (must not contain insecure content)
+ * @param string|null $tdContent  value/content
+ * @param mixed  $entityConversionFlags  FALSE if no HTML special characters
+ *                                       should be converted to HTML entities,
+ *                                       otherwise flags for htmlspecialchars
+ * @return string
+ */
+function buildDataSheetRow (string $thContent, ?string $tdContent, $entityConversionFlags = ENT_HTML5) {
+    $tdContent = $entityConversionFlags === FALSE
+        ? $tdContent
+        : htmlspecialchars($tdContent, $entityConversionFlags);
+
+    return
+        buildElement('tr',
+            buildElement('th',$thContent).
+            buildElement('td',$tdContent)
+        );
 }
 
 // query functions
@@ -64,8 +85,8 @@ function buildRowsFromQuery($rowElementName, $cellElementName, $querystring, $ma
 			$html .= '<'.$rowElementName.'>'.PHP_EOL;
 			foreach ($maskArray as $mask) {
 				// ersetzt jedes {x} durch $row->x
-				$cellElementContent = preg_replace_callback('/(\{(\w*)\})',
-				    function ($matches) {
+				$cellElementContent = preg_replace_callback('/(\{(\w*)\})/',
+				    function ($matches) use ($row) {
 				        return $row->{$matches[2]};
 				    }, $mask);
 				$html .= '<'.$cellElementName.'>'.$cellElementContent.'</'.$cellElementName.'>'.PHP_EOL;
@@ -103,6 +124,17 @@ function buildTableFromQuery () {
 
 }
 
+function buildSheetFromQuery () {
+    // TODO
+    // das sollte eine vertikal angeordnete Tabelle sein
+    // also Feldnamen in der erstn Spalte
+	$args = func_get_args();
+	switch (func_num_args()) {
+		default: return false;
+	}
+}
+
+
 // lists
 
 function buildListFromQuery($listElementName, $querystring, $mask) {
@@ -113,8 +145,8 @@ function buildListFromQuery($listElementName, $querystring, $mask) {
 		$html = NULL;
 		while ($row = $result->fetch_object()) {
 			// ersetzt jedes {x} durch $row->x
-		    $listElementContent = preg_replace_callback('/(\{(\w*)\})',
-		        function ($matches) {
+		    $listElementContent = preg_replace_callback('/(\{(\w*)\})/',
+		        function ($matches) use ($row) {
 		            return $row->{$matches[2]};
 		        }, $mask);
 			$html .= '<'.$listElementName.'>'.$listElementContent.'</'.$listElementName.'>'.PHP_EOL;

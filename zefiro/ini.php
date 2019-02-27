@@ -5,7 +5,7 @@
 // configure session
 ini_set('session.gc_probability', 1);
 ini_set('session.gc_divisor', 1);
-ini_set('session.gc_maxlifetime', 1800); // Session-Dauer in Sekunden
+ini_set('session.gc_maxlifetime', 900); // Session-Dauer in Sekunden
 session_start();
 
 // load configuration
@@ -17,6 +17,7 @@ if(file_exists('custom/config.php')) {
     require_once 'custom/config.php';
 } else {
     require_once 'custom/config.default.php';
+    //require_once 'zefiro/config.default.php';
 }
 
 // set default language, if neccessary
@@ -24,6 +25,9 @@ if (!isset ($_SESSION[Z_SESSION_NAME]['language'])) {
 	$_SESSION[Z_SESSION_NAME]['language'] = Z_DEFAULT_LANGUAGE;
 }
 define('USER_LANGUAGE',$_SESSION[Z_SESSION_NAME]['language']);
+
+// set timezone
+date_default_timezone_set(Z_DEFAULT_TIMEZONE);
 
 // load language files
 require_once 'zefiro/translations/dictionary.'.USER_LANGUAGE.'.php';
@@ -56,7 +60,7 @@ if (!isset($_SESSION[Z_SESSION_NAME]['bookmarks'])) {
 }
 $zefiroBookmarks =& $_SESSION[Z_SESSION_NAME]['bookmarks'];
 
-// just for testing
+// uncomment for session testing
 //echo '<pre>'; print_r($_SESSION); echo '</pre>';
 
 ?>
