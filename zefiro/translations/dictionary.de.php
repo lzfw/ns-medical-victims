@@ -67,6 +67,7 @@ define('L_LOGIN_PROMPT',				'Bitte geben Sie Ihren Benutzernamen und Ihr Passwor
 define('L_INVALID_LOGIN',				'Ungültiger Login. Bitte überprüfen Sie die Angaben.');
 define('L_LOGGED_OUT',					'Ihre Sitzung wurde beendet.');
 define('L_AUTHENTICATED_AS',			'angemeldet als');
+define('L_SESSION_TIMEOUT',		        'Sitzung endet automatisch um');
 
 // user permissions -----------------------------------------------------------
 
@@ -104,6 +105,14 @@ define('L_REMOTE_ACCESSES',				'Remotezugriffe');
 define('L_NEW_REMOTE_ACCESS',			'Neuer Remotezugriff');
 define('L_EDIT_REMOTE_ACCESS',			'Remotezugriff bearbeiten');
 define('L_REMOVE_REMOTE_ACCESS',		'Remotezugriff entfernen');
+
+define('L_VIEW_LOG',					'Logs');
+define('L_DATE_TIME',					'Datum und Uhrzeit');
+define('L_OPERATION',					'Operation');
+define('L_ENTITY',			    		'Entität');
+define('L_RESULT',			    		'Ergebnis');
+define('L_ROW_ID',			    		'Datensatz ID');
+define('L_DETAILS',			    		'Details');
 
 define('L_IP_ADDRESS',					'IP-Addresss');
 define('L_CURRENT',						'derzeit');

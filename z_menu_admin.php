@@ -13,6 +13,7 @@ $layout
 		createListItem(L_DATABASE,'z_database','db').
 		createListItem(L_USER_ACCOUNTS,'z_list_users','users').
 		createListItem(L_REMOTE_ACCESSES,'z_list_remote','remotes').
+		createListItem(L_VIEW_LOG,'z_log','clipboard-list').
 		($dbi->checkUserPermission('system')
 			? createListItem(L_HELPTEXTS,'z_list_helptexts','helptexts')
 			: NULL

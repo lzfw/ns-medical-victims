@@ -8,6 +8,12 @@ class Field_Subtable extends Field {
 	public $separator = ', ';
 	public $Relation;
 
+    /**
+     * @var $subTableLinks
+     * Array of assoc arrays like ['target': target', 'label':'label/linktext']
+     */
+    private $subTableLinks = [];
+
 	// CONSTRUCTORS -----------------------------------------------------------
 
 	protected function __construct (Form $Creator, $name, $subtable_name, $subtable_value_column, $required) {
@@ -16,6 +22,12 @@ class Field_Subtable extends Field {
 			$this->name = $name;
 			$this->subtable_name = $subtable_name;
 			$this->subtable_key_column = $name; // ! name = primary key column !
+			if (!is_array($subtable_value_column)) {
+			    $subtable_value_column = [$subtable_value_column];
+			}
+			foreach( $subtable_value_column as $i => $col ) {
+			    $subtable_value_column[$i] = 'COALESCE(`' . $col . '`, \'#\')';
+			}
 			$this->subtable_value_column = $subtable_value_column;
 			$this->required = $required;
 			$this->Creator->debuglog->Write(DEBUG_INFO,'. new Subtable Field "'.$this->name.'" created');
@@ -47,6 +59,18 @@ class Field_Subtable extends Field {
 		return $this;
 	}
 
+	// SUBTABLE LING ------------------------------------------------------
+
+	public function addSubtableLink ($target, $label) {
+		// Allows links added behind the values from the subtable
+		// E.g. pointing to a form for editing and removal
+		$this->subTableLinks[] = [
+		       'target' => $target,
+		       'label'  => $label,
+		];
+		return $this;
+	}
+
 	// HTML OUTPUT ------------------------------------------------------------
 
 	public function HTMLOutput () {
@@ -54,10 +78,11 @@ class Field_Subtable extends Field {
 		if ((!isset($this->Relation)) && $this->Creator->Connection->getPrimaryKeyValue()) {
 			// 1:n relation
 			// when more than one column is given, separate their values by commas
-			if (is_array($this->subtable_value_column))
-				$fields = 'CONCAT(`'.implode('`,\''.$this->separator.'\',`',$this->subtable_value_column).'`)';
-			else
-				$fields = '`'.$this->subtable_value_column.'`';
+
+            $this->Creator->debuglog->Write(DEBUG_INFO,'. combining Subtable Values');
+			$fields = 'CONCAT('.implode(',\''.$this->separator.'\',',$this->subtable_value_column).')';
+			$this->Creator->debuglog->Write(DEBUG_INFO,'FIELDS: '.$fields);
+
 			// perform query
 			$relation_querystring = "
 				SELECT $fields AS `value`, {$this->subtable_key_column} AS `key`
@@ -66,11 +91,24 @@ class Field_Subtable extends Field {
 				ORDER BY `value`";
 			if ($relation_query = $this->Creator->Connection->link->query($relation_querystring)) {
 				// fetch related row
-				if ($row = $relation_query->fetch_object()) {
+				while ($row = $relation_query->fetch_object()) {
 					$output .= "\t\t\t".'<div>';
+					//hier link zum edit-script einbauen
 					//$output .= '<input type="checkbox" name="'.$this->name.'-remove[]" id="'.$this->getId().'-remove-'.$row_num.'" value="'.$row->key.'" title="'.FLO_REMOVE_SUBTABLE_FIELD.'" class="remove-subtable-checkbox"/>';
 					//$output .= '<label for="'.$this->getId().'-remove-'.$row_num.'">'.$row->value.'</label>';
 					$output .= $row->value;
+					foreach ($this->subTableLinks as $linkInfo) {
+					    $target = $linkInfo['target'];
+					    if (substr($target, -1) === '?') {
+					        $target .= $this->subtable_key_column . '=';
+					    }
+					    if (substr($target, -1) === '=') {
+					            $target .= $row->key;
+					    }
+					    $target = htmlspecialchars( $target );
+					    $label = $linkInfo['label'];
+					    $output .= ' <a href="'.$target.'">'.$label.'</a>';
+					}
 					$output .= '</div>'.PHP_EOL;
 				}
 			}
@@ -81,10 +119,10 @@ class Field_Subtable extends Field {
 		elseif (isset($this->Relation) && $this->Creator->Connection->getPrimaryKeyValue()) {
 			// n:m relation
 			// when more than one column is given, separate their values by commas
-			if (is_array($this->subtable_value_column))
-				$fields = 'CONCAT(m.`'.implode('`,\''.$this->separator.'\',m.`',$this->subtable_value_column).'`)';
-			else
-				$fields = 'm.`'.$this->subtable_value_column.'`';
+
+			$fields = 'CONCAT(m.'.implode(',\''.$this->separator.'\',m.',$this->subtable_value_column).')';
+			$this->Creator->debuglog->Write(DEBUG_INFO,'FIELDS: '.$fields);
+
 			// perform query
 			$relation_querystring = "
 				SELECT $fields AS `value`, `{$this->subtable_key_column}` AS `key`
@@ -115,7 +153,8 @@ class Field_Subtable extends Field {
 		if ($this->language) $output .= ' lang="'.$this->language.'"';
 		if ($this->direction) $output .= ' dir="'.$this->direction.'"';
 		if ($this->length) $output .= ' maxlength="'.$this->length.'" size="'.$this->length.'"';
-		$output .= ' value="'.htmlspecialchars(stripslashes($this->user_value)).'"';
+		
+		$output .= ' value="'.htmlspecialchars(stripslashes($this->user_value[0])).'"';
 		if ($this->is_not_hidden()) {
 			$output .= $this->HTMLTitle();
 			$output .= $this->HTMLClass();

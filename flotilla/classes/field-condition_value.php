@@ -7,9 +7,9 @@ class FieldCondition_Value extends FieldCondition {
 	}
 	
 	public function Check ($value) {
-		if (!is_numeric($value))
+		if (!is_numeric($value) && $value !== NULL)
 			$this->error = FLO_NOT_A_NUMBER;
-		if (!$this->error) {
+		if (!$this->error && $value !== NULL) {
 			switch ($this->parameters[0]) {
 				case POSITIVE:
 					if (intval($value)!=$value || intval($value)<=0)
@@ -58,4 +58,3 @@ class FieldCondition_Value extends FieldCondition {
 
 }
 
-?>

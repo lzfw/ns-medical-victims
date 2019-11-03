@@ -19,6 +19,25 @@ function update_user_pass($user_name, $pass, $link) {
 	$stmt->close();
 }
 
+function log_login_attempt($result, $uid, $name) {
+    $details = 'NAME: ' .     $name .
+        '; REMOTE: ' .        $_SERVER['HTTP_X_FORWARDED_FOR'] .
+        '; FORWARDED_FOR: ' . $_SERVER['HTTP_X_FORWARDED_FOR'];
+
+    if (is_null($uid)) {
+        $uid = -1;
+    }
+
+    $log_entry = new DBI_Log_Entry(
+        'LOGIN',
+        'z_users',
+        $result,
+        $uid,
+        $details
+    );
+    $log_entry->store();
+}
+
 $form = new Form ('user');
 
 $form
@@ -31,19 +50,22 @@ $form->addField ('name',TEXT,30,REQUIRED)			->setLabel (L_USER_NAME);
 $form->addField ('password',PASSWORD,30,REQUIRED)	->setLabel (L_USER_PASSWORD);
 
 $form->addCondition (USER_FUNCTION, function() use ($form) {
+    // This is the actual login check; it should be extended with heuristic
+    // checks, brute force detection, and other safeguards.
 	$password_matches = false;
+	$stored_uid = -1;
 	$stored_name = '';
 	$stored_password = '';
 	$name = $form->Fields['name']->user_value;
 	$pass = $form->Fields['password']->user_value;
 	$stmt = $form->Connection->link->stmt_init();
 	$stmt->prepare(
-			"SELECT name, password
+			"SELECT user_id, name, password
 			FROM z_users
 			WHERE name=?");
 	$stmt->bind_param('s', $name);
 	$stmt->execute();
-	$stmt->bind_result($stored_name, $stored_password_hash);
+	$stmt->bind_result($stored_uid, $stored_name, $stored_password_hash);
 	$stmt->fetch();
 	$stmt->close();
 	if (preg_match('/^\$\S{1,6}\$/', $stored_password_hash)) {
@@ -57,6 +79,10 @@ $form->addCondition (USER_FUNCTION, function() use ($form) {
 			update_user_pass($name, $pass, $form->Connection->link);
 		}
 	}
+
+    // Logging
+    log_login_attempt($password_matches, $stored_uid, $name);
+
 	return $password_matches;
 }, L_INVALID_LOGIN);
 
@@ -65,7 +91,8 @@ $form
 	->addButton (SUBMIT);
 
 $form
-	->addAction (QUERY_TO_SESSION,"SELECT * FROM z_users WHERE name='{name}'",L_SESSION_NAME)
+	->addAction (QUERY_TO_SESSION,
+	    "SELECT * FROM z_users WHERE name='{name}'", L_SESSION_NAME)
 	->addAction (REDIRECT);
 
 $layout

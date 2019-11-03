@@ -5,12 +5,14 @@
 
 // setlocale is not necessary for English
 
-define('MY_TITLE',						'Zefiro');
-define('MY_META_TITLE',					'Zefiro');
-define('MY_SUBTITLE',					'Content Management Framework');
-define('MY_LOGO',						'custom/images/logos/zefiro-logo-h100.png');
-define('MY_LOGO_ALT',					'Zephyrus');
-define('MY_LOGO_TITLE',					'Zephyrus, God of the West Wind');
+// was before: Medicine and Biosciences in National Socialism
+// change requested in eMail / Aleksandra / 2018-11-25
+define('MY_TITLE',						'Victims of Biomedical Research under NS');
+define('MY_META_TITLE',					'Victims of Biomedical Research under NS');
+define('MY_SUBTITLE',					'Collaborative Database of Medical Victims');
+define('MY_LOGO',						'custom/images/logos/leopoldina-logo-h100.png');
+define('MY_LOGO_ALT',					'NS Medical Victims Database');
+define('MY_LOGO_TITLE',					'NS Medical Victims Database');
 
 define('MY_HOME',						'Home');
 define('MY_ABOUT',						'About');

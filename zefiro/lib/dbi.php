@@ -215,4 +215,35 @@ class DBI {
 		return $html;
 	}
 
+    // LOG ---------------------------------------------------------------------
+
+    public function log (DBI_Log_Entry $log_entry) {
+        $mysqli = $this->connection;
+
+        /* Prepared statement, stage 1: prepare */
+        if (!($stmt = $mysqli->prepare(
+            "INSERT INTO
+                z_log(operation, entity, result, row_id, details)
+                VALUES (?, ?, ?, ?, ?)"))) {
+            throw new Error(
+                    "Prepare failed: (" . $mysqli->errno . ") " .
+                    $mysqli->error);
+        }
+
+        /* Prepared statement, stage 2: bind and execute */
+        if (!$stmt->bind_param("ssiis",
+                $log_entry->operation,
+                $log_entry->entity,
+                $log_entry->result,
+                $log_entry->row_id,
+                $log_entry->details)) {
+            throw new Error("Binding params failed: (" . $stmt->errno . ") " .
+                $stmt->error);
+        }
+
+        if (!$stmt->execute()) {
+            throw new Error("Execute failed: (" . $stmt->errno . ") " .
+                $stmt->error);
+        }
+    }
 }

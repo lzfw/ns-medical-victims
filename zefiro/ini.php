@@ -5,7 +5,7 @@
 // configure session
 ini_set('session.gc_probability', 1);
 ini_set('session.gc_divisor', 1);
-ini_set('session.gc_maxlifetime', 900); // Session-Dauer in Sekunden
+ini_set('session.gc_maxlifetime', 3600); // Session-Dauer in Sekunden
 session_start();
 
 // load configuration
@@ -37,6 +37,7 @@ require_once 'custom/translations/dictionary.'.USER_LANGUAGE.'.php';
 require_once 'zefiro/lib/zefiro.php';
 require_once 'zefiro/lib/buttons.php';
 require_once 'zefiro/lib/dbi.php';
+require_once 'zefiro/lib/dbi_log_entry.php';
 require_once 'zefiro/lib/layout.php';
 require_once 'zefiro/lib/html.php';
 require_once 'zefiro/lib/url.php';

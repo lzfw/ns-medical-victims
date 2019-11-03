@@ -72,10 +72,13 @@ class Action_Database extends Action {
 						$column_type = preg_replace ('#(\(.+\))? ?(unsigned)?#','',$column_info->Type);
 						if (in_array($column_type,$this->numeric_vartypes)) {
 							// insert numeric data
-							if ($Field->user_value == '')
-								$insert_values[] = 0;
-							else
+							if ($Field->user_value === NO_VALUE && get_class($Field) === 'Field_Select') {
+							    $insert_values[] = 'NULL';
+							} else if ($Field->user_value === '' || $Field->user_value === NO_VALUE) {
+								$insert_values[] = (get_class($Field) === 'Field_Checkbox' ? '0' : 'NULL');
+							} else {
 								$insert_values[] = $Field->user_value;
+							}
 							$this->Creator->debuglog->Write(DEBUG_INFO,'. preparing numeric field: '.$Field->name.' = '.$Field->user_value);
 						}
 						else {
@@ -121,10 +124,13 @@ class Action_Database extends Action {
 						$column_type = preg_replace ('#(\(.+\))? ?(unsigned)?#','',$column_info->Type);
 						if (in_array($column_type,$this->numeric_vartypes)) {
 							// update numeric field
-							if ($Field->user_value == '')
-								$update_values[] = '`'.$Field->name.'`=0';
-							else
+							if ($Field->user_value === NO_VALUE && get_class($Field) === 'Field_Select') {
+							    $update_values[] = '`'.$Field->name.'`=NULL';
+							} else if ($Field->user_value === '' || $Field->user_value === NO_VALUE) {
+								$update_values[] = '`'.$Field->name.'`=' . (get_class($Field) === 'Field_Checkbox' ? '0' : 'NULL');
+							} else {
 								$update_values[] = '`'.$Field->name.'`='.$Field->user_value;
+							}
 							$this->Creator->debuglog->Write(DEBUG_INFO,'. preparing numeric field: '.$Field->name.' = '.$Field->user_value);
 						}
 						else {
@@ -196,8 +202,9 @@ class Action_Database extends Action {
 				$subtable_check_querystring = "
 					SELECT `$Field->subtable_key_column`
 					FROM `$Field->subtable_name`
-					WHERE $fields='".addslashes($Field->user_value)."'
+					WHERE $fields='".addslashes($Field->user_value[0])."'
 				";
+				$this->Creator->debuglog->Write(DEBUG_INFO,'Subtable check: '.$subtable_check_querystring);
 				$subtable_check_query = $this->Creator->Connection->link->query($subtable_check_querystring);
 				if ($subtable_check_query->num_rows===0) {
 					// if value does not exist, check whether autoinsert is enabled
@@ -266,6 +273,9 @@ class Action_Database extends Action {
 			if ($query = $this->Query_Select()) {
 				$this->Creator->debuglog->Write(DEBUG_INFO,'SELECT successful');
 				$db_fields = $query->fetch_array();
+				if (!$db_fields) {
+				    $this->Creator->debuglog->Write(DEBUG_WARNING,'no results');
+				}
 				reset($db_fields);
 				foreach($db_fields as $field_name => $field_value) {
 					if (isset($this->Creator->Fields[$field_name])

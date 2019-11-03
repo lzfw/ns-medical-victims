@@ -91,3 +91,20 @@ INSERT INTO `z_users` (`user_id`, `name`, `password`, `remote`, `display_name`, 
 (100005, 'zefiro', 'zefiro', '', 'Zefiro', 'zefiro', 'www', 'view', 1, '', ''),
 (100006, 'viewer', 'viewer', '', 'Viewer', 'viewer', 'www', 'view', 1, '', ''),
 (100008, 'localhost', '', '127.0.0.1', 'Local Host', 'localhost', 'localhost', '', 1, '', '');
+
+--
+-- Tabellenstruktur für Tabelle `z_log`
+--
+
+CREATE TABLE IF NOT EXISTS `z_log` (
+  `log_id`    INT AUTO_INCREMENT  PRIMARY KEY,
+  `datetime`  DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `operation` ENUM('LOGIN', 'LOGOUT', 'INSERT', 'UPDATE', 'DELETE') NOT NULL,
+  `entity`    VARCHAR(100) NOT NULL,
+  `result`    TINYINT,
+  `row_id`    INT,
+  `details`   LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  INDEX `datetime_idx` (`datetime` ASC) USING BTREE,
+  INDEX `operation_idx` (`operation` ASC) USING HASH,
+  INDEX `entity_idx` (`entity` ASC) USING HASH
+)

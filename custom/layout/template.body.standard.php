@@ -40,14 +40,14 @@
 				$dbi->addOption (L_MODIFY_SEARCH,'search?'.$dbi->getUserVar('querystring'),'icon search');
 			}
 			// bookmarks
-			if (basename($_SERVER['SCRIPT_NAME']) != 'bookmarks') {
+			/*if (basename($_SERVER['SCRIPT_NAME']) != 'bookmarks') {
 				if (count($_SESSION[Z_SESSION_NAME]['bookmarks'])>0)
 					$dbi->addOption (L_BOOKMARKS,'bookmarks','icon bookmarks');
 				else
 					$dbi->addOption (L_BOOKMARKS,'bookmarks','icon bookmarksEmpty');
-			}
+			}*/
 			// admin
-			if ($dbi->checkUserPermission('edit') && !isServerScriptName('z_menu_contents.php')) {
+			if ($dbi->checkUserPermission('view') && !isServerScriptName('z_menu_contents.php')) {
 				$dbi->addOption (L_CONTENTS,'z_menu_contents','icon contents');
 			}
 			if ($dbi->checkUserPermission('admin') && !isServerScriptName('z_menu_admin.php')) {
@@ -72,6 +72,8 @@
 				<?php
 					echo L_VERSION;
 					if ($dbi->user) echo ' - '.L_AUTHENTICATED_AS.' <b>'.$dbi->user['display_name'].'</b>';
+					echo ' - '.L_SESSION_TIMEOUT.' '
+				        .date("H:i", mktime() + ini_get('session.gc_maxlifetime'));
 				?>
 			</div> <!-- .left -->
 			<div class="right">

@@ -5,12 +5,12 @@
 
 setlocale (LC_ALL,'de_DE@euro','de_DE','de','ge');
 
-define('MY_TITLE',						'Zefiro');
-define('MY_META_TITLE',					'Zefiro');
-define('MY_SUBTITLE',					'Content Management Framework');
-define('MY_LOGO',						'custom/images/logos/zefiro-logo-h100.png');
-define('MY_LOGO_ALT',					'Zephyr');
-define('MY_LOGO_TITLE',					'Zephyr, Gott des Westwinds');
+define('MY_TITLE',						'Victims of Biomedical Research under NS');
+define('MY_META_TITLE',					'Victims of Biomedical Research under NS');
+define('MY_SUBTITLE',					'Collaborative Database of Medical Victims');
+define('MY_LOGO',						'custom/images/logos/leopoldina-logo-h100.png');
+define('MY_LOGO_ALT',					'NS Medical Victims Database');
+define('MY_LOGO_TITLE',					'NS Medical Victims Database');
 
 define('MY_HOME',						'Startseite');
 define('MY_ABOUT',						'Über');

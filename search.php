@@ -2,108 +2,114 @@
 // CMS file: search form (public)
 // last known update: 2013-01-22
 
-require_once 'setup/ini.php';
+require_once 'zefiro/ini.php';
 require_once 'flotilla/ini.php';
 
-// template variables
-$template_title = '';
-$template_content = '';
-$template_sidebar = '';
+// url parameters
+$dbi->setUserVar ('view',getUrlParameter('view'),'default');
 
-$form = new Form ('search','results.php','GET');
+// victim search form
+$victimForm = new Form ('search_victim','nmv_result_victims.php','GET');
 
-$form->addField ('header_greek',STATIC_TEXT,'<h3>'.GGA_GREEK.'</h3>');
+$victimForm->addField ('ID_victim',TEXT,5)
+	->setLabel ('ID');
 
-$form->addField ('source_id',SELECT)
-	->setLabel (GGA_WORD_SOURCE)
-	->addOption (0,GGA_NOT_SPECIFIED)
-	->addOptionsFromTable ('sources','source_id','name'); 
+$victimForm->addField ('surname',TEXT,120)
+	->setLabel ('Surname');
 
-$form->addField ('gr_lexeme',TEXT,120)
-	->setLabel (GGA_GREEK_LEXEME)
-	->setLanguage ('gr')
-	->setClass ('keyboardInput');
-
-$form->addField ('gr_pos',SELECT)
-	->setLabel (GGA_GREEK_POS)
-	->addOption ('',GGA_NOT_SPECIFIED)
-	->addOptionsFromTable ('greek_pos','name','title');
-
-$form->addField ('gr_expression',TEXT,250)
-	->setLabel (GGA_GREEK_EXPRESSION)
-	->setLanguage ('gr')
-	->setClass ('keyboardInput');
-
-$form->addField ('header_arabic',STATIC_TEXT,'<h3>'.GGA_ARABIC.'</h3>');
-
-$form->addField ('ar_lexeme',TEXT,120)
-	->setLabel (GGA_ARABIC_LEXEME)
-	->setLanguage ('ar')
-	->setClass ('keyboardInput');
-
-$form->addField ('ar_root_1',SELECT)
-	->setLabel (GGA_ARABIC_ROOT_STEM)
-	->addOption ('',GGA_NOT_SPECIFIED)
-	->addOptionsFromTable ('arabic_letters','latin_mono','latin_mono');
-$form->addField ('ar_root_2',SELECT)
-	->appendTo ('ar_root_1')
-	->addOption ('',GGA_NOT_SPECIFIED)
-	->addOptionsFromTable ('arabic_letters','latin_mono','latin_mono');
-$form->addField ('ar_root_3',SELECT)
-	->appendTo ('ar_root_1')
-	->addOption ('',GGA_NOT_SPECIFIED)
-	->addOptionsFromTable ('arabic_letters','latin_mono','latin_mono');
-$form->addField ('ar_root_4',SELECT)
-	->appendTo ('ar_root_1')
-	->addOption ('',GGA_NOT_SPECIFIED)
-	->addOptionsFromTable ('arabic_letters','latin_mono','latin_mono');
-$form->addField ('ar_root_5',SELECT)
-	->appendTo ('ar_root_1')
-	->addOption ('',GGA_NOT_SPECIFIED)
-	->addOptionsFromTable ('arabic_letters','latin_mono','latin_mono');
-
-$form->addField ('ar_stem',SELECT)
-	->appendTo ('ar_root_1')
-	->setLabel (GGA_STEM)
-	->addOption ('',GGA_NOT_SPECIFIED)
-	->addOption (1,'I')
-	->addOption (2,'II')
-	->addOption (3,'III')
-	->addOption (4,'IV')
-	->addOption (5,'V')
-	->addOption (6,'VI')
-	->addOption (7,'VII')
-	->addOption (8,'VIII')
-	->addOption (9,'IX')
-	->addOption (10,'X')
-	->addOption (11,'XI')
-	->addOption (12,'XII');
-
-$form->addField ('ar_pos',SELECT)
-	->setLabel (GGA_ARABIC_POS)
-	->addOption ('',GGA_NOT_SPECIFIED)
-	->addOptionsFromTable ('arabic_pos','name','title');
-$form->addField ('ar_expression',TEXT,250)
-	->setLabel (GGA_ARABIC_EXPRESSION)
-	->setLanguage ('ar-la')
-	->setClass ('keyboardInput');
-
-$form
+$victimForm
 	->addButton (BACK)
 	->addButton (RESET)
-	->addButton (SUBMIT,Z_SEARCH);
+	->addButton (SUBMIT,L_SEARCH);
 
-// breadcrumbs
-$dbi->addBreadcrumb (Z_SEARCH);
+// perpetrator search form
+$perpetratorForm =
+    new Form ('search_perpetrator','nmv_result_perpetrators.php','GET');
 
-// template variables
-$template_title .= Z_SEARCH;
-$template_content .= getVirtualKeyboard ();
-$template_content .= $form->run ();
-$template_sidebar .= '<h3>'.Z_HELP.'</h3>';
-$template_sidebar .= $dbi->getHelptext_HTML ('search');
+$perpetratorForm->addField ('ID_perpetrator',TEXT,5)
+	->setLabel ('ID');
 
-// call template
-require_once 'templates/ini.php';
+$perpetratorForm->addField ('surname',TEXT,120)
+	->setLabel ('Surname');
+
+$perpetratorForm
+	->addButton (SUBMIT,L_SEARCH);
+
+// experiment search form
+$experimentsForm =
+    new Form ('search_experiments','nmv_result_experiments.php','GET');
+
+$experimentsForm->addField ('ID_experiment',TEXT,5)
+	->setLabel ('ID');
+
+$experimentsForm->addField ('experiment_title',TEXT,255)
+	->setLabel ('Biomedical Research Title');
+
+$experimentsForm->addField ('funding',TEXT,255)
+	->setLabel ('Funding');
+
+$experimentsForm->addField ('field_of_interest',TEXT,50)
+	->setLabel ('Field of Interest');
+
+$experimentsForm->addField ('objective',TEXT,50)
+	->setLabel ('Objective');
+
+$experimentsForm
+	->addButton (SUBMIT,L_SEARCH);
+
+// literature search form
+$literatureForm =
+    new Form ('search_literature','nmv_result_literature.php','GET');
+
+$literatureForm->addField ('ID_literature',TEXT,5)
+	->setLabel ('ID');
+
+$literatureForm->addField ('lit_title',TEXT,250)
+	->setLabel ('Title');
+
+$literatureForm->addField ('authors',TEXT,50)
+	->setLabel ('Authors');
+
+$literatureForm->addField ('lit_year',TEXT,20)
+	->setLabel ('Year');
+
+$literatureForm
+	->addButton (SUBMIT,L_SEARCH);
+
+// source search form
+$sourceForm =
+    new Form ('search_source','nmv_result_source.php','GET');
+
+$sourceForm->addField ('ID_source',TEXT,5)
+	->setLabel ('ID');
+
+$sourceForm->addField ('source_title',TEXT,255)
+	->setLabel ('Title');
+
+$sourceForm->addField ('signature',TEXT,50)
+	->setLabel ('Signature');
+
+$sourceForm->addField ('description',TEXT,255)
+	->setLabel ('Description');
+
+$sourceForm
+	->addButton (SUBMIT,L_SEARCH);
+
+// layout
+$layout
+	->set('title',L_SEARCH)
+	->set('content',
+	    '<h3>Victims</h3>' .
+	    ($dbi->checkUserPermission('view') ? $victimForm->run() : 'In order to search victims, <a href="/z_login">please log in</a>.') .
+	    '<h3>Perpetrators</h3>' .
+	    ($dbi->checkUserPermission('view') ? $perpetratorForm->run() : 'In order to search perpetrators, <a href="/z_login">please log in</a>.') .
+	    '<h3>Biomedical Research</h3>' .
+	    ($dbi->checkUserPermission('view') ? $experimentsForm->run() : 'In order to search biomedical research, <a href="/z_login">please log in</a>.') .
+	    '<h3>Literature</h3>' .
+	    ($dbi->checkUserPermission('view') ? $literatureForm->run() : 'In order to search literature, <a href="/z_login">please log in</a>.') .
+	    '<h3>Sources</h3>' .
+	    ($dbi->checkUserPermission('view') ? $sourceForm->run() : 'In order to search sources, <a href="/z_login">please log in</a>.'))
+	->set('sidebar','<h3>'.L_HELP.'</h3>'.$dbi->getTextblock_HTML ('search'))
+	->cast();
 
 ?>
