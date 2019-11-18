@@ -25,7 +25,7 @@ $form->addField ('ID_dataset_origin',SELECT)
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__dataset_origin', 'ID_dataset_origin', 'work_group');
 $form->addField ('birth_year',TEXT,4) 
-    ->setLabel ('Birth YMD')
+    ->setLabel ('Birth YYYYMD')
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,2950);
 $form->addField ('birth_month',TEXT,2)
@@ -44,7 +44,7 @@ $form->addField ('birth_place',TEXT,50)
 $form->addField ('birth_country',TEXT,50)
     ->setLabel ('Birth Country');
 $form->addField ('death_year',TEXT,4)
-    ->setLabel ('Death YMD')
+    ->setLabel ('Death YYYYMD')
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,2050);
 $form->addField ('death_month',TEXT,2)
