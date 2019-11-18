@@ -3,7 +3,7 @@ require_once 'zefiro/ini.php';
 
 $dbi->requireUserPermission ('view');
 
-// browsing options
+// list browsing options
 $dbi->setUserVar ('sort',getUrlParameter('sort'),'source_title');
 $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
@@ -18,21 +18,21 @@ if ($dbi->checkUserPermission('admin')) {
 		$options .= createSmallButton(L_DELETE,'nmv_remove_source?ID_source={ID_source}','icon delete');
 }
 
-// Select-Klauseln erstellen
+// create SELECT clause
 $querystring_count = 'SELECT COUNT(ID_source) AS total FROM nmv__source v'; // für Treffer gesamt
 $querystring_items = 'SELECT `ID_source`, `source_title`, `medium`, `description`
                 FROM nmv__source'; // für Ergebnisliste
 $querystring_where = array(); // für Filter
 
-// Gesamtanzahl der Suchergebnisse feststellen
+// count total number of search results
 $query_count = $dbi->connection->query($querystring_count);
 $total_results = $query_count->fetch_object();
 $dbi->setUserVar('total_results',$total_results->total);
 
-// order-klausel
+// SQL ORDER BY clause
 $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']} LIMIT ".($dbi->user['skip']).','.Z_LIST_ROWS_PAGE;
 
-// query ausführen
+// execute queries
 $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 
 $layout
