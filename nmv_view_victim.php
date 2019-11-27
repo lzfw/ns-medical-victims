@@ -172,7 +172,7 @@ if ($victim = $result->fetch_object()) {
 
     if ($dbi->checkUserPermission('edit')) {
     	$content .= '<div class="buttons">';
-    	$content .= createButton ('New classification (prison number)',
+    	$content .= createButton ('New imprisonment (prison number)',
     	    'nmv_edit_victim_imprisoniation?ID_victim='.$victim_id,'icon add');
     	$content .= '</div>';
     }
