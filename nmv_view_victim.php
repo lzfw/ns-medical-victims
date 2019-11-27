@@ -138,7 +138,7 @@ if ($victim = $result->fetch_object()) {
     	$content .= '</div>';
     }
 
-    $content .= buildElement('h3', 'Victim Classification');
+    $content .= buildElement('h3', 'Victim Imprisonment');
     // query: get prison numbers
     $querystring = "
     SELECT ID_imprisoniation, ID_victim, number, location,

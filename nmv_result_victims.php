@@ -27,7 +27,7 @@ $exact_fields = array ('ID_victim');
 
 // felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
 // --> If no diacritics are applied, it finds covers any combination: η would also return ἠ, ἦ or ἥ, while ἠ would find only ἠ.
-$like_fields = array ('surname');
+$like_fields = array ('surname', 'first_names');
 
 // felder, die mit like ODER exakt gematcht werden (Trunkierung möglich, Diakritika indistinkt)
 // --> Arabic vowel signs are treated indistinctively: سبب would also return سَبَبٌ, and vice versa.
@@ -48,7 +48,7 @@ $dbi->setUserVar('querystring',implode('&',$query));
 
 // Select-Klauseln erstellen
 $querystring_count = 'SELECT COUNT(v.ID_victim) AS total FROM nmv__victim v'; // für Treffer gesamt
-$querystring_items = 'SELECT v.ID_victim, v.surname FROM nmv__victim v'; // für Ergebnisliste
+$querystring_items = 'SELECT v.ID_victim, v.surname, v.first_names FROM nmv__victim v'; // für Ergebnisliste
 $querystring_where = array(); // für Filter
 
 // MySQL-Zeichenfilter definieren (Trunkierungszeichen werden zu MySQL-Zeichen)
@@ -94,6 +94,7 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $suche_nach = array();
 if (isset($_GET['ID_victim']) && $_GET['ID_victim']) $suche_nach[] = 'ID_victim = '.$_GET['ID_victim'];
 if (isset($_GET['surname']) && $_GET['surname']) $suche_nach[] = 'surname = '.$_GET['surname'];
+if (isset($_GET['first_names']) && $_GET['first_names']) $suche_nach[] = 'first_names = '.$_GET['first_names'];
 
 // breadcrumbs
 $dbi->addBreadcrumb (L_SEARCH,'search.php');

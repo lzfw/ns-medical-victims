@@ -17,6 +17,9 @@ $victimForm->addField ('ID_victim',TEXT,5)
 $victimForm->addField ('surname',TEXT,120)
 	->setLabel ('Surname');
 
+$victimForm->addField ('first_names',TEXT,120)
+	->setLabel ('First Names');
+
 $victimForm
 	->addButton (BACK)
 	->addButton (RESET)
@@ -31,6 +34,9 @@ $perpetratorForm->addField ('ID_perpetrator',TEXT,5)
 
 $perpetratorForm->addField ('surname',TEXT,120)
 	->setLabel ('Surname');
+
+$perpetratorForm->addField ('first_names', TEXT,120)
+	->setLabel ('First Names');
 
 $perpetratorForm
 	->addButton (SUBMIT,L_SEARCH);

@@ -48,7 +48,7 @@ $dbi->setUserVar('querystring',implode('&',$query));
 
 // Select-Klauseln erstellen
 $querystring_count = 'SELECT COUNT(v.ID_perpetrator) AS total FROM nmv__perpetrator v'; // für Treffer gesamt
-$querystring_items = 'SELECT v.ID_perpetrator, v.surname FROM nmv__perpetrator v'; // für Ergebnisliste
+$querystring_items = 'SELECT v.ID_perpetrator, v.surname, v.first_names FROM nmv__perpetrator v'; // für Ergebnisliste
 $querystring_where = array(); // für Filter
 
 // MySQL-Zeichenfilter definieren (Trunkierungszeichen werden zu MySQL-Zeichen)
@@ -94,6 +94,8 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $suche_nach = array();
 if (isset($_GET['ID_perpetrator']) && $_GET['ID_perpetrator']) $suche_nach[] = 'ID_perpetrator = '.$_GET['ID_perpetrator'];
 if (isset($_GET['surname']) && $_GET['surname']) $suche_nach[] = 'surname = '.$_GET['surname'];
+if (isset($_GET['first_names']) && $_GET['first_names']) $suche_nach[] = 'first_names = '.$_GET['first_names'];
+
 
 // breadcrumbs
 $dbi->addBreadcrumb (L_SEARCH,'search.php');
