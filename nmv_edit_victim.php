@@ -18,8 +18,8 @@ $form->addField ('surname',TEXT,255,REQUIRED)
     ->setLabel ('Surname');
 $form->addField ('first_names',TEXT,50)
     ->setLabel ('First Names');
-$form->addField ('kwg',CHECKBOX,-1)
-    ->setLabel ('KWG');
+$form->addField ('mpg_project',CHECKBOX,-1)
+    ->setLabel ('MPG project');
 $form->addField ('ID_dataset_origin',SELECT)
     ->setLabel ('Origin Dataset')
     ->addOption (NO_VALUE,'please choose')

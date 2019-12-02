@@ -22,7 +22,7 @@ $querystring = '
            residence_after_1945_country, residence_after_1945_place,
            occupation_after_1945, n45.english nationality_after_1945,
            v.consequential_injuries, v.compensation, v.compensation_details,
-           v.notes_after_1945, v.kwg
+           v.notes_after_1945, v.mpg_project
     FROM nmv__victim v
     LEFT JOIN nmv__marital_family_status m ON (m.ID_marital_family_status = v.ID_marital_family_status )
     LEFT JOIN nmv__education ed ON (ed.ID_education = v.ID_education)
@@ -69,7 +69,7 @@ if ($victim = $result->fetch_object()) {
     $content .= buildElement('table','grid',
         buildDataSheetRow('Victim ID',              $victim_id).
         buildDataSheetRow('Name',                   $victim_name).
-        buildDataSheetRow('KWG',                    $victim->kwg ? 'Yes' : '').
+        buildDataSheetRow('MPG project',            $victim->mpg_project ? 'Yes' : '').
         buildDataSheetRow('Gender',                 $victim->gender).
         buildDataSheetRow('Birth',                  $victim_birth).
         buildDataSheetRow('Death',                  $victim_death).
