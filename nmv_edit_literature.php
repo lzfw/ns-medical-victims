@@ -14,7 +14,7 @@ $form
 	->setPrimaryKeyName('ID_literature');
 $form->addField ('ID_literature', PROTECTED_TEXT)
     ->setLabel ('Literature ID');
-$form->addField ('authors',TEXT,50)  
+$form->addField ('authors',TEXT,250)  
     ->setLabel ('Authors');
 $form->addField ('lit_year',TEXT,50)  
     ->setLabel ('Year');
@@ -33,9 +33,9 @@ $form->addField ('volume',TEXT,50)
 $form->addField ('pages',TEXT,50)  
     ->setLabel ('Pages');
 
-$form->addField ('location',TEXT,50)  
+$form->addField ('location',TEXT,250)  
     ->setLabel ('Location');
-$form->addField ('publisher',TEXT,50)  
+$form->addField ('publisher',TEXT,250)  
     ->setLabel ('Publisher');
 /* Aleks requested so on Skype: 2019-05-02
 $form->addField ('data_entry_status',TEXT,255)
