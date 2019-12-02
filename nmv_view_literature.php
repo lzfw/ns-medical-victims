@@ -13,7 +13,7 @@ $dbi->addBreadcrumb ('Literature','nmv_list_literature');
 $querystring = '
     SELECT authors, lit_year, lit_title, article, journal_or_series,
            editor, volume, location, pages, publisher, scientific_exploitation, 
-           notes
+           notes, url, isbn_10, isbn_13
     FROM nmv__literature v
     WHERE ID_literature = ?';
 
@@ -55,7 +55,10 @@ if ($literature = $result->fetch_object()) {
         buildDataSheetRow('Publisher',              $literature->publisher).
         buildDataSheetRow('Scientific exploitation',
             $literature->scientific_exploitation ? 'Yes' : 'No').
-        buildDataSheetRow('Notes',                  $literature->notes)
+        buildDataSheetRow('Notes',                  $literature->notes).
+        buildDataSheetRow('URL',                    $literature->url).
+        buildDataSheetRow('ISBN-10',                  $literature->isbn_10).
+        buildDataSheetRow('ISBN_13',                  $literature->isbn_13)
     );
 } else {
     $literature_name = 'Error: unknown literature';

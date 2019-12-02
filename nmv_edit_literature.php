@@ -49,6 +49,12 @@ $form->addField ('scientific_exploitation',CHECKBOX,1)
     ->setLabel ('Scientific exploitation');
 $form->addField ('notes',TEXTAREA)
     ->setLabel ('Notes');
+$form->addField ('url',TEXT,250)  
+    ->setLabel ('URL');
+$form->addField ('isbn_10',TEXT,25)  
+    ->setLabel ('ISBN-10');
+$form->addField ('isbn_13',TEXT,25)  
+    ->setLabel ('ISBN-13');
 
 $form
 	->addButton (SUBMIT)
