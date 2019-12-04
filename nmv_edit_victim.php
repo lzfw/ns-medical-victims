@@ -39,7 +39,7 @@ $form->addField ('birth_day',TEXT,2)
 $form->addField ('twin',CHECKBOX,-1)
     ->setLabel ('Twin')
     ->appendTo('birth_year');
-$form->addField ('birth_place',TEXT,50)
+$form->addField ('birth_place',TEXT,250)
     ->setLabel ('Birth Place');
 $form->addField ('birth_country',TEXT,50)
     ->setLabel ('Birth Country');
@@ -55,7 +55,7 @@ $form->addField ('death_day',TEXT,2)
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,31)
     ->appendTo ('death_year');
-$form->addField ('death_place',TEXT,50)
+$form->addField ('death_place',TEXT,250)
     ->setLabel ('Death Place');
 $form->addField ('death_country',TEXT,50)
     ->setLabel ('Death Country');
@@ -106,7 +106,7 @@ $form->addField ('arrest_history',TEXTAREA)
     ->setLabel ('Arrest history');
 
 // After '45 group
-$form->addField ('residence_after_1945_place',TEXT,50)
+$form->addField ('residence_after_1945_place',TEXT,250)
     ->setLabel ('Residence after \'45 (Place)');
 $form->addField ('residence_after_1945_country',TEXT,50)
     ->setLabel ('Residence after \'45 (Country)');
