@@ -33,7 +33,7 @@ if ($victim_id) {
 
 
 $form
-	->setLabel('Victim Classification: ' . $victim_name);
+	->setLabel('Victim Imprisonment: ' . $victim_name);
 
 $form
 	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
@@ -63,6 +63,6 @@ $dbi->addBreadcrumb ('Victims','nmv_list_victims');
 $dbi->addBreadcrumb ('Victim Classification: '.$victim_name,'nmv_view_victim?ID_victim='.$victim_id);
 
 $layout
-	->set('title',getUrlParameter('ID_imprisoniation') ? 'Edit Victim Classification' : 'New Victim Classification')
+	->set('title',getUrlParameter('ID_imprisoniation') ? 'Edit Victim Imprisonment' : 'New Victim Imprisonment')
 	->set('content',$form->run().$form->debuglog->Show())
 	->cast();
