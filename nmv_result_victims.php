@@ -71,7 +71,7 @@ foreach ($exact_fields as $field) {
 foreach ($like_fields as $field) {
     if (getUrlParameter($field)) {
 		$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
-		$querystring_where[] = "(v.$field LIKE '".$filtered_field."'";
+		$querystring_where[] = "(v.$field LIKE '".$filtered_field."' OR o.$field LIKE '".$filtered_field."')";
     }
 }
 foreach ($double_fields as $field) {
