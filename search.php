@@ -1,4 +1,11 @@
 <?php
+/**
+*creates search form
+*
+*
+*
+*/
+
 // CMS file: search form (public)
 // last known update: 2013-01-22
 
