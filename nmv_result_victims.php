@@ -1,6 +1,13 @@
 <?php
+/**
+* define searchqueries for victimsearch
+*
+*
+*
+*/
+
 // CMS file: search results (public)
-// last known update: 2013-01-22
+// last known update: 2019-12-18
 
 require_once 'zefiro/ini.php';
 
@@ -23,7 +30,7 @@ $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 // zu durchsuchende felder und suchsystematik definieren:
 
 // felder, die immer exakt gematcht werden (Trunkierung nicht möglich, Diakritika distinkt, Basiszeichen distinkt)
-$exact_fields = array ('ID_victim');
+$exact_fields = array ('ID_victim', 'mpg_project');
 
 // felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
 // --> If no diacritics are applied, it finds covers any combination: η would also return ἠ, ἦ or ἥ, while ἠ would find only ἠ.
@@ -48,7 +55,7 @@ $dbi->setUserVar('querystring',implode('&',$query));
 
 // Select-Klauseln erstellen
 $querystring_count = 'SELECT COUNT(v.ID_victim) AS total FROM nmv__victim v'; // für Treffer gesamt
-$querystring_items = 'SELECT v.ID_victim, v.surname, v.first_names FROM nmv__victim v'; // für Ergebnisliste
+$querystring_items = 'SELECT v.ID_victim, v.surname, v.first_names, v.mpg_project FROM nmv__victim v'; // für Ergebnisliste
 $querystring_where = array(); // für Filter
 
 // MySQL-Zeichenfilter definieren (Trunkierungszeichen werden zu MySQL-Zeichen)
@@ -95,6 +102,7 @@ $suche_nach = array();
 if (isset($_GET['ID_victim']) && $_GET['ID_victim']) $suche_nach[] = 'ID_victim = '.$_GET['ID_victim'];
 if (isset($_GET['surname']) && $_GET['surname']) $suche_nach[] = 'surname = '.$_GET['surname'];
 if (isset($_GET['first_names']) && $_GET['first_names']) $suche_nach[] = 'first_names = '.$_GET['first_names'];
+if (isset($_GET['mpg_project']) && $_GET['mpg_project']) $suche_nach[] = 'mpg_project = '.$_GET['mpg_project'];
 
 // breadcrumbs
 $dbi->addBreadcrumb (L_SEARCH,'search.php');

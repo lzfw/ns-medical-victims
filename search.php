@@ -21,6 +21,12 @@ $victimForm->addField ('first_names',TEXT,120)
 	->setLabel ('First Names');
 
 $victimForm
+	->setLabel ('Filter');
+
+$victimForm->addField ('mpg_project', CHECKBOX, -1)
+	->setLabel ('MPG Project');
+
+$victimForm
 	->addButton (BACK)
 	->addButton (RESET)
 	->addButton (SUBMIT,L_SEARCH);
