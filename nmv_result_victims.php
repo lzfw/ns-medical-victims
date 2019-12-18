@@ -54,7 +54,7 @@ foreach ($double_fields as $field) {
 $dbi->setUserVar('querystring',implode('&',$query));
 
 // Select-Klauseln erstellen
-$querystring_count = 'SELECT COUNT(v.ID_victim) AS total FROM nmv__victim v, nmv__victim_name o'; // für Treffer gesamt
+$querystring_count = 'SELECT COUNT(v.ID_victim) AS total FROM nmv__victim v'; // für Treffer gesamt
 $querystring_items = 'SELECT v.ID_victim, v.surname, v.first_names, v.mpg_project, o.ID_victim , o.victim_name, o.victim_first_names FROM nmv__victim v, nmv__victim_name o'; // für Ergebnisliste
 $querystring_where = array(); // für Filter
 
