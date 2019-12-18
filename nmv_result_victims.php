@@ -55,7 +55,7 @@ $dbi->setUserVar('querystring',implode('&',$query));
 
 // Select-Klauseln erstellen
 $querystring_count = 'SELECT COUNT(v.ID_victim) AS total FROM nmv__victim v'; // für Treffer gesamt
-$querystring_items = 'SELECT v.ID_victim, v.surname, v.first_names, v.mpg_project, o.ID_victim , o.victim_name, o.victim_first_names FROM nmv__victim v, nmv__victim_name o'; // für Ergebnisliste
+$querystring_items = 'SELECT v.ID_victim, v.surname, v.first_names, v.mpg_project FROM nmv__victim v'; // für Ergebnisliste
 $querystring_where = array(); // für Filter
 
 // MySQL-Zeichenfilter definieren (Trunkierungszeichen werden zu MySQL-Zeichen)
@@ -71,7 +71,7 @@ foreach ($exact_fields as $field) {
 foreach ($like_fields as $field) {
     if (getUrlParameter($field)) {
 		$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
-		$querystring_where[] = "(v.$field LIKE '".$filtered_field."' OR o.$field LIKE '".$filtered_field."'";
+		$querystring_where[] = "v.$field LIKE '".$filtered_field."'";
     }
 }
 foreach ($double_fields as $field) {
