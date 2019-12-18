@@ -20,9 +20,6 @@ $victimForm->addField ('surname',TEXT,120)
 $victimForm->addField ('first_names',TEXT,120)
 	->setLabel ('First Names');
 
-$victimForm
-	->addLabel ('Filter');
-
 $victimForm->addField ('mpg_project', CHECKBOX, -1)
 	->setLabel ('MPG Project');
 
