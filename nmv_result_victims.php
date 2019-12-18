@@ -55,7 +55,7 @@ $dbi->setUserVar('querystring',implode('&',$query));
 
 // Select-Klauseln erstellen
 $querystring_count = 'SELECT COUNT(v.ID_victim) AS total FROM nmv__victim v, nmv__victim_name o'; // für Treffer gesamt
-$querystring_items = 'SELECT v.ID_victim, v.surname, v.first_names, v.mpg_project FROM nmv__victim v UNION ALL SELECT o.ID_victim, o.victim_name, o.victim_first_names, v.mpg_project FROM nmv__victim_name o LEFT JOIN nmv__victim v ON v.ID_victim=o.ID_victim WHERE o.ID_victim IS NOT NULL'; // für Ergebnisliste
+$querystring_items = 'SELECT v.ID_victim, v.surname, v.first_names, v.mpg_project, o.ID_victim , o.victim_name, o.victim_first_names FROM nmv__victim v, nmv__victim_name o'; // für Ergebnisliste
 $querystring_where = array(); // für Filter
 
 // MySQL-Zeichenfilter definieren (Trunkierungszeichen werden zu MySQL-Zeichen)
