@@ -25,7 +25,7 @@ $form->addField ('lit_title',TEXT,1500)
 $form->addField ('article',CHECKBOX,-1)
     ->setLabel ('Is article');
 $form->addField ('journal_or_series',TEXT,1500)  
-    ->setLabel ('Journal or series');
+    ->setLabel ('Journal or Edited Volume');
 $form->addField ('editor',TEXT,250)  
     ->setLabel ('Editor');
 $form->addField ('volume',TEXT,50)  

@@ -47,7 +47,7 @@ if ($literature = $result->fetch_object()) {
         buildDataSheetRow('Year',                   $literature->lit_year).
         buildDataSheetRow('Title',                  $literature->lit_title).
         buildDataSheetRow('Is Article',                     $literature->article ? 'Yes' : 'No').
-        buildDataSheetRow('Article Journal or Series',      $literature->journal_or_series).
+        buildDataSheetRow('Article Journal or Edited Volume',      $literature->journal_or_series).
         buildDataSheetRow('Article Editor',                 $literature->editor).
         buildDataSheetRow('Article Volume',                 $literature->volume).
         buildDataSheetRow('Location',                       $literature->location).
