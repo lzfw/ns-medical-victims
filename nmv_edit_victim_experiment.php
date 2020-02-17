@@ -84,10 +84,13 @@ $form->addField ('exp_end_day',TEXT,2)
     ->addCondition(VALUE,MAX,31)
     ->appendTo('exp_end_year');
 $form->addField ('notes_perpetrator',TEXTAREA)
+    ->setClass ('keyboardInput')
     ->setLabel ('Notes about Perpetrator');
 $form->addField ('narratives',TEXTAREA)
+    ->setClass ('keyboardInput')
     ->setLabel ('Narratives');
 $form->addField ('notes',TEXTAREA)
+    ->setClass ('keyboardInput')
     ->setLabel ('Notes');
 
 $form

@@ -83,4 +83,5 @@
 			</div> <!-- .right -->
 		</div> <!-- .bar -->
 	</div> <!-- #page -->
+	<script src="/javascript/keyboard/keyboard.js"></script>
 </body>

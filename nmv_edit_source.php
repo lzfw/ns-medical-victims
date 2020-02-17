@@ -45,8 +45,10 @@ $form->addField ('names_mentioned',TEXT,6)
     ->setLabel ('Names mentioned (count)');
 */
 $form->addField ('location',TEXT,250)
+    ->setClass ('keyboardInput')
     ->setLabel ('Location');
 $form->addField ('notes',TEXTAREA)
+    ->setClass ('keyboardInput')
     ->setLabel ('Notes');
 
 $form

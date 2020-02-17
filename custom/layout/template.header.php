@@ -39,6 +39,6 @@
 	
 	<!-- other css stylesheets, uncomment whatever you need -->
 	<!-- <link rel="stylesheet" type="text/css" href="stylesheets/jqzoom.css" /> -->
-	<!-- <link rel="stylesheet" type="text/css" href="stylesheets/keyboard.css" /> -->
+	<link rel="stylesheet" type="text/css" href="stylesheets/keyboard.css" />
 
 </head>

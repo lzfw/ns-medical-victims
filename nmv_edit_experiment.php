@@ -12,7 +12,8 @@ $form
 $form
 	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
 	->setPrimaryKeyName('ID_experiment');
-$form->addField ('experiment_title',TEXT,255,REQUIRED)  
+$form->addField ('experiment_title',TEXT,255,REQUIRED)
+    ->setClass ('keyboardInput')
     ->setLabel ('Title');
 $form->addField ('classification',SELECT)
     ->setLabel ('Classification')
@@ -23,6 +24,7 @@ $form->addField ('ID_institution',SELECT)
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__institution', 'ID_institution', "LEFT(concat(IFNULL(LEFT(institution_name, 60), '#'),' - ',IFNULL(LEFT(location,40), '#'),' - ',IFNULL(country, '#')),100)");
 $form->addField ('location_details',TEXT,250)
+    ->setClass ('keyboardInput')
     ->setLabel ('Location Details');
 $form->addField ('start_year',TEXT,4)
     ->setLabel ('Start YMD')
@@ -49,6 +51,7 @@ $form->addField ('end_day',TEXT,2)
     ->addCondition(VALUE,MAX,31)
     ->appendTo ('end_year');
 $form->addField ('notes_location',TEXTAREA)
+    ->setClass ('keyboardInput')
     ->setLabel ('Notes (Location)');
 $form->addField ('funding',TEXT,250)
     ->setLabel ('Funding');
@@ -69,6 +72,7 @@ $form->addField ('number_victims_remark',TEXTAREA)
 $form->addField ('confirmed_experiment',CHECKBOX,1)
     ->setLabel ('Confirmed Biomedical Research');
 $form->addField ('notes',TEXTAREA)
+    ->setClass ('keyboardInput')
     ->setLabel ('Notes');
 
 $form

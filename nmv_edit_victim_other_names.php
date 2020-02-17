@@ -45,9 +45,11 @@ $form->addField ('nametype',SELECT)
     ->setLabel ('name type')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__victim_nametype', 'ID_nametype', "english");
-$form->addField ('victim_name',TEXT,250) 
+$form->addField ('victim_name',TEXT,250)
+    ->setClass ('keyboardInput')
     ->setLabel ('name');
 $form->addField ('victim_first_names',TEXT,50) 
+    ->setClass ('keyboardInput')
     ->setLabel ('first names');
 
 $form

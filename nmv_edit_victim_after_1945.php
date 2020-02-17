@@ -12,9 +12,11 @@ $form
 $form
 	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
 	->setPrimaryKeyName('ID_victim');
-$form->addField ('surname',TEXT,255,REQUIRED)  
+$form->addField ('surname',TEXT,255,REQUIRED)
+    ->setClass ('keyboardInput')
     ->setLabel ('surname');
 $form->addField ('first_names',TEXT,50)
+    ->setClass ('keyboardInput')
     ->setLabel ('first names');
 $form->addField ('ID_name',SUBTABLE,'nmv__victim_name',['victim_name', 'victim_first_names'])
     ->setLabel ('other names');
@@ -34,8 +36,10 @@ $form->addField ('twin',CHECKBOX,-1)
     ->setLabel ('twin')
     ->appendTo('birth_year');
 $form->addField ('birth_place',TEXT,50)
+    ->setClass ('keyboardInput')
     ->setLabel ('birth place');
 $form->addField ('birth_country',TEXT,50)
+    ->setClass ('keyboardInput')
     ->setLabel ('birth country');
 $form->addField ('death_year',TEXT,4)
     ->setLabel ('death ymd')
@@ -50,8 +54,10 @@ $form->addField ('death_day',TEXT,2)
     ->addCondition(VALUE,MAX,31)
     ->appendTo ('death_year');
 $form->addField ('death_place',TEXT,50)
+    ->setClass ('keyboardInput')
     ->setLabel ('death place');
 $form->addField ('death_country',TEXT,50)
+    ->setClass ('keyboardInput')
     ->setLabel ('death country');
 $form->addField ('cause of death',TEXT,255)
     ->setLabel ('cause of death');

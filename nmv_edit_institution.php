@@ -14,17 +14,20 @@ $form
 	->setPrimaryKeyName('ID_institution');
 $form->addfield ('ID_institution', PROTECTED_TEXT)
     ->setLabel ('Institution ID');
-$form->addField ('institution_name',TEXT,250)  
+$form->addField ('institution_name',TEXT,250)
+    ->setClass ('keyboardInput')
     ->setLabel ('Name');
-$form->addField ('location',TEXT,250)  
+$form->addField ('location',TEXT,250)
+    ->setClass ('keyboardInput') 
     ->setLabel ('Location');
-$form->addField ('country',TEXT,50)  
+$form->addField ('country',TEXT,50)
     ->setLabel ('Country');
 $form->addField ('type',SELECT)
     ->setLabel ('Type')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__institution_type', 'ID_institution_type', 'english');
 $form->addField ('notes',TEXTAREA)
+    ->setClass ('keyboardInput')
     ->setLabel ('Notes');
 
 $form

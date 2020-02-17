@@ -14,9 +14,11 @@ $form
 	->setPrimaryKeyName('ID_victim');
 $form->addField ('ID_victim',PROTECTED_TEXT)
     ->setLabel ('Victim ID');	
-$form->addField ('surname',TEXT,255,REQUIRED)  
+$form->addField ('surname',TEXT,255,REQUIRED)
+    ->setClass ('keyboardInput')
     ->setLabel ('Surname');
 $form->addField ('first_names',TEXT,50)
+    ->setClass ('keyboardInput')
     ->setLabel ('First Names');
 $form->addField ('mpg_project',CHECKBOX,-1)
     ->setLabel ('MPG project');
@@ -40,8 +42,10 @@ $form->addField ('twin',CHECKBOX,-1)
     ->setLabel ('Twin')
     ->appendTo('birth_year');
 $form->addField ('birth_place',TEXT,250)
+    ->setClass ('keyboardInput')
     ->setLabel ('Birth Place');
 $form->addField ('birth_country',TEXT,50)
+    ->setClass ('keyboardInput')
     ->setLabel ('Birth Country');
 $form->addField ('death_year',TEXT,4)
     ->setLabel ('Death YYYYMD')
@@ -56,8 +60,10 @@ $form->addField ('death_day',TEXT,2)
     ->addCondition(VALUE,MAX,31)
     ->appendTo ('death_year');
 $form->addField ('death_place',TEXT,250)
+    ->setClass ('keyboardInput')
     ->setLabel ('Death Place');
 $form->addField ('death_country',TEXT,50)
+    ->setClass ('keyboardInput')
     ->setLabel ('Death Country');
 $form->addField ('cause_of_death',TEXT,255)
     ->setLabel ('Cause of Death');
@@ -93,16 +99,21 @@ $form->addField ('occupation',SELECT)
 $form->addField ('occupation_details',TEXT,50)
     ->setLabel ('Occupation Details');
 $form->addField ('notes',TEXTAREA)
+    ->setClass ('keyboardInput')
     ->setLabel ('Notes');
 
 // Arrests group
 $form->addField ('arrest_prehistory',TEXTAREA)
+    ->setClass ('keyboardInput')
     ->setLabel ('Arrest prehistory');
 $form->addField ('arrest_location',TEXT,255)
+    ->setClass ('keyboardInput')
     ->setLabel ('Arrest location');
 $form->addField ('arrest_country',TEXT,100)
+    ->setClass ('keyboardInput')
     ->setLabel ('Arrest country');
 $form->addField ('arrest_history',TEXTAREA)
+    ->setClass ('keyboardInput')
     ->setLabel ('Arrest history');
 
 // After '45 group
@@ -121,8 +132,10 @@ $form->addField ('consequential_injuries',TEXTAREA)
 $form->addField ('compensation',CHECKBOX,-1)
     ->setLabel ('Compensation ???');
 $form->addField ('compensation_details',TEXTAREA)
+    ->setClass ('keyboardInput')
     ->setLabel ('Compensation details');
 $form->addField ('notes_after_1945',TEXTAREA)
+    ->setClass ('keyboardInput')
     ->setLabel ('Notes on life after 1945');
 
 
