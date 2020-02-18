@@ -97,6 +97,7 @@ $form->addField ('occupation',SELECT)
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__occupation', 'ID_occupation', 'english');
 $form->addField ('occupation_details',TEXT,50)
+    ->setClass ('keyboardInput')
     ->setLabel ('Occupation Details');
 $form->addField ('notes',TEXTAREA)
     ->setClass ('keyboardInput')
@@ -118,6 +119,7 @@ $form->addField ('arrest_history',TEXTAREA)
 
 // After '45 group
 $form->addField ('residence_after_1945_place',TEXT,250)
+    ->setClass ('keyboardInput')
     ->setLabel ('Residence after \'45 (Place)');
 $form->addField ('residence_after_1945_country',TEXT,50)
     ->setLabel ('Residence after \'45 (Country)');

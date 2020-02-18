@@ -72,8 +72,10 @@ $form->addField ('evaluation_status',SELECT)
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__victim_evaluation_status', 'ID_status', 'english');
 $form->addField ('status_due_to',TEXTAREA)
+    ->setClass ('keyboardInput')
     ->setLabel ('Status due to');
 $form->addField ('status_notes',TEXTAREA)
+    ->setClass ('keyboardInput')
     ->setLabel ('Status Notes');
 $form->addField ('compensation',SELECT)
     ->setLabel ('Compensation')

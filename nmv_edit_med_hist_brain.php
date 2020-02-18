@@ -46,6 +46,7 @@ $form->addField ('ID_institution',SELECT)
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__institution', 'ID_institution', "LEFT(concat(IFNULL(LEFT(institution_name, 60), '#'),' - ',IFNULL(LEFT(location,40), '#'),' - ',IFNULL(country, '#')),100)");
 $form->addField ('kwi_researcher',TEXT,150)
+    ->setClass ('keyboardInput')
     ->setLabel ('KWI Researcher');
 $form->addField ('ID_diagnosis',SELECT)
     ->setLabel ('Brain Diagnosis')
@@ -66,6 +67,7 @@ $form->addField ('brain_report_day',TEXT,2)
     ->addCondition(VALUE,MAX,31)
     ->appendTo('brain_report_year');
 $form->addField ('notes',TEXTAREA)
+    ->setClass ('keyboardInput')
     ->setLabel ('Notes');
 $form->addField ('ref_no',TEXT,10) 
     ->setLabel ('Reference number');

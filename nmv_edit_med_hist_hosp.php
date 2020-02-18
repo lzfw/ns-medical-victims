@@ -46,6 +46,7 @@ $form->addField ('ID_institution',SELECT)
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__institution', 'ID_institution', "LEFT(concat(IFNULL(LEFT(institution_name, 60), '#'),' - ',IFNULL(LEFT(location,40), '#'),' - ',IFNULL(country, '#')),100)");
 $form->addField ('institution',TEXT,70) 
+    ->setClass ('keyboardInput')
     ->appendTo('ID_institution');
 $form->addField ('ID_institution_order',SELECT)
     ->setLabel ('Institution Order')
@@ -104,6 +105,7 @@ $form->addField ('age_exit',TEXT,3)
 $form->addField ('autopsy_ref_no',TEXT,20)
     ->setLabel ('Autopsy reference number');
 $form->addField ('notes',TEXTAREA)
+    ->setClass ('keyboardInput')
     ->setLabel ('Notes / Autopsy Details');
 
 $form

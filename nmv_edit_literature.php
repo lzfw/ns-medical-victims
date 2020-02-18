@@ -14,28 +14,34 @@ $form
 	->setPrimaryKeyName('ID_literature');
 $form->addField ('ID_literature', PROTECTED_TEXT)
     ->setLabel ('Literature ID');
-$form->addField ('authors',TEXT,250)  
+$form->addField ('authors',TEXT,250) 
+    ->setClass ('keyboardInput') 
     ->setLabel ('Authors');
 $form->addField ('lit_year',TEXT,50)  
     ->setLabel ('Year');
 $form->addField ('lit_title',TEXT,1500)  
+    ->setClass ('keyboardInput')
     ->setLabel ('Title');
 
 // article properties - should be grouped somehow
 $form->addField ('article',CHECKBOX,-1)
     ->setLabel ('Is article');
-$form->addField ('journal_or_series',TEXT,1500)  
+$form->addField ('journal_or_series',TEXT,1500)
+    ->setClass ('keyboardInput')
     ->setLabel ('Journal or Edited Volume');
-$form->addField ('editor',TEXT,250)  
+$form->addField ('editor',TEXT,250)
+    ->setClass ('keyboardInput')  
     ->setLabel ('Editor');
 $form->addField ('volume',TEXT,50)  
     ->setLabel ('Volume');
 $form->addField ('pages',TEXT,50)  
     ->setLabel ('Pages');
 
-$form->addField ('location',TEXT,250)  
+$form->addField ('location',TEXT,250) 
+    ->setClass ('keyboardInput')  
     ->setLabel ('Location');
 $form->addField ('publisher',TEXT,250)  
+    ->setClass ('keyboardInput') 
     ->setLabel ('Publisher');
 /* Aleks requested so on Skype: 2019-05-02
 $form->addField ('data_entry_status',TEXT,255)
@@ -48,6 +54,7 @@ $form->addField ('names_mentioned',TEXT,6)
 $form->addField ('scientific_exploitation',CHECKBOX,1)
     ->setLabel ('Scientific exploitation');
 $form->addField ('notes',TEXTAREA)
+    ->setClass ('keyboardInput') 
     ->setLabel ('Notes');
 $form->addField ('url',TEXT,250)  
     ->setLabel ('URL');

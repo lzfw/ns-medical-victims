@@ -54,6 +54,7 @@ $form->addField ('notes_location',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Notes (Location)');
 $form->addField ('funding',TEXT,250)
+    ->setClass ('keyboardInput') 
     ->setLabel ('Funding');
 $form->addField ('field_of_interest',TEXT,50)
     ->setLabel ('Field of Interest');

@@ -14,9 +14,11 @@ $form
 	->setPrimaryKeyName('ID_source');
 $form->addField ('ID_source', PROTECTED_TEXT)
     ->setLabel ('Source ID');
-$form->addField ('source_title',TEXT,1500,REQUIRED)  
+$form->addField ('source_title',TEXT,1500,REQUIRED) 
+    ->setClass ('keyboardInput') 
     ->setLabel ('Title');
 $form->addField ('signature',TEXT,50)
+    ->setClass ('keyboardInput')
     ->setLabel ('Signature');
 $form->addField ('creation_year',TEXT,50)
     ->setLabel ('Creation Year');
@@ -29,6 +31,7 @@ $form->addField ('ID_language',SELECT)
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__language', 'ID_language', 'english');
 $form->addField ('description',TEXTAREA)
+    ->setClass ('keyboardInput')
     ->setLabel ('Description');
 $form->addField ('medium',TEXT,50)
     ->setLabel ('Medium');

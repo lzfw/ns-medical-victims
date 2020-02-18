@@ -64,6 +64,7 @@ $form->addField ('since_day',TEXT,2)
 $form->addField ('location',TEXT,150)
     ->setLabel ('Tissue Location');
 $form->addField ('notes',TEXTAREA)
+    ->setClass ('keyboardInput')
     ->setLabel ('Notes');
 $form->addField ('ref_no',TEXT,10) 
     ->setLabel ('Reference number');

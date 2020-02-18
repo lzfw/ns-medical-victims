@@ -48,6 +48,7 @@ $form->addField ('ID_classification',SELECT)
 $form->addField ('number',TEXT,50) 
     ->setLabel ('(Prison) Number');
 $form->addField ('location',TEXT,50) 
+    ->setClass ('keyboardInput')
     ->setLabel ('Location');
 
 $form
