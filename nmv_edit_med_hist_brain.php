@@ -69,7 +69,7 @@ $form->addField ('brain_report_day',TEXT,2)
 $form->addField ('notes',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Notes');
-$form->addField ('ref_no',TEXT,10) 
+$form->addField ('ref_no',TEXT,50) 
     ->setLabel ('Reference number');
 
 $form

@@ -102,7 +102,7 @@ $form->addField ('age_exit',TEXT,3)
     ->setLabel ('Exit Age')
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,199);
-$form->addField ('autopsy_ref_no',TEXT,20)
+$form->addField ('autopsy_ref_no',TEXT,50)
     ->setLabel ('Autopsy reference number');
 $form->addField ('notes',TEXTAREA)
     ->setClass ('keyboardInput')
