@@ -83,7 +83,11 @@ class Action_Database extends Action {
 						}
 						else {
 							// insert textual field
-							$insert_values[] = '\''.addslashes($Field->user_value).'\'';
+							if ($Field->user_value == ''){
+								$insert_values[] = 'NULL';
+							} else {
+								$insert_values[] = '\''.addslashes($Field->user_value).'\'';
+							}
 							$this->Creator->debuglog->Write(DEBUG_INFO,'. preparing textual field: '.$Field->name.' = '.$Field->user_value);
 						}
 						$insert_names[] = '`'.$Field->name.'`';
@@ -91,6 +95,9 @@ class Action_Database extends Action {
 				}
 			}
 		}
+		// Case localhost and insert of victim: use version with wild_card
+		//$querystring .= ' (wild_card,'.(implode(',',$insert_names)).')';
+		//$querystring .= ' VALUES (0,'.(implode(',',$insert_values)).')';
 		$querystring .= ' ('.(implode(',',$insert_names)).')';
 		$querystring .= ' VALUES ('.(implode(',',$insert_values)).')';
 		$query = $this->Query($querystring);
@@ -135,7 +142,11 @@ class Action_Database extends Action {
 						}
 						else {
 							// update textual field
-							$update_values[] = '`'.$Field->name.'`=\''.addslashes($Field->user_value).'\'';
+							if ($Field->user_value == '') {
+								$update_values[] = '`'.$Field->name.'`=NULL';
+							} else {
+								$update_values[] = '`'.$Field->name.'`=\''.addslashes($Field->user_value).'\'';
+							}
 							$this->Creator->debuglog->Write(DEBUG_INFO,'. preparing textual field: '.$Field->name.' = '.$Field->user_value);
 						}
 						break;
@@ -316,4 +327,3 @@ class Action_Database extends Action {
 	}
 
 }
-
