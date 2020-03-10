@@ -27,8 +27,7 @@ $exact_fields = array ('ID_perpetrator');
 
 // felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
 // --> If no diacritics are applied, it finds covers any combination: η would also return ἠ, ἦ or ἥ, while ἠ would find only ἠ.
-$like_fields = array ('surname');
-$like_fields = array ('first_names');
+$like_fields = array ('surname', 'first_names');
 
 
 // felder, die mit like ODER exakt gematcht werden (Trunkierung möglich, Diakritika indistinkt)
