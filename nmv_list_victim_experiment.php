@@ -5,6 +5,7 @@ $dbi->requireUserPermission ('view');
 
 $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 
+// get ID_victim / _experiment
 $victim_id = (int) getUrlParameter('ID_victim', 0);
 $experiment_id = (int) getUrlParameter('ID_experiment', 0);
 
@@ -13,6 +14,7 @@ $experiment_name = 'Error: Missing biomedical research.';
 $title = '';
 $content = '';
 
+ //create a table of experiments a certain victim was involved in
 if ($victim_id) {
     $dbi->addBreadcrumb ('Victims','nmv_list_victims');
 
@@ -30,7 +32,20 @@ if ($victim_id) {
 
         $dbi->addBreadcrumb ($victim_name,'nmv_view_victim?ID_victim='.$victim_id);
 
-        // query: get hosp data
+        //get number of experiments
+        $querystring_count = "
+        SELECT COUNT(ve.ID_experiment) AS total
+          FROM nmv__victim_experiment ve
+          LEFT JOIN nmv__experiment e ON e.ID_experiment = ve.ID_experiment
+          LEFT JOIN nmv__victim v ON v.ID_victim = ve.ID_victim
+          LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.classification
+          WHERE ve.ID_victim = $victim_id";
+        $query_count = $dbi->connection->query($querystring_count);
+        $total_results = $query_count->fetch_object();
+        $experiment_count = $total_results->total;
+
+
+        // query: get experiment data
         $querystring = "
         SELECT ve.ID_vict_exp ID_vict_exp, ve.experiment_duration duration, ve.age_experiment_start age,
             COALESCE(e.experiment_title, 'unspecified') title, c.english classification,
@@ -59,6 +74,7 @@ if ($victim_id) {
     	$row_template[] = $options;
     	$header_template[] = L_OPTIONS;
 
+        $content .= '<p>Number of experiments: '.$experiment_count.'</p>';
         $content .= buildTableFromQuery(
             $querystring,
             $row_template,
@@ -76,6 +92,8 @@ if ($victim_id) {
     $content .= createBackLink ('View victim: '.$victim_name,'nmv_view_victim?ID_victim='.$victim_id);
 }
 
+
+//create a table of victims of a certain experiment
 if ($experiment_id) {
     // FIXME: TODO: Sad as it is, needs pagination
     $dbi->addBreadcrumb ('Biomedical research','nmv_list_experiments');
@@ -94,7 +112,20 @@ if ($experiment_id) {
 
         $dbi->addBreadcrumb ($experiment_name,'nmv_view_experiment?ID_experiment='.$experiment_id);
 
-        // query: get hosp data
+        //get number of victims
+        $querystring_count = "
+        SELECT COUNT(ve.ID_victim) AS total
+          FROM nmv__victim_experiment ve
+          LEFT JOIN nmv__experiment e ON e.ID_experiment = ve.ID_experiment
+          LEFT JOIN nmv__victim v ON v.ID_victim = ve.ID_victim
+          LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.classification
+          WHERE ve.ID_experiment = $experiment_id";
+        $query_count = $dbi->connection->query($querystring_count);
+        $total_results = $query_count->fetch_object();
+        $victim_count = $total_results->total;
+
+
+        // query: get data of the victims of the experiment
         $querystring = "
         SELECT ve.ID_vict_exp ID_vict_exp,
             CONCAT(v.first_names, ' ', v.surname) victim_name,
@@ -125,6 +156,7 @@ if ($experiment_id) {
     	$row_template[] = $options;
     	$header_template[] = L_OPTIONS;
 
+        $content .= '<p>Number of victims: '.$victim_count.'</p>';
         $content .= buildTableFromQuery(
             $querystring,
             $row_template,

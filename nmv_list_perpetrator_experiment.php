@@ -28,7 +28,20 @@ if ($perpetrator_id) {
 
         $dbi->addBreadcrumb ($perpetrator_name,'nmv_view_perpetrator?ID_perpetrator='.$perpetrator_id);
 
-        // query: get hosp data
+        //get number of experiments
+        $querystring_count = "
+        SELECT COUNT(pe.ID_experiment) AS total
+          FROM nmv__perpetrator_experiment pe
+          LEFT JOIN nmv__experiment e ON e.ID_experiment = pe.ID_experiment
+          LEFT JOIN nmv__perpetrator p ON p.ID_perpetrator = pe.ID_perpetrator
+          LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.classification
+          WHERE pe.ID_perpetrator = $perpetrator_id";
+        $query_count = $dbi->connection->query($querystring_count);
+        $total_results = $query_count->fetch_object();
+        $experiment_count = $total_results->total;
+
+
+        // query: get experiment data
         $querystring = "
         SELECT pe.ID_perp_exp ID_perp_exp,
             COALESCE(e.experiment_title, 'unspecified') title, c.english classification,
@@ -57,6 +70,7 @@ if ($perpetrator_id) {
     	$row_template[] = $options;
     	$header_template[] = L_OPTIONS;
 
+        $content .= '<p>Number of experiments: '.$experiment_count.'</p>';
         $content .= buildTableFromQuery(
             $querystring,
             $row_template,
@@ -90,7 +104,20 @@ if ($experiment_id) {
 
         $dbi->addBreadcrumb ($experiment_name,'nmv_view_experiment?ID_experiment='.$experiment_id);
 
-        // query: get hosp data
+        //get number of victims
+        $querystring_count = "
+        SELECT COUNT(pe.ID_perpetrator) AS total
+          FROM nmv__perpetrator_experiment pe
+          LEFT JOIN nmv__experiment e ON e.ID_experiment = pe.ID_experiment
+          LEFT JOIN nmv__perpetrator p ON p.ID_perpetrator = pe.ID_perpetrator
+          LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.classification
+          WHERE pe.ID_experiment = $experiment_id";
+        $query_count = $dbi->connection->query($querystring_count);
+        $total_results = $query_count->fetch_object();
+        $perpetrator_count = $total_results->total;
+
+
+        // query: get victims data
         $querystring = "
         SELECT pe.ID_perp_exp ID_perp_exp, CONCAT(p.first_names, ' ', p.surname) perpetrator_name,
             p.birth_country birth_country, p.birth_place birth_place,
@@ -119,7 +146,7 @@ if ($experiment_id) {
         }
     	$row_template[] = $options;
     	$header_template[] = L_OPTIONS;
-
+        $content .= '<p>Number of Perpetrators: '.$perpetrator_count.'</p>';
         $content .= buildTableFromQuery(
             $querystring,
             $row_template,
