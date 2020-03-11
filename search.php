@@ -35,7 +35,7 @@ $victimForm->addField ('mpg_project', CHECKBOX, -1)
 	->setLabel ('MPG Project');
 
 $victimForm->addField ('ID_dataset_origin',SELECT)
-	    ->setLabel ('Data from')
+	    ->setLabel ('MPG Project Data from')
 	    ->addOption (NO_VALUE,'please choose')
 	    ->addOptionsFromTableOrderedById ( 'nmv__dataset_origin', 'ID_dataset_origin', 'work_group');
 
