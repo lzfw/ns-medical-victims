@@ -18,6 +18,8 @@ $dbi->setUserVar ('view',getUrlParameter('view'),'default');
 // victim search form
 $victimForm = new Form ('search_victim','nmv_result_victims.php','GET');
 
+$victimForm->addConnection(MYSQL_DB,$db_host,$db_user,$db_pass,$db_name);
+
 $victimForm->addField ('ID_victim',TEXT,5)
 	->setLabel ('ID');
 
@@ -31,6 +33,11 @@ $victimForm->addField ('first_names',TEXT,120)
 
 $victimForm->addField ('mpg_project', CHECKBOX, -1)
 	->setLabel ('MPG Project');
+
+$victimForm->addField ('ID_dataset_origin',SELECT)
+	    ->setLabel ('Data from')
+	    ->addOption (NO_VALUE,'please choose')
+	    ->addOptionsFromTableOrderedById ( 'nmv__dataset_origin', 'ID_dataset_origin', 'work_group');
 
 $victimForm
 	->addButton (BACK)
@@ -130,7 +137,7 @@ $layout
 	->set('content',
 	    '<br><h3>Victims</h3>' .
 	    ($dbi->checkUserPermission('view') ? $victimForm->run() : 'In order to search victims, <a href="/z_login">please log in</a>.') .
-	    '<h3>Perpetrators</h3>' .
+	    '<br><h3>Perpetrators</h3>' .
 	    ($dbi->checkUserPermission('view') ? $perpetratorForm->run() : 'In order to search perpetrators, <a href="/z_login">please log in</a>.') .
 	    '<br><h3>Biomedical Research</h3>' .
 	    ($dbi->checkUserPermission('view') ? $experimentsForm->run() : 'In order to search biomedical research, <a href="/z_login">please log in</a>.') .
