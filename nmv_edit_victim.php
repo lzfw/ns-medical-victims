@@ -13,7 +13,7 @@ $form
 	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
 	->setPrimaryKeyName('ID_victim');
 $form->addField ('ID_victim',PROTECTED_TEXT)
-    ->setLabel ('Victim ID');	
+    ->setLabel ('Victim ID');
 $form->addField ('surname',TEXT,255,REQUIRED)
     ->setClass ('keyboardInput')
     ->setLabel ('Surname');
@@ -25,8 +25,8 @@ $form->addField ('mpg_project',CHECKBOX,-1)
 $form->addField ('ID_dataset_origin',SELECT)
     ->setLabel ('Origin Dataset')
     ->addOption (NO_VALUE,'please choose')
-    ->addOptionsFromTable ( 'nmv__dataset_origin', 'ID_dataset_origin', 'work_group');
-$form->addField ('birth_year',TEXT,4) 
+    ->addOptionsFromTableOrderedById ( 'nmv__dataset_origin', 'ID_dataset_origin', 'work_group');
+$form->addField ('birth_year',TEXT,4)
     ->setLabel ('Birth YYYYMD')
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,2950);
