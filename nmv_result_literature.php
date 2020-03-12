@@ -25,9 +25,12 @@ $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 // felder, die immer exakt gematcht werden (Trunkierung nicht möglich, Diakritika distinkt, Basiszeichen distinkt)
 $exact_fields = array ('ID_literature');
 
-// felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
+// felder, die mit like gematcht werden, Leerzeichen an Anfang und Ende werden getrimmt (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
 // --> If no diacritics are applied, it finds covers any combination: η would also return ἠ, ἦ or ἥ, while ἠ would find only ἠ.
-$like_fields = array ('lit_title', 'authors', 'lit_year');
+$like_fields = array ('lit_title', 'lit_year');
+
+//felder, die mit LIKE %xy% gematcht werden
+$contain_fields = array('authors');
 
 // felder, die mit like ODER exakt gematcht werden (Trunkierung möglich, Diakritika indistinkt)
 // --> Arabic vowel signs are treated indistinctively: سبب would also return سَبَبٌ, and vice versa.
@@ -39,6 +42,9 @@ foreach ($exact_fields as $field) {
 	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
 }
 foreach ($like_fields as $field) {
+	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
+}
+foreach ($contain_fields as $field) {
 	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
 }
 foreach ($double_fields as $field) {
@@ -65,7 +71,13 @@ foreach ($exact_fields as $field) {
 foreach ($like_fields as $field) {
     if (getUrlParameter($field)) {
 		$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
-		$querystring_where[] = "l.$field LIKE '".$filtered_field."'";
+		$querystring_where[] = "TRIM(l.$field) LIKE TRIM('".$filtered_field."')";
+    }
+}
+foreach ($contain_fields as $field) {
+    if (getUrlParameter($field)) {
+		$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
+		$querystring_where[] = "l.$field LIKE '%".$filtered_field."%'";
     }
 }
 foreach ($double_fields as $field) {
