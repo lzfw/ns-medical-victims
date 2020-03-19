@@ -40,7 +40,7 @@ $like_fields = array ('surname', 'first_names');
 // --> Arabic vowel signs are treated indistinctively: سبب would also return سَبَبٌ, and vice versa.
 $double_fields = array ();
 
-// GET-String rekonstruieren (für Blätterfunktion)
+// reconstruct GET-String (for scroll-function)
 $query = array();
 foreach ($exact_fields as $field) {
 	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
@@ -53,16 +53,18 @@ foreach ($double_fields as $field) {
 }
 $dbi->setUserVar('querystring',implode('&',$query));
 
-// Select-Klauseln erstellen
-$querystring_count = 'SELECT COUNT(v.ID_victim) AS total FROM nmv__victim v'; // für Treffer gesamt
+// make select-clauses part one
+//$querystring_count_1 = 'SELECT COUNT(v.ID_victim) AS total FROM nmv__victim v'; // für Treffer gesamt
 $querystring_items = 'SELECT v.ID_victim, v.surname, v.first_names, v.mpg_project FROM nmv__victim v'; // für Ergebnisliste
-$querystring_where = array(); // für Filter
+$querystring_where = array(); // for where-part of select clause
+
+
 
 // MySQL-Zeichenfilter definieren (Trunkierungszeichen werden zu MySQL-Zeichen)
 $filter_chars = array("'", '%', '_', '*', '٭');
 $replace_chars = array('', ' ', ' ', '%', '%');
 
-// Strings zusammenbauen
+// WHERE Strings zusammenbauen
 foreach ($exact_fields as $field) {
     if (getUrlParameter($field)) {
         $querystring_where[] = "v.$field = '".getUrlParameter($field)."'";
@@ -82,11 +84,44 @@ foreach ($double_fields as $field) {
 }
 
 if (count($querystring_where) > 0) {
-    $querystring_count .= ' WHERE '.implode(' AND ',$querystring_where);
+  //  $querystring_count_1 .= ' WHERE '.implode(' AND ',$querystring_where);
     $querystring_items .= ' WHERE '.implode(' AND ',$querystring_where);
 }
 
+
+// append select-clauses part two for other names
+//$querystring_count .= ' UNION ';
+$querystring_items .= ' UNION ';
+
+// $querystring_count_2 = '	SELECT COUNT(o.ID_victim) AS total
+// 												FROM nmv__victim_name o
+// 												INNER JOIN nmv__victim v
+// 												ON o.ID_victim = v.ID_victim';
+$querystring_items .= '	SELECT v.ID_victim, v.surname, v.first_names, v.mpg_project
+												FROM nmv__victim_name o
+												INNER JOIN nmv__victim v
+												ON o.ID_victim = v.ID_victim';
+$querystring_other_where = array(); // für Filter
+
+
+if (getUrlParameter($like_fields[0])) {
+$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($like_fields[0]));
+$querystring_other_where[] = "TRIM(o.victim_name) LIKE TRIM('".$filtered_field."')";
+}
+if (getUrlParameter($like_fields[1])) {
+$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($like_fields[1]));
+$querystring_other_where[] = "TRIM(o.victim_first_names) LIKE TRIM('".$filtered_field."')";
+}
+
+if (count($querystring_other_where) > 0) {
+  //  $querystring_count_2 .= ' WHERE '.implode(' AND ',$querystring_other_where);
+    $querystring_items .= ' WHERE '.implode(' AND ',$querystring_other_where);
+}
+
+//$querystring_count = "SELECT SUM(total) AS total FROM ($querystring_count_1 UNION $querystring_count_2) AS xyz ";
+
 // Gesamtanzahl der Suchergebnisse feststellen
+$querystring_count = "SELECT COUNT(*) AS total FROM ($querystring_items) AS xyz";
 $query_count = $dbi->connection->query($querystring_count);
 $total_results = $query_count->fetch_object();
 $dbi->setUserVar('total_results',$total_results->total);
