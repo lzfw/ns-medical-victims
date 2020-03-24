@@ -45,10 +45,10 @@ if ($ve = $query->fetch_object()) {
 
     $dbi->addBreadcrumb ($victim_name,'nmv_view_victim?ID_victim=' . $victim_id);
     $dbi->addBreadcrumb ('Biomedical Research','nmv_list_victim_experiment?ID_victim=' . $victim_id);
-    
+
     $content .= '<tr><th>Victim ID</th><td>'.
         htmlspecialchars($victim_id, ENT_HTML5).'</td></tr>';
-    $content .= '<tr><th>Brain Research ID</th><td>'.
+    $content .= '<tr><th>ID Victim - Experiment</th><td>'.
         htmlspecialchars($vict_exp_id, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Victim</th><td><a href="nmv_view_victim?ID_victim='. $victim_id . '">' .
         htmlspecialchars($victim_name, ENT_HTML5).'</a></td></tr>';
