@@ -1,13 +1,13 @@
 <?php
 /**
-* define searchqueries for victimsearch
+* define searchqueries for search concerning victims registered in the MPG-project
 *
 *
 *
 */
 
 // CMS file: search results (public)
-// last known update: 2019-12-18
+// last known update: 2020
 
 require_once 'zefiro/ini.php';
 
@@ -30,7 +30,7 @@ $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 // zu durchsuchende felder und suchsystematik definieren:
 
 // felder, die immer exakt gematcht werden (Trunkierung nicht möglich, Diakritika distinkt, Basiszeichen distinkt)
-$exact_fields = array ('ID_victim');
+$exact_fields = array ('ID_victim', 'ID_dataset_origin');
 
 // felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
 // --> If no diacritics are applied, it finds covers any combination: η would also return ἠ, ἦ or ἥ, while ἠ would find only ἠ.
@@ -64,6 +64,8 @@ $filter_chars = array("'", '%', '_', '*', '٭');
 $replace_chars = array('', ' ', ' ', '%', '%');
 
 // WHERE Strings zusammenbauen
+$querystring_where[] = "v.mpg_project = -1";
+
 foreach ($exact_fields as $field) {
     if (getUrlParameter($field)) {
         $querystring_where[] = "v.$field = '".getUrlParameter($field)."'";
@@ -83,19 +85,20 @@ foreach ($double_fields as $field) {
 }
 
 if (count($querystring_where) > 0) {
-  //  $querystring_count_1 .= ' WHERE '.implode(' AND ',$querystring_where);
     $querystring_items .= ' WHERE '.implode(' AND ',$querystring_where);
 }
 
 
 // append select-clauses part two for other names
 $querystring_items .= ' UNION ';
-
 $querystring_items .= '	SELECT v.ID_victim, v.surname, v.first_names
 												FROM nmv__victim_name o
 												INNER JOIN nmv__victim v
 												ON o.ID_victim = v.ID_victim';
 $querystring_other_where = array(); // für Filter
+
+
+$querystring_other_where[] = "v.mpg_project = -1";
 
 foreach ($exact_fields as $field) {
     if (getUrlParameter($field)) {
