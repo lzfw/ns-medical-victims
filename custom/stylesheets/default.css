@@ -435,6 +435,10 @@ form input.button {
 	background-color:#fff; /* white */
 }
 
+form input[type="checkbox"] {
+	vertical-align: middle;
+}
+
 form button {
 	font-size:13px;
 	margin:10px 0;

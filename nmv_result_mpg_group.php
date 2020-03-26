@@ -1,13 +1,10 @@
 <?php
 /**
-* define searchqueries for search concerning victims registered in the MPG-project
+* define searchqueries for filtering victims from MPG Project
 *
 *
 *
 */
-
-// CMS file: search results (public)
-// last known update: 2020
 
 require_once 'zefiro/ini.php';
 
@@ -30,11 +27,11 @@ $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 // zu durchsuchende felder und suchsystematik definieren:
 
 // felder, die immer exakt gematcht werden (Trunkierung nicht möglich, Diakritika distinkt, Basiszeichen distinkt)
-$exact_fields = array ('ID_victim', 'ID_dataset_origin');
+$exact_fields = array ('ID_dataset_origin', 'ID_institution');
 
 // felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
 // --> If no diacritics are applied, it finds covers any combination: η would also return ἠ, ἦ or ἥ, while ἠ would find only ἠ.
-$like_fields = array ('surname', 'first_names');
+$like_fields = array ();
 
 // felder, die mit like ODER exakt gematcht werden (Trunkierung möglich, Diakritika indistinkt)
 // --> Arabic vowel signs are treated indistinctively: سبب would also return سَبَبٌ, and vice versa.
@@ -42,6 +39,9 @@ $double_fields = array ();
 
 // fields that trigger special conditions when ticked
 $ticked_fields = array ('cause_of_death');
+
+// fields with special queries
+//$special_fields = array ('ID_institution');
 
 // reconstruct GET-String (for scroll-function)
 $query = array();
@@ -57,10 +57,17 @@ foreach ($double_fields as $field) {
 foreach ($ticked_fields as $field) {
 	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
 }
+// foreach ($special_fields as $field) {
+// 	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
+// }
 $dbi->setUserVar('querystring',implode('&',$query));
 
-// make select-clauses part one
-$querystring_items = 'SELECT v.ID_victim, v.surname, v.first_names FROM nmv__victim v'; // für Ergebnisliste
+// make select-clauses
+$querystring_count = 'SELECT COUNT(v.ID_victim) AS total FROM nmv__victim v'; // für Treffer gesamt
+$querystring_items = 'SELECT v.ID_victim, v.surname, v.first_names
+											FROM nmv__victim v
+											LEFT JOIN nmv__med_history_brain b
+											ON v.ID_victim = b.ID_victim'; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
 
 
@@ -69,12 +76,17 @@ $querystring_where = array(); // for where-part of select clause
 $filter_chars = array("'", '%', '_', '*', '٭');
 $replace_chars = array('', ' ', ' ', '%', '%');
 
-// WHERE Strings zusammenbauen
+// make WHERE conditions
+// MPG-project-victims only
 $querystring_where[] = "v.mpg_project = -1";
 
 foreach ($exact_fields as $field) {
     if (getUrlParameter($field)) {
-        $querystring_where[] = "v.$field = '".getUrlParameter($field)."'";
+				if ($field == 'ID_institution'):
+        	$querystring_where[] = "b.$field = '".getUrlParameter($field)."'";
+				else:
+					$querystring_where[] = "v.$field = '".getUrlParameter($field)."'";
+				endif;
     }
 }
 foreach ($like_fields as $field) {
@@ -96,46 +108,10 @@ if (getUrlParameter($ticked_fields[0])) {
 }
 
 if (count($querystring_where) > 0) {
+    $querystring_count .= ' WHERE '.implode(' AND ',$querystring_where);
     $querystring_items .= ' WHERE '.implode(' AND ',$querystring_where);
 }
 
-
-// append select-clauses part two for other names
-$querystring_items .= ' UNION ';
-$querystring_items .= '	SELECT v.ID_victim, v.surname, v.first_names
-												FROM nmv__victim_name o
-												INNER JOIN nmv__victim v
-												ON o.ID_victim = v.ID_victim';
-$querystring_other_where = array(); // für Filter
-
-
-$querystring_other_where[] = "v.mpg_project = -1";
-
-foreach ($exact_fields as $field) {
-    if (getUrlParameter($field)) {
-        $querystring_other_where[] = "v.$field = '".getUrlParameter($field)."'";
-    }
-}
-if (getUrlParameter($like_fields[0])) {
-  $filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($like_fields[0]));
-  $querystring_other_where[] = "TRIM(o.victim_name) LIKE TRIM('".$filtered_field."')";
-}
-if (getUrlParameter($like_fields[1])) {
-  $filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($like_fields[1]));
-  $querystring_other_where[] = "TRIM(o.victim_first_names) LIKE TRIM('".$filtered_field."')";
-}
-if (getUrlParameter($ticked_fields[0])) {
-  $querystring_other_where[] = "(v.cause_of_death LIKE '%executed%'
-                              OR v.cause_of_death LIKE '%execution%'
-                              OR v.cause_of_death LIKE '%exekution%')";
-}
-
-if (count($querystring_other_where) > 0) {
-    $querystring_items .= ' WHERE '.implode(' AND ',$querystring_other_where);
-}
-
-// for debugging
-//echo $querystring_items;
 
 // Gesamtanzahl der Suchergebnisse feststellen
 $querystring_count = "SELECT COUNT(*) AS total FROM ($querystring_items) AS xyz";

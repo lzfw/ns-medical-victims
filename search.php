@@ -31,48 +31,61 @@ $victimForm->addField ('first_names',TEXT,120)
     ->setClass ('keyboardInput')
 	->setLabel ('First Names');
 
-// $victimForm->addField ('mpg_project', CHECKBOX, -1)
-// 	->setLabel ('MPG Project');
-//
-// $victimForm->addField ('ID_dataset_origin',SELECT)
-// 	    ->setLabel ('MPG Project Data from')
-// 	    ->addOption (NO_VALUE,'all workgroups')
-// 	    ->addOptionsFromTableOrderedById ( 'nmv__dataset_origin', 'ID_dataset_origin', 'work_group');
-
 $victimForm
 	->addButton (BACK)
 	->addButton (RESET)
 	->addButton (SUBMIT,L_SEARCH);
 
 
-	// victim from MPG project search form
-	$MPGvictimForm = new Form ('search_mpg_victim','nmv_result_mpg_victims.php','GET');
+// victim from MPG project search form
+$MPGvictimForm = new Form ('search_mpg_victim','nmv_result_mpg_victims.php','GET');
 
-	$MPGvictimForm->addConnection(MYSQL_DB,$db_host,$db_user,$db_pass,$db_name);
+$MPGvictimForm->addConnection(MYSQL_DB,$db_host,$db_user,$db_pass,$db_name);
 
-	$MPGvictimForm->addField ('ID_victim',TEXT,5)
-		->setLabel ('ID');
+$MPGvictimForm->addField ('ID_victim',TEXT,5)
+	->setLabel ('ID');
 
-	$MPGvictimForm->addField ('surname',TEXT,120)
-	    ->setClass ('keyboardInput')
-		->setLabel ('Surname');
+$MPGvictimForm->addField ('surname',TEXT,120)
+    ->setClass ('keyboardInput')
+	->setLabel ('Surname');
 
-	$MPGvictimForm->addField ('first_names',TEXT,120)
-	    ->setClass ('keyboardInput')
-		->setLabel ('First Names');
+$MPGvictimForm->addField ('first_names',TEXT,120)
+    ->setClass ('keyboardInput')
+	->setLabel ('First Names');
 
-	// $MPGvictimForm->addField ('mpg_project', CHECKBOX, -1)
-	// 	->setLabel ('MPG Project');
+$MPGvictimForm->addField ('ID_dataset_origin',SELECT)
+	    ->setLabel ('MPG Project Data from')
+	    ->addOption (NO_VALUE,'all workgroups')
+	    ->addOptionsFromTableOrderedById ( 'nmv__dataset_origin', 'ID_dataset_origin', 'work_group');
 
-	$MPGvictimForm->addField ('ID_dataset_origin',SELECT)
-		    ->setLabel ('MPG Project Data from')
-		    ->addOption (NO_VALUE,'all workgroups')
-		    ->addOptionsFromTableOrderedById ( 'nmv__dataset_origin', 'ID_dataset_origin', 'work_group');
+$MPGvictimForm
+	->addButton (BACK)
+	->addButton (RESET)
+	->addButton (SUBMIT,L_SEARCH);
 
-	$MPGvictimForm
-		->addButton (BACK)
-		->addButton (RESET)
-		->addButton (SUBMIT,L_SEARCH);
+
+// victimgroups from MPG project search form
+$MPGgroupForm = new Form ('search_mpg_victim','nmv_result_mpg_group.php','GET');
+
+$MPGgroupForm->addConnection(MYSQL_DB,$db_host,$db_user,$db_pass,$db_name);
+
+$MPGgroupForm->addField ('cause_of_death', CHECKBOX, -1)
+	->setLabel ('Cause of Death: executed');
+
+$MPGgroupForm->addField ('ID_institution',SELECT)
+	    ->setLabel ('Institution')
+	    ->addOption (NO_VALUE,'all institutions')
+	    ->addOptionsFromTableOrderedById ( 'nmv__institution', 'ID_institution', 'institution_name', 'ID_institution IN (106, 113, 114, 122)');
+
+$MPGgroupForm->addField ('ID_dataset_origin',SELECT)
+	    ->setLabel ('MPG Project Data from')
+	    ->addOption (NO_VALUE,'all workgroups')
+	    ->addOptionsFromTableOrderedById ( 'nmv__dataset_origin', 'ID_dataset_origin', 'work_group');
+
+$MPGgroupForm
+	->addButton (BACK)
+	->addButton (RESET)
+	->addButton (SUBMIT,L_SEARCH);
 
 // perpetrator search form
 $perpetratorForm =
@@ -167,13 +180,21 @@ $layout
 	->set('content',
 	    '<div class="block">
 					<h3>Victims</h3>
-					<p>Search in complete database</p>' .
+					<p>Search in complete database.
+					<br> If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
 			    ($dbi->checkUserPermission('view') ? $victimForm->run() : 'In order to search victims, <a href="/z_login">please log in</a>.') .
 			'</div>
 			 <div class="block">
 					<h3>Victims MPG Project</h3>
-					<p>Search in MPG-project-datasets</p>' .
+					<p>Search in MPG-project-datasets.
+					<br>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
 					($dbi->checkUserPermission('view') ? $MPGvictimForm->run() : 'In order to search MPG-project-victims, <a href="/z_login">please log in</a>.') .
+			'</div>
+			<div class="block">
+				<h3>Victimgroups MPG Project</h3>
+					<p>Show fliltered list of victims.
+					<br>Returns victims that match <strong>all</strong> given criteria</p>' .
+					($dbi->checkUserPermission('view') ? $MPGgroupForm->run() : 'In order to search MPG-project-victims, <a href="/z_login">please log in</a>.') .
 			'</div>
 			<div class="block">
 					<h3>Perpetrators</h3>' .
