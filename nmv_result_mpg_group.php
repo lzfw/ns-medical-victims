@@ -38,7 +38,7 @@ $like_fields = array ();
 $double_fields = array ();
 
 // fields that trigger special conditions when ticked
-$ticked_fields = array ('cause_of_death');
+$ticked_fields = array ('cause_of_death', 'prisoner_of_war', 'psychiatric_patient');
 
 // fields with special queries
 //$special_fields = array ('ID_institution');
@@ -64,10 +64,10 @@ $dbi->setUserVar('querystring',implode('&',$query));
 
 // make select-clauses
 $querystring_count = 'SELECT COUNT(v.ID_victim) AS total FROM nmv__victim v'; // für Treffer gesamt
-$querystring_items = 'SELECT v.ID_victim, v.surname, v.first_names
+$querystring_items = 'SELECT DISTINCT v.ID_victim, v.surname, v.first_names
 											FROM nmv__victim v
-											LEFT JOIN nmv__med_history_brain b
-											ON v.ID_victim = b.ID_victim'; // für Ergebnisliste
+											LEFT JOIN nmv__med_history_brain b ON v.ID_victim = b.ID_victim
+											LEFT JOIN nmv__imprisoniation i    ON v.ID_victim = i.ID_victim'; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
 
 
@@ -77,7 +77,6 @@ $filter_chars = array("'", '%', '_', '*', '٭');
 $replace_chars = array('', ' ', ' ', '%', '%');
 
 // make WHERE conditions
-// MPG-project-victims only
 $querystring_where[] = "v.mpg_project = -1";
 
 foreach ($exact_fields as $field) {
@@ -105,6 +104,17 @@ if (getUrlParameter($ticked_fields[0])) {
   $querystring_where[] = "(v.cause_of_death LIKE '%executed%'
                               OR v.cause_of_death LIKE '%execution%'
                               OR v.cause_of_death LIKE '%exekution%')";
+}
+if (getUrlParameter($ticked_fields[0])) {
+  $querystring_where[] = "(v.cause_of_death LIKE '%executed%'
+                              OR v.cause_of_death LIKE '%execution%'
+                              OR v.cause_of_death LIKE '%exekution%')";
+}
+if (getUrlParameter($ticked_fields[1])) {
+  $querystring_where[] = "(i.ID_classification = 7)";
+}
+if (getUrlParameter($ticked_fields[2])) {
+  $querystring_where[] = "(i.ID_classification = 5)";
 }
 
 if (count($querystring_where) > 0) {

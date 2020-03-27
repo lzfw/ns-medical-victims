@@ -72,6 +72,12 @@ $MPGgroupForm->addConnection(MYSQL_DB,$db_host,$db_user,$db_pass,$db_name);
 $MPGgroupForm->addField ('cause_of_death', CHECKBOX, -1)
 	->setLabel ('Cause of Death: executed');
 
+$MPGgroupForm->addField ('prisoner_of_war', CHECKBOX, -1)
+	->setLabel ('Imprisonment: Prisoner of War');
+
+$MPGgroupForm->addField ('psychiatric_patient', CHECKBOX, -1)
+	->setLabel ('Imprisonment: Psychiatric Patient');
+
 $MPGgroupForm->addField ('ID_institution',SELECT)
 	    ->setLabel ('Institution')
 	    ->addOption (NO_VALUE,'all institutions')
@@ -179,37 +185,37 @@ $layout
 	->set('title',L_SEARCH)
 	->set('content',
 	    '<div class="block">
-					<h3>Victims</h3>
+					<h3>Search Victims by name or ID</h3>
 					<p>Search in complete database.
 					<br> If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
 			    ($dbi->checkUserPermission('view') ? $victimForm->run() : 'In order to search victims, <a href="/z_login">please log in</a>.') .
 			'</div>
 			 <div class="block">
-					<h3>Victims MPG Project</h3>
+					<h3>Search Victims (MPG Project) by name or ID</h3>
 					<p>Search in MPG-project-datasets.
 					<br>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
 					($dbi->checkUserPermission('view') ? $MPGvictimForm->run() : 'In order to search MPG-project-victims, <a href="/z_login">please log in</a>.') .
 			'</div>
 			<div class="block">
-				<h3>Victimgroups MPG Project</h3>
-					<p>Show fliltered list of victims.
+				<h3>Filter Victimgroups (MPG Project)</h3>
+					<p>Shows fliltered list of victims in MPG-project-datasets.
 					<br>Returns victims that match <strong>all</strong> given criteria</p>' .
 					($dbi->checkUserPermission('view') ? $MPGgroupForm->run() : 'In order to search MPG-project-victims, <a href="/z_login">please log in</a>.') .
 			'</div>
 			<div class="block">
-					<h3>Perpetrators</h3>' .
+					<h3>Search Perpetrators by name or ID</h3>' .
 			    ($dbi->checkUserPermission('view') ? $perpetratorForm->run() : 'In order to search perpetrators, <a href="/z_login">please log in</a>.') .
 	    '</div>
 			<div class="block">
-					<h3>Biomedical Research</h3>' .
+					<h3>Search Biomedical Research (Experiments)</h3>' .
 			    ($dbi->checkUserPermission('view') ? $experimentsForm->run() : 'In order to search biomedical research, <a href="/z_login">please log in</a>.') .
 	    '</div>
 			<div class="block">
-					<h3>Literature</h3>' .
+					<h3>Search Literature</h3>' .
 			    ($dbi->checkUserPermission('view') ? $literatureForm->run() : 'In order to search literature, <a href="/z_login">please log in</a>.') .
 	    '</div>
 			<div class="block">
-					<h3>Sources</h3>' .
+					<h3>Search Sources</h3>' .
 			    ($dbi->checkUserPermission('view') ? $sourceForm->run() : 'In order to search sources, <a href="/z_login">please log in</a>.') .
 			'</div>'		)
 	->set('sidebar','<h3>'.L_HELP.'</h3>'.$dbi->getTextblock_HTML ('search'))
