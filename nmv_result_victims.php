@@ -34,7 +34,10 @@ $exact_fields = array ('ID_victim');
 
 // felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
 // --> If no diacritics are applied, it finds covers any combination: η would also return ἠ, ἦ or ἥ, while ἠ would find only ἠ.
-$like_fields = array ('surname', 'first_names');
+$like_fields = array ('surname');
+
+//felder, die mit LIKE %xy% gematcht werden
+$contain_fields = array('first_names');
 
 // felder, die mit like ODER exakt gematcht werden (Trunkierung möglich, Diakritika indistinkt)
 // --> Arabic vowel signs are treated indistinctively: سبب would also return سَبَبٌ, and vice versa.
@@ -48,13 +51,16 @@ foreach ($exact_fields as $field) {
 foreach ($like_fields as $field) {
 	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
 }
+foreach ($contain_fields as $field) {
+	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
+}
 foreach ($double_fields as $field) {
 	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
 }
 $dbi->setUserVar('querystring',implode('&',$query));
 
 // make select-clauses part one
-$querystring_items = 'SELECT v.ID_victim, v.surname, v.first_names FROM nmv__victim v'; // für Ergebnisliste
+$querystring_items = 'SELECT 1 as rank, v.ID_victim, v.surname, v.first_names FROM nmv__victim v'; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
 
 
@@ -75,6 +81,12 @@ foreach ($like_fields as $field) {
 		$querystring_where[] = "TRIM(v.$field) LIKE TRIM('".$filtered_field."')";
     }
 }
+foreach ($contain_fields as $field) {
+    if (getUrlParameter($field)) {
+		$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
+		$querystring_where[] = "v.$field LIKE '%".$filtered_field."%'";
+    }
+}
 foreach ($double_fields as $field) {
     if (getUrlParameter($field)) {
 		$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
@@ -91,7 +103,7 @@ if (count($querystring_where) > 0) {
 // append select-clauses part two for other names
 $querystring_items .= ' UNION ';
 
-$querystring_items .= '	SELECT v.ID_victim, v.surname, v.first_names
+$querystring_items .= '	SELECT 2 AS rank, v.ID_victim, v.surname, v.first_names
 												FROM nmv__victim_name o
 												INNER JOIN nmv__victim v
 												ON o.ID_victim = v.ID_victim';
@@ -106,9 +118,17 @@ if (getUrlParameter($like_fields[0])) {
 $filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($like_fields[0]));
 $querystring_other_where[] = "TRIM(o.victim_name) LIKE TRIM('".$filtered_field."')";
 }
-if (getUrlParameter($like_fields[1])) {
-$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($like_fields[1]));
-$querystring_other_where[] = "TRIM(o.victim_first_names) LIKE TRIM('".$filtered_field."')";
+// if (getUrlParameter($like_fields[1])) {
+// $filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($like_fields[1]));
+// $querystring_other_where[] = "TRIM(o.victim_first_names) LIKE TRIM('".$filtered_field."')";
+// }
+// if (getUrlParameter($contain_fields[0])) {
+//   $filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($contain_fields[0]));
+//   $querystring_other_where[] = "TRIM(o.victim_name) LIKE '%".$filtered_field."%'";
+// }
+if (getUrlParameter($contain_fields[0])) {
+  $filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($contain_fields[0]));
+  $querystring_other_where[] = "TRIM(o.victim_first_names) LIKE '%".$filtered_field."%'";
 }
 
 if (count($querystring_other_where) > 0) {

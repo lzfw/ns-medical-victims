@@ -27,10 +27,10 @@ $exact_fields = array ('ID_literature');
 
 // felder, die mit like gematcht werden, Leerzeichen an Anfang und Ende werden getrimmt (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
 // --> If no diacritics are applied, it finds covers any combination: η would also return ἠ, ἦ or ἥ, while ἠ would find only ἠ.
-$like_fields = array ('lit_title', 'lit_year');
+$like_fields = array ('lit_year');
 
 //felder, die mit LIKE %xy% gematcht werden
-$contain_fields = array('authors');
+$contain_fields = array('authors', 'lit_title');
 
 // felder, die mit like ODER exakt gematcht werden (Trunkierung möglich, Diakritika indistinkt)
 // --> Arabic vowel signs are treated indistinctively: سبب would also return سَبَبٌ, and vice versa.

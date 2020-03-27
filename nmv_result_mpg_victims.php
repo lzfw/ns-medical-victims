@@ -34,7 +34,10 @@ $exact_fields = array ('ID_victim', 'ID_dataset_origin');
 
 // felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
 // --> If no diacritics are applied, it finds covers any combination: η would also return ἠ, ἦ or ἥ, while ἠ would find only ἠ.
-$like_fields = array ('surname', 'first_names');
+$like_fields = array ('surname');
+
+//felder, die mit LIKE %xy% gematcht werden
+$contain_fields = array('first_names');
 
 // felder, die mit like ODER exakt gematcht werden (Trunkierung möglich, Diakritika indistinkt)
 // --> Arabic vowel signs are treated indistinctively: سبب would also return سَبَبٌ, and vice versa.
@@ -49,6 +52,9 @@ foreach ($exact_fields as $field) {
 	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
 }
 foreach ($like_fields as $field) {
+	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
+}
+foreach ($contain_fields as $field) {
 	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
 }
 foreach ($double_fields as $field) {
@@ -81,6 +87,12 @@ foreach ($like_fields as $field) {
     if (getUrlParameter($field)) {
 		$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
 		$querystring_where[] = "TRIM(v.$field) LIKE TRIM('".$filtered_field."')";
+    }
+}
+foreach ($contain_fields as $field) {
+    if (getUrlParameter($field)) {
+		$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
+		$querystring_where[] = "v.$field LIKE '%".$filtered_field."%'";
     }
 }
 foreach ($double_fields as $field) {
@@ -120,9 +132,17 @@ if (getUrlParameter($like_fields[0])) {
   $filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($like_fields[0]));
   $querystring_other_where[] = "TRIM(o.victim_name) LIKE TRIM('".$filtered_field."')";
 }
-if (getUrlParameter($like_fields[1])) {
-  $filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($like_fields[1]));
-  $querystring_other_where[] = "TRIM(o.victim_first_names) LIKE TRIM('".$filtered_field."')";
+// if (getUrlParameter($like_fields[1])) {
+//   $filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($like_fields[1]));
+//   $querystring_other_where[] = "TRIM(o.victim_first_names) LIKE TRIM('".$filtered_field."')";
+// }
+// if (getUrlParameter($contain_fields[0])) {
+//   $filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($contain_fields[0]));
+//   $querystring_other_where[] = "TRIM(o.victim_name) LIKE '%".$filtered_field."%'";
+// }
+if (getUrlParameter($contain_fields[0])) {
+  $filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($contain_fields[0]));
+  $querystring_other_where[] = "TRIM(o.victim_first_names) LIKE '%".$filtered_field."%'";
 }
 if (getUrlParameter($ticked_fields[0])) {
   $querystring_other_where[] = "(v.cause_of_death LIKE '%executed%'

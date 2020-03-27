@@ -29,7 +29,7 @@ $victimForm->addField ('surname',TEXT,120)
 
 $victimForm->addField ('first_names',TEXT,120)
     ->setClass ('keyboardInput')
-	->setLabel ('First Names');
+	->setLabel ('First Name(s)');
 
 $victimForm
 	->addButton (BACK)
@@ -51,7 +51,7 @@ $MPGvictimForm->addField ('surname',TEXT,120)
 
 $MPGvictimForm->addField ('first_names',TEXT,120)
     ->setClass ('keyboardInput')
-	->setLabel ('First Names');
+	->setLabel ('First Name(s)');
 
 $MPGvictimForm->addField ('ID_dataset_origin',SELECT)
 	    ->setLabel ('MPG Project Data from')
