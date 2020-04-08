@@ -88,7 +88,7 @@ if ($victim = $result->fetch_object()) {
     $content .= buildElement('h3', 'Life after 1945');
     $content .= buildElement('table','grid',
         buildDataSheetRow('Country and place',
-            $victim->residence_after_1945_country . ' ' .
+            $victim->residence_after_1945_country . ' / ' .
             $victim->residence_after_1945_place).
         buildDataSheetRow('Occupation',             $victim->occupation_after_1945).
         buildDataSheetRow('Nationality',            $victim->nationality_after_1945).
@@ -178,7 +178,7 @@ if ($victim = $result->fetch_object()) {
     }
 
     $content .= buildElement('h3', 'Evaluation');
-    
+
     //query: get evaluation data
     $querystring = '
        SELECT ID_evaluation, ID_victim, confirmed_victim, confirmed_due_to,
@@ -193,7 +193,7 @@ if ($victim = $result->fetch_object()) {
         WHERE ID_victim = ?
         ORDER BY ID_evaluation
         LIMIT 5';
-    
+
     $result = null;
     if ($stmt = $dbi->connection->prepare($querystring)) {
         if ( $stmt->bind_param('i', $victim_id) ) {

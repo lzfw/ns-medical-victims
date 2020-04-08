@@ -18,6 +18,8 @@ class View_List_Table_NMV_Victims extends View_List {
 	    global $dbi;
 		$this->addSortOption ('Name','surname','ASC, first_names ASC','DESC, first_names DESC');
 		$this->addSortOption ('ID','ID_victim','ASC','DESC');
+		$this->addSortOption ('Born','birth_year','ASC','DESC');
+		$this->addSortOption ('Birth Country','birth_country','ASC','DESC');
 		$html = '';
 		$html .= $this->getBrowseOptions_HTML ();
 		$html .= $this->getSortOptions_HTML ();
@@ -47,6 +49,7 @@ class View_List_Table_NMV_Victims extends View_List {
 			    </tr>';
 			}
 			$html .= '</table>';
+			$html .= $this->getBrowseOptions_HTML ();
 		}
 		else {
 			$html .= L_NO_RESULTS;

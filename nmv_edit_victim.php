@@ -121,7 +121,7 @@ $form->addField ('arrest_history',TEXTAREA)
 $form->addField ('residence_after_1945_place',TEXT,250)
     ->setClass ('keyboardInput')
     ->setLabel ('Residence after \'45 (Place)');
-$form->addField ('residence_after_1945_country',TEXT,50)
+$form->addField ('residence_after_1945_country',TEXT,250)
     ->setLabel ('Residence after \'45 (Country)');
 $form->addField ('occupation_after_1945',TEXT,50)
     ->setLabel ('Occupation after \'45');
