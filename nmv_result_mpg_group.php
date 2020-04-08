@@ -63,7 +63,6 @@ foreach ($ticked_fields as $field) {
 $dbi->setUserVar('querystring',implode('&',$query));
 
 // make select-clauses
-$querystring_count = 'SELECT COUNT(v.ID_victim) AS total FROM nmv__victim v'; // für Treffer gesamt
 $querystring_items = 'SELECT DISTINCT v.ID_victim, v.surname, v.first_names, v.birth_year, v.birth_country
 											FROM nmv__victim v
 											LEFT JOIN nmv__med_history_brain b ON v.ID_victim = b.ID_victim
@@ -113,7 +112,6 @@ if (getUrlParameter($ticked_fields[2])) {
 }
 
 if (count($querystring_where) > 0) {
-    $querystring_count .= ' WHERE '.implode(' AND ',$querystring_where);
     $querystring_items .= ' WHERE '.implode(' AND ',$querystring_where);
 }
 

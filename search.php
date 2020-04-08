@@ -81,12 +81,12 @@ $MPGgroupForm->addField ('psychiatric_patient', CHECKBOX, -1)
 $MPGgroupForm->addField ('ID_institution',SELECT)
 	    ->setLabel ('Institution')
 	    ->addOption (NO_VALUE,'all institutions')
-	    ->addOptionsFromTableOrderedById ( 'nmv__institution', 'ID_institution', 'institution_name', 'ID_institution IN (106, 113, 114, 122)');
+	    ->addOptionsFromTableOrderedById ( 'nmv__institution', 'ID_institution', 'institution_name', 'ID_institution IN (67, 94, 97, 106, 113, 114, 122)');
 
 $MPGgroupForm->addField ('ID_dataset_origin',SELECT)
 	    ->setLabel ('MPG Project Data from')
 	    ->addOption (NO_VALUE,'all workgroups')
-	    ->addOptionsFromTableOrderedById ( 'nmv__dataset_origin', 'ID_dataset_origin', 'work_group');
+	    ->addOptionsFromTableOrderedByID ( 'nmv__dataset_origin', 'ID_dataset_origin', 'work_group');
 
 $MPGgroupForm
 	->addButton (BACK)
@@ -115,6 +115,8 @@ $perpetratorForm
 $experimentsForm =
     new Form ('search_experiments','nmv_result_experiments.php','GET');
 
+$experimentsForm->addConnection(MYSQL_DB,$db_host,$db_user,$db_pass,$db_name);
+
 $experimentsForm->addField ('ID_experiment',TEXT,5)
 	->setLabel ('ID');
 
@@ -133,6 +135,15 @@ $experimentsForm->addField ('field_of_interest',TEXT,50)
 $experimentsForm->addField ('objective',TEXT,50)
     ->setClass ('keyboardInput')
 	->setLabel ('Objective');
+
+$experimentsForm->addField ('surname', TEXT, 50)
+		->setClass ('keyboardInput')
+	->setLabel ('Surname Perpetrator');
+
+$experimentsForm->addField ('ID_institution', SELECT)
+		->setLabel ('Institution')
+		->addOption (NO_VALUE,'all institutions')
+		->addOptionsFromTable	 ( 'nmv__institution', 'ID_institution', 'institution_name');
 
 $experimentsForm
 	->addButton (SUBMIT,L_SEARCH);
