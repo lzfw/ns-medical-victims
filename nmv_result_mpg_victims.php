@@ -44,7 +44,7 @@ $contain_fields = array('first_names');
 $double_fields = array ();
 
 // fields that trigger special conditions when ticked
-$ticked_fields = array ('cause_of_death');
+$ticked_fields = array ();
 
 // reconstruct GET-String (for scroll-function)
 $query = array();
@@ -66,7 +66,7 @@ foreach ($ticked_fields as $field) {
 $dbi->setUserVar('querystring',implode('&',$query));
 
 // make select-clauses part one
-$querystring_items = 'SELECT v.ID_victim, v.surname, v.first_names FROM nmv__victim v'; // für Ergebnisliste
+$querystring_items = 'SELECT v.ID_victim, v.surname, v.first_names, v.birth_year, v.birth_country FROM nmv__victim v'; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
 
 
@@ -101,12 +101,6 @@ foreach ($double_fields as $field) {
 		$querystring_where[] = "(v.$field LIKE '".$filtered_field."' OR v.$field = '".getUrlParameter($field)."')";
     }
 }
-if (getUrlParameter($ticked_fields[0])) {
-  $querystring_where[] = "(v.cause_of_death LIKE '%executed%'
-                              OR v.cause_of_death LIKE '%execution%'
-                              OR v.cause_of_death LIKE '%exekution%')";
-}
-
 if (count($querystring_where) > 0) {
     $querystring_items .= ' WHERE '.implode(' AND ',$querystring_where);
 }
@@ -114,7 +108,7 @@ if (count($querystring_where) > 0) {
 
 // append select-clauses part two for other names
 $querystring_items .= ' UNION ';
-$querystring_items .= '	SELECT v.ID_victim, v.surname, v.first_names
+$querystring_items .= '	SELECT v.ID_victim, v.surname, v.first_names, v.birth_year, v.birth_country
 												FROM nmv__victim_name o
 												INNER JOIN nmv__victim v
 												ON o.ID_victim = v.ID_victim';
@@ -132,30 +126,14 @@ if (getUrlParameter($like_fields[0])) {
   $filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($like_fields[0]));
   $querystring_other_where[] = "TRIM(o.victim_name) LIKE TRIM('".$filtered_field."')";
 }
-// if (getUrlParameter($like_fields[1])) {
-//   $filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($like_fields[1]));
-//   $querystring_other_where[] = "TRIM(o.victim_first_names) LIKE TRIM('".$filtered_field."')";
-// }
-// if (getUrlParameter($contain_fields[0])) {
-//   $filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($contain_fields[0]));
-//   $querystring_other_where[] = "TRIM(o.victim_name) LIKE '%".$filtered_field."%'";
-// }
+
 if (getUrlParameter($contain_fields[0])) {
   $filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($contain_fields[0]));
   $querystring_other_where[] = "TRIM(o.victim_first_names) LIKE '%".$filtered_field."%'";
 }
-if (getUrlParameter($ticked_fields[0])) {
-  $querystring_other_where[] = "(v.cause_of_death LIKE '%executed%'
-                              OR v.cause_of_death LIKE '%execution%'
-                              OR v.cause_of_death LIKE '%exekution%')";
-}
-
 if (count($querystring_other_where) > 0) {
     $querystring_items .= ' WHERE '.implode(' AND ',$querystring_other_where);
 }
-
-// for debugging
-//echo $querystring_items;
 
 // Gesamtanzahl der Suchergebnisse feststellen
 $querystring_count = "SELECT COUNT(*) AS total FROM ($querystring_items) AS xyz";
@@ -174,6 +152,10 @@ $suche_nach = array();
 if (isset($_GET['ID_victim']) && $_GET['ID_victim']) $suche_nach[] = 'ID_victim = '.$_GET['ID_victim'];
 if (isset($_GET['surname']) && $_GET['surname']) $suche_nach[] = 'surname = '.$_GET['surname'];
 if (isset($_GET['first_names']) && $_GET['first_names']) $suche_nach[] = 'first_names = '.$_GET['first_names'];
+if (isset($_GET['ID_dataset_origin']) && $_GET['ID_dataset_origin']) {
+	$workgroup = $dbi->connection->query('SELECT work_group FROM nmv__dataset_origin WHERE ID_dataset_origin = '.$_GET['ID_dataset_origin'])->fetch_row();
+	$suche_nach[] = 'workgroup = '.$workgroup[0];	
+}
 
 // breadcrumbs
 $dbi->addBreadcrumb (L_SEARCH,'search.php');
@@ -183,7 +165,7 @@ $layout
 	->set('title',L_RESULTS)
 	->set('content',
         '<p>Search for: <em>'.implode(', ',$suche_nach).'</em></p>'
-        .$dbi->getListView('nmv_victims',$query_items)
+        .$dbi->getListView('table_nmv_victims',$query_items)
         .'<div class="buttons">'
         .createButton (L_MODIFY_SEARCH,'search.php?'.$dbi->getUserVar('querystring'),'icon search')
         .createButton (L_NEW_SEARCH,'search.php','icon search')

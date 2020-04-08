@@ -105,8 +105,8 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 
 // ausgabe der suchtermini
 $suche_nach = array();
-if (isset($_GET['ID_source']) && $_GET['ID_source']) $suche_nach[] = 'ID_source = '.$_GET['ID_source'];
-if (isset($_GET['source_title']) && $_GET['source_title']) $suche_nach[] = 'source_title = '.$_GET['source_title'];
+if (isset($_GET['ID_source']) && $_GET['ID_source']) $suche_nach[] = 'ID = '.$_GET['ID_source'];
+if (isset($_GET['source_title']) && $_GET['source_title']) $suche_nach[] = 'title = '.$_GET['source_title'];
 if (isset($_GET['signature']) && $_GET['signature']) $suche_nach[] = 'signature = '.$_GET['signature'];
 if (isset($_GET['description']) && $_GET['description']) $suche_nach[] = 'description = '.$_GET['description'];
 
@@ -118,7 +118,7 @@ $layout
 	->set('title',L_RESULTS)
 	->set('content',
         '<p>Search for: <em>'.implode(', ',$suche_nach).'</em></p>'
-        .$dbi->getListView('nmv_source',$query_items)
+        .$dbi->getListView('nmv_sources_table',$query_items)
         .'<div class="buttons">'
         .createButton (L_MODIFY_SEARCH,'search.php?'.$dbi->getUserVar('querystring'),'icon search')
         .createButton (L_NEW_SEARCH,'search.php','icon search')

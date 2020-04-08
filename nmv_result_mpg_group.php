@@ -64,7 +64,7 @@ $dbi->setUserVar('querystring',implode('&',$query));
 
 // make select-clauses
 $querystring_count = 'SELECT COUNT(v.ID_victim) AS total FROM nmv__victim v'; // für Treffer gesamt
-$querystring_items = 'SELECT DISTINCT v.ID_victim, v.surname, v.first_names
+$querystring_items = 'SELECT DISTINCT v.ID_victim, v.surname, v.first_names, v.birth_year, v.birth_country
 											FROM nmv__victim v
 											LEFT JOIN nmv__med_history_brain b ON v.ID_victim = b.ID_victim
 											LEFT JOIN nmv__imprisoniation i    ON v.ID_victim = i.ID_victim'; // für Ergebnisliste
@@ -105,11 +105,6 @@ if (getUrlParameter($ticked_fields[0])) {
                               OR v.cause_of_death LIKE '%execution%'
                               OR v.cause_of_death LIKE '%exekution%')";
 }
-if (getUrlParameter($ticked_fields[0])) {
-  $querystring_where[] = "(v.cause_of_death LIKE '%executed%'
-                              OR v.cause_of_death LIKE '%execution%'
-                              OR v.cause_of_death LIKE '%exekution%')";
-}
 if (getUrlParameter($ticked_fields[1])) {
   $querystring_where[] = "(i.ID_classification = 7)";
 }
@@ -137,10 +132,17 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 
 // ausgabe der suchtermini
 $suche_nach = array();
-if (isset($_GET['ID_victim']) && $_GET['ID_victim']) $suche_nach[] = 'ID_victim = '.$_GET['ID_victim'];
-if (isset($_GET['surname']) && $_GET['surname']) $suche_nach[] = 'surname = '.$_GET['surname'];
-if (isset($_GET['first_names']) && $_GET['first_names']) $suche_nach[] = 'first_names = '.$_GET['first_names'];
-
+if (isset($_GET['cause_of_death']) && $_GET['cause_of_death']) $suche_nach[] = 'cause of death = executed';
+if (isset($_GET['prisoner_of_war']) && $_GET['prisoner_of_war']) $suche_nach[] = 'imprisonment = prisoner of war';
+if (isset($_GET['psychiatric_patient']) && $_GET['psychiatric_patient']) $suche_nach[] = 'imprisonment = psychiatric_patient';
+if (isset($_GET['ID_institution']) && $_GET['ID_institution']) {
+	$institution = $dbi->connection->query('SELECT institution_name FROM nmv__institution WHERE ID_institution = '.$_GET['ID_institution'])->fetch_row();
+	$suche_nach[] = 'institution = '.$institution[0];
+}
+if (isset($_GET['ID_dataset_origin']) && $_GET['ID_dataset_origin']) {
+	$workgroup = $dbi->connection->query('SELECT work_group FROM nmv__dataset_origin WHERE ID_dataset_origin = '.$_GET['ID_dataset_origin'])->fetch_row();
+	$suche_nach[] = 'workgroup = '.$workgroup[0];
+}
 // breadcrumbs
 $dbi->addBreadcrumb (L_SEARCH,'search.php');
 
@@ -149,7 +151,7 @@ $layout
 	->set('title',L_RESULTS)
 	->set('content',
         '<p>Search for: <em>'.implode(', ',$suche_nach).'</em></p>'
-        .$dbi->getListView('nmv_victims',$query_items)
+        .$dbi->getListView('table_nmv_victims',$query_items)
         .'<div class="buttons">'
         .createButton (L_MODIFY_SEARCH,'search.php?'.$dbi->getUserVar('querystring'),'icon search')
         .createButton (L_NEW_SEARCH,'search.php','icon search')

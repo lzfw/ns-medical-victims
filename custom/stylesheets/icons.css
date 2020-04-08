@@ -29,6 +29,7 @@
 .icon.remove,			.icons.remove > *,			.icons > .remove			{ background-image:url(../images/fugue-icons_zefiro/minus.png); }
 .icon.delete,			.icons.delete > *,			.icons > .delete			{ background-image:url(../images/fugue-icons_zefiro/cross.png); }
 .icon.recover,			.icons.recover > *,			.icons > .recover			{ background-image:url(../images/fugue-icons_zefiro/arrow-curve.png); }
+.icon.view, 				.icons.view > *, 				.icons > .view 			{ background-image:url(../images/fugue-icons_zefiro/eye.svg); }
 
 /* navigation elements */
 .icon.forward,			.icons.forward > *,			.icons > .forward			{ background-image:url(../images/fugue-icons_zefiro/arrow.png); }

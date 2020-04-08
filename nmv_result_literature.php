@@ -105,10 +105,10 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 
 // ausgabe der suchtermini
 $suche_nach = array();
-if (isset($_GET['ID_literature']) && $_GET['ID_literature']) $suche_nach[] = 'ID_literature = '.$_GET['ID_literature'];
-if (isset($_GET['lit_title']) && $_GET['lit_title']) $suche_nach[] = 'lit_title = '.$_GET['lit_title'];
+if (isset($_GET['ID_literature']) && $_GET['ID_literature']) $suche_nach[] = 'ID = '.$_GET['ID_literature'];
+if (isset($_GET['lit_title']) && $_GET['lit_title']) $suche_nach[] = 'title = '.$_GET['lit_title'];
 if (isset($_GET['authors']) && $_GET['authors']) $suche_nach[] = 'authors = '.$_GET['authors'];
-if (isset($_GET['lit_year']) && $_GET['lit_year']) $suche_nach[] = 'lit_year = '.$_GET['lit_year'];
+if (isset($_GET['lit_year']) && $_GET['lit_year']) $suche_nach[] = 'year = '.$_GET['lit_year'];
 
 // breadcrumbs
 $dbi->addBreadcrumb (L_SEARCH,'search.php');
@@ -118,7 +118,7 @@ $layout
 	->set('title',L_RESULTS)
 	->set('content',
         '<p>Search for: <em>'.implode(', ',$suche_nach).'</em></p>'
-        .$dbi->getListView('nmv_literature',$query_items)
+        .$dbi->getListView('nmv_literature_table',$query_items)
         .'<div class="buttons">'
         .createButton (L_MODIFY_SEARCH,'search.php?'.$dbi->getUserVar('querystring'),'icon search')
         .createButton (L_NEW_SEARCH,'search.php','icon search')

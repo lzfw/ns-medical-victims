@@ -60,7 +60,7 @@ foreach ($double_fields as $field) {
 $dbi->setUserVar('querystring',implode('&',$query));
 
 // make select-clauses part one
-$querystring_items = 'SELECT v.ID_victim, v.surname, v.first_names FROM nmv__victim v'; // für Ergebnisliste
+$querystring_items = 'SELECT v.ID_victim, v.surname, v.first_names, v.birth_year, v.birth_country FROM nmv__victim v'; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
 
 
@@ -103,7 +103,7 @@ if (count($querystring_where) > 0) {
 // append select-clauses part two for other names
 $querystring_items .= ' UNION ';
 
-$querystring_items .= '	SELECT v.ID_victim, v.surname, v.first_names
+$querystring_items .= '	SELECT v.ID_victim, v.surname, v.first_names, v.birth_year, v.birth_country
 												FROM nmv__victim_name o
 												INNER JOIN nmv__victim v
 												ON o.ID_victim = v.ID_victim';
@@ -162,7 +162,7 @@ $layout
 	->set('title',L_RESULTS)
 	->set('content',
         '<p>Search for: <em>'.implode(', ',$suche_nach).'</em></p>'
-        .$dbi->getListView('results_nmv_victims',$query_items)
+        .$dbi->getListView('table_nmv_victims',$query_items)
         .'<div class="buttons">'
         .createButton (L_MODIFY_SEARCH,'search.php?'.$dbi->getUserVar('querystring'),'icon search')
         .createButton (L_NEW_SEARCH,'search.php','icon search')
