@@ -19,7 +19,7 @@ if ($dbi->checkUserPermission('admin')) {
 
 // Select-Klauseln erstellen
 $querystring_count = 'SELECT COUNT(ID_experiment) AS total FROM nmv__experiment v'; // für Treffer gesamt
-$querystring_items = 'SELECT `ID_experiment`, `experiment_title`, `field_of_interest`, c.`english` classification
+$querystring_items = 'SELECT `ID_experiment`, `experiment_title`, `field_of_interest`, `objective`, c.`english` classification
         FROM nmv__experiment e
         LEFT JOIN nmv__experiment_classification c
           ON c.`ID_exp_classification` = e.`classification`'; // für Ergebnisliste
