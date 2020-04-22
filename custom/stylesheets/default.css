@@ -12,21 +12,21 @@ html {
 body,table,input,textarea {
 	color:#000; /* black */
 	font-family:Arial,sans-serif;
-	font-size:12px;
-	line-height:20px;
+	font-size:.8rem;
+	line-height:1.25rem;
 }
 
 body {
 	background-color:#444; /* gray */
 	border:1px solid #222; /* dark gray */
-	margin:20px auto;
+	margin:1.25rem auto;
 	padding:0;
-	width:860px;
+	width:53.75rem;
 }
 
 body.print #header {
 	background-image:none;
-	height:70px;
+	height:4.375rem;
 }
 body.print {
 	border:0;
@@ -54,9 +54,9 @@ div.right {
 div.bar {
 	background-color:#ccc; /* bright gray */
 	color:#222; /* very dark gray */
-	font-size:12px;
-	height:20px;
-	line-height:15px;
+	font-size:.8rem;
+	height:1.25rem;
+	line-height:1rem;
 	position:relative;
 }
 
@@ -71,22 +71,59 @@ div.bar div {
 
 div.buttons {
 	margin:0;
-	padding:5px 0;
-	line-height:30px;
+	padding:0.3125rem 0;
+	line-height:1.875rem;
 }
-
+div.relative{
+	position: relative;
+	margin-top: 0.5rem;
+}
 div.block {
 	padding: 0.5rem 1rem;
-	margin: 1rem 0;
-	border: 1px solid gray;
+	margin-bottom: 1rem;
+	border: 2px solid lightgray;
+	position: relative;
 }
+
+
+/* show'n'hide-elements (css-checkbox-trick to show and hide elements)*/
+.hide_show_label{
+	font-weight: bold;
+	font-size: 1rem;
+	padding: 0.5rem;
+	background-color: lightgray;
+	display: block;
+}
+.hide_show_label::before{
+	content: '';
+	position: absolute;
+	width: 1.2rem;
+	height: 1.2rem;
+	background-size: contain;
+	right: 2rem;
+	top: 0.5rem;
+	background-image: url(../images/fugue-icons_zefiro/control.png);
+	background-repeat: no-repeat;
+	background-position: right center;
+	transform: rotate(90deg);
+}
+.hide_show_checkbox:not(:checked) + .hide_show_label:before{
+	transform: rotate(270deg);
+}
+.hide_show_checkbox{
+	display: none;
+}
+.hide_show_checkbox:checked ~ .hide_show_element{
+	display: none;
+}
+
 
 /* special divisions */
 
 #header {
 	background-color:#eee; /* very bright gray */
 	color:#444; /* dark gray */
-	height:100px;
+	height:6.25rem;
 	position:relative;
 }
 
@@ -97,9 +134,9 @@ div.block {
 #options {
 	position:relative;
 	background-color:#fff; /* white */
-	font-size:12px;
-	line-height:15px;
-	padding:5px;
+	font-size:.8rem;
+	line-height:1rem;
+	padding:0.3125rem;
 }
 
 #options ul {
@@ -117,15 +154,15 @@ div.block {
 }
 
 #content {
-	min-height:600px;
-	padding:15px 20px 15px 20px;
-	width:580px;
+	min-height:37.7rem;
+	padding:1rem 1.25rem 1rem 1.25rem;
+	width:36.25rem;
 }
 
 #sidebar {
-	min-height:600px;
-	padding:15px 20px 15px 20px;
-	width:220px;
+	min-height:37.7rem;
+	padding:1rem 1.25rem 1rem 1.25rem;
+	width:13.75rem;
 }
 
 /* HEADINGS ----------------------------------------------------------------- */
@@ -137,49 +174,50 @@ h1,h2,h3,h4 {
 }
 
 h1 {
-	font-size:24px;
-	line-height:30px;
-	padding:20px 0 10px 20px;
+	font-size:1.5rem;
+	line-height:1.875rem;
+	padding:1.25rem 0 0.625rem 1.25rem;
 }
 
 h2 {
-	font-size:18px;
-	line-height:20px;
-	padding:5px 0;
+	font-size:1.125rem;
+	line-height:1.25rem;
+	padding:0.3125rem 0;
 }
 
 h3 {
-	font-size:14px;
-	line-height:20px;
-	padding:5px 0;
+	font-size:0.875rem;
+	line-height:1.25rem;
+	padding:0.3125rem 0;
 }
 
 h4 {
-	font-size:12px;
-	line-height:20px;
-	padding:5px 0;
+	font-size:.8rem;
+	line-height:1.25rem;
+	padding:0.3125rem 0;
+	text-decoration: underline overline;
 }
 
 /* PARAGRAPHS --------------------------------------------------------------- */
 
 p {
 	margin:0;
-	padding:5px 0;
+	padding:0.3125rem 0;
 }
 
 #header p {
-	padding:0 20px;
+	padding:0 1.25rem;
 }
 
 #sidebar p.simplemarkup {
-	font-size:11px;
-	line-height:15px;
+	font-size:0.6875rem;
+	line-height:1rem;
 }
 
 p.icon {
 	background-position:left center;
 	background-repeat:no-repeat;
-	padding-left:20px;
+	padding-left:1.25rem;
 }
 
 p.small {
@@ -199,7 +237,7 @@ th {
 	font-weight:bold;
 	text-align:left;
 	vertical-align:top;
-	font-size:12px;
+	font-size:.8rem;
 }
 
 td {
@@ -218,7 +256,7 @@ td.nowrap {
 /* table designs */
 
 table.grid {
-	margin:5px 0;
+	margin:0.3125rem 0;
 }
 
 table.grid th,table.grid td {
@@ -228,7 +266,7 @@ table.grid th,table.grid td {
 
 table.rows, table.columns {
 	border:1px solid #ccc;
-	margin:5px 0;
+	margin:0.3125rem 0;
 }
 
 table.rows th, table.rows td {
@@ -250,11 +288,11 @@ table.columns th {
 }
 
 table.invisible {
-	margin:5px 0;
+	margin:0.3125rem 0;
 }
 
 table.indented {
-	margin-left:20px !important;
+	margin-left:1.25rem !important;
 }
 
 td.boxed {
@@ -286,8 +324,8 @@ form table a {
 /* LISTS -------------------------------------------------------------------- */
 
 ol,ul {
-	margin:0 0 0 20px;
-	padding:5px 0;
+	margin:0 0 0 1.25rem;
+	padding:0.3125rem 0;
 	text-indent:0;
 }
 
@@ -301,7 +339,7 @@ table ul {
 }
 
 li.indent {
-	margin-left:20px;
+	margin-left:1.25rem;
 }
 
 /* LIST ELEMENTS ------------------------------------------------------------ */
@@ -333,13 +371,13 @@ span.button,a.button,span.smallbutton,a.smallbutton {
 
 span.button,a.button {
 	font-size:13px;
-	line-height:15px;
+	line-height:1rem;
 	padding:1px 3px;
 }
 
 span.smallbutton,a.smallbutton {
-	font-size:11px;
-	line-height:15px;
+	font-size:0.6875rem;
+	line-height:1rem;
 	padding:0 2px;
 }
 
@@ -382,19 +420,19 @@ a.smallbutton img,
 /* FORMS -------------------------------------------------------------------- */
 
 form {
-	margin:5px 0;
+	margin:0.3125rem 0;
 	padding:0;
 }
 
 form label {
 	font-weight:bold;
-	font-size:12px;
-	line-height:20px;
+	font-size:.8rem;
+	line-height:1.25rem;
 }
 
 form input,form textarea {
-	font-size:12px;
-	line-height:20px;
+	font-size:.8rem;
+	line-height:1.25rem;
 	border:1px solid #ccc; /* bright gray */
 	padding:1px 2px;
 	margin:0;
@@ -402,13 +440,13 @@ form input,form textarea {
 }
 
 form select {
-	font-size:12px;
-	line-height:20px;
+	font-size:.8rem;
+	line-height:1.25rem;
 	border:1px solid #ccc; /* bright gray */
 	padding:0;
 	margin:0;
 	color:#333; /* gray */
-	width: 306px;
+	width: 19.125rem;
 }
 
 form option {
@@ -429,8 +467,8 @@ form input:focus,form select:focus,form textarea:focus {
 form input.button {
 	padding:2px 4px;
 	margin:10px 0px;
-	font-size:13px;
-	line-height:15px;
+	font-size:0.875rem;
+	line-height:1rem;
 	font-weight:bold;
 	border:2px outset #ccc; /* light gray */
 	background-color:#fff; /* white */
@@ -441,15 +479,15 @@ form input[type="checkbox"] {
 }
 
 form button {
-	font-size:13px;
+	font-size:0.875rem;
 	margin:10px 0;
-	padding:0 15px;
+	padding:0 1rem;
 }
 
 /* GENERAL CLASSES ---------------------------------------------------------- */
 
 .small {
-	font-size:11px;
+	font-size:0.6875rem;
 	color:#888;
 }
 
@@ -477,16 +515,16 @@ form button {
 }
 
 .ui-menu {
-	width:200px;
+	width:12.5rem;
 	border:1px solid #444;
 	background-color:white;
 	list-style: none outside none;
 }
 
 .ui-menu-item {
-	font-size:11px;
-	line-height:15px;
-	padding:5px;
+	font-size:0.6875rem;
+	line-height:1rem;
+	padding:0.3125rem;
 	margin:0;
 	cursor:pointer;
 }

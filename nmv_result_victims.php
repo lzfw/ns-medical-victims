@@ -168,7 +168,7 @@ $layout
         .createButton (L_NEW_SEARCH,'search.php','icon search')
         .'</div>'
 	)
-	->set('sidebar','<h3>'.L_HELP.'</h3>'.$dbi->getTextblock_HTML ('results'))
+	//->set('sidebar','<h3>'.L_HELP.'</h3>'.$dbi->getTextblock_HTML ('results'))
 	->cast();
 
 ?>

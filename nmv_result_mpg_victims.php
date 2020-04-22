@@ -154,7 +154,7 @@ if (isset($_GET['surname']) && $_GET['surname']) $suche_nach[] = 'surname = '.$_
 if (isset($_GET['first_names']) && $_GET['first_names']) $suche_nach[] = 'first_names = '.$_GET['first_names'];
 if (isset($_GET['ID_dataset_origin']) && $_GET['ID_dataset_origin']) {
 	$workgroup = $dbi->connection->query('SELECT work_group FROM nmv__dataset_origin WHERE ID_dataset_origin = '.$_GET['ID_dataset_origin'])->fetch_row();
-	$suche_nach[] = 'workgroup = '.$workgroup[0];	
+	$suche_nach[] = 'workgroup = '.$workgroup[0];
 }
 
 // breadcrumbs
@@ -171,7 +171,7 @@ $layout
         .createButton (L_NEW_SEARCH,'search.php','icon search')
         .'</div>'
 	)
-	->set('sidebar','<h3>'.L_HELP.'</h3>'.$dbi->getTextblock_HTML ('results'))
+	//->set('sidebar','<h3>'.L_HELP.'</h3>'.$dbi->getTextblock_HTML ('results'))
 	->cast();
 
 ?>
