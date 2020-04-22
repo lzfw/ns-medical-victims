@@ -162,6 +162,10 @@ abstract class Field {
 				// static fields do not need to be evaluated
 				$this->Creator->debuglog->Write(DEBUG_INFO,'. field "'.$this->name.'" contains HTML');
 				break;
+			case 'Field_SubHeadline':
+				// static fields do not need to be evaluated
+				$this->Creator->debuglog->Write(DEBUG_INFO,'. field "'.$this->name.'" contains HTML');
+				break;
 			case 'Field_Subtable':
 				$this->user_value = array();
 				if (isset($_POST[$this->name.'-subtable'])) {
@@ -227,6 +231,10 @@ abstract class Field {
 				// static fields do not need to be evaluated
 				$this->Creator->debuglog->Write(DEBUG_INFO,'. field "'.$this->name.'" contains HTML');
 				break;
+			case 'Field_SubHeadline':
+				// static fields do not need to be evaluated
+				$this->Creator->debuglog->Write(DEBUG_INFO,'. field "'.$this->name.'" contains HTML');
+				break;
 			case 'Field_Subtable':
 				$this->user_value = isset($_GET[$this->name])
 					? $_GET[$this->name]
@@ -285,7 +293,7 @@ abstract class Field {
 		// - "required" symbol
 		$leadin = NULL;
 		if (!$this->is_hidden()) {
-			if (get_class($this) != 'Field_StaticText') {
+			if (get_class($this) != 'Field_StaticText' and get_class($this) != 	'Field_SubHeadline') {
 				$leadin .= "\t<tr class=\"field".($this->error?' error':'').($this->valid?' valid':'').($this->required?' required':'')."\">".PHP_EOL;
 				$leadin .= "\t\t<td>";
 				$leadin .= "<label for=\"{$this->getId()}\">";
@@ -312,7 +320,7 @@ abstract class Field {
 		// - validation messages
 		$leadout = NULL;
 		if (!$this->is_hidden()) {
-			if (get_class($this) != 'Field_StaticText') {
+			if (get_class($this) != 'Field_StaticText' and get_class($this) != 'Field_SubHeadline') {
 				if ($this->description) $leadout .= "\t\t\t<div class=\"description\">$this->description</div>".PHP_EOL;
 				$leadout .= "\t\t</td>".PHP_EOL;
 				if ($this->error) $leadout .= "\t\t<td><div class=\"error\">$this->error</div></td>".PHP_EOL;

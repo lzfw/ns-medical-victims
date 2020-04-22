@@ -17,6 +17,7 @@ define ('MULTIPLE_CHECKBOX','MultiCheckbox'); // for compatibility
 define ('UPLOAD','Upload');
 define ('TEXTAREA','TextArea');
 define ('STATIC_TEXT','StaticText');
+define ('SUBHEADLINE','SubHeadline');
 
 // FIELD VALUE
 define('NO_VALUE',NULL);

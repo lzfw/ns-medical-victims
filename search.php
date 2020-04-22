@@ -15,6 +15,8 @@ require_once 'flotilla/ini.php';
 // url parameters
 $dbi->setUserVar ('view',getUrlParameter('view'),'default');
 
+include_once './search_forms/nmv_search_victims_variable.php';
+
 // victim search form
 $victimForm = new Form ('search_victim','nmv_result_victims.php','GET');
 
@@ -65,7 +67,7 @@ $MPGvictimForm
 
 
 // victimgroups from MPG project search form
-$MPGgroupForm = new Form ('search_mpg_victim','nmv_result_mpg_group.php','GET');
+$MPGgroupForm = new Form ('search_mpg_group','nmv_result_mpg_group.php','GET');
 
 $MPGgroupForm->addConnection(MYSQL_DB,$db_host,$db_user,$db_pass,$db_name);
 
@@ -86,7 +88,9 @@ $MPGgroupForm->addField ('ID_institution',SELECT)
 $MPGgroupForm->addField ('ID_dataset_origin',SELECT)
 	    ->setLabel ('MPG Project Data from')
 	    ->addOption (NO_VALUE,'all workgroups')
-	    ->addOptionsFromTableOrderedByID ( 'nmv__dataset_origin', 'ID_dataset_origin', 'work_group');
+	    ->addOptionsFromTableOrderedById ( 'nmv__dataset_origin', 'ID_dataset_origin', 'work_group');
+
+
 
 $MPGgroupForm
 	->addButton (BACK)
@@ -204,7 +208,8 @@ $layout
 			 <div class="block">
 					<h3>Search Victims (MPG Project) by name or ID</h3>
 					<p>Search in MPG-project-datasets.
-					<br>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
+					<br>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields
+					<br>If a combination of workgroups is selected, the result shows only datasets that contain data of all these workgroups.</p>' .
 					($dbi->checkUserPermission('view') ? $MPGvictimForm->run() : 'In order to search MPG-project-victims, <a href="/z_login">please log in</a>.') .
 			'</div>
 			<div class="block">
@@ -214,19 +219,23 @@ $layout
 					($dbi->checkUserPermission('view') ? $MPGgroupForm->run() : 'In order to search MPG-project-victims, <a href="/z_login">please log in</a>.') .
 			'</div>
 			<div class="block">
-					<h3>Search Perpetrators by name or ID</h3>' .
+					<h3>Search Perpetrators by name or ID</h3>
+					<p>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
 			    ($dbi->checkUserPermission('view') ? $perpetratorForm->run() : 'In order to search perpetrators, <a href="/z_login">please log in</a>.') .
 	    '</div>
 			<div class="block">
-					<h3>Search Biomedical Research (Experiments)</h3>' .
+					<h3>Search Biomedical Research (Experiments)</h3>
+					<p>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
 			    ($dbi->checkUserPermission('view') ? $experimentsForm->run() : 'In order to search biomedical research, <a href="/z_login">please log in</a>.') .
 	    '</div>
 			<div class="block">
-					<h3>Search Literature</h3>' .
+					<h3>Search Literature</h3>
+					<p>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
 			    ($dbi->checkUserPermission('view') ? $literatureForm->run() : 'In order to search literature, <a href="/z_login">please log in</a>.') .
 	    '</div>
 			<div class="block">
-					<h3>Search Sources</h3>' .
+					<h3>Search Sources</h3>
+					<p>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
 			    ($dbi->checkUserPermission('view') ? $sourceForm->run() : 'In order to search sources, <a href="/z_login">please log in</a>.') .
 			'</div>'		)
 	->set('sidebar','<h3>'.L_HELP.'</h3>'.$dbi->getTextblock_HTML ('search'))

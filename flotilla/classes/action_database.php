@@ -64,6 +64,8 @@ class Action_Database extends Action {
 						break;
 					case 'Field_StaticText':
 						break;
+					case 'Field_SubHeadline':
+						break;
 					default:
 						// check for numeric fields
 						$column_qs = "SHOW COLUMNS FROM `$this->table` LIKE '$Field->name'";
@@ -122,6 +124,8 @@ class Action_Database extends Action {
 					case 'Field_Subtable':
 						break;
 					case 'Field_StaticText':
+						break;
+					case 'Field_SubHeadline':
 						break;
 					default:
 						// check for numeric fields

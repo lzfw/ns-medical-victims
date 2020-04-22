@@ -22,6 +22,7 @@ class Field_MultiSelect extends Field {
 		// create ( name [, required [, default_option ]] )
 		$args = func_get_args();
 		switch (func_num_args()) {
+			case 2: return new Field_MultiSelect ($args[0],$args[1],NULL,NULL,NULL);
 			case 3: return new Field_MultiSelect ($args[0],$args[1],$args[2],NULL,NULL);
 			case 4: return new Field_MultiSelect ($args[0],$args[1],$args[2],$args[3],NULL);
 			case 5: return new Field_MultiSelect ($args[0],$args[1],$args[2],$args[3],$args[4]);
@@ -53,13 +54,63 @@ class Field_MultiSelect extends Field {
 			".(isset($args[3])?'WHERE '.$args[3]:'')."
 			ORDER BY {$args[2]}
 		";
+
 		$options_query = $this->Creator->Connection->link->query($options_querystring);
+
 		while ($option = $options_query->fetch_object()) {
 			$this->Options[] = new MultiSelect_Option ($option->value,$option->title);
 			$this->Creator->debuglog->Write(DEBUG_INFO,'. . new Multiple Select Option "'.$option->value.'" created');
 		}
 		return $this;
 	}
+
+	public function addOptionsFromArray ( $array ) {
+		// addOption ( array )
+		foreach ($array as $key => $value) {
+			$this->Options[] = new MultiSelect_Option ($key,$value);
+			$this->Creator->debuglog->Write(DEBUG_INFO,'. . new MultiSelect Option "'.$key.'" created');
+		}
+		return $this;
+	}
+
+	public function addOptionsFromRange () {
+		// addOption ( [to]|[from, to] [, skip [, prefix [, suffix ]]] )
+		$args = func_get_args();
+		switch (func_num_args()) {
+			case 1:
+				for ($i = 1; $i <= $args[0]; $i++) {
+					$this->Options[] = new MultiSelect_Option ($i, $i);
+					$this->Creator->debuglog->Write(DEBUG_INFO,'. . new MultiSelect Option "'.$i.'" created');
+				}
+				break;
+			case 2:
+				for ($i = $args[0]; $i <= $args[1]; $i++) {
+					$this->Options[] = new MultiSelect_Option ($i, $i);
+					$this->Creator->debuglog->Write(DEBUG_INFO,'. . new MultiSelect Option "'.$i.'" created');
+				}
+				break;
+			case 3:
+				for ($i = $args[0]; $i <= $args[1]; $i+=$args[2]) {
+					$this->Options[] = new MultiSelect_Option ($i, $i);
+					$this->Creator->debuglog->Write(DEBUG_INFO,'. . new MultiSelect Option "'.$i.'" created');
+				}
+				break;
+			case 4:
+				for ($i = $args[0]; $i <= $args[1]; $i+=$args[2]) {
+					$this->Options[] = new MultiSelect_Option ($i, $args[3].$i);
+					$this->Creator->debuglog->Write(DEBUG_INFO,'. . new MultiSelect Option "'.$args[3].$i.'" created');
+				}
+				break;
+			case 5:
+				for ($i = $args[0]; $i <= $args[1]; $i+=$args[2]) {
+					$this->Options[] = new MultiSelect_Option ($i, $args[3].$i.$args[4]);
+					$this->Creator->debuglog->Write(DEBUG_INFO,'. . new MultiSelect Option "'.$args[3].$i.$args[4].'" created');
+				}
+				break;
+		}
+		return $this;
+	}
+
 
 	// HTML OUTPUT ---------------------------------------------------------------
 
