@@ -205,9 +205,10 @@ $layout
 					<div class="hide_show_element block" id="element_search_tips">
 					<h3>wildcard character *</h3>
 					<p>
-						You can use * as a wildcard-character. It replaces one or many characters. <br>
-						&nbsp; &rarr; Smi* returns all results that begin with Smi (e.g Smith, Smidt, Smilla ...)<br>
-						&nbsp; &rarr; J*zef returns results for Józef, Jozef, Joezef, Juzef ...
+						You can use * as a wildcard-character. It replaces one or many characters.
+						<br>&nbsp; &rarr; Smi* returns all results that begin with Smi (e.g Smith, Smidt, Smilla ...)
+						<br>&nbsp; &rarr; J*zef returns results for Józef, Jozef, Joezef, Juzef ...
+						<br>&nbsp; &rarr; * returns all results with an entry in the corresponding column.
 					</p><br>
 					<h3>show and hide forms</h3>
 					<p>
