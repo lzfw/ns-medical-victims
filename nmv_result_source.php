@@ -120,7 +120,7 @@ $layout
         '<p>Search for: <em>'.implode(', ',$suche_nach).'</em></p>'
         .$dbi->getListView('nmv_sources_table',$query_items)
         .'<div class="buttons">'
-        .createButton (L_MODIFY_SEARCH,'search.php?'.$dbi->getUserVar('querystring'),'icon search')
+				.createButton (L_MODIFY_SEARCH,'javascript:history.back()','icon search')
         .createButton (L_NEW_SEARCH,'search.php','icon search')
         .'</div>'
 	)

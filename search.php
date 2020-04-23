@@ -15,7 +15,7 @@ require_once 'flotilla/ini.php';
 // url parameters
 $dbi->setUserVar ('view',getUrlParameter('view'),'default');
 
-include_once './search_forms/nmv_search_victims_variable.php';
+include_once './search_forms/nmv_search_victims_filter.php';
 
 // victim search form
 $victimForm = new Form ('search_victim','nmv_result_victims.php','GET');
