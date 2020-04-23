@@ -197,13 +197,29 @@ $sourceForm
 
 // layout
 $layout
-	->set('title',L_SEARCH)
+	->set('title','Search and Filters')
 	->set('content',
-			'<p> You can use * as wildcard-character. It replaces one or many characters. <br>
-			&nbsp; &rarr; Smi* returns all results that begin with Smi (e.g Smith, Smidt, Smilla ...)<br>
-			&nbsp; &rarr; J*zef returns results for Józef, Jozef, Joezef, Juzef ...
-			</p>
-
+			'<div class="relative">
+					<input class="hide_show_checkbox"  id="checkbox_search_tips" type="checkbox" checked="checked">
+					<label class="hide_show_label" id="label_search_tips" for="checkbox_search_tips">Help</label>
+					<div class="hide_show_element block" id="element_search_tips">
+					<h3>wildcard character *</h3>
+					<p>
+						You can use * as a wildcard-character. It replaces one or many characters. <br>
+						&nbsp; &rarr; Smi* returns all results that begin with Smi (e.g Smith, Smidt, Smilla ...)<br>
+						&nbsp; &rarr; J*zef returns results for Józef, Jozef, Joezef, Juzef ...
+					</p><br>
+					<h3>show and hide forms</h3>
+					<p>
+						The different search- and filter-forms can be shown or hidden by clicking on the gray headline-areas.
+					</p><br>
+					<h3>multiple inputs</h3>
+					<p>
+						If more than one textfield or selection is used, the search or filter will return only results that match <strong> all </strong> those inputs.
+					</p>
+			</div>
+			<br><br>
+			<h2>Search</h2>
 			<div class="relative">
 					<input class="hide_show_checkbox"  id="checkbox_search_victim" type="checkbox" checked="checked">
 					<label class="hide_show_label" id="label_search_victim" for="checkbox_search_victim">Search - Victim</label>
@@ -243,7 +259,6 @@ $layout
 					<input class="hide_show_checkbox"  id="checkbox_search_literature" type="checkbox" checked="checked">
 					<label class="hide_show_label" id="label_search_literature" for="checkbox_search_literature">Search - Literature</label>
 					<div class="hide_show_element block" id="element_search_literature">
-							<h3>Search Literature</h3>
 							<p>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
 					    ($dbi->checkUserPermission('view') ? $literatureForm->run() : 'In order to search literature, <a href="/z_login">please log in</a>.') .
 			    '</div>
@@ -252,7 +267,6 @@ $layout
 					<input class="hide_show_checkbox"  id="checkbox_search_source" type="checkbox" checked="checked">
 					<label class="hide_show_label" id="label_search_source" for="checkbox_search_source">Search - Source</label>
 					<div class="hide_show_element block" id="element_search_source">
-							<h3>Search Sources</h3>
 							<p>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
 					    ($dbi->checkUserPermission('view') ? $sourceForm->run() : 'In order to search sources, <a href="/z_login">please log in</a>.') .
 					'</div>
@@ -264,7 +278,9 @@ $layout
 					<label class="hide_show_label" id="label_filter_mpg_victim" for="checkbox_filter_mpg_victim">Filter - Victims (MPG Project)</label>
 					<div class="hide_show_element block" id="element_filter_mpg_victim">
 							<p>Shows fliltered list of victims in MPG-project-datasets.
-							<br>Returns victims that match <strong>all</strong> given criteria</p>' .
+							<br>Returns victims that match <strong>all</strong> given criteria
+							<br>If a combination of workgroups is selected, the result shows only datasets that contain data of all these workgroups.</p>
+							' .
 							($dbi->checkUserPermission('view') ? $MPGgroupForm->run() : 'In order to search MPG-project-victims, <a href="/z_login">please log in</a>.') .
 					'</div>
 			</div>

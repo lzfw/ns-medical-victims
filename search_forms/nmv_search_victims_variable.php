@@ -43,7 +43,6 @@ $victimsVariableForm->addField('br-death', STATIC_TEXT, '<br>');
 $victimsVariableForm->addField('gender', SELECT)
   ->setLabel ('gender')
   ->addOption (NO_VALUE,'all gender')
-
   ->addOptionsFromArray(['male'=>'male', 'female'=>'female']);
 
 $victimsVariableForm->addField('religion', SELECT)
@@ -129,7 +128,6 @@ $victimsVariableForm->addField('brain_report_ID_diagnosis', SELECT)
   ->addOptionsFromTable('nmv__diagnosis', 'ID_diagnosis', 'english');
 
 $victimsVariableForm->addField('brain_report_diagnosis', TEXT, 120)
-  ->setClass ('keyboardInput')
 ->setLabel ('diagnosis from brain report (not standardized yet)');
 
 $victimsVariableForm->addField('hospitalisation_ID_diagnosis', SELECT)
@@ -138,7 +136,6 @@ $victimsVariableForm->addField('hospitalisation_ID_diagnosis', SELECT)
   ->addOptionsFromTable('nmv__diagnosis', 'ID_diagnosis', 'english');
 
 $victimsVariableForm->addField('hospitalisation_diagnosis', TEXT, 120)
-  ->setClass ('keyboardInput')
 ->setLabel ('hospitalisation diagnosis (not standardized yet)');
 
 $victimsVariableForm->addField('post_1945-text', SUBHEADLINE, '<br> &nbsp; After 1945 &nbsp; ');
@@ -149,11 +146,9 @@ $victimsVariableForm->addField('evaluation_status', SELECT)
   ->addOptionsFromTable('nmv__victim_evaluation_status', 'ID_status', 'english');
 
 $victimsVariableForm->addField ('residence_after_1945_country',TEXT,120)
-    ->setClass ('keyboardInput')
 	->setLabel ('residence after 1945 (country)');
 
 $victimsVariableForm->addField ('occupation_after_1945',TEXT,120)
-    ->setClass ('keyboardInput')
 	->setLabel ('occupation after 1945');
 
 $victimsVariableForm->addField('nationality_after_1945', SELECT)
