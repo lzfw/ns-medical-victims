@@ -268,7 +268,7 @@ if (isset($_GET['compensation']) && $_GET['compensation']) {
 	$search_term = $dbi->connection->query('SELECT english FROM nmv__victim_evaluation_compensation WHERE ID_compensation = '.$_GET['compensation'])->fetch_row();
 	$suche_nach[] = 'compensation = '.$search_term[0];
 }
-if (isset($_GET['']) && $_GET['']) $suche_nach[] = ' = '.$_GET[''];
+
 
 
 // breadcrumbs

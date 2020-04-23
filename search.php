@@ -16,6 +16,7 @@ require_once 'flotilla/ini.php';
 $dbi->setUserVar ('view',getUrlParameter('view'),'default');
 
 include_once './search_forms/nmv_search_victims_filter.php';
+include_once './search_forms/nmv_search_diagnoses.php';
 
 // victim search form
 $victimForm = new Form ('search_victim','nmv_result_victims.php','GET');
@@ -270,6 +271,14 @@ $layout
 					<div class="hide_show_element block" id="element_search_source">
 							<p>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
 					    ($dbi->checkUserPermission('view') ? $sourceForm->run() : 'In order to search sources, <a href="/z_login">please log in</a>.') .
+					'</div>
+			</div>
+			<div class="relative">
+					<input class="hide_show_checkbox"  id="checkbox_search_diagnoses" type="checkbox" checked="checked">
+					<label class="hide_show_label" id="label_search_diagnoses" for="checkbox_search_diagnoses">Search - Diagnoses</label>
+					<div class="hide_show_element block" id="element_search_diagnoses">
+							<p>Returns victims with given keyword in: cause of death, hospitalisation diagnosis, brain report diagnosis</p>' .
+							($dbi->checkUserPermission('view') ? $diagnosesForm->run() : 'In order to search victims, <a href="/z_login">please log in</a>.') .
 					'</div>
 			</div>
 			<br><br>
