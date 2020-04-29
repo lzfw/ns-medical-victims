@@ -128,7 +128,7 @@ if ($experiment_id) {
         // query: get data of the victims of the experiment
         $querystring = "
         SELECT ve.ID_vict_exp ID_vict_exp,
-            CONCAT(v.first_names, ' ', v.surname) victim_name,
+            v.first_names victim_first_names, v.surname victim_surname,
             v.birth_country birth_country, v.birth_place birth_place,
             CONCAT_WS('-', v.birth_year, v.birth_month, v.birth_day) birth_date,
             ve.ID_victim ID_victim
@@ -141,8 +141,8 @@ if ($experiment_id) {
         LIMIT 600";
 
         $options = '';
-        $row_template = ['{victim_name}', '{birth_country}', '{birth_place}', '{birth_date}'];
-        $header_template = ['Victim', 'Country of Birth', 'Birth Place', 'Birth Date'];
+        $row_template = ['{victim_surname}', '{victim_first_names}', '{birth_country}', '{birth_place}', '{birth_date}'];
+        $header_template = ['Surname', 'First Names', 'Country of Birth', 'Birth Place', 'Birth Date'];
 
         $options .= createSmallButton('View Details','nmv_view_victim_experiment?ID_vict_exp={ID_vict_exp}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {

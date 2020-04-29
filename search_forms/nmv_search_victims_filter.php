@@ -70,7 +70,7 @@ $victimsVariableForm->addField('occupation', SELECT)
   ->addOption (NO_VALUE,'all occupations')
   ->addOptionsFromTable('nmv__occupation', 'ID_occupation', 'english');
 
-$victimsVariableForm->addField('ns-text', SUBHEADLINE, '<br> &nbsp; Time of National Socialism &nbsp;');
+$victimsVariableForm->addField('ns-text', STATIC_TEXT, '<br><br>');
 
 $victimsVariableForm->addField('ID_arrest_country', SELECT)
   ->setLabel ('country of arrest')
@@ -80,7 +80,7 @@ $victimsVariableForm->addField('ID_arrest_country', SELECT)
 $victimsVariableForm->addField('ID_experiment', SELECT)
   ->setLabel ('experiment')
   ->addOption (NO_VALUE,'all experiments')
-  ->addOptionsFromTable('nmv__experiment', 'ID_experiment', 'experiment_title');
+  ->addOptionsFromTable('nmv__experiment', 'ID_experiment', 'CONCAT(experiment_title,"  --  ID ", ID_experiment)');
 
 $victimsVariableForm->addField('ID_classification', SELECT)
   ->setLabel ('imprisonment classification')
@@ -91,6 +91,16 @@ $victimsVariableForm->addField('location', SELECT)
   ->setLabel ('imprisonment location')
   ->addOption (NO_VALUE,'all locations')
   ->addOptionsFromTable('nmv__imprisoniation', 'DISTINCT location', 'location');
+
+$victimsVariableForm->addField('evaluation_status', SELECT)
+  ->setLabel ('evaluation status (currently used)')
+  ->addOption (NO_VALUE,'all evaluation status')
+  ->addOptionsFromTable('nmv__victim_evaluation_status', 'ID_status', 'english');
+
+$victimsVariableForm->addField('confirmation', SELECT)
+  ->setLabel ('evaluation status (outdated?)')
+  ->addOption (NO_VALUE, 'all confirmation status')
+  ->addOptionsFromArray(['confirmed victim', 'not a victim', 'pending']);
 
 $victimsVariableForm->addField('mpg-text', SUBHEADLINE, '<br> &nbsp; MPG-project-related &nbsp; ');
 
@@ -139,11 +149,6 @@ $victimsVariableForm->addField('hospitalisation_diagnosis', TEXT, 120)
 ->setLabel ('hospitalisation diagnosis (not standardized yet)');
 
 $victimsVariableForm->addField('post_1945-text', SUBHEADLINE, '<br> &nbsp; After 1945 &nbsp; ');
-
-$victimsVariableForm->addField('evaluation_status', SELECT)
-  ->setLabel ('evaluation status')
-  ->addOption (NO_VALUE,'all status')
-  ->addOptionsFromTable('nmv__victim_evaluation_status', 'ID_status', 'english');
 
 $victimsVariableForm->addField ('residence_after_1945_country',TEXT,120)
 	->setLabel ('residence after 1945 (country)');

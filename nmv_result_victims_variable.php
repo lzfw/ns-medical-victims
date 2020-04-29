@@ -162,6 +162,18 @@ foreach ($special_contain_fields as $key=>$field) {
 			$querystring_where[] = "$key LIKE '%".$filtered_field."%'";
     }
 }
+//Outdated system, will propably be deleted from database
+if(getUrlParameter('confirmation') != ''):
+		if(getUrlParameter('confirmation') == 0):
+			$querystring_where[] = "ev.confirmed_victim = '1'";
+		elseif (getUrlParameter('confirmation') == 1):
+			$querystring_where[] = "ev.not_a_victim = '1'";
+		elseif (getUrlParameter('confirmation') == 2):
+			$querystring_where[] = "ev.pending = '1'";
+		endif;
+endif;
+
+//WHERE-CLAUSE zusammenführen
 if (count($querystring_where) > 0) {
     $querystring_items .= ' WHERE '.implode(' AND ',$querystring_where);
 }
@@ -267,6 +279,12 @@ if (isset($_GET['nationality_after_1945']) && $_GET['nationality_after_1945']) {
 if (isset($_GET['compensation']) && $_GET['compensation']) {
 	$search_term = $dbi->connection->query('SELECT english FROM nmv__victim_evaluation_compensation WHERE ID_compensation = '.$_GET['compensation'])->fetch_row();
 	$suche_nach[] = 'compensation = '.$search_term[0];
+}
+if (isset($_GET['confirmation']) && $_GET['confirmation'] != '') {
+		if ($_GET['confirmation'] == 0): 			$suche_nach[] = 'confirmation status = confirmed victim';
+		elseif ($_GET['confirmation'] == 1): 	$suche_nach[] = 'confirmation status = not a victim';
+		elseif ($_GET['confirmation'] == 2): 	$suche_nach[] = 'confirmation status = pending';
+		endif;
 }
 
 

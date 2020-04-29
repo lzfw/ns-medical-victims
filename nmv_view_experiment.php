@@ -11,7 +11,7 @@ $dbi->addBreadcrumb ('Biomedical Research','nmv_list_experiments');
 
 // query: get experiment data
 $querystring = '
-    SELECT e.experiment_title experiment_title, c.english classification, e.funding funding,
+    SELECT e.ID_experiment, e.experiment_title experiment_title, c.english classification, e.funding funding,
         e.field_of_interest field_of_interest, e.objective objective,
         e.number_victims_remark number_victims_remark, e.notes notes,
         e.number_victims_estimate number_victims_estimate,
@@ -52,8 +52,9 @@ if ($stmt = $dbi->connection->prepare($querystring)) {
 if ($experiment = $result->fetch_object()) {
     $confirmed = $experiment->confirmed_experiment ? ' (confirmed biomedical research)' : '';
     $experiment_name = $experiment->experiment_title . $confirmed;
-    
+
     $content = buildElement('table','grid',
+        buildDataSheetRow('ID experiment',            $experiment->ID_experiment).
         buildDataSheetRow('Title',                    $experiment->experiment_title . $confirmed).
         buildDataSheetRow('Classification',           $experiment->classification).
         buildDataSheetRow('Institution, location',    $experiment->institution . "\n - " . $experiment->location_details).
