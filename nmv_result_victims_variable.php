@@ -98,6 +98,8 @@ foreach ($special_fields as $field) {
 foreach ($special_contain_fields as $field) {
 	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
 }
+if (isset($_GET['confirmation']) && $_GET['confirmation'] != '') $query[] = "confirmation={$_GET['confirmation']}";
+
 $dbi->setUserVar('querystring',implode('&',$query));
 
 // make select-clauses part one
