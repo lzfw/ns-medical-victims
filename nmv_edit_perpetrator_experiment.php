@@ -31,6 +31,13 @@ if ($perpetrator_id) {
     $perpetrator_name = $perpetrator->perpetrator_name;
 }
 
+//query: get experiment-institutions for experiment SELECT
+$querystring_experiment = "  SELECT e.ID_experiment AS value, CONCAT(IFNULL(e.experiment_title, 'no entry'), ' &ensp; - &ensp; ID ', e.ID_experiment, ' &ensp; - &ensp; ', IFNULL(i.institution_name, 'no entry')) AS title
+                              FROM nmv__experiment e
+                              LEFT JOIN nmv__institution i
+                              ON e.ID_institution = i.ID_institution
+                              ORDER BY title";
+
 
 $form
 	->setLabel('Biomedical Research: ' . $perpetrator_name);
@@ -44,7 +51,7 @@ $form->addField ('ID_perpetrator',PROTECTED_TEXT)
 $form->addField ('ID_experiment',SELECT)
     ->setLabel ('Biomedical Research')
     ->addOption (NO_VALUE,'please choose')
-    ->addOptionsFromTable ( 'nmv__experiment', 'ID_experiment', "LEFT(concat(IFNULL(LEFT(experiment_title, 60), '#'),' - ',IFNULL(LEFT(field_of_interest,40), '#'),' - ',IFNULL(funding, '#')),100)");
+    ->addOptionsFromQuery ( "$querystring_experiment");
 
 $form
 	->addButton (SUBMIT)

@@ -6,8 +6,11 @@ $dbi->requireUserPermission ('edit');
 
 $form = new Form ('nmv_victim_experiment');
 
-// query: get victim data
+$vict_exp_id = (int) getUrlParameter('ID_vict_exp', 0);
 $victim_id = (int) getUrlParameter('ID_victim', 0);
+
+
+// query: get victim data
 $victim_name = 'Error: Unknown.';
 if ($victim_id) {
     $querystring = "
@@ -18,7 +21,6 @@ if ($victim_id) {
     $victim = $query->fetch_object();
     $victim_name = $victim->victim_name;
 } else {
-    $vict_exp_id = (int) getUrlParameter('ID_vict_exp', 0);
     $querystring = "
     SELECT CONCAT(COALESCE(v.surname, ''), ' ', COALESCE(v.first_names, '')) victim_name,
         v.ID_victim victim_id
@@ -31,6 +33,14 @@ if ($victim_id) {
     $victim_name = $victim->victim_name;
 }
 
+//query: get experiment-institutions for experiment SELECT
+$querystring_experiment = "  SELECT e.ID_experiment AS value, CONCAT(IFNULL(e.experiment_title, 'no entry'), ' &ensp; - &ensp; ID ', e.ID_experiment, ' &ensp; - &ensp; ', IFNULL(i.institution_name, 'no entry')) AS title
+                              FROM nmv__experiment e
+                              LEFT JOIN nmv__institution i
+                              ON e.ID_institution = i.ID_institution
+                              ORDER BY title";
+
+
 
 $form
 	->setLabel('Biomedical Research: ' . $victim_name);
@@ -39,12 +49,13 @@ $form
 	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
 	->setPrimaryKeyName('ID_vict_exp');
 
+
 $form->addField ('ID_victim',PROTECTED_TEXT)
     ->setLabel ('Victim ID');
 $form->addField ('ID_experiment',SELECT)
     ->setLabel ('Biomedical Research')
     ->addOption (NO_VALUE,'please choose')
-    ->addOptionsFromTable ( 'nmv__experiment', 'ID_experiment', "LEFT(concat(IFNULL(LEFT(experiment_title, 60), '#'),' - ',IFNULL(LEFT(field_of_interest,40), '#'),' - ',IFNULL(funding, '#')),100)");
+    ->addOptionsFromQuery ( "$querystring_experiment");
 $form->addField ('experiment_duration',TEXT,50)
     ->setLabel ('Biomedical Research Duration');
 $form->addField ('age_experiment_start',TEXT,3)
@@ -59,7 +70,7 @@ $form->addField ('ID_survival',SELECT)
     ->addOptionsFromTable ( 'nmv__survival', 'ID_survival', 'english');
 $form->addField ('not_corroborated',CHECKBOX,-1)
     ->setLabel ('Not Corroborated');
-$form->addField ('exp_start_year',TEXT,4) 
+$form->addField ('exp_start_year',TEXT,4)
     ->setLabel ('Start Date YMD')
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,2950);
@@ -71,7 +82,7 @@ $form->addField ('exp_start_day',TEXT,2)
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,31)
     ->appendTo('exp_start_year');
-$form->addField ('exp_end_year',TEXT,4) 
+$form->addField ('exp_end_year',TEXT,4)
     ->setLabel ('End Date YMD')
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,2950);
