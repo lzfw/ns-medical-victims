@@ -27,10 +27,14 @@ $querystring = "
         CONCAT_WS('-', ve.exp_start_year, ve.exp_start_month, ve.exp_start_day) ve_start_date,
         CONCAT_WS('-', ve.exp_end_year, ve.exp_end_month, ve.exp_end_day) ve_end_date,
         ve.notes notes,
+        CONCAT(IFNULL(e.experiment_title, 'no entry'), ' - ', IFNULL(e.field_of_interest, 'no entry'), ' - ID ',
+                      e.ID_experiment, ' - ',
+                      IFNULL(i.institution_name, 'no entry')) as ei_info,
         s.english survival
     FROM nmv__victim_experiment ve
     LEFT JOIN nmv__victim v                ON (ve.ID_victim = v.ID_victim)
     LEFT JOIN nmv__experiment e            ON (ve.ID_experiment = e.ID_experiment)
+    LEFT JOIN nmv__institution i           ON (e.ID_institution = i.ID_institution)
     LEFT JOIN nmv__survival s              ON (ve.ID_survival = s.ID_survival)
     WHERE ve.ID_vict_exp = ".$dbi->getUserVar('ID_vict_exp');
 $query = $dbi->connection->query($querystring);
@@ -42,6 +46,7 @@ if ($ve = $query->fetch_object()) {
     $victim_name = $ve->first_names . ' ' . $ve->surname;
     $experiment_title = $ve->experiment;
     $experiment_id = $ve->ID_experiment;
+    $ei_info = $ve->ei_info;
 
     $dbi->addBreadcrumb ($victim_name,'nmv_view_victim?ID_victim=' . $victim_id);
     $dbi->addBreadcrumb ('Biomedical Research','nmv_list_victim_experiment?ID_victim=' . $victim_id);
@@ -53,7 +58,7 @@ if ($ve = $query->fetch_object()) {
     $content .= '<tr><th>Victim</th><td><a href="nmv_view_victim?ID_victim='. $victim_id . '">' .
         htmlspecialchars($victim_name, ENT_HTML5).'</a></td></tr>';
     $content .= '<tr><th>Biomedical Research</th><td><a href="nmv_view_experiment?ID_experiment='. $experiment_id . '">' .
-        htmlspecialchars($experiment_title, ENT_HTML5).'</a></td></tr>';
+        htmlspecialchars($ei_info, ENT_HTML5).'</a></td></tr>';
     $content .= '<tr><th>Biomedical Research Duration</th><td>'.
         htmlspecialchars($ve->experiment_duration, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Start and End Date</th><td>'.
