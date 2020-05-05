@@ -57,7 +57,7 @@ if ($ve = $query->fetch_object()) {
         htmlspecialchars($vict_exp_id, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Victim</th><td><a href="nmv_view_victim?ID_victim='. $victim_id . '">' .
         htmlspecialchars($victim_name, ENT_HTML5).'</a></td></tr>';
-    $content .= '<tr><th>Biomedical Research</th><td><a href="nmv_view_experiment?ID_experiment='. $experiment_id . '">' .
+    $content .= '<tr><th>Biomedical Research <br> (title, field of interest, ID, institution)</th><td><a href="nmv_view_experiment?ID_experiment='. $experiment_id . '">' .
         htmlspecialchars($ei_info, ENT_HTML5).'</a></td></tr>';
     $content .= '<tr><th>Biomedical Research Duration</th><td>'.
         htmlspecialchars($ve->experiment_duration, ENT_HTML5).'</td></tr>';
