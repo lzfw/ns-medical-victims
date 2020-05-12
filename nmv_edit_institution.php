@@ -18,7 +18,7 @@ $form->addField ('institution_name',TEXT,250)
     ->setClass ('keyboardInput')
     ->setLabel ('Name');
 $form->addField ('location',TEXT,250)
-    ->setClass ('keyboardInput') 
+    ->setClass ('keyboardInput')
     ->setLabel ('Location');
 $form->addField ('country',TEXT,50)
     ->setLabel ('Country');
@@ -43,5 +43,5 @@ $dbi->addBreadcrumb ('Institutions','nmv_list_institutions');
 
 $layout
 	->set('title',getUrlParameter('ID_institution') ? 'Edit institution' : 'New institution')
-	->set('content',$form->run().$form->debuglog->Show())
+	->set('content',$form->run().'<div class="message">'.$form->success_message.'</div>'.$form->debuglog->Show())
 	->cast();

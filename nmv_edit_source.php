@@ -14,8 +14,8 @@ $form
 	->setPrimaryKeyName('ID_source');
 $form->addField ('ID_source', PROTECTED_TEXT)
     ->setLabel ('Source ID');
-$form->addField ('source_title',TEXT,1500,REQUIRED) 
-    ->setClass ('keyboardInput') 
+$form->addField ('source_title',TEXT,1500,REQUIRED)
+    ->setClass ('keyboardInput')
     ->setLabel ('Title');
 $form->addField ('signature',TEXT,50)
     ->setClass ('keyboardInput')
@@ -67,5 +67,5 @@ $dbi->addBreadcrumb ('Sources','nmv_list_sources');
 
 $layout
 	->set('title',getUrlParameter('ID_source') ? 'Edit Source' : 'New Source')
-	->set('content',$form->run().$form->debuglog->Show())
+	->set('content',$form->run().'<div class="message">'.$form->success_message.'</div>'.$form->debuglog->Show())
 	->cast();

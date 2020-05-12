@@ -54,17 +54,17 @@ $form->addField ('notes_location',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Notes (Location)');
 $form->addField ('funding',TEXT,250)
-    ->setClass ('keyboardInput') 
+    ->setClass ('keyboardInput')
     ->setLabel ('Funding');
 $form->addField ('field_of_interest',TEXT,50)
     ->setLabel ('Field of Interest');
 $form->addField ('objective',TEXT,50)
     ->setLabel ('Objective');
-$form->addField ('number_victims_estimate',TEXT,6) 
+$form->addField ('number_victims_estimate',TEXT,6)
     ->setLabel ('Estimated Number of Victims')
     ->addCondition(VALUE,MIN,-1)
     ->addCondition(VALUE,MAX,1000000);
-$form->addField ('number_fatalities_estimate',TEXT,6) 
+$form->addField ('number_fatalities_estimate',TEXT,6)
     ->setLabel ('Estimated Number of Fatalities')
     ->addCondition(VALUE,MIN,-1)
     ->addCondition(VALUE,MAX,1000000);
@@ -89,5 +89,5 @@ $dbi->addBreadcrumb ('Biomedical Research','nmv_list_experiments');
 
 $layout
 	->set('title',getUrlParameter('ID_experiment') ? 'Edit Biomedical Research' : 'New Biomedical Research')
-	->set('content',$form->run().$form->debuglog->Show())
+	->set('content',$form->run().'<div class="message">'.$form->success_message.'</div>'.$form->debuglog->Show())
 	->cast();

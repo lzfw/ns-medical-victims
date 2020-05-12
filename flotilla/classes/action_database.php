@@ -8,7 +8,7 @@ class Action_Database extends Action {
 	private $table;
 	private $autoinsert;
 
-	// CONSTRUCTORS --------------------------------------------------------------
+		// CONSTRUCTORS --------------------------------------------------------------
 
 	protected function __construct (Form $Creator,$table,$autoinsert = AUTOINSERT_OFF) {
 	    /**
@@ -315,8 +315,10 @@ class Action_Database extends Action {
 			$this->Creator->debuglog->Write(DEBUG_INFO,'. PRIMARY KEY found');
 			if (($this->Query_Update()) && ($this->Query_Update_Subtables())) {
 				$this->Creator->debuglog->Write(DEBUG_INFO,'. UPDATE successful');
+				$this->Creator->success_message = 'ACTION SUCCESSFUL';
 			} else {
 				$this->Creator->debuglog->Write(DEBUG_ERROR,'UPDATE failed');
+				$this->Creator->success_message = 'ACTION FAILED';
 			}
 		}
 		else {
@@ -324,8 +326,10 @@ class Action_Database extends Action {
 			$this->Creator->debuglog->Write(DEBUG_INFO,'. PRIMARY KEY not found');
 			if (($this->Query_Insert()) && ($this->Query_Update_Subtables())) {
 				$this->Creator->debuglog->Write(DEBUG_INFO,'. INSERT successful');
+				$this->Creator->success_message = 'ACTION SUCCESSFUL';
 			} else {
 				$this->Creator->debuglog->Write(DEBUG_ERROR,'INSERT failed');
+				$this->Creator->success_message = 'ACTION FAILED';
 			}
 		}
 	}

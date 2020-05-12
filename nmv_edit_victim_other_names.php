@@ -48,7 +48,7 @@ $form->addField ('nametype',SELECT)
 $form->addField ('victim_name',TEXT,250)
     ->setClass ('keyboardInput')
     ->setLabel ('name');
-$form->addField ('victim_first_names',TEXT,50) 
+$form->addField ('victim_first_names',TEXT,50)
     ->setClass ('keyboardInput')
     ->setLabel ('first names');
 
@@ -66,5 +66,5 @@ $dbi->addBreadcrumb ('Other names of '.$victim_name,'nmv_view_victim?ID_victim='
 
 $layout
 	->set('title',getUrlParameter('ID_name') ? 'Edit Other Name' : 'New Name')
-	->set('content',$form->run().$form->debuglog->Show())
+	->set('content',$form->run().'<div class="message">'.$form->success_message.'</div>'.$form->debuglog->Show())
 	->cast();

@@ -14,7 +14,7 @@ $form
 	->setPrimaryKeyName('ID_victim');
 $form->addField ('ID_victim',PROTECTED_TEXT)
     ->setLabel ('Victim ID');
-$form->addField ('surname',TEXT,255,REQUIRED)
+$form->addField ('surname',TEXT,255)
     ->setClass ('keyboardInput')
     ->setLabel ('Surname');
 $form->addField ('first_names',TEXT,50)
@@ -154,5 +154,5 @@ $dbi->addBreadcrumb ('Victims','nmv_list_victims');
 
 $layout
 	->set('title',getUrlParameter('ID_victim') ? 'Edit Victim' : 'New Victim')
-	->set('content',$form->run().$form->debuglog->Show())
+	->set('content',$form->run().'<div class="message">'.$form->success_message.'</div>'.$form->debuglog->Show())
 	->cast();

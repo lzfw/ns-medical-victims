@@ -41,7 +41,7 @@ $form
 
 $form->addField ('ID_victim',PROTECTED_TEXT)
     ->setLabel ('Victim ID');
-$form->addField ('ID_institution',SELECT)
+$form->addField ('ID_institution',SELECT,REQUIRED)
     ->setLabel ('Research Institution')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__institution', 'ID_institution', "LEFT(concat(IFNULL(LEFT(institution_name, 60), '#'),' - ',IFNULL(LEFT(location,40), '#'),' - ',IFNULL(country, '#')),100)");
@@ -54,7 +54,7 @@ $form->addField ('ID_diagnosis',SELECT)
     ->addOptionsFromTable ( 'nmv__diagnosis', 'ID_diagnosis', 'english');
 $form->addField ('diagnosis',TEXT, 70)
     ->appendTo('ID_diagnosis');
-$form->addField ('brain_report_year',TEXT,4) 
+$form->addField ('brain_report_year',TEXT,4)
     ->setLabel ('Brain Report Date YMD')
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,2950);
@@ -69,7 +69,7 @@ $form->addField ('brain_report_day',TEXT,2)
 $form->addField ('notes',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Notes');
-$form->addField ('ref_no',TEXT,50) 
+$form->addField ('ref_no',TEXT,50)
     ->setLabel ('Reference number');
 
 $form
@@ -86,5 +86,5 @@ $dbi->addBreadcrumb ('Medical History of '.$victim_name,'nmv_list_med_hist?ID_vi
 
 $layout
 	->set('title',getUrlParameter('ID_med_history_brain') ? 'Edit Brain Research' : 'New Brain Research')
-	->set('content',$form->run().$form->debuglog->Show())
+	->set('content',$form->run().'<div class="message">'.$form->success_message.'</div>'.$form->debuglog->Show())
 	->cast();

@@ -14,12 +14,12 @@ $form
 	->setPrimaryKeyName('ID_literature');
 $form->addField ('ID_literature', PROTECTED_TEXT)
     ->setLabel ('Literature ID');
-$form->addField ('authors',TEXT,250) 
-    ->setClass ('keyboardInput') 
+$form->addField ('authors',TEXT,250)
+    ->setClass ('keyboardInput')
     ->setLabel ('Authors');
-$form->addField ('lit_year',TEXT,50)  
+$form->addField ('lit_year',TEXT,50)
     ->setLabel ('Year');
-$form->addField ('lit_title',TEXT,1500)  
+$form->addField ('lit_title',TEXT,1500)
     ->setClass ('keyboardInput')
     ->setLabel ('Title');
 
@@ -30,18 +30,18 @@ $form->addField ('journal_or_series',TEXT,1500)
     ->setClass ('keyboardInput')
     ->setLabel ('Journal or Edited Volume');
 $form->addField ('editor',TEXT,250)
-    ->setClass ('keyboardInput')  
+    ->setClass ('keyboardInput')
     ->setLabel ('Editor');
-$form->addField ('volume',TEXT,50)  
+$form->addField ('volume',TEXT,50)
     ->setLabel ('Volume');
-$form->addField ('pages',TEXT,50)  
+$form->addField ('pages',TEXT,50)
     ->setLabel ('Pages');
 
-$form->addField ('location',TEXT,250) 
-    ->setClass ('keyboardInput')  
+$form->addField ('location',TEXT,250)
+    ->setClass ('keyboardInput')
     ->setLabel ('Location');
-$form->addField ('publisher',TEXT,250)  
-    ->setClass ('keyboardInput') 
+$form->addField ('publisher',TEXT,250)
+    ->setClass ('keyboardInput')
     ->setLabel ('Publisher');
 /* Aleks requested so on Skype: 2019-05-02
 $form->addField ('data_entry_status',TEXT,255)
@@ -54,13 +54,13 @@ $form->addField ('names_mentioned',TEXT,6)
 $form->addField ('scientific_exploitation',CHECKBOX,1)
     ->setLabel ('Scientific exploitation');
 $form->addField ('notes',TEXTAREA)
-    ->setClass ('keyboardInput') 
+    ->setClass ('keyboardInput')
     ->setLabel ('Notes');
-$form->addField ('url',TEXT,250)  
+$form->addField ('url',TEXT,250)
     ->setLabel ('URL');
-$form->addField ('isbn_10',TEXT,25)  
+$form->addField ('isbn_10',TEXT,25)
     ->setLabel ('ISBN-10');
-$form->addField ('isbn_13',TEXT,25)  
+$form->addField ('isbn_13',TEXT,25)
     ->setLabel ('ISBN-13');
 
 $form
@@ -76,5 +76,5 @@ $dbi->addBreadcrumb ('Literature','nmv_list_literature');
 
 $layout
 	->set('title',getUrlParameter('ID_literature') ? 'Edit literature' : 'New literature')
-	->set('content',$form->run().$form->debuglog->Show())
+	->set('content',$form->run().'<div class="message">'.$form->success_message.'</div>'.$form->debuglog->Show())
 	->cast();

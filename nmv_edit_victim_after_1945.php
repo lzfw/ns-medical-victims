@@ -20,7 +20,7 @@ $form->addField ('first_names',TEXT,50)
     ->setLabel ('first names');
 $form->addField ('ID_name',SUBTABLE,'nmv__victim_name',['victim_name', 'victim_first_names'])
     ->setLabel ('other names');
-$form->addField ('birth_year',TEXT,4) 
+$form->addField ('birth_year',TEXT,4)
     ->setLabel ('birth ymd')
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,2950);
@@ -108,5 +108,5 @@ $dbi->addBreadcrumb ('Victims','nmv_list_victims');
 
 $layout
 	->set('title',getUrlParameter('ID_victim') ? 'Edit Victim' : 'New Victim')
-	->set('content',$form->run().$form->debuglog->Show())
+	->set('content',$form->run().'<div class="message">'.$form->success_message.'</div>'.$form->debuglog->Show())
 	->cast();

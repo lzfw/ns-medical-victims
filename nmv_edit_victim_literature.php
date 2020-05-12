@@ -41,7 +41,7 @@ $form
 
 $form->addField ('ID_victim',PROTECTED_TEXT)
     ->setLabel ('victim ID');
-$form->addField ('ID_literature',SELECT)
+$form->addField ('ID_literature',SELECT,REQUIRED)
     ->setLabel ('literature')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__literature', 'ID_literature', "LEFT(concat(IFNULL(LEFT(lit_title, 60), '#'),' - ',IFNULL(LEFT(authors,40), '#'),' - ',IFNULL(lit_year, '#')),100)");
@@ -62,5 +62,5 @@ $dbi->addBreadcrumb ('Literature describing '.$victim_name,'nmv_list_victim_lite
 
 $layout
 	->set('title',getUrlParameter('ID_vict_lit') ? 'Edit Victim Literature Entry' : 'New Victim Literature Entry')
-	->set('content',$form->run().$form->debuglog->Show())
+	->set('content',$form->run().'<div class="message">'.$form->success_message.'</div>'.$form->debuglog->Show())
 	->cast();

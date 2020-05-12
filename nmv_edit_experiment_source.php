@@ -62,11 +62,11 @@ $form
 	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
 	->setPrimaryKeyName('ID_exp_source');
 
-$form->addField ('ID_experiment',SELECT)
+$form->addField ('ID_experiment',SELECT,REQUIRED)
     ->setLabel ('Biomedical Research')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromQuery ( "$querystring_experiment");
-$form->addField ('ID_source',SELECT)
+$form->addField ('ID_source',SELECT,REQUIRED)
     ->setLabel ('Source')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__source', 'ID_source', "LEFT(concat(IFNULL(LEFT(source_title, 60), '#'),' - ',IFNULL(LEFT(medium,40), '#'),' - ',IFNULL(creation_year, '#')),100)");
@@ -88,5 +88,5 @@ $dbi->addBreadcrumb ('Sources mentioning '.$experiment_name,'nmv_list_experiment
 
 $layout
 	->set('title',getUrlParameter('ID_exp_source') ? 'Edit Biomedical Research Source Entry' : 'New Biomedical Research Source Entry')
-	->set('content',$form->run().$form->debuglog->Show())
+	->set('content',$form->run().'<div class="message">'.$form->success_message.'</div>'.$form->debuglog->Show())
 	->cast();

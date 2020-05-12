@@ -45,9 +45,9 @@ $form->addField ('ID_classification',SELECT)
     ->setLabel ('Classification')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__victim_classification', 'ID_classification', "english");
-$form->addField ('number',TEXT,50) 
+$form->addField ('number',TEXT,50)
     ->setLabel ('(Prison) Number');
-$form->addField ('location',TEXT,50) 
+$form->addField ('location',TEXT,50)
     ->setClass ('keyboardInput')
     ->setLabel ('Location');
 
@@ -65,5 +65,5 @@ $dbi->addBreadcrumb ('Victim Classification: '.$victim_name,'nmv_view_victim?ID_
 
 $layout
 	->set('title',getUrlParameter('ID_imprisoniation') ? 'Edit Victim Imprisonment' : 'New Victim Imprisonment')
-	->set('content',$form->run().$form->debuglog->Show())
+	->set('content',$form->run().'<div class="message">'.$form->success_message.'</div>'.$form->debuglog->Show())
 	->cast();

@@ -62,7 +62,7 @@ $form->addField ('pending',CHECKBOX,1)
     ->setLabel ('Pending');
 $form->addField ('pending_due_to',TEXTAREA)
     ->setLabel ('Pending Due To');
-$form->addField ('pending_current_assessment',TEXT,250) 
+$form->addField ('pending_current_assessment',TEXT,250)
     ->setLabel ('Pending Current Assessment');
 $form->addField ('pending_notes',TEXTAREA)
     ->setLabel ('Pending Notes');
@@ -81,7 +81,7 @@ $form->addField ('compensation',SELECT)
     ->setLabel ('Compensation')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__victim_evaluation_compensation', 'ID_compensation', 'english');
-$form->addField ('evaluation_list',TEXT,250) 
+$form->addField ('evaluation_list',TEXT,250)
     ->setLabel ('Evaluation List');
 
 
@@ -99,5 +99,5 @@ $dbi->addBreadcrumb ('Evaluation of '.$victim_name,'nmv_view_victim?ID_victim='.
 
 $layout
 	->set('title',getUrlParameter('ID_evaluation') ? 'Edit Evaluation' : 'New Evaluation')
-	->set('content',$form->run().$form->debuglog->Show())
+	->set('content',$form->run().'<div class="message">'.$form->success_message.'</div>'.$form->debuglog->Show())
 	->cast();

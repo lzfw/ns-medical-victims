@@ -41,7 +41,7 @@ $form
 
 $form->addField ('ID_perpetrator',PROTECTED_TEXT)
     ->setLabel ('Perpetrator ID');
-$form->addField ('ID_source',SELECT)
+$form->addField ('ID_source',SELECT, REQUIRED)
     ->setLabel ('Source')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__source', 'ID_source', "LEFT(concat(IFNULL(LEFT(source_title, 60), '#'),' - ',IFNULL(LEFT(medium,40), '#'),' - ',IFNULL(creation_year, '#')),100)");
@@ -63,5 +63,5 @@ $dbi->addBreadcrumb ('Sources mentioning '.$perpetrator_name,'nmv_list_perpetrat
 
 $layout
 	->set('title',getUrlParameter('ID_perp_source') ? 'Edit Perpetrator Source Entry' : 'New Perpetrator Source Entry')
-	->set('content',$form->run().$form->debuglog->Show())
+	->set('content',$form->run().'<div class="message">'.$form->success_message.'</div>'.$form->debuglog->Show())
 	->cast();

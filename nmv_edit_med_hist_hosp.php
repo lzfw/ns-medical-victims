@@ -41,11 +41,11 @@ $form
 
 $form->addField ('ID_victim',PROTECTED_TEXT)
     ->setLabel ('Victim ID');
-$form->addField ('ID_institution',SELECT)
+$form->addField ('ID_institution',SELECT,REQUIRED)
     ->setLabel ('Institution')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__institution', 'ID_institution', "LEFT(concat(IFNULL(LEFT(institution_name, 60), '#'),' - ',IFNULL(LEFT(location,40), '#'),' - ',IFNULL(country, '#')),100)");
-$form->addField ('institution',TEXT,70) 
+$form->addField ('institution',TEXT,70)
     ->setClass ('keyboardInput')
     ->appendTo('ID_institution');
 $form->addField ('ID_institution_order',SELECT)
@@ -56,7 +56,7 @@ $form->addField ('ID_diagnosis',SELECT)
     ->setLabel ('Diagnosis')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__diagnosis', 'ID_diagnosis', 'english');
-$form->addField ('diagnosis',TEXT,70) 
+$form->addField ('diagnosis',TEXT,70)
     ->appendTo('ID_diagnosis');
 $form->addField ('ID_educational_abilities',SELECT)
     ->setLabel ('Educational Abilities')
@@ -70,7 +70,7 @@ $form->addField ('ID_disability',SELECT)
     ->setLabel ('Disability')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__disability', 'ID_disability', 'english');
-$form->addField ('date_entry_year',TEXT,4) 
+$form->addField ('date_entry_year',TEXT,4)
     ->setLabel ('Entry Date YMD')
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,2950);
@@ -82,7 +82,7 @@ $form->addField ('date_entry_day',TEXT,2)
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,31)
     ->appendTo('date_entry_year');
-$form->addField ('date_exit_year',TEXT,4) 
+$form->addField ('date_exit_year',TEXT,4)
     ->setLabel ('Exit Date YMD')
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,2950);
@@ -122,5 +122,5 @@ $dbi->addBreadcrumb ('Medical History of '.$victim_name,'nmv_list_med_hist?ID_vi
 
 $layout
 	->set('title',getUrlParameter('ID_med_history_hosp') ? 'Edit Hospitalization' : 'New Hospitalization')
-	->set('content',$form->run().$form->debuglog->Show())
+	->set('content',$form->run().'<div class="message">'.$form->success_message.'</div>'.$form->debuglog->Show())
 	->cast();

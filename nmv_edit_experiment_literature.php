@@ -61,11 +61,11 @@ $form
 	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
 	->setPrimaryKeyName('ID_exp_lit');
 
-$form->addField ('ID_experiment',SELECT)
+$form->addField ('ID_experiment',SELECT,REQUIRED)
     ->setLabel ('Biomedical Research')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromQuery ( "$querystring_experiment");
-$form->addField ('ID_literature',SELECT)
+$form->addField ('ID_literature',SELECT,REQUIRED)
     ->setLabel ('Literature')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__literature', 'ID_literature', "LEFT(concat(IFNULL(LEFT(lit_title, 60), '#'),' - ',IFNULL(LEFT(authors,40), '#'),' - ',IFNULL(lit_year, '#')),100)");
@@ -86,5 +86,5 @@ $dbi->addBreadcrumb ('Literature: '.$experiment_name,'nmv_list_experiment_litera
 
 $layout
 	->set('title',getUrlParameter('ID_exp_lit') ? 'Edit Biomedical Research Literature Entry' : 'New Biomedical Research Literature Entry')
-	->set('content',$form->run().$form->debuglog->Show())
+	->set('content',$form->run().'<div class="message">'.$form->success_message.'</div>'.$form->debuglog->Show())
 	->cast();

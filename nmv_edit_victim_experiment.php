@@ -55,7 +55,7 @@ $form
 
 $form->addField ('ID_victim',PROTECTED_TEXT)
     ->setLabel ('Victim ID');
-$form->addField ('ID_experiment',SELECT)
+$form->addField ('ID_experiment',SELECT,REQUIRED)
     ->setLabel ('Biomedical Research')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromQuery ( "$querystring_experiment");
@@ -121,5 +121,5 @@ $dbi->addBreadcrumb ('Biomedical Research: '.$victim_name,'nmv_list_victim_exper
 
 $layout
 	->set('title',getUrlParameter('ID_vict_exp') ? 'Edit Victim Biomedical Research Entry' : 'New Victim Biomedical Research Entry')
-	->set('content',$form->run().$form->debuglog->Show())
+	->set('content',$form->run().'<div class="message">'.$form->success_message.'</div>'.$form->debuglog->Show())
 	->cast();

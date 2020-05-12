@@ -41,15 +41,15 @@ $form
 
 $form->addField ('ID_victim',PROTECTED_TEXT)
     ->setLabel ('Victim ID');
-$form->addField ('ID_tissue_form',SELECT)
+$form->addField ('ID_tissue_form',SELECT,REQUIRED)
     ->setLabel ('Tissue Form')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__tissue_form', 'ID_tissue_form', "english");
-$form->addField ('ID_tissue_state',SELECT)
+$form->addField ('ID_tissue_state',SELECT,REQUIRED)
     ->setLabel ('Tissue State')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__tissue_state', 'ID_tissue_state', "english");
-$form->addField ('since_year',TEXT,4) 
+$form->addField ('since_year',TEXT,4)
     ->setLabel ('State Since YMD')
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,2950);
@@ -66,7 +66,7 @@ $form->addField ('location',TEXT,150)
 $form->addField ('notes',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Notes');
-$form->addField ('ref_no',TEXT,50) 
+$form->addField ('ref_no',TEXT,50)
     ->setLabel ('Reference number');
 
 $form
@@ -83,5 +83,5 @@ $dbi->addBreadcrumb ('Medical History of '.$victim_name,'nmv_list_med_hist?ID_vi
 
 $layout
 	->set('title',getUrlParameter('ID_med_history_tissue') ? 'Edit Brain Tissue' : 'New Brain Tissue')
-	->set('content',$form->run().$form->debuglog->Show())
+	->set('content',$form->run().'<div class="message">'.$form->success_message.'</div>'.$form->debuglog->Show())
 	->cast();

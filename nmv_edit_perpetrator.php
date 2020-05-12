@@ -14,8 +14,8 @@ $form
 	->setPrimaryKeyName('ID_perpetrator');
 $form->addField('ID_perpetrator', PROTECTED_TEXT)
     ->setLabel ('Perpetrator ID');
-$form->addField ('surname',TEXT,255,REQUIRED) 
-    ->setClass ('keyboardInput') 
+$form->addField ('surname',TEXT,255,REQUIRED)
+    ->setClass ('keyboardInput')
     ->setLabel ('Surname');
 $form->addField ('first_names',TEXT,50)
     ->setClass ('keyboardInput')
@@ -141,5 +141,5 @@ $dbi->addBreadcrumb ('Perpetrators','nmv_list_perpetrators');
 
 $layout
 	->set('title',getUrlParameter('ID_perpetrator') ? 'Edit Perpetrator' : 'New Perpetrator')
-	->set('content',$form->run().$form->debuglog->Show())
+	->set('content',$form->run().'<div class="message">'.$form->success_message.'</div>'.$form->debuglog->Show())
 	->cast();

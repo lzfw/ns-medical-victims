@@ -41,7 +41,7 @@ $form
 
 $form->addField ('ID_victim',PROTECTED_TEXT)
     ->setLabel ('victim ID');
-$form->addField ('ID_source',SELECT)
+$form->addField ('ID_source',SELECT, REQUIRED)
     ->setLabel ('source')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__source', 'ID_source', "LEFT(concat(IFNULL(LEFT(source_title, 60), '#'),' - ',IFNULL(LEFT(medium,40), '#'),' - ',IFNULL(creation_year, '#')),100)");
@@ -63,5 +63,5 @@ $dbi->addBreadcrumb ('Sources mentioning '.$victim_name,'nmv_list_victim_source?
 
 $layout
 	->set('title',getUrlParameter('ID_vict_source') ? 'Edit Victim Source Entry' : 'New Victim Source Entry')
-	->set('content',$form->run().$form->debuglog->Show())
+	->set('content',$form->run().'<div class="message">'.$form->success_message.'</div>'.$form->debuglog->Show())
 	->cast();

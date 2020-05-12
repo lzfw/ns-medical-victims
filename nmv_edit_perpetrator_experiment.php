@@ -48,7 +48,7 @@ $form
 
 $form->addField ('ID_perpetrator',PROTECTED_TEXT)
     ->setLabel ('Perpetrator ID');
-$form->addField ('ID_experiment',SELECT)
+$form->addField ('ID_experiment',SELECT,REQUIRED)
     ->setLabel ('Biomedical Research')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromQuery ( "$querystring_experiment");
@@ -67,5 +67,5 @@ $dbi->addBreadcrumb ('Biomedical Research: '.$perpetrator_name,'nmv_list_perpetr
 
 $layout
 	->set('title',getUrlParameter('ID_perp_exp') ? 'Edit Perpetrator Biomedical Research Entry' : 'New Perpetrator Biomedical Research Entry')
-	->set('content',$form->run().$form->debuglog->Show())
+	->set('content',$form->run().'<div class="message">'.$form->success_message.'</div>'.$form->debuglog->Show())
 	->cast();
