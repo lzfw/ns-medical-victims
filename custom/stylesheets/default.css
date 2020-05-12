@@ -87,8 +87,7 @@ div.block {
 
 div.message {
 	color: blue;
-	border: 2px solid blue;
-	border-radius: 5px;
+
 	padding: 0.5rem 0;
 	margin: 0.5rem 0;
 	font-weight: bold;
