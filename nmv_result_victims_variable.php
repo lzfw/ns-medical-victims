@@ -165,15 +165,15 @@ foreach ($special_contain_fields as $key=>$field) {
     }
 }
 //Outdated system, will propably be deleted from database
-if(getUrlParameter('confirmation') != ''):
-		if(getUrlParameter('confirmation') == 0):
-			$querystring_where[] = "ev.confirmed_victim = '1'";
-		elseif (getUrlParameter('confirmation') == 1):
-			$querystring_where[] = "ev.not_a_victim = '1'";
-		elseif (getUrlParameter('confirmation') == 2):
-			$querystring_where[] = "ev.pending = '1'";
-		endif;
-endif;
+// if(getUrlParameter('confirmation') != ''):
+// 		if(getUrlParameter('confirmation') == 0):
+// 			$querystring_where[] = "ev.confirmed_victim = '1'";
+// 		elseif (getUrlParameter('confirmation') == 1):
+// 			$querystring_where[] = "ev.not_a_victim = '1'";
+// 		elseif (getUrlParameter('confirmation') == 2):
+// 			$querystring_where[] = "ev.pending = '1'";
+// 		endif;
+// endif;
 
 //WHERE-CLAUSE zusammenführen
 if (count($querystring_where) > 0) {

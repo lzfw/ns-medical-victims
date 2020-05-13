@@ -104,10 +104,10 @@ $victimsVariableForm->addField('evaluation_status', SELECT)
   ->addOption (NO_VALUE,'all evaluation status')
   ->addOptionsFromTable('nmv__victim_evaluation_status', 'ID_status', 'english');
 
-$victimsVariableForm->addField('confirmation', SELECT)
-  ->setLabel ('evaluation status (outdated?)')
-  ->addOption (NO_VALUE, 'all confirmation status')
-  ->addOptionsFromArray(['confirmed victim', 'not a victim', 'pending']);
+// $victimsVariableForm->addField('confirmation', SELECT)
+//   ->setLabel ('evaluation status (outdated?)')
+//   ->addOption (NO_VALUE, 'all confirmation status')
+//   ->addOptionsFromArray(['confirmed victim', 'not a victim', 'pending']);
 
 $victimsVariableForm->addField('mpg-text', SUBHEADLINE, '<br> &nbsp; MPG-project-related &nbsp; ');
 
