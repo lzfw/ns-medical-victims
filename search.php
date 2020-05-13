@@ -84,7 +84,7 @@ $MPGgroupForm->addField ('psychiatric_patient', CHECKBOX, -1)
 $MPGgroupForm->addField ('ID_institution',SELECT)
 	    ->setLabel ('Institution')
 	    ->addOption (NO_VALUE,'all institutions')
-	    ->addOptionsFromTableOrderedById ( 'nmv__institution', 'ID_institution', 'institution_name', 'ID_institution IN (67, 94, 97, 106, 113, 114, 122)');
+	    ->addOptionsFromTableOrderedById ( 'nmv__institution', 'ID_institution', 'institution_name', 'ID_institution IN (39, 51, 54, 56, 68, 70, 84, 105, 117, 118, 119, 120, 123, 124, 125, 126, 127, 67, 94, 97, 106, 113, 114, 122)');
 
 $MPGgroupForm->addField ('ID_dataset_origin',SELECT)
 	    ->setLabel ('MPG Project Data from')
@@ -204,6 +204,7 @@ $layout
 					<input class="hide_show_checkbox"  id="checkbox_search_tips" type="checkbox" checked="checked">
 					<label class="hide_show_label" id="label_search_tips" for="checkbox_search_tips">Help</label>
 					<div class="hide_show_element block" id="element_search_tips">
+					<p>Search is not case sensitive<p>
 					<h3>wildcard character *</h3>
 					<p>
 						You can use * as a wildcard-character. It replaces one or many characters.

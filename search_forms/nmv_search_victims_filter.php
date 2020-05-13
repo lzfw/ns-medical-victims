@@ -88,6 +88,7 @@ $victimsVariableForm->addField('ID_experiment', SELECT)
   ->setLabel ('experiment')
   ->addOption (NO_VALUE,'all experiments')
   ->addOptionsFromQuery ( "$querystring_experiment");
+
 $victimsVariableForm->addField('ID_classification', SELECT)
   ->setLabel ('imprisonment classification')
   ->addOption (NO_VALUE,'all classifications')
@@ -136,12 +137,12 @@ $victimsVariableForm->addField('brain_report_year', SELECT)
 $victimsVariableForm->addField('brain_report_institution', SELECT)
   ->setLabel ('institution of brain report')
   ->addOption (NO_VALUE,'all institutions')
-  ->addOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name', 'ID_institution IN (67, 94, 97, 106, 113, 114, 122)');
+  ->addOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name', 'ID_institution IN (67, 94, 97, 106, 113, 114, 115, 122)');
 
 $victimsVariableForm->addField('brain_report_ID_diagnosis', SELECT)
   ->setLabel ('diagnosis from brain report')
   ->addOption (NO_VALUE,'all diagnoses')
-  ->addOptionsFromTable('nmv__diagnosis', 'ID_diagnosis', 'english');
+  ->addOptionsFromTable('nmv__diagnosis', 'ID_diagnosis', "CONCAT(IFNULL(english, 'no entry'),' - ',IFNULL(type, 'no entry'))");
 
 $victimsVariableForm->addField('brain_report_diagnosis', TEXT, 120)
 ->setLabel ('diagnosis from brain report (not standardized yet)');
@@ -149,7 +150,7 @@ $victimsVariableForm->addField('brain_report_diagnosis', TEXT, 120)
 $victimsVariableForm->addField('hospitalisation_ID_diagnosis', SELECT)
   ->setLabel ('hospitalisation diagnosis')
   ->addOption (NO_VALUE,'all diagnoses')
-  ->addOptionsFromTable('nmv__diagnosis', 'ID_diagnosis', 'english');
+  ->addOptionsFromTable('nmv__diagnosis', 'ID_diagnosis', "CONCAT(IFNULL(english, 'no entry'),' - ',IFNULL(type, 'no entry'))");
 
 $victimsVariableForm->addField('hospitalisation_diagnosis', TEXT, 120)
 ->setLabel ('hospitalisation diagnosis (not standardized yet)');
