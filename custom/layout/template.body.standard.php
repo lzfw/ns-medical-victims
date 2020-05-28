@@ -33,9 +33,7 @@
 		<div id="options">
 			<?php
 			// search
-			if (!isServerScriptName('search.php') && !isServerScriptName('results.php')) {
-				$dbi->addOption (L_SEARCH,'search','icon search');
-			}
+			$dbi->addOption (L_SEARCH,'search','icon search');
 			if (isServerScriptName('results.php')) {
 				$dbi->addOption (L_MODIFY_SEARCH,'search?'.$dbi->getUserVar('querystring'),'icon search');
 			}
@@ -47,10 +45,10 @@
 					$dbi->addOption (L_BOOKMARKS,'bookmarks','icon bookmarksEmpty');
 			}*/
 			// admin
-			if ($dbi->checkUserPermission('view') && !isServerScriptName('z_menu_contents.php')) {
+			if ($dbi->checkUserPermission('view')) {
 				$dbi->addOption (L_CONTENTS,'z_menu_contents','icon contents');
 			}
-			if ($dbi->checkUserPermission('admin') && !isServerScriptName('z_menu_admin.php')) {
+			if ($dbi->checkUserPermission('admin')) {
 				$dbi->addOption (L_ADMIN,'z_menu_admin','icon admin');
 			}
 			// authentication

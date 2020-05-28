@@ -84,7 +84,7 @@ $MPGgroupForm->addField ('psychiatric_patient', CHECKBOX, -1)
 $MPGgroupForm->addField ('ID_institution',SELECT)
 	    ->setLabel ('Institution')
 	    ->addOption (NO_VALUE,'all institutions')
-	    ->addOptionsFromTableOrderedById ( 'nmv__institution', 'ID_institution', 'institution_name', 'ID_institution IN (39, 51, 54, 56, 68, 70, 84, 105, 117, 118, 119, 120, 123, 124, 125, 126, 127, 67, 94, 97, 106, 113, 114, 122)');
+	    ->addOptionsFromTableOrderedById ( 'nmv__institution', 'ID_institution', 'institution_name', 'ID_institution IN (39, 51, 54, 56, 67, 68, 70, 84, 94, 97, 105, 106, 113, 114, 117, 118, 119, 120, 122, 123, 124, 125, 126, 127)');
 
 $MPGgroupForm->addField ('ID_dataset_origin',SELECT)
 	    ->setLabel ('MPG Project Data from')

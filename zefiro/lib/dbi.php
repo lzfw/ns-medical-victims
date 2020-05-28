@@ -148,7 +148,7 @@ class DBI {
 	}
 
 	public function addLoginOption () {
-		if (!isServerScriptName('z_login.php') && !isServerScriptName('z_logout.php')) {
+		if (!isServerScriptName('z_login.php')) {
 			if (isset($_SESSION[Z_SESSION_NAME]['user']) && isset($_SESSION[Z_SESSION_NAME]['user']['name']) && isset($_SESSION[Z_SESSION_NAME]['user']['password'])) {
 				$this->addOption (L_LOGOUT,'z_logout','logout');
 			}
