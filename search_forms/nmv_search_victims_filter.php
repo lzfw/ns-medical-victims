@@ -133,7 +133,7 @@ $victimsVariableForm->addField('brain_report_year', SELECT)
 $victimsVariableForm->addField('brain_report_institution', SELECT)
   ->setLabel ('brain report - institution')
   ->addOption (NO_VALUE,'all institutions')
-  ->addOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name', 'ID_institution IN (39, 51, 54, 56, 67, 68, 70, 84, 94, 97, 105, 106, 113, 114, 115, 117, 118, 119, 120, 122, 123, 124, 125, 126, 127)');
+  ->addValidOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name', 'nmv__med_history_brain');
 
 $victimsVariableForm->addField('brain_report_ID_diagnosis', SELECT)
   ->setLabel ('brain report - diagnosis')
@@ -146,10 +146,10 @@ $victimsVariableForm->addField('brain_report_diagnosis', TEXT, 120)
 $victimsVariableForm->addField('hospitalisation_year', TEXT, 4)
   ->setLabel ('hospitalisation - entry year (yyyy)');
 
-$victimsVariableForm->addField('hospitalisation_institution', SELECT)
-  ->setLabel ('hospitalisation - institution')
-  ->addOption (NO_VALUE,'all institutions')
-  ->addOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name', 'ID_institution IN (39, 51, 54, 56, 67, 68, 70, 84, 94, 97, 105, 106, 113, 114, 115, 117, 118, 119, 120, 122, 123, 124, 125, 126, 127)');
+  $victimsVariableForm->addField('hospitalisation_institution', SELECT)
+    ->setLabel ('hospitalisation - institution')
+    ->addOption (NO_VALUE,'all institutions')
+    ->addValidOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name', 'nmv__med_history_hosp');
 
 $victimsVariableForm->addField('hospitalisation_ID_diagnosis', SELECT)
   ->setLabel ('hospitalisation - diagnosis')

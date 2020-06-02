@@ -73,6 +73,38 @@ class Field_Select extends Field {
 		return $this;
 	}
 
+	public function addValidOptionsFromTable () {
+		// addOption ( table , value_column , title_column [, where_statement [, db_connection]] )
+		// example: addOption ('contacts','contact_id','contact_name','`contact_name` LIKE 'A*', $db_connection);
+
+		// remark: if you use the 5th parameter, a database connection must be declared before
+		// example: $db_connection = mysql_connect('example.com', 'mysql_user', 'mysql_password');
+
+		$args = func_get_args();
+		$options_querystring = "
+			SELECT {$args[1]} AS value, {$args[2]} AS title
+			FROM {$args[0]}
+			WHERE EXISTS (	SELECT * FROM {$args[3]} 
+									WHERE {$args[0]}.{$args[1]} = {$args[3]}.{$args[1]})
+			ORDER BY {$args[2]}
+		";
+
+		if (isset($args[4])) {
+		    $options_query = $args[4]->query($options_querystring);
+			// FIXME: WTF??? This switched the db connection for
+			//        all statemes executed later in pre-mysqli times
+			// mysql_select_db($this->Creator->Connection->link);
+		}
+		else {
+		    $options_query = $this->Creator->Connection->link->query($options_querystring);
+		}
+		while ($option = $options_query->fetch_object()) {
+			$this->Options[] = new Select_Option ($option->value,$option->title);
+			$this->Creator->debuglog->Write(DEBUG_INFO,'. . new Select Option "'.$option->value.'" created');
+		}
+		return $this;
+	}
+
 	public function addOptionsFromTableOrderedById () {
 		// addOption ( table , value_column , title_column [, where_statement [, db_connection]] )
 		// example: addOption ('contacts','contact_id','contact_name','`contact_name` LIKE 'A*', $db_connection);
