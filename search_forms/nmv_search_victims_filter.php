@@ -120,51 +120,56 @@ $victimsVariableForm->addField('ID_dataset_origin', SELECT)
   ->addOptionsFromTable('nmv__dataset_origin', 'ID_dataset_origin', 'work_group');
 
 $victimsVariableForm->addField('ID_tissue_form', SELECT)
-  ->setLabel ('form of tissue')
+  ->setLabel ('tissue - form')
   ->addOption (NO_VALUE,'all forms')
   ->addOptionsFromTable('nmv__tissue_form', 'ID_tissue_form', 'english');
 
 $victimsVariableForm->addField('ID_tissue_state', SELECT)
-  ->setLabel ('state of tissue')
+  ->setLabel ('tissue - state')
   ->addOption (NO_VALUE,'all states')
   ->addOptionsFromTable('nmv__tissue_state', 'ID_tissue_state', 'english');
 
 $victimsVariableForm->addField('brain_report_year', SELECT)
-  ->setLabel ('year of brain report')
+  ->setLabel ('brain report - year')
   ->addOption (NO_VALUE,'all years')
   ->addOptionsFromRange(1933, 1945);
 
 $victimsVariableForm->addField('brain_report_institution', SELECT)
-  ->setLabel ('institution of brain report')
+  ->setLabel ('brain report - institution')
   ->addOption (NO_VALUE,'all institutions')
-  ->addOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name', 'ID_institution IN (67, 94, 97, 106, 113, 114, 115, 122)');
+  ->addOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name', 'ID_institution IN (39, 51, 54, 56, 67, 68, 70, 84, 94, 97, 105, 106, 113, 114, 115, 117, 118, 119, 120, 122, 123, 124, 125, 126, 127)');
 
 $victimsVariableForm->addField('brain_report_ID_diagnosis', SELECT)
-  ->setLabel ('diagnosis from brain report')
+  ->setLabel ('brain report - diagnosis')
   ->addOption (NO_VALUE,'all diagnoses')
   ->addOptionsFromTable('nmv__diagnosis', 'ID_diagnosis', "CONCAT(IFNULL(english, 'no entry'),' - ',IFNULL(type, 'no entry'))");
 
 $victimsVariableForm->addField('brain_report_diagnosis', TEXT, 120)
-->setLabel ('diagnosis from brain report (not standardized yet)');
+->setLabel ('brain report - diagnosis (not standardized yet)');
+
+$victimsVariableForm->addField('hospitalisation_institution', SELECT)
+  ->setLabel ('hospitalisation - institution')
+  ->addOption (NO_VALUE,'all institutions')
+  ->addOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name', 'ID_institution IN (39, 51, 54, 56, 67, 68, 70, 84, 94, 97, 105, 106, 113, 114, 115, 117, 118, 119, 120, 122, 123, 124, 125, 126, 127)');
 
 $victimsVariableForm->addField('hospitalisation_ID_diagnosis', SELECT)
-  ->setLabel ('hospitalisation diagnosis')
+  ->setLabel ('hospitalisation - diagnosis')
   ->addOption (NO_VALUE,'all diagnoses')
   ->addOptionsFromTable('nmv__diagnosis', 'ID_diagnosis', "CONCAT(IFNULL(english, 'no entry'),' - ',IFNULL(type, 'no entry'))");
 
 $victimsVariableForm->addField('hospitalisation_diagnosis', TEXT, 120)
-->setLabel ('hospitalisation diagnosis (not standardized yet)');
+->setLabel ('hospitalisation - diagnosis (not standardized yet)');
 
 $victimsVariableForm->addField('post_1945-text', SUBHEADLINE, '<br> &nbsp; After 1945 &nbsp; ');
 
 $victimsVariableForm->addField ('residence_after_1945_country',TEXT,120)
-	->setLabel ('residence after 1945 (country)');
+	->setLabel ('after 1945 - residence (country)');
 
 $victimsVariableForm->addField ('occupation_after_1945',TEXT,120)
-	->setLabel ('occupation after 1945');
+	->setLabel ('after 1945 - occupation');
 
 $victimsVariableForm->addField('nationality_after_1945', SELECT)
-  ->setLabel ('nationality after 1945')
+  ->setLabel ('after 1945 - nationality')
   ->addOption (NO_VALUE,'all nationalities')
   ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'english');
 
