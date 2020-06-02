@@ -67,6 +67,7 @@ $special_fields = array('e.ID_experiment'			=> 'ID_experiment',
 												'b.brain_report_year' => 'brain_report_year',
 												'b.ID_institution'		=> 'brain_report_institution',
 												'b.ID_diagnosis'			=> 'brain_report_ID_diagnosis',
+												'h.date_entry_year' 	=> 'hospitalisation_year',
 												'h.ID_institution'		=> 'hospitalisation_institution',
 												'h.ID_diagnosis'			=> 'hospitalisation_ID_diagnosis',
 												'ev.evaluation_status'=> 'evaluation_status',
@@ -268,6 +269,7 @@ if (isset($_GET['hospitalisation_ID_diagnosis']) && $_GET['hospitalisation_ID_di
 	$search_term = $dbi->connection->query('SELECT english FROM nmv__diagnosis WHERE ID_diagnosis = '.$_GET['hospitalisation_ID_diagnosis'])->fetch_row();
 	$suche_nach[] = 'diagnosis from hospitalisation = '.$search_term[0];
 }
+if (isset($_GET['hospitalisation_year']) && $_GET['hospitalisation_year']) $suche_nach[] = 'year of hospitalisation = '.$_GET['hospitalisation_year'];
 if (isset($_GET['hospitalisation_institution']) && $_GET['hospitalisation_institution']) {
 	$search_term = $dbi->connection->query('SELECT institution_name FROM nmv__institution WHERE ID_institution = '.$_GET['hospitalisation_institution'])->fetch_row();
 	$suche_nach[] = 'institution of hospitalisation = '.$search_term[0];

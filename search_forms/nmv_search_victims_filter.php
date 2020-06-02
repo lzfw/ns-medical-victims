@@ -25,10 +25,8 @@ $victimsVariableForm->addField('ID_birth_country', SELECT)
   ->addOption (NO_VALUE,'all countries')
   ->addOptionsFromTable('nmv__country', 'ID_country', 'english');
 
-$victimsVariableForm->addField('birth_year', SELECT)
-  ->setLabel ('year of birth')
-  ->addOption (NO_VALUE,'all years')
-  ->addOptionsFromRange(1840, 1945);
+$victimsVariableForm->addField('birth_year', TEXT, 4)
+  ->setLabel ('year of birth (yyyy)');
 
 $victimsVariableForm->addField('twin', CHECKBOX, -1)
   ->setLabel ('twins only');
@@ -40,10 +38,8 @@ $victimsVariableForm->addField('ID_death_country', SELECT)
   ->addOption (NO_VALUE,'all countries')
   ->addOptionsFromTable('nmv__country', 'ID_country', 'english');
 
-$victimsVariableForm->addField('death_year', SELECT)
-  ->setLabel ('year of death')
-  ->addOption (NO_VALUE,'all years')
-  ->addOptionsFromRange(1933, date("Y"));
+$victimsVariableForm->addField('death_year', TEXT, 4)
+  ->setLabel ('year of death (yyyy)');
 
 $victimsVariableForm->addField('br-death', STATIC_TEXT, '<br>');
 
@@ -146,6 +142,9 @@ $victimsVariableForm->addField('brain_report_ID_diagnosis', SELECT)
 
 $victimsVariableForm->addField('brain_report_diagnosis', TEXT, 120)
 ->setLabel ('brain report - diagnosis (not standardized yet)');
+
+$victimsVariableForm->addField('hospitalisation_year', TEXT, 4)
+  ->setLabel ('hospitalisation - entry year (yyyy)');
 
 $victimsVariableForm->addField('hospitalisation_institution', SELECT)
   ->setLabel ('hospitalisation - institution')
