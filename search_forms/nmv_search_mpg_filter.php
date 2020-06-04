@@ -1,6 +1,6 @@
 <?php
 /**
-* creates form for search for diagnosis keyword in different columns
+* creates form for filter victims in mpg-project
 *
 *
 *
@@ -8,7 +8,7 @@
 
 
 // victimgroups from MPG project search form
-$MPGfilterForm = new Form ('search_mpg_group','nmv_result_mpg_group.php','GET');
+$MPGfilterForm = new Form ('search_mpg_group','nmv_result_mpg_filter.php','GET');
 
 $MPGfilterForm->addConnection(MYSQL_DB,$db_host,$db_user,$db_pass,$db_name);
 
@@ -20,6 +20,13 @@ $MPGfilterForm->addField ('prisoner_of_war', CHECKBOX, -1)
 
 $MPGfilterForm->addField ('psychiatric_patient', CHECKBOX, -1)
 	->setLabel ('Imprisonment: Psychiatric Patient');
+
+$MPGfilterForm->addField ('beddies_database', CHECKBOX, -1)
+	->setLabel ('Beddies Database');
+
+$MPGfilterForm->addField ('m_series', CHECKBOX, -1)
+	->setLabel ('M-Series');
+
 
 $MPGfilterForm->addField ('ID_institution',SELECT)
 	    ->setLabel ('Institution')
