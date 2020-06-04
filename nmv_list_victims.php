@@ -4,7 +4,7 @@ require_once 'zefiro/ini.php';
 $dbi->requireUserPermission ('view');
 
 // browsing options
-$dbi->setUserVar ('sort',getUrlParameter('sort'),'surname');
+$dbi->setUserVar ('sort',getUrlParameter('sort'),'ID_victim');
 $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 

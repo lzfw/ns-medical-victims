@@ -16,6 +16,7 @@ require_once 'flotilla/ini.php';
 $dbi->setUserVar ('view',getUrlParameter('view'),'default');
 
 include_once './search_forms/nmv_search_victims_filter.php';
+include_once './search_forms/nmv_search_mpg_filter.php';
 include_once './search_forms/nmv_search_diagnoses.php';
 
 // victim search form
@@ -67,45 +68,7 @@ $MPGvictimForm
 	->addButton (SUBMIT,L_SEARCH);
 
 
-// victimgroups from MPG project search form
-$MPGgroupForm = new Form ('search_mpg_group','nmv_result_mpg_group.php','GET');
 
-$MPGgroupForm->addConnection(MYSQL_DB,$db_host,$db_user,$db_pass,$db_name);
-
-$MPGgroupForm->addField ('cause_of_death', CHECKBOX, -1)
-	->setLabel ('Cause of Death: executed');
-
-$MPGgroupForm->addField ('prisoner_of_war', CHECKBOX, -1)
-	->setLabel ('Imprisonment: Prisoner of War');
-
-$MPGgroupForm->addField ('psychiatric_patient', CHECKBOX, -1)
-	->setLabel ('Imprisonment: Psychiatric Patient');
-
-$MPGgroupForm->addField ('ID_institution',SELECT)
-	    ->setLabel ('Institution')
-	    ->addOption (NO_VALUE,'all institutions')
-	    ->addOptionsFromTable( 'nmv__institution', 'ID_institution', 'institution_name',
-				'EXISTS (	SELECT * FROM nmv__med_history_brain
-									WHERE nmv__institution.ID_institution = nmv__med_history_brain.ID_institution)
-				OR EXISTS (SELECT * FROM nmv__med_history_hosp
-				WHERE nmv__institution.ID_institution = nmv__med_history_hosp.ID_institution)');
-
-// $MPGgroupForm->addField ('ID_institution',SELECT)
-// 	    ->setLabel ('Institution')
-// 	    ->addOption (NO_VALUE,'all institutions')
-// 	    ->addOptionsFromTableOrderedById ( 'nmv__institution', 'ID_institution', 'institution_name', 'ID_institution IN (39, 51, 54, 56, 67, 68, 70, 84, 94, 97, 105, 106, 113, 114, 115, 117, 118, 119, 120, 122, 123, 124, 125, 126, 127)');
-
-$MPGgroupForm->addField ('ID_dataset_origin',SELECT)
-	    ->setLabel ('MPG Project Data from')
-	    ->addOption (NO_VALUE,'all workgroups')
-	    ->addOptionsFromTableOrderedById ( 'nmv__dataset_origin', 'ID_dataset_origin', 'work_group');
-
-
-
-$MPGgroupForm
-	->addButton (BACK)
-	->addButton (RESET)
-	->addButton (SUBMIT,L_SEARCH);
 
 // perpetrator search form
 $perpetratorForm =
@@ -231,7 +194,7 @@ $layout
 					</p>
 			</div>
 			<br><br>
-			<h2>Search</h2>
+			<h2>Search for specific entries</h2>
 			<div class="relative">
 					<input class="hide_show_checkbox"  id="checkbox_search_victim" type="checkbox" checked="checked">
 					<label class="hide_show_label" id="label_search_victim" for="checkbox_search_victim">Search - Victim</label>
@@ -241,7 +204,7 @@ $layout
 					    ($dbi->checkUserPermission('view') ? $victimForm->run() : 'In order to search victims, <a href="/z_login">please log in</a>.') .
 					'</div>
 			</div>
-			 <div class="relative">
+			<div class="relative">
 					 <input class="hide_show_checkbox"  id="checkbox_search_mpg_victim" type="checkbox" checked="checked">
 					 <label class="hide_show_label" id="label_search_mpg_victim" for="checkbox_search_mpg_victim">Search - Victim (MPG Project)</label>
 					 <div class="hide_show_element block" id="element_search_mpg_victim">
@@ -283,16 +246,17 @@ $layout
 					    ($dbi->checkUserPermission('view') ? $sourceForm->run() : 'In order to search sources, <a href="/z_login">please log in</a>.') .
 					'</div>
 			</div>
+
+			<br><br>
+			<h2>Filter</h2>
 			<div class="relative">
 					<input class="hide_show_checkbox"  id="checkbox_search_diagnoses" type="checkbox" checked="checked">
-					<label class="hide_show_label" id="label_search_diagnoses" for="checkbox_search_diagnoses">Search - Diagnoses</label>
+					<label class="hide_show_label" id="label_search_diagnoses" for="checkbox_search_diagnoses">Filter - Diagnoses</label>
 					<div class="hide_show_element block" id="element_search_diagnoses">
 							<p>Returns victims with given keyword in: cause of death, hospitalisation diagnosis, brain report diagnosis</p>' .
 							($dbi->checkUserPermission('view') ? $diagnosesForm->run() : 'In order to search victims, <a href="/z_login">please log in</a>.') .
 					'</div>
 			</div>
-			<br><br>
-			<h2>Filter</h2>
 			<div class="relative">
 					<input class="hide_show_checkbox"  id="checkbox_filter_mpg_victim" type="checkbox" checked="checked">
 					<label class="hide_show_label" id="label_filter_mpg_victim" for="checkbox_filter_mpg_victim">Filter - Victims (MPG Project)</label>
@@ -301,7 +265,7 @@ $layout
 							<br>Returns victims that match <strong>all</strong> given criteria
 							<br>If a combination of workgroups is selected, the result shows only datasets that contain data of all these workgroups.</p>
 							' .
-							($dbi->checkUserPermission('view') ? $MPGgroupForm->run() : 'In order to search MPG-project-victims, <a href="/z_login">please log in</a>.') .
+							($dbi->checkUserPermission('view') ? $MPGfilterForm->run() : 'In order to search MPG-project-victims, <a href="/z_login">please log in</a>.') .
 					'</div>
 			</div>
 			<div class="relative">

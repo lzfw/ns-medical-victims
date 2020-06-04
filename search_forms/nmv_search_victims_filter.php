@@ -96,9 +96,14 @@ $victimsVariableForm->addField('location', SELECT)
   ->addOptionsFromTable('nmv__imprisoniation', 'DISTINCT location', 'location');
 
 $victimsVariableForm->addField('evaluation_status', SELECT)
-  ->setLabel ('evaluation status (currently used)')
+  ->setLabel ('evaluation status')
   ->addOption (NO_VALUE,'all evaluation status')
   ->addOptionsFromTable('nmv__victim_evaluation_status', 'ID_status', 'english');
+
+  $victimsVariableForm->addField('compensation', SELECT)
+    ->setLabel ('compensation')
+    ->addOption (NO_VALUE,'all compensations')
+    ->addOptionsFromTable('nmv__victim_evaluation_compensation', 'ID_compensation', 'english');
 
 // $victimsVariableForm->addField('confirmation', SELECT)
 //   ->setLabel ('evaluation status (outdated?)')
@@ -159,7 +164,7 @@ $victimsVariableForm->addField('hospitalisation_ID_diagnosis', SELECT)
 $victimsVariableForm->addField('hospitalisation_diagnosis', TEXT, 120)
 ->setLabel ('hospitalisation - diagnosis (not standardized yet)');
 
-$victimsVariableForm->addField('post_1945-text', SUBHEADLINE, '<br> &nbsp; After 1945 &nbsp; ');
+$victimsVariableForm->addField('post_1945-text', SUBHEADLINE, '<br> &nbsp; Survivors: after 1945 &nbsp; ');
 
 $victimsVariableForm->addField ('residence_after_1945_country',TEXT,120)
 	->setLabel ('after 1945 - residence (country)');
@@ -172,10 +177,7 @@ $victimsVariableForm->addField('nationality_after_1945', SELECT)
   ->addOption (NO_VALUE,'all nationalities')
   ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'english');
 
-$victimsVariableForm->addField('compensation', SELECT)
-  ->setLabel ('compensation')
-  ->addOption (NO_VALUE,'all compensations')
-  ->addOptionsFromTable('nmv__victim_evaluation_compensation', 'ID_compensation', 'english');
+
 
 // add buttons
 $victimsVariableForm
