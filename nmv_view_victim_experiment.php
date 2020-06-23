@@ -22,7 +22,7 @@ $querystring = "
         v.first_names first_names, v.surname surname, v.birth_place birth_place,
         LEFT(concat(IFNULL(LEFT(e.experiment_title, 60), '#'),' - ',IFNULL(LEFT(e.field_of_interest,40), '#'),' - ',IFNULL(e.funding, '#')),100) experiment,
         ve.experiment_duration experiment_duration, ve.age_experiment_start age_experiment_start,
-        ve.outcome_injuries outcome_injuries, ve.not_corroborated not_corroborated,
+        ve.outcome_injuries outcome_injuries,
         ve.notes_perpetrator notes_perpetrator, ve.narratives narratives,
         CONCAT_WS('-', ve.exp_start_year, ve.exp_start_month, ve.exp_start_day) ve_start_date,
         CONCAT_WS('-', ve.exp_end_year, ve.exp_end_month, ve.exp_end_day) ve_end_date,
@@ -69,8 +69,6 @@ if ($ve = $query->fetch_object()) {
         htmlspecialchars($ve->outcome_injuries, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Survival</th><td>'.
         htmlspecialchars($ve->survival, ENT_HTML5).'</td></tr>';
-    $content .= '<tr><th>Not Corroborated</th><td>'.
-        htmlspecialchars($ve->not_corroborated ? 'Yes' : 'No', ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Notes about Perpetrator</th><td>'.
         htmlspecialchars($ve->notes_perpetrator, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Narratives</th><td>'.

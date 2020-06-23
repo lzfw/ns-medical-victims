@@ -71,8 +71,6 @@ $form->addField ('ID_survival',SELECT)
     ->setLabel ('Survival')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__survival', 'ID_survival', 'english');
-$form->addField ('not_corroborated',CHECKBOX,-1)
-    ->setLabel ('Not Corroborated');
 $form->addField ('exp_start_year',TEXT,4)
     ->setLabel ('Start Date YMD')
     ->addCondition(VALUE,MIN,0)
