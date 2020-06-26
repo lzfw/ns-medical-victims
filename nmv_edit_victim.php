@@ -118,6 +118,7 @@ $form->addField ('arrest_history',TEXTAREA)
     ->setLabel ('Arrest history');
 
 // After '45 group
+/* complete db
 $form->addField ('residence_after_1945_place',TEXT,250)
     ->setClass ('keyboardInput')
     ->setLabel ('Residence after \'45 (Place)');
@@ -139,7 +140,7 @@ $form->addField ('compensation_details',TEXTAREA)
 $form->addField ('notes_after_1945',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Notes on life after 1945');
-
+*/
 
 $form
 	->addButton (SUBMIT)

@@ -80,10 +80,12 @@ $victimsVariableForm->addField('ID_arrest_country', SELECT)
   ->addOption (NO_VALUE,'all countries')
   ->addOptionsFromTable('nmv__country', 'ID_country', 'english');
 
+/* complete db
 $victimsVariableForm->addField('ID_experiment', SELECT)
   ->setLabel ('experiment')
   ->addOption (NO_VALUE,'all experiments')
   ->addOptionsFromQuery ( "$querystring_experiment");
+*/  
 
 $victimsVariableForm->addField('ID_classification', SELECT)
   ->setLabel ('imprisonment classification')
@@ -112,8 +114,10 @@ $victimsVariableForm->addField('evaluation_status', SELECT)
 
 $victimsVariableForm->addField('mpg-text', SUBHEADLINE, '<br> &nbsp; MPG-project-related &nbsp; ');
 
+/* complete db
 $victimsVariableForm->addField('mpg_project', CHECKBOX, -1)
   ->setLabel ('MPG-project only');
+*/
 
 $victimsVariableForm->addField('ID_dataset_origin', SELECT)
   ->setLabel ('workgroup')
@@ -164,6 +168,7 @@ $victimsVariableForm->addField('hospitalisation_ID_diagnosis', SELECT)
 $victimsVariableForm->addField('hospitalisation_diagnosis', TEXT, 120)
 ->setLabel ('hospitalisation - diagnosis (not standardized yet)');
 
+/* complete db
 $victimsVariableForm->addField('post_1945-text', SUBHEADLINE, '<br> &nbsp; Survivors: after 1945 &nbsp; ');
 
 $victimsVariableForm->addField ('residence_after_1945_country',TEXT,120)
@@ -177,7 +182,7 @@ $victimsVariableForm->addField('nationality_after_1945', SELECT)
   ->addOption (NO_VALUE,'all nationalities')
   ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'english');
 
-
+*/
 
 // add buttons
 $victimsVariableForm

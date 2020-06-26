@@ -28,7 +28,7 @@ if ($victim_id) {
 
         $dbi->addBreadcrumb ($victim_name,'nmv_view_victim?ID_victim='.$victim_id);
 
-        // query: get hosp data
+        // query: get linking data
         $querystring = "
         SELECT vl.ID_vict_lit ID_vict_lit,
             COALESCE(l.lit_title, 'unspecified') title, l.authors authors, l.lit_year year,
@@ -54,7 +54,7 @@ if ($victim_id) {
         	}
         }
         $row_template[] = $options;
-    	$header_template[] = L_OPTIONS;        
+    	$header_template[] = L_OPTIONS;
 
         $content .= buildTableFromQuery(
             $querystring,
@@ -89,7 +89,8 @@ if ($literature_id) {
 
         $dbi->addBreadcrumb ($literature_name,'nmv_view_literature?ID_literature='.$literature_id);
 
-        // query: get hosp data
+        // query: get linked data
+        //complete db line 104
         $querystring = "
         SELECT vl.ID_vict_lit ID_vict_lit,
             CONCAT(v.ID_victim, ': ', v.first_names, ' ', v.surname) victim_name,
@@ -100,13 +101,14 @@ if ($literature_id) {
         LEFT JOIN nmv__literature l ON l.ID_literature = vl.ID_literature
         LEFT JOIN nmv__victim v ON v.ID_victim = vl.ID_victim
         WHERE vl.ID_literature = $literature_id
+        AND v.mpg_project = -1
         ORDER BY victim_name
         LIMIT 300";
 
         $options = '';
         $row_template = ['{victim_name}', '{birth_country}', '{birth_place}', '{birth_date}', '{pages}'];
         $header_template = ['Victim', 'Country of birth', 'Birth Place', 'Birth Date', 'Pages'];
-     
+
         $options .= createSmallButton('view Victim','nmv_view_victim?ID_victim={ID_victim}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
         	if ($dbi->checkUserPermission('edit')) {

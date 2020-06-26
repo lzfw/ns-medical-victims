@@ -70,7 +70,8 @@ if ($dbi->checkUserPermission('admin'))
     $content .= createButton(L_DELETE,'nmv_remove_source?ID_source='.$source_id,'icon delete');
 $content .= createButton("Victims",'nmv_list_victim_source?ID_source='.$source_id,'icon report-paper');
 $content .= createButton("Perpetrators",'nmv_list_perpetrator_source?ID_source='.$source_id,'icon report-paper');
-$content .= createButton("Biomedical Research",'nmv_list_experiment_source?ID_source='.$source_id,'icon report-paper');
+//complete db
+//$content .= createButton("Biomedical Research",'nmv_list_experiment_source?ID_source='.$source_id,'icon report-paper');
 $content .= '</div>';
 
 $content .= createBackLink ("List of Source",'nmv_list_sources');

@@ -195,15 +195,17 @@ $layout
 			</div>
 			<br><br>
 			<h2>Search for specific entries</h2>
+<!-- complete db
 			<div class="relative">
 					<input class="hide_show_checkbox"  id="checkbox_search_victim" type="checkbox" checked="checked">
 					<label class="hide_show_label" id="label_search_victim" for="checkbox_search_victim">Search - Victim</label>
 					<div class="hide_show_element block" id="element_search_victim">
 							<p>Search in complete database.
-							<br> If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
-					    ($dbi->checkUserPermission('view') ? $victimForm->run() : 'In order to search victims, <a href="/z_login">please log in</a>.') .
+							<br> If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' ./*
+					    ($dbi->checkUserPermission('view') ? $victimForm->run() : 'In order to search victims, <a href="/z_login">please log in</a>.') .*/
 					'</div>
 			</div>
+-->
 			<div class="relative">
 					 <input class="hide_show_checkbox"  id="checkbox_search_mpg_victim" type="checkbox" checked="checked">
 					 <label class="hide_show_label" id="label_search_mpg_victim" for="checkbox_search_mpg_victim">Search - Victim (MPG Project)</label>
@@ -222,14 +224,19 @@ $layout
 					    ($dbi->checkUserPermission('view') ? $perpetratorForm->run() : 'In order to search perpetrators, <a href="/z_login">please log in</a>.') .
 			    '</div>
 			</div>
+<!-- complete db
 			<div class="relative">
 					<input class="hide_show_checkbox"  id="checkbox_search_experiment" type="checkbox" checked="checked">
 					<label class="hide_show_label" id="label_search_experiment" for="checkbox_search_experiment">Search - Biomedical Research (Experiment)</label>
 					<div class="hide_show_element block" id="element_search_experiment">
-							<p>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
+							<p>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields
+							<br>Text fields: it is sufficient to enter a part of the title, name.... The search returns all results, that contain the search term.
+							</p>' ./*
 					    ($dbi->checkUserPermission('view') ? $experimentsForm->run() : 'In order to search biomedical research, <a href="/z_login">please log in</a>.') .
+							*/
 			    '</div>
 			</div>
+-->			
 			<div class="relative">
 					<input class="hide_show_checkbox"  id="checkbox_search_literature" type="checkbox" checked="checked">
 					<label class="hide_show_label" id="label_search_literature" for="checkbox_search_literature">Search - Literature</label>
@@ -259,7 +266,7 @@ $layout
 			</div>
 			<div class="relative">
 					<input class="hide_show_checkbox"  id="checkbox_filter_mpg_victim" type="checkbox" checked="checked">
-					<label class="hide_show_label" id="label_filter_mpg_victim" for="checkbox_filter_mpg_victim">Filter - Victims (MPG Project)</label>
+					<label class="hide_show_label" id="label_filter_mpg_victim" for="checkbox_filter_mpg_victim">Filter - Victims ("MPG Project - Groups")</label>
 					<div class="hide_show_element block" id="element_filter_mpg_victim">
 							<p>Shows fliltered list of victims in MPG-project-datasets.
 							<br>Returns victims that match <strong>all</strong> given criteria
@@ -272,7 +279,7 @@ $layout
 					<input class="hide_show_checkbox"  id="checkbox_filter_victim" type="checkbox" checked="checked">
 					<label class="hide_show_label" id="label_filter_victim" for="checkbox_filter_victim">Filter - Victims</label>
 					<div class="hide_show_element block" id="element_filter_victim">
-							<p>Search in complete database.
+							<p><!--complete db   Search in complete database. -->
 							<br>If more than one filter is applied, the search only returns results that match <strong>all</strong> selected criteria
 							<br><br></p>' .
 							($dbi->checkUserPermission('view') ? $victimsVariableForm->run() : 'In order to search victims, <a href="/z_login">please log in</a>.') .

@@ -85,7 +85,8 @@ if ($victim = $result->fetch_object()) {
         ).
         buildDataSheetRow('Notes',$victim->notes)
     );
-    $content .= buildElement('h3', 'Life after 1945');
+    //complete db
+    /*$content .= buildElement('h3', 'Life after 1945');
     $content .= buildElement('table','grid',
         buildDataSheetRow('Country and place',
             $victim->residence_after_1945_country . ' / ' .
@@ -97,7 +98,7 @@ if ($victim = $result->fetch_object()) {
         buildDataSheetRow('Compensation details',   $victim->compensation_details).
         buildDataSheetRow('Notes on life after 1945', $victim->notes_after_1945)
     );
-
+    */
     $content .= buildElement('h3', 'Other Names');
     // query: get other names
     $querystring = "
@@ -257,7 +258,8 @@ if ($dbi->checkUserPermission('admin'))
 $content .= '<br>';
 //$content .= createButton("other names",'nmv_list_victim_other_names?ID_victim='.$victim_id,'icon report-paper');
 $content .= createButton("Medical History",'nmv_list_med_hist?ID_victim='.$victim_id,'icon report-paper');
-$content .= createButton("Biomedical Research",'nmv_list_victim_experiment?ID_victim='.$victim_id,'icon report-paper');
+//complete db
+//$content .= createButton("Biomedical Research",'nmv_list_victim_experiment?ID_victim='.$victim_id,'icon report-paper');
 $content .= createButton("Literature",'nmv_list_victim_literature?ID_victim='.$victim_id,'icon report-paper');
 $content .= createButton("Sources",'nmv_list_victim_source?ID_victim='.$victim_id,'icon report-paper');
 $content .= '</div>';

@@ -69,7 +69,7 @@ if ($perpetrator = $result->fetch_object()) {
         $perpetrator->ss_member, $perpetrator->ss_since_when);
     $sa_member = formatMembership(
         $perpetrator->sa_member, $perpetrator->sa_since_when);
-    
+
     $content = buildElement('table','grid',
         buildDataSheetRow('Perpetrator ID',         $perpetrator_id).
         buildDataSheetRow('Name',                   $perpetrator_name).
@@ -110,7 +110,8 @@ if ($dbi->checkUserPermission('edit'))
     $content .= createButton ('Edit Perpetrator','nmv_edit_perpetrator?ID_perpetrator='.$perpetrator_id,'icon edit');
 if ($dbi->checkUserPermission('admin'))
     $content .= createButton(L_DELETE,'nmv_remove_perpetrator?ID_perpetrator='.$perpetrator_id,'icon delete');
-$content .= createButton("Biomedical Research",'nmv_list_perpetrator_experiment?ID_perpetrator='.$perpetrator_id,'icon report-paper');
+//complete dp
+//$content .= createButton("Biomedical Research",'nmv_list_perpetrator_experiment?ID_perpetrator='.$perpetrator_id,'icon report-paper');
 $content .= createButton("Literature",'nmv_list_perpetrator_literature?ID_perpetrator='.$perpetrator_id,'icon report-paper');
 $content .= createButton("Sources",'nmv_list_perpetrator_source?ID_perpetrator='.$perpetrator_id,'icon report-paper');
 $content .= '</div>';

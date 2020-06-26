@@ -28,7 +28,7 @@ if ($victim_id) {
 
         $dbi->addBreadcrumb ($victim_name,'nmv_view_victim?ID_victim='.$victim_id);
 
-        // query: get hosp data
+        // query: get linking data
         $querystring = "
         SELECT vs.ID_vict_source ID_vict_source,
             COALESCE(s.source_title, 'unspecified') title, s.creation_year year, s.medium medium,
@@ -89,7 +89,8 @@ if ($source_id) {
 
         $dbi->addBreadcrumb ($source_name,'nmv_view_source?ID_source='.$source_id);
 
-        // query: get hosp data
+        // query: get linking data
+        //complete db line 104
         $querystring = "
         SELECT vs.ID_vict_source ID_vict_source,
             CONCAT(v.ID_victim, ': ', v.first_names, ' ', v.surname) victim_name,
@@ -100,6 +101,7 @@ if ($source_id) {
         LEFT JOIN nmv__source s ON s.ID_source = vs.ID_source
         LEFT JOIN nmv__victim v ON v.ID_victim = vs.ID_victim
         WHERE vs.ID_source = $source_id
+        AND v.mpg_project = -1
         ORDER BY victim_name
         LIMIT 300";
 

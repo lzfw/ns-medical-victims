@@ -63,6 +63,8 @@ $dbi->setUserVar('querystring',implode('&',$query));
 $querystring_items = 'SELECT v.ID_victim, v.surname, v.first_names, v.birth_year, v.birth_country FROM nmv__victim v'; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
 
+//complete db
+$querystring_where[] = 'v.mpg_project = -1';
 
 
 // MySQL-Zeichenfilter definieren (Trunkierungszeichen werden zu MySQL-Zeichen)

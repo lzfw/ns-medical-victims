@@ -12,7 +12,7 @@ $dbi->addBreadcrumb ('Literature','nmv_list_literature');
 // query: get literature data
 $querystring = '
     SELECT authors, lit_year, lit_title, article, journal_or_series,
-           editor, volume, location, pages, publisher, scientific_exploitation, 
+           editor, volume, location, pages, publisher, scientific_exploitation,
            notes, url, isbn_10, isbn_13
     FROM nmv__literature v
     WHERE ID_literature = ?';
@@ -72,7 +72,8 @@ if ($dbi->checkUserPermission('admin'))
     $content .= createButton(L_DELETE,'nmv_remove_literature?ID_literature='.$literature_id,'icon delete');
 $content .= createButton("Victims",'nmv_list_victim_literature?ID_literature='.$literature_id,'icon report-paper');
 $content .= createButton("Perpetrators",'nmv_list_perpetrator_literature?ID_literature='.$literature_id,'icon report-paper');
-$content .= createButton("Biomedical Research",'nmv_list_experiment_literature?ID_literature='.$literature_id,'icon report-paper');
+//complete db
+//$content .= createButton("Biomedical Research",'nmv_list_experiment_literature?ID_literature='.$literature_id,'icon report-paper');
 $content .= '</div>';
 
 $content .= createBackLink ("List of Literature",'nmv_list_literature');

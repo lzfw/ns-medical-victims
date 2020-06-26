@@ -124,6 +124,9 @@ $querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names, v.
 											'; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
 
+//complete db
+$querystring_where[] = 'v.mpg_project = -1';
+
 
 
 // define MySQL-characterfilter (Trunkierungszeichen werden zu MySQL-Zeichen)
