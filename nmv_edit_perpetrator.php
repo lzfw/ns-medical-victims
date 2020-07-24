@@ -79,9 +79,18 @@ $form->addField ('ID_perp_class',SELECT)
 $form->addField ('career_history',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Career History');
-$form->addField ('education_qualifications',TEXTAREA)
+$form->addField ('place_of_qualification',TEXT,200)
+    ->setLabel ('place of qualification');
+$form->addField ('year_of_qualification',TEXT,4)
+    ->setLabel ('Year of Qualification')
+    ->addCondition(VALUE,MIN,1800)
+    ->addCondition(VALUE,MAX,1945);
+$form->addField ('type_of_qualification',TEXT,200)
     ->setClass ('keyboardInput')
-    ->setLabel ('Education Qualifications');
+    ->setLabel ('Type of Qualification');
+$form->addField ('title_of_dissertation',TEXTAREA)
+    ->setClass ('keyboardInput')
+    ->setLabel ('Title(s) of Dissertation(s)');
 $form->addField ('nsdap_member',CHECKBOX,-1)
     ->setLabel ('NSDAP Member');
 $form->addField ('nsdap_since_when',TEXT,4)
@@ -107,15 +116,6 @@ $form->addField ('other_nsdap_organisations_member',CHECKBOX,-1)
     ->setLabel ('Other NSDAP Org. Member');
 $form->addField ('details_all_memberships',TEXTAREA)
     ->setLabel ('Membership Details');
-$form->addField ('place_of_qualification',TEXT,200)
-    ->setLabel ('place of qualification');
-$form->addField ('year_of_qualification',TEXT,4)
-    ->setLabel ('Year of Qualification')
-    ->addCondition(VALUE,MIN,1800)
-    ->addCondition(VALUE,MAX,1945);
-$form->addField ('type_of_qualification',TEXT,200)
-    ->setClass ('keyboardInput')
-    ->setLabel ('Type of Qualification');
 $form->addField ('career_after_1945',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Career after 1945');

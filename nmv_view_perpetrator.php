@@ -17,7 +17,7 @@ $querystring = '
            CONCAT_WS(\'-\', death_year, death_month, death_day) death,
            gender, r.english as religion,
            n.english as nationality, c.english as classification, occupation, career_history,
-           education_qualifications, nsdap_member, nsdap_since_when,
+           title_of_dissertation, nsdap_member, nsdap_since_when,
            ss_member, ss_since_when, sa_member, sa_since_when,
            other_nsdap_organisations_member, details_all_memberships,
            career_after_1945, prosecution, prison_time, place_of_qualification,
@@ -81,8 +81,13 @@ if ($perpetrator = $result->fetch_object()) {
         buildDataSheetRow('Occupation',             $perpetrator->occupation).
         buildDataSheetRow('Classification',         $perpetrator->classification).
         buildDataSheetRow('Career history',         $perpetrator->career_history).
-        buildDataSheetRow('Education qualifications',
-            $perpetrator->education_qualifications).
+        buildDataSheetRow('Place and year of qualification',
+            $perpetrator->place_of_qualification . ' ' .
+            $perpetrator->year_of_qualification).
+        buildDataSheetRow('Type of qualification',
+            $perpetrator->type_of_qualification).
+        buildDataSheetRow('Title(s) of dissertation(s)',
+            $perpetrator->title_of_dissertation).
         buildDataSheetRow('NSDAP member',           $nsdap_member).
         buildDataSheetRow('SS member',              $ss_member).
         buildDataSheetRow('SA member',              $sa_member).
@@ -90,11 +95,6 @@ if ($perpetrator = $result->fetch_object()) {
             $perpetrator->other_nsdap_organisations_member ? 'yes' : 'no').
         buildDataSheetRow('Membership details',
             $perpetrator->details_all_memberships).
-        buildDataSheetRow('Place and year of qualification',
-            $perpetrator->place_of_qualification . ' ' .
-            $perpetrator->year_of_qualification).
-        buildDataSheetRow('Type of qualification',
-            $perpetrator->type_of_qualification).
         buildDataSheetRow('Career after 1945',      $perpetrator->career_after_1945).
         buildDataSheetRow('Prosecution',            $perpetrator->prosecution).
         buildDataSheetRow('Prison time',            $perpetrator->prison_time).
