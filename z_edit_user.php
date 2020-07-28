@@ -36,6 +36,7 @@ if ($dbi->checkUserPermission('system')) {
 		->setLabel (L_USER_PERMISSIONS)
 			->addOption (NULL,'none')
 			->addOption ('view')
+			->addOption ('view, mpg')
 			->addOption ('view, edit')
 			->addOption ('view, edit, admin')
 			->addOption ('view, edit, admin, system')
@@ -51,6 +52,7 @@ elseif ($dbi->checkUserPermission('admin')) {
 		->setLabel (L_USER_PERMISSIONS)
 			->addOption (NULL,'none')
 			->addOption ('view')
+			->addOption ('view, mpg')
 			->addOption ('view, edit')
 			->addOption ('view, edit, admin')
 			->addOption ('view, admin');
