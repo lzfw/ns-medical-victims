@@ -110,8 +110,10 @@ if ($dbi->checkUserPermission('edit'))
     $content .= createButton ('Edit Perpetrator','nmv_edit_perpetrator?ID_perpetrator='.$perpetrator_id,'icon edit');
 if ($dbi->checkUserPermission('admin'))
     $content .= createButton(L_DELETE,'nmv_remove_perpetrator?ID_perpetrator='.$perpetrator_id,'icon delete');
-//complete dp
-//$content .= createButton("Biomedical Research",'nmv_list_perpetrator_experiment?ID_perpetrator='.$perpetrator_id,'icon report-paper');
+//complete db d
+if (!($dbi->checkUserPermission('mpg'))) :
+  $content .= createButton("Biomedical Research",'nmv_list_perpetrator_experiment?ID_perpetrator='.$perpetrator_id,'icon report-paper');
+endif;
 $content .= createButton("Literature",'nmv_list_perpetrator_literature?ID_perpetrator='.$perpetrator_id,'icon report-paper');
 $content .= createButton("Sources",'nmv_list_perpetrator_source?ID_perpetrator='.$perpetrator_id,'icon report-paper');
 $content .= '</div>';

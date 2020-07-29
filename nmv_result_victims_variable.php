@@ -124,8 +124,10 @@ $querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names, v.
 											'; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
 
-//complete db
-$querystring_where[] = 'v.mpg_project = -1';
+//complete db d
+if ($dbi->checkUserPermission('mpg')) :
+	$querystring_where[] = 'v.mpg_project = -1';
+endif;
 
 
 
@@ -169,16 +171,6 @@ foreach ($special_contain_fields as $key=>$field) {
 			$querystring_where[] = "$key LIKE '%".$filtered_field."%'";
     }
 }
-//Outdated system, will propably be deleted from database
-// if(getUrlParameter('confirmation') != ''):
-// 		if(getUrlParameter('confirmation') == 0):
-// 			$querystring_where[] = "ev.confirmed_victim = '1'";
-// 		elseif (getUrlParameter('confirmation') == 1):
-// 			$querystring_where[] = "ev.not_a_victim = '1'";
-// 		elseif (getUrlParameter('confirmation') == 2):
-// 			$querystring_where[] = "ev.pending = '1'";
-// 		endif;
-// endif;
 
 //WHERE-CLAUSE zusammenführen
 if (count($querystring_where) > 0) {

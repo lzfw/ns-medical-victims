@@ -63,10 +63,6 @@ $dbi->setUserVar('querystring',implode('&',$query));
 $querystring_items = 'SELECT v.ID_victim, v.surname, v.first_names, v.birth_year, v.birth_country FROM nmv__victim v'; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
 
-//complete db
-$querystring_where[] = 'v.mpg_project = -1';
-
-
 // MySQL-Zeichenfilter definieren (Trunkierungszeichen werden zu MySQL-Zeichen)
 $filter_chars = array("'", '%', '_', '*', '٭');
 $replace_chars = array('', ' ', ' ', '%', '%');
@@ -95,6 +91,11 @@ foreach ($double_fields as $field) {
 		$querystring_where[] = "(v.$field LIKE '".$filtered_field."' OR v.$field = '".getUrlParameter($field)."')";
     }
 }
+
+//complete db 1 d
+if ($dbi->checkUserPermission('mpg')) :
+	$querystring_where[] = 'v.mpg_project = -1';
+endif;
 
 if (count($querystring_where) > 0) {
   //  $querystring_count_1 .= ' WHERE '.implode(' AND ',$querystring_where);
@@ -133,17 +134,20 @@ if (getUrlParameter($contain_fields[0])) {
   $querystring_other_where[] = "TRIM(o.victim_first_names) LIKE '%".$filtered_field."%'";
 }
 
+//complete db 2 d
+if ($dbi->checkUserPermission('mpg')) :
+	$querystring_other_where[] = 'v.mpg_project = -1';
+endif;
+
 if (count($querystring_other_where) > 0) {
     $querystring_items .= ' WHERE '.implode(' AND ',$querystring_other_where);
 }
-
 
 // Gesamtanzahl der Suchergebnisse feststellen
 $querystring_count = "SELECT COUNT(*) AS total FROM ($querystring_items) AS xyz";
 $query_count = $dbi->connection->query($querystring_count);
 $total_results = $query_count->fetch_object();
 $dbi->setUserVar('total_results',$total_results->total);
-
 // order-klausel
 $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']} LIMIT ".($dbi->user['skip']).','.Z_LIST_ROWS_PAGE;
 

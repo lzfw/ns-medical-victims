@@ -24,9 +24,12 @@ $querystring_count = 'SELECT COUNT(v.ID_victim) AS total FROM nmv__victim v'; //
 $querystring_items = 'SELECT `ID_victim`, `surname`, `first_names`, `birth_place` FROM nmv__victim'; // für Ergebnisliste
 $querystring_where = array(); // für Filter
 
-//complete db
-$querystring_count .= ' WHERE mpg_project = -1';
-$querystring_items .= ' WHERE mpg_project = -1';
+//complete db d
+if ($dbi->checkUserPermission('mpg')) :
+	$querystring_count .= ' WHERE mpg_project = -1';
+	$querystring_items .= ' WHERE mpg_project = -1';
+endif;
+
 
 // Gesamtanzahl der Suchergebnisse feststellen
 $query_count = $dbi->connection->query($querystring_count);

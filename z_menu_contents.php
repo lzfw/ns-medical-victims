@@ -17,13 +17,11 @@ $layout
 		).
 		($dbi->checkUserPermission('view')
 			? createListItem('Victims','nmv_list_victims','')
-				//complete db
+				//complete db d
 				.($dbi->checkUserPermission('mpg')
-					? NULL
-					: createListItem('Biomedical Research','nmv_list_experiments','')
+						? NULL
+						: createListItem('Biomedical Research','nmv_list_experiments','')
 					)
-				//complete db 1
-			  //. createListItem('Biomedical Research','nmv_list_experiments','')
 			  . createListItem('Perpetrators','nmv_list_perpetrators','')
 			  . createListItem('Institutions','nmv_list_institutions','')
 			  . createListItem('Literature','nmv_list_literature','')

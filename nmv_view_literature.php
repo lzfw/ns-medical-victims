@@ -72,8 +72,10 @@ if ($dbi->checkUserPermission('admin'))
     $content .= createButton(L_DELETE,'nmv_remove_literature?ID_literature='.$literature_id,'icon delete');
 $content .= createButton("Victims",'nmv_list_victim_literature?ID_literature='.$literature_id,'icon report-paper');
 $content .= createButton("Perpetrators",'nmv_list_perpetrator_literature?ID_literature='.$literature_id,'icon report-paper');
-//complete db
-//$content .= createButton("Biomedical Research",'nmv_list_experiment_literature?ID_literature='.$literature_id,'icon report-paper');
+//complete db d
+if(!($dbi->checkUserPermission('mpg')):
+  $content .= createButton("Biomedical Research",'nmv_list_experiment_literature?ID_literature='.$literature_id,'icon report-paper');
+endif;
 $content .= '</div>';
 
 $content .= createBackLink ("List of Literature",'nmv_list_literature');

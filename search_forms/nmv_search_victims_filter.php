@@ -80,12 +80,14 @@ $victimsVariableForm->addField('ID_arrest_country', SELECT)
   ->addOption (NO_VALUE,'all countries')
   ->addOptionsFromTable('nmv__country', 'ID_country', 'english');
 
-/* complete db
-$victimsVariableForm->addField('ID_experiment', SELECT)
-  ->setLabel ('experiment')
-  ->addOption (NO_VALUE,'all experiments')
-  ->addOptionsFromQuery ( "$querystring_experiment");
-*/  
+// complete db d 1
+if (!($dbi->checkUserPermission('mpg'))) :
+  $victimsVariableForm->addField('ID_experiment', SELECT)
+    ->setLabel ('experiment')
+    ->addOption (NO_VALUE,'all experiments')
+    ->addOptionsFromQuery ( "$querystring_experiment");
+endif;
+
 
 $victimsVariableForm->addField('ID_classification', SELECT)
   ->setLabel ('imprisonment classification')
@@ -107,17 +109,13 @@ $victimsVariableForm->addField('evaluation_status', SELECT)
     ->addOption (NO_VALUE,'all compensations')
     ->addOptionsFromTable('nmv__victim_evaluation_compensation', 'ID_compensation', 'english');
 
-// $victimsVariableForm->addField('confirmation', SELECT)
-//   ->setLabel ('evaluation status (outdated?)')
-//   ->addOption (NO_VALUE, 'all confirmation status')
-//   ->addOptionsFromArray(['confirmed victim', 'not a victim', 'pending']);
-
 $victimsVariableForm->addField('mpg-text', SUBHEADLINE, '<br> &nbsp; MPG-project-related &nbsp; ');
 
-/* complete db
-$victimsVariableForm->addField('mpg_project', CHECKBOX, -1)
-  ->setLabel ('MPG-project only');
-*/
+// complete db d 2
+if (!($dbi->checkUserPermission('mpg'))) :
+  $victimsVariableForm->addField('mpg_project', CHECKBOX, -1)
+    ->setLabel ('MPG-project only');
+endif;
 
 $victimsVariableForm->addField('ID_dataset_origin', SELECT)
   ->setLabel ('workgroup')
@@ -168,21 +166,22 @@ $victimsVariableForm->addField('hospitalisation_ID_diagnosis', SELECT)
 $victimsVariableForm->addField('hospitalisation_diagnosis', TEXT, 120)
 ->setLabel ('hospitalisation - diagnosis (not standardized yet)');
 
-/* complete db
-$victimsVariableForm->addField('post_1945-text', SUBHEADLINE, '<br> &nbsp; Survivors: after 1945 &nbsp; ');
+// complete db d 3
+if (!($dbi->checkUserPermission('mpg'))) :
+  $victimsVariableForm->addField('post_1945-text', SUBHEADLINE, '<br> &nbsp; Survivors: after 1945 &nbsp; ');
 
-$victimsVariableForm->addField ('residence_after_1945_country',TEXT,120)
-	->setLabel ('after 1945 - residence (country)');
+  $victimsVariableForm->addField ('residence_after_1945_country',TEXT,120)
+  	->setLabel ('after 1945 - residence (country)');
 
-$victimsVariableForm->addField ('occupation_after_1945',TEXT,120)
-	->setLabel ('after 1945 - occupation');
+  $victimsVariableForm->addField ('occupation_after_1945',TEXT,120)
+  	->setLabel ('after 1945 - occupation');
 
-$victimsVariableForm->addField('nationality_after_1945', SELECT)
-  ->setLabel ('after 1945 - nationality')
-  ->addOption (NO_VALUE,'all nationalities')
-  ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'english');
+  $victimsVariableForm->addField('nationality_after_1945', SELECT)
+    ->setLabel ('after 1945 - nationality')
+    ->addOption (NO_VALUE,'all nationalities')
+    ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'english');
+endif;
 
-*/
 
 // add buttons
 $victimsVariableForm

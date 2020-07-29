@@ -117,30 +117,33 @@ $form->addField ('arrest_history',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Arrest history');
 
+
+//complete db d
 // After '45 group
-/* complete db
-$form->addField ('residence_after_1945_place',TEXT,250)
-    ->setClass ('keyboardInput')
-    ->setLabel ('Residence after \'45 (Place)');
-$form->addField ('residence_after_1945_country',TEXT,250)
-    ->setLabel ('Residence after \'45 (Country)');
-$form->addField ('occupation_after_1945',TEXT,50)
-    ->setLabel ('Occupation after \'45');
-$form->addField ('nationality_after_1945',SELECT)
-    ->setLabel ('Nationality after 1945')
-    ->addOption (NO_VALUE,'please choose')
-    ->addOptionsFromTable ( 'nmv__nationality', 'ID_nationality', 'english');
-$form->addField ('consequential_injuries',TEXTAREA)
-    ->setLabel ('Consequential injuries');
-$form->addField ('compensation',CHECKBOX,-1)
-    ->setLabel ('Compensation ???');
-$form->addField ('compensation_details',TEXTAREA)
-    ->setClass ('keyboardInput')
-    ->setLabel ('Compensation details');
-$form->addField ('notes_after_1945',TEXTAREA)
-    ->setClass ('keyboardInput')
-    ->setLabel ('Notes on life after 1945');
-*/
+if(!($dbi->checkUserPermission('mpg')))	{
+	$form->addField ('residence_after_1945_place',TEXT,250)
+	    ->setClass ('keyboardInput')
+	    ->setLabel ('Residence after \'45 (Place)');
+	$form->addField ('residence_after_1945_country',TEXT,250)
+	    ->setLabel ('Residence after \'45 (Country)');
+	$form->addField ('occupation_after_1945',TEXT,50)
+	    ->setLabel ('Occupation after \'45');
+	$form->addField ('nationality_after_1945',SELECT)
+	    ->setLabel ('Nationality after 1945')
+	    ->addOption (NO_VALUE,'please choose')
+	    ->addOptionsFromTable ( 'nmv__nationality', 'ID_nationality', 'english');
+	$form->addField ('consequential_injuries',TEXTAREA)
+	    ->setLabel ('Consequential injuries');
+	$form->addField ('compensation',CHECKBOX,-1)
+	    ->setLabel ('Compensation ???');
+	$form->addField ('compensation_details',TEXTAREA)
+	    ->setClass ('keyboardInput')
+	    ->setLabel ('Compensation details');
+	$form->addField ('notes_after_1945',TEXTAREA)
+	    ->setClass ('keyboardInput')
+	    ->setLabel ('Notes on life after 1945');
+}
+
 
 $form
 	->addButton (SUBMIT)
