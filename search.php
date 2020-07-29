@@ -322,8 +322,8 @@ if ($dbi->checkUserPermission('mpg')) :
 							<label class="hide_show_label" id="label_search_victim" for="checkbox_search_victim">Search - Victim</label>
 							<div class="hide_show_element block" id="element_search_victim">
 									<p>Search in complete database.
-									<br> If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' ./*
-									($dbi->checkUserPermission('view') ? $victimForm->run() : 'In order to search victims, <a href="/z_login">please log in</a>.') .*/
+									<br> If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
+									($dbi->checkUserPermission('view') ? $victimForm->run() : 'In order to search victims, <a href="/z_login">please log in</a>.') .
 							'</div>
 					</div>
 					<div class="relative">
@@ -350,9 +350,9 @@ if ($dbi->checkUserPermission('mpg')) :
 							<div class="hide_show_element block" id="element_search_experiment">
 									<p>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields
 									<br>Text fields: it is sufficient to enter a part of the title, name.... The search returns all results, that contain the search term.
-									</p>' ./*
+									</p>' .
 									($dbi->checkUserPermission('view') ? $experimentsForm->run() : 'In order to search biomedical research, <a href="/z_login">please log in</a>.') .
-									*/
+
 							'</div>
 					</div>
 					<div class="relative">
