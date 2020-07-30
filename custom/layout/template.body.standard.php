@@ -33,7 +33,6 @@
 		<div id="options">
 			<?php
 			// search
-			$dbi->addOption (L_SEARCH,'search','icon search');
 			if (isServerScriptName('results.php')) {
 				$dbi->addOption (L_MODIFY_SEARCH,'search?'.$dbi->getUserVar('querystring'),'icon search');
 			}
