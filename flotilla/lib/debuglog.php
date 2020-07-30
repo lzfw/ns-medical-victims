@@ -7,7 +7,7 @@ define ('DEBUG_NOTICE',3);
 define ('DEBUG_INFO',4);
 
 class DebugLog {
-	
+
 	protected $log = array();
 	protected $log_level = 3;
 	protected $timer;
@@ -20,11 +20,11 @@ class DebugLog {
 		$this->timer = new Timer(3);
 		$this->timer->Start();
 	}
-	
+
 	public function Write ($priority,$message) {
 		if ($this->log_level >= $priority) $this->log[] = array ($this->timer->GetCurrentTime(3),$priority,$message);
 	}
-	
+
 	public function Show () {
 		$output = NULL;
 		if ($this->log_level > 0) {
@@ -38,10 +38,10 @@ class DebugLog {
 				switch ($entry[1]) {
 					case DEBUG_NOTICE:
 						$output .= ' NOTICE:';
-						break; 
+						break;
 					case DEBUG_WARNING:
 						$output .= ' WARNING:';
-						break; 
+						break;
 					case DEBUG_ERROR:
 						$output .= ' ERROR:';
 						break;
@@ -52,7 +52,11 @@ class DebugLog {
 			$output .= '--- END OF DEBUG LOG ---'.PHP_EOL;
 			$output .= '</pre>';
 		}
-		return $output;
+		if ($_SERVER['SERVER_NAME'] == 'localhost') :
+			return $output;
+		else :
+			return '';
+		endif;
 	}
 
 }
