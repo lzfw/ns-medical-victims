@@ -51,7 +51,7 @@ if ($stmt = $dbi->connection->prepare($querystring)) {
 }
 
 function formatMembership($is_member, $since) {
-    return ( $is_member ? 'yes' : 'no' ) .
+    return ( $is_member ? 'yes' : 'no / unknown' ) .
         ($since ? ', since ' . $since : '');
 }
 
@@ -92,7 +92,7 @@ if ($perpetrator = $result->fetch_object()) {
         buildDataSheetRow('SS member',              $ss_member).
         buildDataSheetRow('SA member',              $sa_member).
         buildDataSheetRow('Other NSDAP org. memebership',
-            $perpetrator->other_nsdap_organisations_member ? 'yes' : 'no').
+            $perpetrator->other_nsdap_organisations_member ? 'yes' : 'no / unknown').
         buildDataSheetRow('Membership details',
             $perpetrator->details_all_memberships).
         buildDataSheetRow('Career after 1945',      $perpetrator->career_after_1945).
