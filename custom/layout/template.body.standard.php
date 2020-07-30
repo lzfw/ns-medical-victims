@@ -45,8 +45,8 @@
 			}*/
 			// admin
 			if ($dbi->checkUserPermission('view')) {
-				$dbi->addOption (L_CONTENTS,'z_menu_contents','icon contents');
 				$dbi->addOption (L_SEARCH,'search','icon search');
+				$dbi->addOption (L_CONTENTS,'z_menu_contents','icon contents');
 			}
 			if ($dbi->checkUserPermission('admin')) {
 				$dbi->addOption (L_ADMIN,'z_menu_admin','icon admin');
