@@ -26,7 +26,7 @@ $form->addField ('titles',TEXT,50)
 $form->addField ('birth_year',TEXT,4)
     ->setLabel ('Birth YMD')
     ->addCondition(VALUE,MIN,0)
-    ->addCondition(VALUE,MAX,2950);
+    ->addCondition(VALUE,MAX,1950);
 $form->addField ('birth_month',TEXT,2)
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,12)
@@ -84,7 +84,7 @@ $form->addField ('place_of_qualification',TEXT,200)
 $form->addField ('year_of_qualification',TEXT,4)
     ->setLabel ('Year of Qualification')
     ->addCondition(VALUE,MIN,1800)
-    ->addCondition(VALUE,MAX,1945);
+    ->addCondition(VALUE,MAX,2050);
 $form->addField ('type_of_qualification',TEXT,200)
     ->setClass ('keyboardInput')
     ->setLabel ('Type of Qualification');
