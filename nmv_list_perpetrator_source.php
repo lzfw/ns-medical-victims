@@ -17,7 +17,7 @@ if ($perpetrator_id) {
 
     // query: get perpetrator data
     $querystring = "
-    SELECT CONCAT(COALESCE(type_of_qualification, ''), ' ', COALESCE(surname, ''), ' ', COALESCE(first_names, '')) perpetrator_name
+    SELECT CONCAT(COALESCE(titles, ''), ' ', COALESCE(surname, ''), ' ', COALESCE(first_names, '')) perpetrator_name
     FROM nmv__perpetrator
     WHERE ID_perpetrator = $perpetrator_id";
     $query = $dbi->connection->query($querystring);
@@ -28,7 +28,7 @@ if ($perpetrator_id) {
 
         $dbi->addBreadcrumb ($perpetrator_name,'nmv_view_perpetrator?ID_perpetrator='.$perpetrator_id);
 
-        // query: get hosp data
+        // query: get source data
         $querystring = "
         SELECT ps.ID_perp_source ID_perp_source,
             COALESCE(s.source_title, 'unspecified') title, s.creation_year year, s.medium medium,
@@ -89,7 +89,7 @@ if ($source_id) {
 
         $dbi->addBreadcrumb ($source_name,'nmv_view_source?ID_source='.$source_id);
 
-        // query: get hosp data
+        // query: get source data
         $querystring = "
         SELECT ps.ID_perp_source ID_perp_source,
             CONCAT(p.ID_perpetrator, ': ', p.first_names, ' ', p.surname) perpetrator_name,

@@ -16,12 +16,13 @@ $querystring = '
            birth_place, birth_country, death_place, death_country,
            CONCAT_WS(\'-\', death_year, death_month, death_day) death,
            gender, r.english as religion,
-           n.english as nationality, c.english as classification, occupation, career_history,
-           title_of_dissertation, nsdap_member, nsdap_since_when,
+           n.english as nationality, c.english as classification, occupation,
+           career_history, place_of_qualification_1, year_of_qualification_1, type_of_qualification_1,
+           title_of_dissertation_1, place_of_qualification_2, year_of_qualification_2, type_of_qualification_2,
+           title_of_dissertation_2, nsdap_member, nsdap_since_when,
            ss_member, ss_since_when, sa_member, sa_since_when,
            other_nsdap_organisations_member, details_all_memberships,
-           career_after_1945, prosecution, prison_time, place_of_qualification,
-           year_of_qualification, type_of_qualification, notes
+           career_after_1945, prosecution, prison_time, notes
     FROM nmv__perpetrator p
     LEFT JOIN nmv__religion r ON (r.ID_religion = p.religion)
     LEFT JOIN nmv__nationality n ON (n.ID_nationality = p.nationality_1938)
@@ -81,13 +82,20 @@ if ($perpetrator = $result->fetch_object()) {
         buildDataSheetRow('Occupation',             $perpetrator->occupation).
         buildDataSheetRow('Classification',         $perpetrator->classification).
         buildDataSheetRow('Career history',         $perpetrator->career_history).
-        buildDataSheetRow('Place and year of qualification',
-            $perpetrator->place_of_qualification . ' ' .
-            $perpetrator->year_of_qualification).
-        buildDataSheetRow('Type of qualification',
-            $perpetrator->type_of_qualification).
-        buildDataSheetRow('Title(s) of dissertation(s)',
-            $perpetrator->title_of_dissertation).
+        buildDataSheetRow('Type of qualification 1',
+            $perpetrator->type_of_qualification_1).
+        buildDataSheetRow('Place and year of qualification 1',
+            $perpetrator->place_of_qualification_1 . ' ' .
+            $perpetrator->year_of_qualification_1).
+        buildDataSheetRow('Title of dissertation 1',
+            $perpetrator->title_of_dissertation_1).
+        buildDataSheetRow('Type of qualification 2',
+            $perpetrator->type_of_qualification_2).
+        buildDataSheetRow('Place and year of qualification 2',
+            $perpetrator->place_of_qualification_2 . ' ' .
+            $perpetrator->year_of_qualification_2).
+        buildDataSheetRow('Title of dissertation 2',
+            $perpetrator->title_of_dissertation_2).
         buildDataSheetRow('NSDAP member',           $nsdap_member).
         buildDataSheetRow('SS member',              $ss_member).
         buildDataSheetRow('SA member',              $sa_member).

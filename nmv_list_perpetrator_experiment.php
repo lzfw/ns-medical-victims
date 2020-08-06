@@ -17,7 +17,7 @@ if ($perpetrator_id) {
 
     // query: get perpetrator data
     $querystring = "
-    SELECT CONCAT(COALESCE(type_of_qualification, ''), ' ', COALESCE(surname, ''), ' ', COALESCE(first_names, '')) perpetrator_name
+    SELECT CONCAT(COALESCE(titles, ''), ' ', COALESCE(surname, ''), ' ', COALESCE(first_names, '')) perpetrator_name
     FROM nmv__perpetrator
     WHERE ID_perpetrator = $perpetrator_id";
     $query = $dbi->connection->query($querystring);

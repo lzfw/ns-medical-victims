@@ -17,7 +17,7 @@ if ($perpetrator_id) {
 
     // query: get perpetrator data
     $querystring = "
-    SELECT CONCAT(COALESCE(type_of_qualification, ''), ' ', COALESCE(surname, ''), ' ', COALESCE(first_names, '')) perpetrator_name
+    SELECT CONCAT(COALESCE(titles, ''), ' ', COALESCE(surname, ''), ' ', COALESCE(first_names, '')) perpetrator_name
     FROM nmv__perpetrator
     WHERE ID_perpetrator = $perpetrator_id";
     $query = $dbi->connection->query($querystring);
@@ -28,7 +28,7 @@ if ($perpetrator_id) {
 
         $dbi->addBreadcrumb ($perpetrator_name,'nmv_view_perpetrator?ID_perpetrator='.$perpetrator_id);
 
-        // query: get hosp data
+        // query: get literature data
         $querystring = "
         SELECT pl.ID_perp_lit ID_perp_lit,
             COALESCE(l.lit_title, 'unspecified') title, l.authors authors, l.lit_year year,
@@ -89,7 +89,7 @@ if ($literature_id) {
 
         $dbi->addBreadcrumb ($literature_name,'nmv_view_literature?ID_literature='.$literature_id);
 
-        // query: get hosp data
+        // query: get perpetrator data
         $querystring = "
         SELECT pl.ID_perp_lit ID_perp_lit,
             CONCAT(p.ID_perpetrator, ': ', p.first_names, ' ', p.surname) perpetrator_name,

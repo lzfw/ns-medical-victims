@@ -79,18 +79,30 @@ $form->addField ('ID_perp_class',SELECT)
 $form->addField ('career_history',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Career History');
-$form->addField ('place_of_qualification',TEXT,200)
-    ->setLabel ('place of qualification');
-$form->addField ('year_of_qualification',TEXT,4)
-    ->setLabel ('Year of Qualification')
+$form->addField ('type_of_qualification_1',TEXT,200)
+    ->setClass ('keyboardInput')
+    ->setLabel ('Type of Qualification 1');
+$form->addField ('place_of_qualification_1',TEXT,200)
+    ->setLabel ('Place of qualification 1');
+$form->addField ('year_of_qualification_1',TEXT,4)
+    ->setLabel ('Year of Qualification 1')
     ->addCondition(VALUE,MIN,1800)
     ->addCondition(VALUE,MAX,2050);
-$form->addField ('type_of_qualification',TEXT,200)
+$form->addField ('title_of_dissertation_1',TEXTAREA)
     ->setClass ('keyboardInput')
-    ->setLabel ('Type of Qualification');
-$form->addField ('title_of_dissertation',TEXTAREA)
+    ->setLabel ('Title of Dissertation 1');
+$form->addField ('type_of_qualification_2',TEXT,200)
     ->setClass ('keyboardInput')
-    ->setLabel ('Title(s) of Dissertation(s)');
+    ->setLabel ('Type of Qualification 2');
+$form->addField ('place_of_qualification_2',TEXT,200)
+    ->setLabel ('Place of qualification 2');
+$form->addField ('year_of_qualification_2',TEXT,4)
+    ->setLabel ('Year of Qualification 2')
+    ->addCondition(VALUE,MIN,1800)
+    ->addCondition(VALUE,MAX,2050);
+$form->addField ('title_of_dissertation_2',TEXTAREA)
+    ->setClass ('keyboardInput')
+    ->setLabel ('Title of Dissertation 2');
 $form->addField ('nsdap_member',CHECKBOX,-1)
     ->setLabel ('NSDAP Member');
 $form->addField ('nsdap_since_when',TEXT,4)
