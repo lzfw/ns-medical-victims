@@ -18,6 +18,7 @@ $dbi->setUserVar ('view',getUrlParameter('view'),'default');
 include_once './search_forms/nmv_search_victims_filter.php';
 include_once './search_forms/nmv_search_mpg_filter.php';
 include_once './search_forms/nmv_search_diagnoses.php';
+include_once './search_forms/nmv_search_perpetrators_filter.php';
 
 // victim search form
 $victimForm = new Form ('search_victim','nmv_result_victims.php','GET');
@@ -168,243 +169,144 @@ $sourceForm->addField ('description',TEXT,255)
 $sourceForm
 	->addButton (SUBMIT,L_SEARCH);
 
-// layout
-
-//complete db
+//complete db d
+//different contents depending on mpg-permission
 if ($dbi->checkUserPermission('mpg')) :
-				$layout
-					->set('title','Search and Filters')
-					->set('content',
-							'<div class="relative">
-									<input class="hide_show_checkbox"  id="checkbox_search_tips" type="checkbox" checked="checked">
-									<label class="hide_show_label" id="label_search_tips" for="checkbox_search_tips">Help</label>
-									<div class="hide_show_element block" id="element_search_tips">
-									<p>Search is not case sensitive<p>
-									<h3>wildcard character *</h3>
-									<p>
-										You can use * as a wildcard-character. It replaces one or many characters.
-										<br>&nbsp; &rarr; Smi* returns all results that begin with Smi (e.g Smith, Smidt, Smilla ...)
-										<br>&nbsp; &rarr; J*zef returns results for Józef, Jozef, Joezef, Juzef ...
-										<br>&nbsp; &rarr; * returns all results with an entry in the corresponding column.
-									</p><br>
-									<h3>show and hide forms</h3>
-									<p>
-										The different search- and filter-forms can be shown or hidden by clicking on the gray headline-areas.
-									</p><br>
-									<h3>multiple inputs</h3>
-									<p>
-										If more than one textfield or selection is used, the search or filter will return only results that match <strong> all </strong> those inputs.
-									</p>
-							</div>
-							<br><br>
-							<h2>Search for specific entries</h2>
-				<!-- complete db 1
-							<div class="relative">
-									<input class="hide_show_checkbox"  id="checkbox_search_victim" type="checkbox" checked="checked">
-									<label class="hide_show_label" id="label_search_victim" for="checkbox_search_victim">Search - Victim</label>
-									<div class="hide_show_element block" id="element_search_victim">
-											<p>Search in complete database.
-											<br> If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' ./*
-									    ($dbi->checkUserPermission('view') ? $victimForm->run() : 'In order to search victims, <a href="/z_login">please log in</a>.') .*/
-									'</div>
-							</div>
-				-->
-							<div class="relative">
-									 <input class="hide_show_checkbox"  id="checkbox_search_mpg_victim" type="checkbox" checked="checked">
-									 <label class="hide_show_label" id="label_search_mpg_victim" for="checkbox_search_mpg_victim">Search - Victim (MPG Project)</label>
-									 <div class="hide_show_element block" id="element_search_mpg_victim">
-											<p>Search in MPG-project-datasets.
-											<br>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields
-											<br>If a combination of workgroups is selected, the result shows only datasets that contain data of all these workgroups.</p>' .
-											($dbi->checkUserPermission('view') ? $MPGvictimForm->run() : 'In order to search MPG-project-victims, <a href="/z_login">please log in</a>.') .
-									'</div>
-							</div>
-							<div class="relative">
-									<input class="hide_show_checkbox"  id="checkbox_search_perpetrator" type="checkbox" checked="checked">
-									<label class="hide_show_label" id="label_search_perpetrator" for="checkbox_search_perpetrator">Search - Perpetrator</label>
-									<div class="hide_show_element block" id="element_search_perpetrator">
-											<p>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
-									    ($dbi->checkUserPermission('view') ? $perpetratorForm->run() : 'In order to search perpetrators, <a href="/z_login">please log in</a>.') .
-							    '</div>
-							</div>
-				<!-- complete db
-							<div class="relative">
-									<input class="hide_show_checkbox"  id="checkbox_search_experiment" type="checkbox" checked="checked">
-									<label class="hide_show_label" id="label_search_experiment" for="checkbox_search_experiment">Search - Biomedical Research (Experiment)</label>
-									<div class="hide_show_element block" id="element_search_experiment">
-											<p>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields
-											<br>Text fields: it is sufficient to enter a part of the title, name.... The search returns all results, that contain the search term.
-											</p>' ./*
-									    ($dbi->checkUserPermission('view') ? $experimentsForm->run() : 'In order to search biomedical research, <a href="/z_login">please log in</a>.') .
-											*/
-							    '</div>
-							</div>
-				-->
-							<div class="relative">
-									<input class="hide_show_checkbox"  id="checkbox_search_literature" type="checkbox" checked="checked">
-									<label class="hide_show_label" id="label_search_literature" for="checkbox_search_literature">Search - Literature</label>
-									<div class="hide_show_element block" id="element_search_literature">
-											<p>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
-									    ($dbi->checkUserPermission('view') ? $literatureForm->run() : 'In order to search literature, <a href="/z_login">please log in</a>.') .
-							    '</div>
-							</div>
-							<div class="relative">
-									<input class="hide_show_checkbox"  id="checkbox_search_source" type="checkbox" checked="checked">
-									<label class="hide_show_label" id="label_search_source" for="checkbox_search_source">Search - Source</label>
-									<div class="hide_show_element block" id="element_search_source">
-											<p>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
-									    ($dbi->checkUserPermission('view') ? $sourceForm->run() : 'In order to search sources, <a href="/z_login">please log in</a>.') .
-									'</div>
-							</div>
+	$victim_form = '';
+	$experiments_form = '';
+else :
+	$victim_form =
+		'<div class="relative">
+					<input class="hide_show_checkbox"  id="checkbox_search_victim" type="checkbox" checked="checked">
+					<label class="hide_show_label" id="label_search_victim" for="checkbox_search_victim">Search - Victim</label>
+					<div class="hide_show_element block" id="element_search_victim">
+							<p>Search in complete database.
+							<br> If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
+					    ($dbi->checkUserPermission('view') ? $victimForm->run() : 'In order to search victims, <a href="/z_login">please log in</a>.') .
+					'</div>
+			</div>';
+		$experiments_form =
+		'<div class="relative">
+				<input class="hide_show_checkbox"  id="checkbox_search_experiment" type="checkbox" checked="checked">
+				<label class="hide_show_label" id="label_search_experiment" for="checkbox_search_experiment">Search - Biomedical Research (Experiment)</label>
+				<div class="hide_show_element block" id="element_search_experiment">
+						<p>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields
+						<br>Text fields: it is sufficient to enter a part of the title, name.... The search returns all results, that contain the search term.
+						</p>' .
+						($dbi->checkUserPermission('view') ? $experimentsForm->run() : 'In order to search biomedical research, <a href="/z_login">please log in</a>.') .
+				'</div>
+		</div>
+		';
+endif;
 
-							<br><br>
-							<h2>Filter</h2>
-							<div class="relative">
-									<input class="hide_show_checkbox"  id="checkbox_search_diagnoses" type="checkbox" checked="checked">
-									<label class="hide_show_label" id="label_search_diagnoses" for="checkbox_search_diagnoses">Filter - Diagnoses</label>
-									<div class="hide_show_element block" id="element_search_diagnoses">
-											<p>Returns victims with given keyword in: cause of death, hospitalisation diagnosis, brain report diagnosis</p>' .
-											($dbi->checkUserPermission('view') ? $diagnosesForm->run() : 'In order to search victims, <a href="/z_login">please log in</a>.') .
-									'</div>
-							</div>
-							<div class="relative">
-									<input class="hide_show_checkbox"  id="checkbox_filter_mpg_victim" type="checkbox" checked="checked">
-									<label class="hide_show_label" id="label_filter_mpg_victim" for="checkbox_filter_mpg_victim">Filter - Victims ("MPG Project - Groups")</label>
-									<div class="hide_show_element block" id="element_filter_mpg_victim">
-											<p>Shows fliltered list of victims in MPG-project-datasets.
-											<br>Returns victims that match <strong>all</strong> given criteria
-											<br>If a combination of workgroups is selected, the result shows only datasets that contain data of all these workgroups.</p>
-											' .
-											($dbi->checkUserPermission('view') ? $MPGfilterForm->run() : 'In order to search MPG-project-victims, <a href="/z_login">please log in</a>.') .
-									'</div>
-							</div>
-							<div class="relative">
-									<input class="hide_show_checkbox"  id="checkbox_filter_victim" type="checkbox" checked="checked">
-									<label class="hide_show_label" id="label_filter_victim" for="checkbox_filter_victim">Filter - Victims</label>
-									<div class="hide_show_element block" id="element_filter_victim">
-											<p><!--complete db   Search in complete database. -->
-											<br>If more than one filter is applied, the search only returns results that match <strong>all</strong> selected criteria
-											<br><br></p>' .
-											($dbi->checkUserPermission('view') ? $victimsVariableForm->run() : 'In order to search victims, <a href="/z_login">please log in</a>.') .
-									'</div>
-							</div>'		)
-					//->set('sidebar','<h3>'.L_HELP.'</h3>'.$dbi->getTextblock_HTML ('search'))
-					->cast();
-	else :
-		$layout
-			->set('title','Search and Filters')
-			->set('content',
-					'<div class="relative">
-							<input class="hide_show_checkbox"  id="checkbox_search_tips" type="checkbox" checked="checked">
-							<label class="hide_show_label" id="label_search_tips" for="checkbox_search_tips">Help</label>
-							<div class="hide_show_element block" id="element_search_tips">
-							<p>Search is not case sensitive<p>
-							<h3>wildcard character *</h3>
-							<p>
-								You can use * as a wildcard-character. It replaces one or many characters.
-								<br>&nbsp; &rarr; Smi* returns all results that begin with Smi (e.g Smith, Smidt, Smilla ...)
-								<br>&nbsp; &rarr; J*zef returns results for Józef, Jozef, Joezef, Juzef ...
-								<br>&nbsp; &rarr; * returns all results with an entry in the corresponding column.
-							</p><br>
-							<h3>show and hide forms</h3>
-							<p>
-								The different search- and filter-forms can be shown or hidden by clicking on the gray headline-areas.
-							</p><br>
-							<h3>multiple inputs</h3>
-							<p>
-								If more than one textfield or selection is used, the search or filter will return only results that match <strong> all </strong> those inputs.
-							</p>
-					</div>
-					<br><br>
-					<h2>Search for specific entries</h2>
-					<div class="relative">
-							<input class="hide_show_checkbox"  id="checkbox_search_victim" type="checkbox" checked="checked">
-							<label class="hide_show_label" id="label_search_victim" for="checkbox_search_victim">Search - Victim</label>
-							<div class="hide_show_element block" id="element_search_victim">
-									<p>Search in complete database.
-									<br> If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
-									($dbi->checkUserPermission('view') ? $victimForm->run() : 'In order to search victims, <a href="/z_login">please log in</a>.') .
-							'</div>
-					</div>
-					<div class="relative">
-							 <input class="hide_show_checkbox"  id="checkbox_search_mpg_victim" type="checkbox" checked="checked">
-							 <label class="hide_show_label" id="label_search_mpg_victim" for="checkbox_search_mpg_victim">Search - Victim (MPG Project)</label>
-							 <div class="hide_show_element block" id="element_search_mpg_victim">
-									<p>Search in MPG-project-datasets.
-									<br>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields
-									<br>If a combination of workgroups is selected, the result shows only datasets that contain data of all these workgroups.</p>' .
-									($dbi->checkUserPermission('view') ? $MPGvictimForm->run() : 'In order to search MPG-project-victims, <a href="/z_login">please log in</a>.') .
-							'</div>
-					</div>
-					<div class="relative">
-							<input class="hide_show_checkbox"  id="checkbox_search_perpetrator" type="checkbox" checked="checked">
-							<label class="hide_show_label" id="label_search_perpetrator" for="checkbox_search_perpetrator">Search - Perpetrator</label>
-							<div class="hide_show_element block" id="element_search_perpetrator">
-									<p>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
-									($dbi->checkUserPermission('view') ? $perpetratorForm->run() : 'In order to search perpetrators, <a href="/z_login">please log in</a>.') .
-							'</div>
-					</div>
-					<div class="relative">
-							<input class="hide_show_checkbox"  id="checkbox_search_experiment" type="checkbox" checked="checked">
-							<label class="hide_show_label" id="label_search_experiment" for="checkbox_search_experiment">Search - Biomedical Research (Experiment)</label>
-							<div class="hide_show_element block" id="element_search_experiment">
-									<p>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields
-									<br>Text fields: it is sufficient to enter a part of the title, name.... The search returns all results, that contain the search term.
-									</p>' .
-									($dbi->checkUserPermission('view') ? $experimentsForm->run() : 'In order to search biomedical research, <a href="/z_login">please log in</a>.') .
 
-							'</div>
-					</div>
-					<div class="relative">
-							<input class="hide_show_checkbox"  id="checkbox_search_literature" type="checkbox" checked="checked">
-							<label class="hide_show_label" id="label_search_literature" for="checkbox_search_literature">Search - Literature</label>
-							<div class="hide_show_element block" id="element_search_literature">
-									<p>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
-									($dbi->checkUserPermission('view') ? $literatureForm->run() : 'In order to search literature, <a href="/z_login">please log in</a>.') .
-							'</div>
-					</div>
-					<div class="relative">
-							<input class="hide_show_checkbox"  id="checkbox_search_source" type="checkbox" checked="checked">
-							<label class="hide_show_label" id="label_search_source" for="checkbox_search_source">Search - Source</label>
-							<div class="hide_show_element block" id="element_search_source">
-									<p>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
-									($dbi->checkUserPermission('view') ? $sourceForm->run() : 'In order to search sources, <a href="/z_login">please log in</a>.') .
-							'</div>
-					</div>
+// layout
+$layout
+	->set('title','Search and Filters')
+	->set('content',
+			'<div class="relative">
+					<input class="hide_show_checkbox"  id="checkbox_search_tips" type="checkbox" checked="checked">
+					<label class="hide_show_label" id="label_search_tips" for="checkbox_search_tips">Help</label>
+					<div class="hide_show_element block" id="element_search_tips">
+					<p>Search is not case sensitive<p>
+					<h3>wildcard character *</h3>
+					<p>
+						You can use * as a wildcard-character. It replaces one or many characters.
+						<br>&nbsp; &rarr; Smi* returns all results that begin with Smi (e.g Smith, Smidt, Smilla ...)
+						<br>&nbsp; &rarr; J*zef returns results for Józef, Jozef, Joezef, Juzef ...
+						<br>&nbsp; &rarr; * returns all results with an entry in the corresponding column.
+					</p><br>
+					<h3>show and hide forms</h3>
+					<p>
+						The different search- and filter-forms can be shown or hidden by clicking on the gray headline-areas.
+					</p><br>
+					<h3>multiple inputs</h3>
+					<p>
+						If more than one textfield or selection is used, the search or filter will return only results that match <strong> all </strong> those inputs.
+					</p>
+			</div>
+			<br><br>
+			<h2>Search for specific entries</h2>
+			'. $victim_form . '
+			<div class="relative">
+					 <input class="hide_show_checkbox"  id="checkbox_search_mpg_victim" type="checkbox" checked="checked">
+					 <label class="hide_show_label" id="label_search_mpg_victim" for="checkbox_search_mpg_victim">Search - Victim (MPG Project)</label>
+					 <div class="hide_show_element block" id="element_search_mpg_victim">
+							<p>Search in MPG-project-datasets.
+							<br>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields
+							<br>If a combination of workgroups is selected, the result shows only datasets that contain data of all these workgroups.</p>' .
+							($dbi->checkUserPermission('view') ? $MPGvictimForm->run() : 'In order to search MPG-project-victims, <a href="/z_login">please log in</a>.') .
+					'</div>
+			</div>
+			<div class="relative">
+					<input class="hide_show_checkbox"  id="checkbox_search_perpetrator" type="checkbox" checked="checked">
+					<label class="hide_show_label" id="label_search_perpetrator" for="checkbox_search_perpetrator">Search - Perpetrator</label>
+					<div class="hide_show_element block" id="element_search_perpetrator">
+							<p>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
+					    ($dbi->checkUserPermission('view') ? $perpetratorForm->run() : 'In order to search perpetrators, <a href="/z_login">please log in</a>.') .
+			    '</div>
+			</div>
+			'. $experiments_form .'
+			<div class="relative">
+					<input class="hide_show_checkbox"  id="checkbox_search_literature" type="checkbox" checked="checked">
+					<label class="hide_show_label" id="label_search_literature" for="checkbox_search_literature">Search - Literature</label>
+					<div class="hide_show_element block" id="element_search_literature">
+							<p>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
+					    ($dbi->checkUserPermission('view') ? $literatureForm->run() : 'In order to search literature, <a href="/z_login">please log in</a>.') .
+			    '</div>
+			</div>
+			<div class="relative">
+					<input class="hide_show_checkbox"  id="checkbox_search_source" type="checkbox" checked="checked">
+					<label class="hide_show_label" id="label_search_source" for="checkbox_search_source">Search - Source</label>
+					<div class="hide_show_element block" id="element_search_source">
+							<p>If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
+					    ($dbi->checkUserPermission('view') ? $sourceForm->run() : 'In order to search sources, <a href="/z_login">please log in</a>.') .
+					'</div>
+			</div>
 
-					<br><br>
-					<h2>Filter</h2>
-					<div class="relative">
-							<input class="hide_show_checkbox"  id="checkbox_search_diagnoses" type="checkbox" checked="checked">
-							<label class="hide_show_label" id="label_search_diagnoses" for="checkbox_search_diagnoses">Filter - Diagnoses</label>
-							<div class="hide_show_element block" id="element_search_diagnoses">
-									<p>Returns victims with given keyword in: cause of death, hospitalisation diagnosis, brain report diagnosis</p>' .
-									($dbi->checkUserPermission('view') ? $diagnosesForm->run() : 'In order to search victims, <a href="/z_login">please log in</a>.') .
-							'</div>
-					</div>
-					<div class="relative">
-							<input class="hide_show_checkbox"  id="checkbox_filter_mpg_victim" type="checkbox" checked="checked">
-							<label class="hide_show_label" id="label_filter_mpg_victim" for="checkbox_filter_mpg_victim">Filter - Victims ("MPG Project - Groups")</label>
-							<div class="hide_show_element block" id="element_filter_mpg_victim">
-									<p>Shows fliltered list of victims in MPG-project-datasets.
-									<br>Returns victims that match <strong>all</strong> given criteria
-									<br>If a combination of workgroups is selected, the result shows only datasets that contain data of all these workgroups.</p>
-									' .
-									($dbi->checkUserPermission('view') ? $MPGfilterForm->run() : 'In order to search MPG-project-victims, <a href="/z_login">please log in</a>.') .
-							'</div>
-					</div>
-					<div class="relative">
-							<input class="hide_show_checkbox"  id="checkbox_filter_victim" type="checkbox" checked="checked">
-							<label class="hide_show_label" id="label_filter_victim" for="checkbox_filter_victim">Filter - Victims</label>
-							<div class="hide_show_element block" id="element_filter_victim">
-									<p>Search in complete database.
-									<br>If more than one filter is applied, the search only returns results that match <strong>all</strong> selected criteria
-									<br><br></p>' .
-									($dbi->checkUserPermission('view') ? $victimsVariableForm->run() : 'In order to search victims, <a href="/z_login">please log in</a>.') .
-							'</div>
-					</div>'		)
-			//->set('sidebar','<h3>'.L_HELP.'</h3>'.$dbi->getTextblock_HTML ('search'))
-			->cast();
-	endif;
+			<br><br>
+			<h2>Filter</h2>
+			<div class="relative">
+					<input class="hide_show_checkbox"  id="checkbox_search_diagnoses" type="checkbox" checked="checked">
+					<label class="hide_show_label" id="label_search_diagnoses" for="checkbox_search_diagnoses">Filter - Diagnoses</label>
+					<div class="hide_show_element block" id="element_search_diagnoses">
+							<p>Returns victims with given keyword in: cause of death, hospitalisation diagnosis, brain report diagnosis</p>' .
+							($dbi->checkUserPermission('view') ? $diagnosesForm->run() : 'In order to search victims, <a href="/z_login">please log in</a>.') .
+					'</div>
+			</div>
+			<div class="relative">
+					<input class="hide_show_checkbox"  id="checkbox_filter_mpg_victim" type="checkbox" checked="checked">
+					<label class="hide_show_label" id="label_filter_mpg_victim" for="checkbox_filter_mpg_victim">Filter - Victims ("MPG Project - Groups")</label>
+					<div class="hide_show_element block" id="element_filter_mpg_victim">
+							<p>Shows fliltered list of victims in MPG-project-datasets.
+							<br>Returns victims that match <strong>all</strong> given criteria
+							<br>If a combination of workgroups is selected, the result shows only datasets that contain data of all these workgroups.</p>
+							' .
+							($dbi->checkUserPermission('view') ? $MPGfilterForm->run() : 'In order to search MPG-project-victims, <a href="/z_login">please log in</a>.') .
+					'</div>
+			</div>
+			<div class="relative">
+					<input class="hide_show_checkbox"  id="checkbox_filter_victim" type="checkbox" checked="checked">
+					<label class="hide_show_label" id="label_filter_victim" for="checkbox_filter_victim">Filter - Victims</label>
+					<div class="hide_show_element block" id="element_filter_victim">
+							<br>If more than one filter is applied, the search only returns results that match <strong>all</strong> selected criteria
+							<br><br></p>' .
+							($dbi->checkUserPermission('view') ? $victimsVariableForm->run() : 'In order to search victims, <a href="/z_login">please log in</a>.') .
+					'</div>
+			</div>
+			<div class="relative">
+					<input class="hide_show_checkbox"  id="checkbox_filter_perpetrator" type="checkbox" checked="checked">
+					<label class="hide_show_label" id="label_filter_perpetrator" for="checkbox_filter_perpetrator">Filter - Perpetrators</label>
+					<div class="hide_show_element block" id="element_filter_perpetrator">
+							<br>If more than one filter is applied, the search only returns results that match <strong>all</strong> selected criteria
+							<br><strong>keyword</strong>: returns all perpetrators where the search-text is part of the text in the respective column.
+							<br><br></p>' .
+							($dbi->checkUserPermission('view') ? $perpetratorsFilterForm->run() : 'In order to search perpetrators, <a href="/z_login">please log in</a>.') .
+					'</div>
+			</div>
+			'		)
+	//->set('sidebar','<h3>'.L_HELP.'</h3>'.$dbi->getTextblock_HTML ('search'))
+	->cast();
+
 
 ?>
