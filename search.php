@@ -118,10 +118,18 @@ $experimentsForm->addField ('surname', TEXT, 50)
 		->setClass ('keyboardInput')
 	->setLabel ('Surname Perpetrator');
 
+$experimentsForm->addField ('classification', SELECT)
+		->setLabel ('Classification')
+		->addOption (NO_VALUE, 'all classifications')
+		->addOptionsFromTable ('nmv__experiment_classification', 'ID_exp_classification', 'english');
+
 $experimentsForm->addField ('ID_institution', SELECT)
 		->setLabel ('Institution')
 		->addOption (NO_VALUE,'all institutions')
-		->addOptionsFromTable	 ( 'nmv__institution', 'ID_institution', 'institution_name');
+		->addOptionsFromTable	 ( 'nmv__institution', 'ID_institution', 'institution_name',
+															'EXISTS (	SELECT *
+																				FROM nmv__experiment
+																				WHERE nmv__institution.ID_institution = nmv__experiment.ID_institution)');
 
 $experimentsForm
 	->addButton (SUBMIT,L_SEARCH);
