@@ -100,7 +100,6 @@ foreach ($special_fields as $field) {
 foreach ($special_contain_fields as $field) {
 	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
 }
-if (isset($_GET['confirmation']) && $_GET['confirmation'] != '') $query[] = "confirmation={$_GET['confirmation']}";
 
 $dbi->setUserVar('querystring',implode('&',$query));
 
@@ -283,12 +282,6 @@ if (isset($_GET['nationality_after_1945']) && $_GET['nationality_after_1945']) {
 if (isset($_GET['compensation']) && $_GET['compensation']) {
 	$search_term = $dbi->connection->query('SELECT english FROM nmv__victim_evaluation_compensation WHERE ID_compensation = '.$_GET['compensation'])->fetch_row();
 	$suche_nach[] = 'compensation = '.$search_term[0];
-}
-if (isset($_GET['confirmation']) && $_GET['confirmation'] != '') {
-		if ($_GET['confirmation'] == 0): 			$suche_nach[] = 'confirmation status = confirmed victim';
-		elseif ($_GET['confirmation'] == 1): 	$suche_nach[] = 'confirmation status = not a victim';
-		elseif ($_GET['confirmation'] == 2): 	$suche_nach[] = 'confirmation status = pending';
-		endif;
 }
 
 
