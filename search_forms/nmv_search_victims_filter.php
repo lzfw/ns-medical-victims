@@ -11,6 +11,9 @@ $querystring_experiment = "  SELECT e.ID_experiment AS value, CONCAT(IFNULL(e.ex
                               FROM nmv__experiment e
                               LEFT JOIN nmv__institution i
                               ON e.ID_institution = i.ID_institution
+                              WHERE EXISTS (  SELECT *
+                                              FROM nmv__victim_experiment
+                                              WHERE e.ID_experiment = nmv__victim_experiment.ID_experiment)
                               ORDER BY title";
 
 // create form
@@ -23,7 +26,10 @@ $victimsVariableForm->addConnection(MYSQL_DB,$db_host,$db_user,$db_pass,$db_name
 $victimsVariableForm->addField('ID_birth_country', SELECT)
   ->setLabel ('country of birth')
   ->addOption (NO_VALUE,'all countries')
-  ->addOptionsFromTable('nmv__country', 'ID_country', 'english');
+  ->addOptionsFromTable('nmv__country', 'ID_country', 'english',
+                        'EXISTS (	SELECT *
+                                  FROM nmv__victim
+                                  WHERE nmv__country.ID_country = nmv__victim.ID_birth_country)');
 
 $victimsVariableForm->addField('birth_year', TEXT, 4)
   ->setLabel ('year of birth (yyyy)');
@@ -36,7 +42,10 @@ $victimsVariableForm->addField('br-birth', STATIC_TEXT, '<br>');
 $victimsVariableForm->addField('ID_death_country', SELECT)
   ->setLabel ('country of death')
   ->addOption (NO_VALUE,'all countries')
-  ->addOptionsFromTable('nmv__country', 'ID_country', 'english');
+  ->addOptionsFromTable('nmv__country', 'ID_country', 'english',
+                        'EXISTS (	SELECT *
+                                  FROM nmv__victim
+                                  WHERE nmv__country.ID_country = nmv__victim.ID_death_country)');
 
 $victimsVariableForm->addField('death_year', TEXT, 4)
   ->setLabel ('year of death (yyyy)');
@@ -51,34 +60,52 @@ $victimsVariableForm->addField('gender', SELECT)
 $victimsVariableForm->addField('religion', SELECT)
   ->setLabel ('religion')
   ->addOption (NO_VALUE,'all religions')
-  ->addOptionsFromTable('nmv__religion', 'ID_religion', 'english');
+  ->addOptionsFromTable('nmv__religion', 'ID_religion', 'english',
+                        'EXISTS (	SELECT *
+                                  FROM nmv__victim
+                                  WHERE nmv__religion.ID_religion = nmv__victim.religion)');
 
 $victimsVariableForm->addField('ethnic_group', SELECT)
   ->setLabel ('ethnic group')
   ->addOption (NO_VALUE,'all ethnic groups')
-  ->addOptionsFromTable('nmv__ethnicgroup', 'ID_ethnicgroup', 'english');
+  ->addOptionsFromTable('nmv__ethnicgroup', 'ID_ethnicgroup', 'english',
+                        'EXISTS (	SELECT *
+                                  FROM nmv__victim
+                                  WHERE nmv__ethnicgroup.ID_ethnicgroup = nmv__victim.ethnic_group)');
 
 $victimsVariableForm->addField('nationality_1938', SELECT)
   ->setLabel ('nationality in 1938')
   ->addOption (NO_VALUE,'all nationalities')
-  ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'english');
+  ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'english',
+                        'EXISTS (	SELECT *
+                                  FROM nmv__victim
+                                  WHERE nmv__nationality.ID_nationality = nmv__victim.nationality_1938)');
 
 $victimsVariableForm->addField('ID_education', SELECT)
   ->setLabel ('education')
   ->addOption (NO_VALUE,'all education status')
-  ->addOptionsFromTable('nmv__education', 'ID_education', 'english');
+  ->addOptionsFromTable('nmv__education', 'ID_education', 'english',
+                        'EXISTS (	SELECT *
+                                  FROM nmv__victim
+                                  WHERE nmv__education.ID_education = nmv__victim.ID_education)');
 
 $victimsVariableForm->addField('occupation', SELECT)
   ->setLabel ('occupation')
   ->addOption (NO_VALUE,'all occupations')
-  ->addOptionsFromTable('nmv__occupation', 'ID_occupation', 'english');
+  ->addOptionsFromTable('nmv__occupation', 'ID_occupation', 'english',
+                        'EXISTS (	SELECT *
+                                  FROM nmv__victim
+                                  WHERE nmv__occupation.ID_occupation = nmv__victim.occupation)');
 
 $victimsVariableForm->addField('ns-text', STATIC_TEXT, '<br><br>');
 
 $victimsVariableForm->addField('ID_arrest_country', SELECT)
   ->setLabel ('country of arrest')
   ->addOption (NO_VALUE,'all countries')
-  ->addOptionsFromTable('nmv__country', 'ID_country', 'english');
+  ->addOptionsFromTable('nmv__country', 'ID_country', 'english',
+                        'EXISTS (	SELECT *
+                                  FROM nmv__victim
+                                  WHERE nmv__country.ID_country = nmv__victim.ID_arrest_country)');
 
 // complete db d 1
 if (!($dbi->checkUserPermission('mpg'))) :
@@ -88,11 +115,13 @@ if (!($dbi->checkUserPermission('mpg'))) :
     ->addOptionsFromQuery ( "$querystring_experiment");
 endif;
 
-
 $victimsVariableForm->addField('ID_classification', SELECT)
   ->setLabel ('imprisonment classification')
   ->addOption (NO_VALUE,'all classifications')
-  ->addOptionsFromTable('nmv__victim_classification', 'ID_classification', 'english');
+  ->addOptionsFromTable('nmv__victim_classification', 'ID_classification', 'english',
+                        'EXISTS (	SELECT *
+                                  FROM nmv__imprisoniation
+                                  WHERE nmv__imprisoniation.ID_classification = nmv__victim_classification.ID_classification)');
 
 $victimsVariableForm->addField('location', SELECT)
   ->setLabel ('imprisonment location')
@@ -145,7 +174,10 @@ $victimsVariableForm->addField('brain_report_institution', SELECT)
 $victimsVariableForm->addField('brain_report_ID_diagnosis', SELECT)
   ->setLabel ('brain report - diagnosis')
   ->addOption (NO_VALUE,'all diagnoses')
-  ->addOptionsFromTable('nmv__diagnosis', 'ID_diagnosis', "CONCAT(IFNULL(english, 'no entry'),' - ',IFNULL(type, 'no entry'))");
+  ->addOptionsFromTable('nmv__diagnosis', 'ID_diagnosis', "CONCAT(IFNULL(english, 'no entry'),' - ',IFNULL(type, 'no entry'))",
+                        'EXISTS (	SELECT *
+                                  FROM nmv__med_history_brain
+                                  WHERE nmv__med_history_brain.ID_diagnosis = nmv__diagnosis.ID_diagnosis)');
 
 $victimsVariableForm->addField('brain_report_diagnosis', TEXT, 120)
 ->setLabel ('brain report - diagnosis (not standardized yet)');
@@ -161,7 +193,10 @@ $victimsVariableForm->addField('hospitalisation_year', TEXT, 4)
 $victimsVariableForm->addField('hospitalisation_ID_diagnosis', SELECT)
   ->setLabel ('hospitalisation - diagnosis')
   ->addOption (NO_VALUE,'all diagnoses')
-  ->addOptionsFromTable('nmv__diagnosis', 'ID_diagnosis', "CONCAT(IFNULL(english, 'no entry'),' - ',IFNULL(type, 'no entry'))");
+  ->addOptionsFromTable('nmv__diagnosis', 'ID_diagnosis', "CONCAT(IFNULL(english, 'no entry'),' - ',IFNULL(type, 'no entry'))",
+                        'EXISTS (	SELECT *
+                                  FROM nmv__med_history_hosp
+                                  WHERE nmv__med_history_hosp.ID_diagnosis = nmv__diagnosis.ID_diagnosis)');
 
 $victimsVariableForm->addField('hospitalisation_diagnosis', TEXT, 120)
 ->setLabel ('hospitalisation - diagnosis (not standardized yet)');
@@ -179,7 +214,10 @@ if (!($dbi->checkUserPermission('mpg'))) :
   $victimsVariableForm->addField('nationality_after_1945', SELECT)
     ->setLabel ('after 1945 - nationality')
     ->addOption (NO_VALUE,'all nationalities')
-    ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'english');
+    ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'english',
+                          'EXISTS (	SELECT *
+                                    FROM nmv__victim
+                                    WHERE nmv__nationality.ID_nationality = nmv__victim.nationality_after_1945)');
 endif;
 
 
