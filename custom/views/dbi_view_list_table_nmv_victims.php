@@ -16,7 +16,7 @@ class View_List_Table_NMV_Victims extends View_List {
 
 	public function get_HTML ($results) {
 	    global $dbi;
-		$this->addSortOption ('Name','surname','ASC, first_names ASC','DESC, first_names DESC');
+		$this->addSortOption ('Name','surname','ASC','DESC');
 		$this->addSortOption ('ID','ID_victim','ASC','DESC');
 		$this->addSortOption ('Born','birth_year','ASC','DESC');
 		$this->addSortOption ('Birth Country','birth_country','ASC','DESC');
