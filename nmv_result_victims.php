@@ -22,7 +22,7 @@ if (implode('',$_GET) == '') {
 // url parameters
 $dbi->setUserVar ('view',getUrlParameter('view'),'default');
 // browsing options
-$dbi->setUserVar ('sort',getUrlParameter('sort'),'id');
+$dbi->setUserVar ('sort',getUrlParameter('sort'),'ID_victim');
 $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 
