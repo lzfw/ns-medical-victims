@@ -131,10 +131,10 @@ $form->addField ('details_all_memberships',TEXTAREA)
 $form->addField ('career_after_1945',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Career after 1945');
-$form->addField ('prosecution',TEXT,50)
+$form->addField ('prosecution',TEXT,255)
     ->setClass ('keyboardInput')
     ->setLabel ('Prosecution');
-$form->addField ('prison_time',TEXT,50)
+$form->addField ('prison_time',TEXT,255)
     ->setLabel ('Prison Time');
 $form->addField ('notes',TEXTAREA)
     ->setClass ('keyboardInput')
