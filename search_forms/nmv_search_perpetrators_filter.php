@@ -37,6 +37,7 @@ $perpetratorsFilterForm->addField('gender', SELECT)
 $perpetratorsFilterForm->addField('religion', SELECT)
   ->setLabel ('Religion')
   ->addOption (NO_VALUE,'all religions')
+//  ->addOption ('NULL', 'no entry')
   ->addOptionsFromTable('nmv__religion', 'ID_religion', 'english', 'EXISTS (SELECT * FROM nmv__perpetrator
               WHERE nmv__religion.ID_religion = nmv__perpetrator.religion)');
 

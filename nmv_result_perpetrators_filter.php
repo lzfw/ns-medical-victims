@@ -104,9 +104,13 @@ $replace_chars = array('', ' ', ' ', '%', '%');
 // WHERE Strings zusammenbauen
 
 foreach ($exact_fields as $field) {
-    if (getUrlParameter($field)) {
+    if (getUrlParameter($field)) :
+			if (getUrlParameter($field) == 'NULL') :
+				$querystring_where[] = "p.$field IS NULL";
+			else:
         $querystring_where[] = "p.$field = '".getUrlParameter($field)."'";
-    }
+			endif;
+    endif;
 }
 foreach ($like_fields as $field) {
     if (getUrlParameter($field)) {
