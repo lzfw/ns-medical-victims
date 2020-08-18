@@ -95,8 +95,8 @@ if ($literature_id) {
             $querystring = "
             SELECT vl.ID_vict_lit ID_vict_lit,
                 CONCAT(v.ID_victim, ': ', v.first_names, ' ', v.surname) victim_name,
-                v.birth_country birth_country, v.birth_place birth_place,
-                CONCAT_WS('-', v.birth_year, v.birth_month, v.birth_day) birth_date,
+                v.birth_place birth_place,
+                CONCAT_WS('.', v.birth_day, v.birth_month, v.birth_year) birth_date,
                 vl.pages pages, vl.ID_victim
             FROM nmv__victim_literature vl
             LEFT JOIN nmv__literature l ON l.ID_literature = vl.ID_literature
@@ -109,8 +109,8 @@ if ($literature_id) {
             $querystring = "
             SELECT vl.ID_vict_lit ID_vict_lit,
                 CONCAT(v.ID_victim, ': ', v.first_names, ' ', v.surname) victim_name,
-                v.birth_country birth_country, v.birth_place birth_place,
-                CONCAT_WS('-', v.birth_year, v.birth_month, v.birth_day) birth_date,
+                v.birth_place birth_place,
+                CONCAT_WS('.', v.birth_day, v.birth_month, v.birth_year) birth_date,
                 vl.pages pages, vl.ID_victim
             FROM nmv__victim_literature vl
             LEFT JOIN nmv__literature l ON l.ID_literature = vl.ID_literature
@@ -121,8 +121,8 @@ if ($literature_id) {
           }
 
         $options = '';
-        $row_template = ['{victim_name}', '{birth_country}', '{birth_place}', '{birth_date}', '{pages}'];
-        $header_template = ['Victim', 'Country of birth', 'Birth Place', 'Birth Date', 'Pages'];
+        $row_template = ['{victim_name}', '{birth_place}', '{birth_date}', '{pages}'];
+        $header_template = ['Victim', 'Birth Place', 'Birth Date', 'Pages'];
 
         $options .= createSmallButton('view Victim','nmv_view_victim?ID_victim={ID_victim}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {

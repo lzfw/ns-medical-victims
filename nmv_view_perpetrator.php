@@ -13,7 +13,7 @@ $dbi->addBreadcrumb ('Perpetrators','nmv_list_perpetrators');
 $querystring = '
     SELECT first_names, surname, titles,
            CONCAT_WS(\'-\', birth_year, birth_month, birth_day) birth,
-           birth_place, birth_country, death_place, death_country,
+           birth_place, bc.english as birth_country, death_place, dc.english as death_country,
            CONCAT_WS(\'-\', death_year, death_month, death_day) death,
            gender, r.english as religion,
            n.english as nationality, c.english as classification, occupation,
@@ -27,6 +27,8 @@ $querystring = '
     LEFT JOIN nmv__religion r ON (r.ID_religion = p.religion)
     LEFT JOIN nmv__nationality n ON (n.ID_nationality = p.nationality_1938)
     LEFT JOIN nmv__perpetrator_classification c ON (c.ID_perp_class = p.ID_perp_class)
+    LEFT JOIN nmv__country bc ON (bc.ID_country = p.ID_birth_country)
+    LEFT JOIN nmv__country dc ON (dc.ID_country = p.ID_death_country)
     WHERE ID_perpetrator = ?';
 
 $result = null;

@@ -36,15 +36,16 @@ $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 // zu durchsuchende felder und suchsystematik definieren:
 
 // felder, die immer exakt gematcht werden (Trunkierung nicht möglich, Diakritika distinkt, Basiszeichen distinkt)
-$exact_fields = array (	'birth_year',			'death_year',					'gender',
-												'religion', 			'nationality_1938',
-												'ID_perp_class',	'nsdap_member', 			'ss_member',
-												'sa_member', 			'other_nsdap_organisations_member'
+$exact_fields = array (	'birth_year',				'death_year',					'gender',
+												'religion', 				'nationality_1938',
+												'ID_perp_class',		'nsdap_member', 			'ss_member',
+												'sa_member', 				'other_nsdap_organisations_member',
+												'ID_birth_country', 'ID_death_country'
 											);
 
 // felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
 // --> If no diacritics are applied, it finds covers any combination: η would also return ἠ, ἦ or ἥ, while ἠ would find only ἠ.
-$like_fields = array ( 'birth_country',		'death_country'		);
+$like_fields = array ();
 
 //felder, die mit LIKE %xy% gematcht werden
 $contain_fields = array(	'career_history',					'details_all_memberships',	'prosecution',
@@ -92,7 +93,7 @@ foreach ($special_contain_fields as $field) {
 $dbi->setUserVar('querystring',implode('&',$query));
 
 // make select-clauses part one
-$querystring_items = '	SELECT p.ID_perpetrator, p.surname, p.first_names, p.birth_year, p.birth_country
+$querystring_items = '	SELECT p.ID_perpetrator, p.surname, p.first_names, p.birth_year, p.birth_country, p.birth_place
 												FROM nmv__perpetrator p'; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
 
@@ -172,10 +173,14 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 
 // output of search expressions
 $suche_nach = array();
-if (isset($_GET['birth_country']) && $_GET['birth_country']) $suche_nach[] = 'country of birth = '.$_GET['birth_country'];
-if (isset($_GET['birth_year']) && $_GET['birth_year']) $suche_nach[] = 'year of birth = '.$_GET['birth_year'];
-if (isset($_GET['death_country']) && $_GET['death_country']) $suche_nach[] = 'country of death = '.$_GET['death_country'];
-if (isset($_GET['death_year']) && $_GET['death_year']) $suche_nach[] = 'year of death = '.$_GET['death_year'];
+if (isset($_GET['ID_birth_country']) && $_GET['ID_birth_country']) {
+	$search_term = $dbi->connection->query('SELECT english FROM nmv__country WHERE ID_country = '.$_GET['ID_birth_country'])->fetch_row();
+	$suche_nach[] = 'country of birth = '.$search_term[0];
+}if (isset($_GET['birth_year']) && $_GET['birth_year']) $suche_nach[] = 'year of birth = '.$_GET['birth_year'];
+if (isset($_GET['ID_death_country']) && $_GET['ID_death_country'])  {
+	$search_term = $dbi->connection->query('SELECT english FROM nmv__country WHERE ID_country = '.$_GET['ID_death_country'])->fetch_row();
+	$suche_nach[] = 'country of death = '.$search_term[0];
+}if (isset($_GET['death_year']) && $_GET['death_year']) $suche_nach[] = 'year of death = '.$_GET['death_year'];
 if (isset($_GET['gender']) && $_GET['gender']) $suche_nach[] = 'gender = '.$_GET['gender'];
 if (isset($_GET['religion']) && $_GET['religion']) {
 	$search_term = $dbi->connection->query('SELECT english FROM nmv__religion WHERE ID_religion = '.$_GET['religion'])->fetch_row();

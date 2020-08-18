@@ -20,7 +20,7 @@ class View_List_Table_NMV_Victims extends View_List {
 		$this->addSortOption ('Surname','surname','ASC','DESC');
 		$this->addSortOption ('First Name','first_names','ASC','DESC');
 		$this->addSortOption ('Born','birth_year','ASC','DESC');
-		$this->addSortOption ('Birth Country','birth_country','ASC','DESC');
+		$this->addSortOption ('Birth Place','birth_place','ASC','DESC');
 		$html = '';
 		$html .= $this->getBrowseOptions_HTML ();
 		$html .= $this->getSortOptions_HTML ();
@@ -37,7 +37,7 @@ class View_List_Table_NMV_Victims extends View_List {
 
 		if ($results->num_rows>0) {
 		    $html .= '<table class="grid">';
-		    $html .= '<th>Main Name</th><th>ID</th><th>Born</th><th>Birth Country</th><th>Options</th>';
+		    $html .= '<th>Main Name</th><th>ID</th><th>Born</th><th>Birth Place</th><th>Options</th>';
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
 			        <td><a href="nmv_view_victim?ID_victim=' . $item->ID_victim . '">'
@@ -45,7 +45,7 @@ class View_List_Table_NMV_Victims extends View_List {
 							 . ' ' . htmlentities($item->first_names, ENT_HTML5) . '</a></td>
 			        <td><a href="nmv_view_victim?ID_victim=' . $item->ID_victim . '">' . $item->ID_victim . '</a></td>
 							<td>' . htmlentities($item->birth_year, ENT_HTML5) . '</td>
-							<td>' . htmlentities($item->birth_country, ENT_HTML5) . '</td>
+							<td>' . htmlentities($item->birth_place, ENT_HTML5) . '</td>
 			        <td>' . str_replace('{ID_victim}', $item->ID_victim, $options) . '</td>
 			    </tr>';
 			}

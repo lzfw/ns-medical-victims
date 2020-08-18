@@ -38,8 +38,10 @@ $form->addField ('birth_day',TEXT,2)
 $form->addField ('birth_place',TEXT,200)
     ->setClass ('keyboardInput')
     ->setLabel ('Birth Place');
-$form->addField ('birth_country',TEXT,50)
-    ->setLabel ('Birth Country');
+$form->addField ('ID_birth_country', SELECT)
+		->setLabel ('Birth Country')
+		->addOption (NO_VALUE, 'please choose')
+		->addOptionsFromTable ('nmv__country', 'ID_country', 'english');
 $form->addField ('death_year',TEXT,4)
     ->setLabel ('Death YMD')
     ->addCondition(VALUE,MIN,0)
@@ -55,8 +57,10 @@ $form->addField ('death_day',TEXT,2)
 $form->addField ('death_place',TEXT,200)
     ->setClass ('keyboardInput')
     ->setLabel ('Death Place');
-$form->addField ('death_country',TEXT,50)
-    ->setLabel ('Death Country');
+$form->addField ('ID_death_country', SELECT)
+		->setLabel ('Death Country')
+		->addOption (NO_VALUE, 'please choose')
+		->addOptionsFromTable ('nmv__country', 'ID_country', 'english');
 $form->addField ('gender',SELECT)
     ->setLabel ('Gender')
     ->addOption (NO_VALUE,'please choose')

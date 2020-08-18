@@ -120,8 +120,8 @@ if ($experiment_id) {
         // query: get victims data
         $querystring = "
         SELECT pe.ID_perp_exp ID_perp_exp, CONCAT(p.first_names, ' ', p.surname) perpetrator_name,
-            p.birth_country birth_country, p.birth_place birth_place,
-            CONCAT_WS('-', p.birth_year, p.birth_month, p.birth_day) birth_date,
+            p.birth_place birth_place,
+            CONCAT_WS('.', p.birth_day, p.birth_month, p.birth_year) birth_date,
             pe.ID_perpetrator ID_perpetrator
         FROM nmv__perpetrator_experiment pe
         LEFT JOIN nmv__experiment e ON e.ID_experiment = pe.ID_experiment
@@ -132,8 +132,8 @@ if ($experiment_id) {
         LIMIT 300";
 
         $options = '';
-        $row_template = ['{perpetrator_name}', '{birth_country}', '{birth_place}', '{birth_date}'];
-        $header_template = ['Perpetrator', 'Country of Birth', 'Birth Place', 'Birth Date'];
+        $row_template = ['{perpetrator_name}', '{birth_place}', '{birth_date}'];
+        $header_template = ['Perpetrator', 'Birth Place', 'Birth Date'];
 
         $options .= createSmallButton('View Perpetrator','nmv_view_perpetrator?ID_perpetrator={ID_perpetrator}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {

@@ -129,8 +129,8 @@ if ($experiment_id) {
         $querystring = "
         SELECT ve.ID_vict_exp ID_vict_exp,
             v.first_names victim_first_names, v.surname victim_surname,
-            v.birth_country birth_country, v.birth_place birth_place,
-            CONCAT_WS('-', v.birth_year, v.birth_month, v.birth_day) birth_date,
+            v.birth_place birth_place,
+            CONCAT_WS('.', v.birth_day, v.birth_month, v.birth_year) birth_date,
             ve.ID_victim ID_victim
         FROM nmv__victim_experiment ve
         LEFT JOIN nmv__experiment e ON e.ID_experiment = ve.ID_experiment
@@ -141,8 +141,8 @@ if ($experiment_id) {
         LIMIT 600";
 
         $options = '';
-        $row_template = ['{victim_surname}', '{victim_first_names}', '{birth_country}', '{birth_place}', '{birth_date}'];
-        $header_template = ['Surname', 'First Names', 'Country of Birth', 'Birth Place', 'Birth Date'];
+        $row_template = ['{victim_surname}', '{victim_first_names}', '{birth_place}', '{birth_date}'];
+        $header_template = ['Surname', 'First Names', 'Birth Place', 'Birth Date'];
 
         $options .= createSmallButton('View Details','nmv_view_victim_experiment?ID_vict_exp={ID_vict_exp}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {

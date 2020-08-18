@@ -95,8 +95,8 @@ if ($source_id) {
           $querystring = "
             SELECT vs.ID_vict_source ID_vict_source,
                 CONCAT(v.ID_victim, ': ', v.first_names, ' ', v.surname) victim_name,
-                v.birth_country birth_country, v.birth_place birth_place,
-                CONCAT_WS('-', v.birth_year, v.birth_month, v.birth_day) birth_date,
+                v.birth_place birth_place,
+                CONCAT_WS('.', v.birth_day, v.birth_month, v.birth_year) birth_date,
                 vs.location location, vs.ID_victim ID_victim
             FROM nmv__victim_source vs
             LEFT JOIN nmv__source s ON s.ID_source = vs.ID_source
@@ -109,8 +109,8 @@ if ($source_id) {
           $querystring = "
             SELECT vs.ID_vict_source ID_vict_source,
                 CONCAT(v.ID_victim, ': ', v.first_names, ' ', v.surname) victim_name,
-                v.birth_country birth_country, v.birth_place birth_place,
-                CONCAT_WS('-', v.birth_year, v.birth_month, v.birth_day) birth_date,
+                v.birth_place birth_place,
+                CONCAT_WS('.', v.birth_day, v.birth_month, v.birth_year) birth_date,
                 vs.location location, vs.ID_victim ID_victim
             FROM nmv__victim_source vs
             LEFT JOIN nmv__source s ON s.ID_source = vs.ID_source
@@ -121,8 +121,8 @@ if ($source_id) {
         endif;
 
         $options = '';
-        $row_template = ['{victim_name}', '{birth_country}', '{birth_place}', '{birth_date}', '{location}'];
-        $header_template = ['Victim', 'Country of Birth', 'Birth Place', 'Birth Date', 'Location'];
+        $row_template = ['{victim_name}', '{birth_place}', '{birth_date}', '{location}'];
+        $header_template = ['Victim', 'Birth Place', 'Birth Date', 'Location'];
 
         $options .= createSmallButton('view Victim','nmv_view_victim?ID_victim={ID_victim}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {

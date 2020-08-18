@@ -63,7 +63,7 @@ foreach ($ticked_fields as $field) {
 $dbi->setUserVar('querystring',implode('&',$query));
 
 // make select-clauses
-$querystring_items = 'SELECT DISTINCT v.ID_victim, v.surname, v.first_names, v.birth_year, v.birth_country
+$querystring_items = 'SELECT DISTINCT v.ID_victim, v.surname, v.first_names, v.birth_year, v.birth_country, v.birth_place
 											FROM nmv__victim v
 											LEFT JOIN nmv__med_history_brain b 	ON v.ID_victim = b.ID_victim
 											LEFT JOIN nmv__med_history_tissue t ON v.ID_victim = t.ID_victim

@@ -104,7 +104,7 @@ foreach ($special_contain_fields as $field) {
 $dbi->setUserVar('querystring',implode('&',$query));
 
 // make select-clauses part one
-$querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names, v.birth_year, v.birth_country
+$querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names, v.birth_year, v.birth_country, v.birth_place
 												FROM nmv__victim v
 												LEFT JOIN nmv__victim_experiment ve
 												ON v.ID_victim = ve.ID_victim

@@ -93,8 +93,8 @@ if ($literature_id) {
         $querystring = "
         SELECT pl.ID_perp_lit ID_perp_lit,
             CONCAT(p.ID_perpetrator, ': ', p.first_names, ' ', p.surname) perpetrator_name,
-            p.birth_country birth_country, p.birth_place birth_place,
-            CONCAT_WS('-', p.birth_year, p.birth_month, p.birth_day) birth_date,
+            p.birth_place birth_place,
+            CONCAT_WS('.', p.birth_day, p.birth_month, p.birth_year) birth_date,
             pl.pages pages, pl.ID_perpetrator
         FROM nmv__perpetrator_literature pl
         LEFT JOIN nmv__literature l ON l.ID_literature = pl.ID_literature
@@ -104,8 +104,8 @@ if ($literature_id) {
         LIMIT 300";
 
         $options = '';
-        $row_template = ['{perpetrator_name}', '{birth_country}', '{birth_place}', '{birth_date}', '{pages}'];
-        $header_template = ['Perpetrator', 'Country of Birth', 'Birth Place', 'Birth Date', 'Pages'];
+        $row_template = ['{perpetrator_name}', '{birth_place}', '{birth_date}', '{pages}'];
+        $header_template = ['Perpetrator', 'Birth Place', 'Birth Date', 'Pages'];
 
         $options .= createSmallButton('View Perpetrator','nmv_view_perpetrator?ID_perpetrator={ID_perpetrator}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {

@@ -13,19 +13,29 @@ $perpetratorsFilterForm = new Form ('search_perpetrators_filter','nmv_result_per
 $perpetratorsFilterForm->addConnection(MYSQL_DB,$db_host,$db_user,$db_pass,$db_name);
 
 // add form-fields
-$perpetratorsFilterForm->addField('birth_country', TEXT, 50)
-  ->setLabel ('Country of birth');
+$perpetratorsFilterForm->addField('ID_birth_country', SELECT)
+  ->setLabel ('Country of Birth')
+  ->addOption (NO_VALUE,'all countries')
+  ->addOptionsFromTable('nmv__country', 'ID_country', 'english',
+                        'EXISTS (	SELECT *
+                                  FROM nmv__perpetrator
+                                  WHERE nmv__country.ID_country = nmv__perpetrator.ID_birth_country)');
 
 $perpetratorsFilterForm->addField('birth_year', TEXT, 4)
-  ->setLabel ('Year of birth (yyyy)');
+  ->setLabel ('Year of Birth (yyyy)');
 
 $perpetratorsFilterForm->addField('br-birth', STATIC_TEXT, '<br>');
 
-$perpetratorsFilterForm->addField('death_country', TEXT, 50)
-  ->setLabel ('Country of death');
+$perpetratorsFilterForm->addField('ID_death_country', SELECT)
+  ->setLabel ('Country of Death')
+  ->addOption (NO_VALUE,'all countries')
+  ->addOptionsFromTable('nmv__country', 'ID_country', 'english',
+                        'EXISTS (	SELECT *
+                                  FROM nmv__perpetrator
+                                  WHERE nmv__country.ID_country = nmv__perpetrator.ID_death_country)');
 
 $perpetratorsFilterForm->addField('death_year', TEXT, 4)
-  ->setLabel ('Year of death (yyyy)');
+  ->setLabel ('Year of Death (yyyy)');
 
 $perpetratorsFilterForm->addField('br-death', STATIC_TEXT, '<br>');
 

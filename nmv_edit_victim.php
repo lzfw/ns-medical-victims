@@ -44,9 +44,10 @@ $form->addField ('twin',CHECKBOX,-1)
 $form->addField ('birth_place',TEXT,250)
     ->setClass ('keyboardInput')
     ->setLabel ('Birth Place');
-$form->addField ('birth_country',TEXT,50)
-    ->setClass ('keyboardInput')
-    ->setLabel ('Birth Country');
+$form->addField ('ID_birth_country', SELECT)
+		->setLabel ('Birth Country')
+		->addOption (NO_VALUE, 'please choose')
+		->addOptionsFromTable ('nmv__country', 'ID_country', 'english');
 $form->addField ('death_year',TEXT,4)
     ->setLabel ('Death YYYYMD')
     ->addCondition(VALUE,MIN,0)
@@ -62,9 +63,10 @@ $form->addField ('death_day',TEXT,2)
 $form->addField ('death_place',TEXT,250)
     ->setClass ('keyboardInput')
     ->setLabel ('Death Place');
-$form->addField ('death_country',TEXT,50)
-    ->setClass ('keyboardInput')
-    ->setLabel ('Death Country');
+$form->addField ('ID_death_country', SELECT)
+		->setLabel ('Death Country')
+		->addOption (NO_VALUE, 'please choose')
+		->addOptionsFromTable ('nmv__country', 'ID_country', 'english');
 $form->addField ('cause_of_death',TEXT,255)
     ->setLabel ('Cause of Death');
 $form->addField ('gender',SELECT)

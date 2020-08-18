@@ -60,7 +60,7 @@ foreach ($double_fields as $field) {
 $dbi->setUserVar('querystring',implode('&',$query));
 
 // make select-clauses part one
-$querystring_items = 'SELECT v.ID_victim, v.surname, v.first_names, v.birth_year, v.birth_country FROM nmv__victim v'; // für Ergebnisliste
+$querystring_items = 'SELECT v.ID_victim, v.surname, v.first_names, v.birth_year, v.birth_country, v.birth_place FROM nmv__victim v'; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
 
 // MySQL-Zeichenfilter definieren (Trunkierungszeichen werden zu MySQL-Zeichen)
@@ -106,7 +106,7 @@ if (count($querystring_where) > 0) {
 // append select-clauses part two for other names
 $querystring_items .= ' UNION ';
 
-$querystring_items .= '	SELECT v.ID_victim, v.surname, v.first_names, v.birth_year, v.birth_country
+$querystring_items .= '	SELECT v.ID_victim, v.surname, v.first_names, v.birth_year, v.birth_country, v.birth_place
 												FROM nmv__victim_name o
 												INNER JOIN nmv__victim v
 												ON o.ID_victim = v.ID_victim';

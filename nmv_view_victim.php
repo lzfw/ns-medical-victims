@@ -13,7 +13,7 @@ $dbi->addBreadcrumb ('Victims','nmv_list_victims');
 $querystring = '
     SELECT first_names, surname,
            CONCAT_WS(\'-\', birth_year, birth_month, birth_day) birth, twin,
-           birth_place, death_place, birth_country, death_country,
+           birth_place, death_place, bc.english as birth_country, dc.english as death_country,
            CONCAT_WS(\'-\', death_year, death_month, death_day) death,
            cause_of_death, gender, m.english as marital_family_status,
            ed.english as education, r.english as religion,
@@ -31,6 +31,8 @@ $querystring = '
     LEFT JOIN nmv__nationality n45 ON (n45.ID_nationality = v.nationality_after_1945)
     LEFT JOIN nmv__ethnicgroup e ON (e.ID_ethnicgroup = v.ethnic_group)
     LEFT JOIN nmv__occupation p ON (p.ID_occupation = v.occupation)
+    LEFT JOIN nmv__country bc ON (bc.ID_country = v.ID_birth_country)
+    LEFT JOIN nmv__country dc ON (dc.ID_country = v.ID_death_country)
     WHERE ID_victim = ?';
 
 $result = null;
