@@ -108,7 +108,7 @@ if (count($querystring_where) > 0) {
 
 // append select-clauses part two for other names
 $querystring_items .= ' UNION ';
-$querystring_items .= '	SELECT v.ID_victim, v.surname, v.first_names, v.birth_year, v.birth_country, v.birth_country
+$querystring_items .= '	SELECT v.ID_victim, v.surname, v.first_names, v.birth_year, v.birth_country, v.birth_place
 												FROM nmv__victim_name o
 												INNER JOIN nmv__victim v
 												ON o.ID_victim = v.ID_victim';
