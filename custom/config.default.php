@@ -32,13 +32,13 @@ define ('Z_USER_ARRAY',			'user');
 
 
 // SERVER/DATABASE CONFIGURATION ===============================================
-
+//OBACHT
 switch ($_SERVER['SERVER_NAME']) {
 	case 'localhost': {
-		$db_host = 'host';
-		$db_user = 'user';
-		$db_pass = 'pass';
-		$db_name = 'name';
+		$db_host = 'localhost';
+		$db_user = 'salina';
+		$db_pass = 'PeDv9eh5J&56Qw';
+		$db_name = 'zefiro';
 		break;
 	}
 	default: {
@@ -46,6 +46,21 @@ switch ($_SERVER['SERVER_NAME']) {
 		die;
 	}
 }
+
+// switch ($_SERVER['SERVER_NAME']) {
+// 	case 'localhost': {
+// 		$db_host = 'host';
+// 		$db_user = 'user';
+// 		$db_pass = 'pass';
+// 		$db_name = 'name';
+// 		break;
+// 	}
+// 	default: {
+// 		echo 'Sorry. The server name is not enlisted in the DBI configuration: '.$_SERVER['SERVER_NAME'];
+// 		die;
+// 	}
+// }
+
 
 // DATABASE INTERFACE ==========================================================
 
