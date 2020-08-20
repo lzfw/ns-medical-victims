@@ -26,12 +26,17 @@ if ($victim_id) {
 
         // query: get hosp data
         $querystring = "
-        SELECT h.ID_med_history_hosp id, LEFT(concat(IFNULL(LEFT(i.institution_name, 60), '#'),' - ',IFNULL(LEFT(i.location,40), '#'),' - ',IFNULL(i.country, '#')),100) institution,
-            CONCAT_WS('-', h.date_entry_year, h.date_entry_month, h.date_entry_day) date
+        SELECT  h.ID_med_history_hosp id, i.ID_institution id_institution,
+                LEFT(concat(
+                  IFNULL(LEFT(i.institution_name, 60), '#'),' - ',
+                  IFNULL(LEFT(i.location,40), '#'),' - ',
+                  IFNULL(i.country, '#')),100) institution,
+                h.institution other_institution,
+                CONCAT_WS('.', h.date_entry_day, h.date_entry_month, h.date_entry_year) date
         FROM nmv__med_history_hosp h
         LEFT JOIN nmv__institution i ON i.ID_institution = h.ID_institution
         WHERE ID_victim = $victim_id
-        ORDER BY date
+        ORDER BY h.date_entry_year, h.date_entry_month, h.date_entry_day
         LIMIT 300";
         $query = $dbi->connection->query($querystring);
 
@@ -41,7 +46,11 @@ if ($victim_id) {
         $content .= '</tr>';
         while ($entry = $query->fetch_object()) {
         	$content .= '<tr>';
-        	$content .= '<td><a href="nmv_view_med_hist_hosp?ID_med_history_hosp='.$entry->id.'">'.htmlspecialchars($entry->institution,ENT_HTML5).'</a></td>';
+          if ($entry->id_institution == 117) :
+        	   $content .= '<td><a href="nmv_view_med_hist_hosp?ID_med_history_hosp='.$entry->id.'"> Other - '.htmlspecialchars($entry->other_institution,ENT_HTML5).'</a></td>';
+          else :
+            $content .= '<td><a href="nmv_view_med_hist_hosp?ID_med_history_hosp='.$entry->id.'">'.htmlspecialchars($entry->institution,ENT_HTML5).'</a></td>';
+          endif;
         	$content .= "<td>$entry->date</td>";
         	$content .= "<td>$entry->id</td>";
         	$content .= '<td class="nowrap">';
@@ -66,11 +75,11 @@ if ($victim_id) {
         // query: get brain research data
         $querystring = "
         SELECT h.ID_med_history_brain id, LEFT(concat(IFNULL(LEFT(i.institution_name, 60), '#'),' - ',IFNULL(LEFT(i.location,40), '#'),' - ',IFNULL(i.country, '#')),100) institution,
-            CONCAT_WS('-', h.brain_report_year, h.brain_report_month, h.brain_report_day) date
+            CONCAT_WS('.', h.brain_report_day, h.brain_report_month, h.brain_report_year) date
         FROM nmv__med_history_brain h
         LEFT JOIN nmv__institution i ON i.ID_institution = h.ID_institution
         WHERE ID_victim = $victim_id
-        ORDER BY date
+        ORDER BY h.brain_report_year, h.brain_report_month, h.brain_report_day
         LIMIT 300";
         $query = $dbi->connection->query($querystring);
 
@@ -106,18 +115,18 @@ if ($victim_id) {
         $querystring = "
         SELECT h.ID_med_history_tissue id, f.english tissue_form,
             s.english tissue_state, location, h.ref_no ref_no,
-            CONCAT_WS('-', h.since_year, h.since_month, h.since_day) date
+            CONCAT_WS('.', h.since_day, h.since_month, h.since_year) date
         FROM nmv__med_history_tissue h
         LEFT JOIN nmv__tissue_form f ON f.ID_tissue_form = h.ID_tissue_form
         LEFT JOIN nmv__tissue_state s ON s.ID_tissue_state = h.ID_tissue_state
         WHERE ID_victim = $victim_id
-        ORDER BY ref_no, date
+        ORDER BY ref_no, h.since_year, h.since_month, h.since_day
         LIMIT 300";
         $query = $dbi->connection->query($querystring);
 
         $content .= '<h3>Brain Tissues</h3>';
         $content .= '<table class="grid">';
-        $content .= '<tr><th>Ref No.</th><th>Date (Y-M-D)</th><th>Tissue Form</th><th>Tissue State</th><th>Location</th><th>ID</th><th>Options</th>';
+        $content .= '<tr><th>Ref No.</th><th>Date</th><th>Tissue Form</th><th>Tissue State</th><th>Location</th><th>ID</th><th>Options</th>';
 
         $content .= '</tr>';
         while ($entry = $query->fetch_object()) {
