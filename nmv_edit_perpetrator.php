@@ -135,7 +135,7 @@ $form->addField ('details_all_memberships',TEXTAREA)
 $form->addField ('career_after_1945',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Career after 1945');
-$form->addField ('prosecution',TEXT,255)
+$form->addField ('prosecution',TEXT,500)
     ->setClass ('keyboardInput')
     ->setLabel ('Prosecution');
 $form->addField ('prison_time',TEXT,255)
