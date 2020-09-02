@@ -32,7 +32,8 @@ $perpetratorsFilterForm->addField('ID_death_country', SELECT)
   ->addOptionsFromTable('nmv__country', 'ID_country', 'english',
                         'EXISTS (	SELECT *
                                   FROM nmv__perpetrator
-                                  WHERE nmv__country.ID_country = nmv__perpetrator.ID_death_country)');
+                                  WHERE nmv__country.ID_country = nmv__perpetrator.ID_death_country)')
+  ->addOption ('NULL', 'NULL');
 
 $perpetratorsFilterForm->addField('death_year', TEXT, 4)
   ->setLabel ('Year of Death (yyyy)');
