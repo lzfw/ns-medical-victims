@@ -34,10 +34,10 @@ $exact_fields = array ('ID_victim', 'ID_dataset_origin');
 
 // felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
 // --> If no diacritics are applied, it finds covers any combination: η would also return ἠ, ἦ or ἥ, while ἠ would find only ἠ.
-$like_fields = array ('surname');
+$like_fields = array ();
 
 //felder, die mit LIKE %xy% gematcht werden
-$contain_fields = array('first_names');
+$contain_fields = array ();
 
 // felder, die mit like ODER exakt gematcht werden (Trunkierung möglich, Diakritika indistinkt)
 // --> Arabic vowel signs are treated indistinctively: سبب would also return سَبَبٌ, and vice versa.
@@ -45,6 +45,10 @@ $double_fields = array ();
 
 // fields that trigger special conditions when ticked
 $ticked_fields = array ();
+
+// fields with individual WHERE-clauses
+$diy_fields = array ('surname', 'first_names');
+
 
 // reconstruct GET-String (for scroll-function)
 $query = array();
@@ -63,10 +67,19 @@ foreach ($double_fields as $field) {
 foreach ($ticked_fields as $field) {
 	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
 }
+foreach ($diy_fields as $field) {
+	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
+}
 $dbi->setUserVar('querystring',implode('&',$query));
 
 // make select-clauses part one
-$querystring_items = 'SELECT v.ID_victim, v.surname, v.first_names, v.birth_year, v.birth_country, v.birth_place FROM nmv__victim v'; // für Ergebnisliste
+$querystring_items = 'SELECT DISTINCT v.ID_victim, v.surname, v.first_names, v.birth_year, v.birth_country, v.birth_place
+											FROM nmv__victim v
+											LEFT JOIN nmv__victim_name o
+											ON v.ID_victim = o.ID_victim
+											LEFT JOIN nmv__victim_name o1
+											ON o.ID_victim = o1.ID_victim
+											'; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
 
 
@@ -101,39 +114,25 @@ foreach ($double_fields as $field) {
 		$querystring_where[] = "(v.$field LIKE '".$filtered_field."' OR v.$field = '".getUrlParameter($field)."')";
     }
 }
+//diy-WHERE-clauses for including Other Names in search
+foreach ($diy_fields as $field) {
+	if (getUrlParameter($field)) {
+		if ($field == 'surname') {
+			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
+			$querystring_where[] = "(TRIM(v.$field) LIKE '%".$filtered_field."%' OR TRIM(o.victim_name) LIKE '%".$filtered_field."%' OR TRIM(o1.victim_name) LIKE '%".$filtered_field."%')";
+		}
+		if ($field == 'first_names') {
+			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
+			$querystring_where[] = "(TRIM(v.$field) LIKE '%".$filtered_field."%' OR TRIM(o.victim_first_names) LIKE '%".$filtered_field."%' OR TRIM(o1.victim_first_names) LIKE '%".$filtered_field."%')";
+		}
+	}
+}
+
+
 if (count($querystring_where) > 0) {
     $querystring_items .= ' WHERE '.implode(' AND ',$querystring_where);
 }
 
-
-// append select-clauses part two for other names
-$querystring_items .= ' UNION ';
-$querystring_items .= '	SELECT v.ID_victim, v.surname, v.first_names, v.birth_year, v.birth_country, v.birth_place
-												FROM nmv__victim_name o
-												INNER JOIN nmv__victim v
-												ON o.ID_victim = v.ID_victim';
-$querystring_other_where = array(); // für Filter
-
-
-$querystring_other_where[] = "v.mpg_project = -1";
-
-foreach ($exact_fields as $field) {
-    if (getUrlParameter($field)) {
-        $querystring_other_where[] = "v.$field = '".getUrlParameter($field)."'";
-    }
-}
-if (getUrlParameter($like_fields[0])) {
-  $filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($like_fields[0]));
-  $querystring_other_where[] = "TRIM(o.victim_name) LIKE TRIM('".$filtered_field."')";
-}
-
-if (getUrlParameter($contain_fields[0])) {
-  $filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($contain_fields[0]));
-  $querystring_other_where[] = "TRIM(o.victim_first_names) LIKE '%".$filtered_field."%'";
-}
-if (count($querystring_other_where) > 0) {
-    $querystring_items .= ' WHERE '.implode(' AND ',$querystring_other_where);
-}
 
 // Gesamtanzahl der Suchergebnisse feststellen
 $querystring_count = "SELECT COUNT(*) AS total FROM ($querystring_items) AS xyz";
