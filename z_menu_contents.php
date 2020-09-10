@@ -28,9 +28,10 @@ $layout
 			  . createListItem('Sources','nmv_list_sources','')
 			: NULL
 		).
-		'<br><li><strong>Reference Tables:</strong></li>'.
 		($dbi->checkUserPermission('admin')
-			?   createListItem('Behaviour','nmv_list_behaviour','')
+			?
+				'<br><li><strong>Reference Tables:</strong></li>'
+				.	createListItem('Behaviour','nmv_list_behaviour','')
 				. createListItem('Classification (Imprisonment)','nmv_list_victim_classification','')
 				. createListItem('Classification (Experiment)','nmv_list_experiment_classification','')
 				. createListItem('Classification (Perpetrator)','nmv_list_perpetrator_classification','')
