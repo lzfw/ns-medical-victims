@@ -1,6 +1,6 @@
 <?php
 /**
-*creates search form
+*creates search page
 *
 *
 *

@@ -24,6 +24,7 @@ define('L_COMMENT',						'Comment');
 define('L_FORMAT',						'Format');
 
 define('L_SEARCH',						'Search');
+define('L_STATISTICS',         'Statistics');
 define('L_QUICK_SEARCH',				'Quick Search');
 define('L_ADVANCED_SEARCH',				'Advanced Search');
 define('L_MODIFY_SEARCH',				'Modify Search');

@@ -53,6 +53,7 @@
 .icon.print,			.icons.print > *,			.icons > .print				{ background-image:url(../images/fugue-icons_zefiro/printer.png); }
 .icon.search,			.icons.search > *,			.icons > .search			{ background-image:url(../images/fugue-icons_zefiro/question-balloon.png); }
 .icon.contact,			.icons.contact > *,			.icons > .contact			{ background-image:url(../images/fugue-icons_zefiro/mail.png); }
+.icon.statistics,			.icons.statistics > *,			.icons > .statistics			{ background-image:url(../images/statistics.png); }
 
 /* bookmark management */
 .icon.bookmarks,		.icons.bookmarks > *,		.icons > .bookmarks			{ background-image:url(../images/fugue-icons_zefiro/clipboard-list.png); }
