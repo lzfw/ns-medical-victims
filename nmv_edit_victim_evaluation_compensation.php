@@ -29,6 +29,6 @@ $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 $dbi->addBreadcrumb ('Compensation','nmv_list_victim_evaluation_compensation');
 
 $layout
-	->set('title',getUrlParameter('ID_compensation') ? 'Edit compensationr' : 'New compensation')
+	->set('title',getUrlParameter('ID_compensation') ? 'Edit compensation' : 'New compensation')
 	->set('content',$form->run().'<div class="message">'.$form->success_message.'</div>'.$form->debuglog->Show())
 	->cast();
