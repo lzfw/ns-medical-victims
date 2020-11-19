@@ -74,7 +74,7 @@ $form->addField ('nationality_1938',SELECT)
     ->setLabel ('Nationality (1938)')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__nationality', 'ID_nationality', 'english');
-$form->addField ('occupation',TEXT,50)
+$form->addField ('occupation',TEXT,500)
     ->setLabel ('Occupation');
 $form->addField ('ID_perp_class',SELECT)
     ->setLabel ('Classification')
