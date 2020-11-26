@@ -59,7 +59,8 @@ function formatMembership($is_member, $since) {
 }
 
 if ($perpetrator = $result->fetch_object()) {
-    $perpetrator_name = $perpetrator->first_names.' '.$perpetrator->surname.' ('.$perpetrator->titles.')';
+    $perpetrator_name = $perpetrator->first_names.' '.$perpetrator->surname;
+    $perpetrator_title = $perpetrator->titles;
     $perpetrator_birth = $perpetrator->birth.
         ($perpetrator->birth_place ? ' in '.$perpetrator->birth_place : '').
         ($perpetrator->birth_country ? ' ('.$perpetrator->birth_country . ')' : '');
@@ -76,6 +77,7 @@ if ($perpetrator = $result->fetch_object()) {
     $content = buildElement('table','grid',
         buildDataSheetRow('Perpetrator ID',         $perpetrator_id).
         buildDataSheetRow('Name',                   $perpetrator_name).
+        buildDataSheetRow('Title(s)',               $perpetrator_title).
         buildDataSheetRow('Gender',                 $perpetrator->gender).
         buildDataSheetRow('Birth (d/m/y)',          $perpetrator_birth).
         buildDataSheetRow('Death (d/m/y)',          $perpetrator_death).
