@@ -17,7 +17,7 @@ $dbi->requireUserPermission ('view');
 $layout
 	->set('title','Statistics')
 	->set('content', '
-					<p>The statitics are based on the current state of the database.
+					<p>The statistics are based on the current state of the database.
 						<br>To open the different statistics, please use the navigation on the right sidebar.</p>
 				');
 require_once 'statistics_navigation.php';

@@ -34,7 +34,7 @@ $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 														        LEFT JOIN nmv__ethnicgroup e ON v.ethnic_group = e.ID_ethnicgroup
 														        WHERE v.mpg_project = -1
 														        GROUP BY v.ethnic_group) B
-														      ON A.ethnicgroup = B.ethnicgroup';
+														      ON A.ethnicgroup = B.ethnicgroup OR (A.ethnicgroup IS NULL AND B.ethnicgroup IS NULL)';
     $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 
     //execute Query

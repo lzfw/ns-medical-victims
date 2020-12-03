@@ -32,7 +32,7 @@ $querystring_items = 'SELECT A.gender as gender, A.number as anumber, B.number a
 														FROM nmv__victim v
 														WHERE mpg_project = -1
 														GROUP BY v.gender) B
-													ON A.gender = B.gender';
+													ON A.gender = B.gender OR (A.gender IS NULL AND B.gender IS NULL)';
 $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 
 

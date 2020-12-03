@@ -30,7 +30,11 @@ $querystring_items = '	SELECT A.birth_year as birth_year, A.gender as gender, A.
 																FROM nmv__victim v
 												        WHERE v.mpg_project = -1
 														GROUP BY v.birth_year, v.gender) B
-												      ON A.birth_year = B.birth_year AND A.gender = B.gender';
+												      ON (A.birth_year = B.birth_year AND A.gender = B.gender)
+															OR ((A.gender IS NULL AND B.gender IS NULL) AND (A.birth_year IS NULL AND B.birth_year IS NULL))
+															OR ((A.gender = B.gender) AND (A.birth_year IS NULL AND B.birth_year IS NULL))
+															OR ((A.gender IS NULL AND B.gender IS NULL) AND (A.birth_year = B.birth_year))
+															';
 $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 
 // execute query

@@ -32,7 +32,10 @@ $querystring_items = '	SELECT A.ethnicgroup as ethnicgroup, A.gender as gender, 
 												        LEFT JOIN nmv__ethnicgroup e on e.ID_ethnicgroup = v.ethnic_group
 												        WHERE v.mpg_project = -1
 												        GROUP BY e.english, v.gender) B
-												      ON A.ethnicgroup = B.ethnicgroup AND A.gender = B.gender';
+												      ON A.ethnicgroup = B.ethnicgroup AND A.gender = B.gender
+															OR ((A.gender IS NULL AND B.gender IS NULL) AND (A.ethnicgroup IS NULL AND B.ethnicgroup IS NULL))
+															OR ((A.gender = B.gender) AND (A.ethnicgroup IS NULL AND B.ethnicgroup IS NULL))
+															OR ((A.gender IS NULL AND B.gender IS NULL) AND (A.ethnicgroup = B.ethnicgroup))';
 $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 
 // execute query
