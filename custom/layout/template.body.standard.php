@@ -64,7 +64,7 @@
 			</div> <!-- #content -->
 			<div id="sidebar" class="right">
 				<?php $this->cast('sidebar') ?>
-			</div> <!-- #sidebar .right -->
+			</div> <!-- #sidebar .right --> 
 		</div> <!-- #body -->
 		<div class="bar">
 			<div class="left">

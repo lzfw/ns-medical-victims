@@ -83,6 +83,12 @@ class DBI {
 		}
 	}
 
+	public function denyUserPermission ($permission_name) {
+		if ($this->checkUserPermission ($permission_name)) {
+			header('Location: z_permission');
+		}
+	}
+
 	// USER DATA -----------------------------------------------------------------
 
 	public function setUserVar() {
