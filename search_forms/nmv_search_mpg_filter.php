@@ -24,6 +24,12 @@ $MPGfilterForm->addField ('psychiatric_patient', CHECKBOX, -1)
 $MPGfilterForm->addField ('beddies_database', CHECKBOX, -1)
 	->setLabel ('Beddies Database');
 
+$MPGfilterForm->addField ('rothemund_list', CHECKBOX, -1)
+	->setLabel ('Rothemund List');
+
+$MPGfilterForm->addField ('schlote_list', CHECKBOX, -1)
+	->setLabel ('Schlote List');
+
 $MPGfilterForm->addField ('m_series', CHECKBOX, -1)
 	->setLabel ('M-Series');
 
@@ -37,10 +43,6 @@ $MPGfilterForm->addField ('ID_institution',SELECT)
 				OR EXISTS (SELECT * FROM nmv__med_history_hosp
 				WHERE nmv__institution.ID_institution = nmv__med_history_hosp.ID_institution)');
 
-// $MPGgroupForm->addField ('ID_institution',SELECT)
-// 	    ->setLabel ('Institution')
-// 	    ->addOption (NO_VALUE,'all institutions')
-// 	    ->addOptionsFromTableOrderedById ( 'nmv__institution', 'ID_institution', 'institution_name', 'ID_institution IN (39, 51, 54, 56, 67, 68, 70, 84, 94, 97, 105, 106, 113, 114, 115, 117, 118, 119, 120, 122, 123, 124, 125, 126, 127)');
 
 $MPGfilterForm->addField ('ID_dataset_origin',SELECT)
 	    ->setLabel ('MPG Project Data from')
