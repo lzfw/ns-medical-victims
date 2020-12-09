@@ -28,20 +28,19 @@ $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 																FROM nmv__victim v
 																INNER JOIN nmv__imprisoniation i
 															      ON v.ID_victim = i.ID_victim
-																INNER JOIN nmv__victim_classification c
+																LEFT JOIN nmv__victim_classification c
 															      ON i.ID_classification = c.ID_classification
-																WHERE c.english IS NOT NULL
 																GROUP BY c.english) A
 														  LEFT JOIN
 															    (SELECT c.english as classification, COUNT(v.ID_victim) as number
 																FROM nmv__victim v
 																INNER JOIN nmv__imprisoniation i
 															      ON v.ID_victim = i.ID_victim
-																INNER JOIN nmv__victim_classification c
+																LEFT JOIN nmv__victim_classification c
 															      ON i.ID_classification = c.ID_classification
-																WHERE c.english IS NOT NULL AND v.mpg_project = -1
+																WHERE v.mpg_project = -1
 																GROUP BY c.english) B
-														  ON A.classification = B.classification';
+														  ON A.classification = B.classification OR (A.classification IS NULL AND B.classification IS NULL)';
     $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 
     //execute Query
