@@ -38,7 +38,7 @@ $querystring_items = 'SELECT A.religion as religion, A.number as anumber, B.numb
 											  		WHERE v.mpg_project = -1
 											  		GROUP BY v.religion
 											    	) B
-														ON A.religion = B.religion
+														ON A.religion = B.religion OR (A.religion IS NULL AND B.religion IS NULL)
 											';
 $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 

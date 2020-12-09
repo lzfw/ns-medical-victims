@@ -30,8 +30,9 @@ class View_List_Statistics_Religion_Table extends View_List {
 		    $html .= '<table class="grid">';
 		    $html .= '<th>Religion</th><th>all victims</th><th>mpg only</th>';
 			while ($item = $results->fetch_object()) {
+					$name = $item->religion == '' ? 'No Entry' : htmlentities($item->religion, ENT_HTML5);
 			    $html .= '<tr>
-			        <td>' . htmlentities($item->religion, ENT_HTML5) . '</td>
+			        <td>' . $name  . '</td>
 			        <td>' . htmlentities($item->anumber, ENT_HTML5) . '</td>
 			        <td>' . htmlentities($item->bnumber, ENT_HTML5) . '</td>
 			    </tr>';
