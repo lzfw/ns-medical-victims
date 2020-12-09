@@ -27,7 +27,7 @@ class View_List_Statistics_classification_Table extends View_List {
 
 		if ($results->num_rows>0) {
 		    $html .= '<table class="grid">';
-		    $html .= '<th>Classification</th><th>all victims</th><th>mpg only</th>';
+		    $html .= '<th>Classification</th><th>all imprisonments</th><th>mpg only</th>';
 			while ($item = $results->fetch_object()) {
 					$name = $item->classification == '' ? 'No Entry' : htmlentities($item->classification, ENT_HTML5);
 			    $html .= '<tr>
