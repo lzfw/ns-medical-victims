@@ -24,14 +24,14 @@ $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 $querystring_items = 'SELECT A.startyear as startyear, A.number as anumber, B.number as bnumber
                       FROM 	(SELECT ve.exp_start_year as startyear, COUNT(v.ID_victim) as number
                       		  FROM nmv__victim v
-                      		  LEFT JOIN nmv__victim_experiment ve ON v.ID_victim = ve.ID_victim
+                      		  INNER JOIN nmv__victim_experiment ve ON v.ID_victim = ve.ID_victim
                             GROUP BY ve.exp_start_year) A
 
                            LEFT JOIN
 
                            	(SELECT ve.exp_start_year as startyear, COUNT(v.ID_victim) as number
                       		  FROM nmv__victim v
-                      		  LEFT JOIN nmv__victim_experiment ve ON v.ID_victim = ve.ID_victim
+                      		  INNER JOIN nmv__victim_experiment ve ON v.ID_victim = ve.ID_victim
                             WHERE v.mpg_project = -1
                             GROUP BY ve.exp_start_year) B
 
@@ -45,7 +45,12 @@ $layout
 	->set('title','Statistic - Experiment (Startyear)');
 $layout
 	->set('content',
-          '<br>'
+          '<p><br>
+						Numbers of research victims by year the research started.
+						<br> <strong>One person can be victim of different experiments with different startyears.
+						<br> Not all victims are assigned to an experiment.</strong>
+						<br> The total number in this table therefore does not correspond to the number of victims in the database.
+					</p>'
 					// Tabelle bauen
 					.$dbi->getListView('statistics_experiment_startyear_table',$query_items)
           .'<br><br>'
