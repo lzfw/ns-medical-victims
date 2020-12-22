@@ -1,0 +1,69 @@
+<?php
+/**
+*creates statistics for gender / nationality
+*
+*
+*
+*/
+
+
+require_once 'zefiro/ini.php';
+require_once 'flotilla/ini.php';
+
+$dbi->requireUserPermission ('view');
+//complete db
+$dbi->denyUserPermission ('mpg');
+
+// url parameters
+$dbi->setUserVar ('view',getUrlParameter('view'),'default');
+// browsing options
+$dbi->setUserVar ('sort',getUrlParameter('sort'),'survival');
+$dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
+
+//Query gender / nationality
+$querystring_items = 'SELECT s.english as survival, A.number as anumber, B.number as bnumber
+                      FROM
+                        (SELECT COUNT(v.ID_victim) as number, t.survivalID as survival
+                        FROM nmv__victim v
+                        LEFT JOIN (
+                            SELECT ve.ID_victim, MAX(ve.ID_survival) AS survivalID
+                        	  FROM nmv__victim_experiment ve
+                        	  GROUP BY ve.ID_victim) as t
+                        ON v.ID_victim = t.ID_victim
+                        GROUP BY t.survivalID) A
+
+                      LEFT JOIN
+
+                        (SELECT COUNT(v.ID_victim) as number, t.survivalID as survival
+                        FROM nmv__victim v
+                        LEFT JOIN (
+                            SELECT ve.ID_victim, MAX(ve.ID_survival) AS survivalID
+                        	  FROM nmv__victim_experiment ve
+                        	  GROUP BY ve.ID_victim) as t
+                        ON v.ID_victim = t.ID_victim
+                        WHERE v.mpg_project = -1
+                        GROUP BY t.survivalID) B
+
+                      ON A.survival = B.survival OR (A.survival IS NULL AND B.survival IS NULL)
+                      LEFT JOIN nmv__survival s ON s.ID_survival = A.survival
+                      ';
+$querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
+
+// execute query
+$query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
+
+$layout
+	->set('title','Statistic - Survival');
+$layout
+	->set('content',
+          '<br>'
+					// Tabelle bauen
+					.$dbi->getListView('statistics_survival_table',$query_items)
+          .'<br><br>'
+          .createButton('Back','javascript:history.back()')
+          .createButton('Forward', 'javascript:history.forward()')
+        );
+require_once 'statistics_navigation.php'; // navigation to different statistics
+$layout->cast();
+
+?>

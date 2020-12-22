@@ -17,7 +17,7 @@ $dbi->denyUserPermission ('mpg');
 // url parameters
 $dbi->setUserVar ('view',getUrlParameter('view'),'default');
 // browsing options
-$dbi->setUserVar ('sort',getUrlParameter('sort'),'nationality');
+$dbi->setUserVar ('sort',getUrlParameter('sort'),'nationality, gender');
 $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 
 //Query gender / nationality
