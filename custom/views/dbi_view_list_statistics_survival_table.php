@@ -31,7 +31,13 @@ class View_List_Statistics_Survival_Table extends View_List {
 				$asum = 0;
 				$bsum = 0;
 			while ($item = $results->fetch_object()) {
-				$survival = $item->survival == '' ? 'NO ENTRY' : htmlentities($item->survival, ENT_HTML5);
+				if($item->survivalID == NULL):
+					$survival = 'NO ENTRY';
+				elseif ($item->survivalID == 3 OR $item->survivalID == 9):
+					$survival = 'INVALID ENTRY';
+				else:
+					$survival = htmlentities($item->survival, ENT_HTML5);
+				endif;
 				$html .= '<tr>
 							<td>' . $survival  . '</td>
 			    		<td>' . htmlentities($item->anumber, ENT_HTML5) . '</td>

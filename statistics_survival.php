@@ -21,7 +21,7 @@ $dbi->setUserVar ('sort',getUrlParameter('sort'),'survival');
 $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 
 //Query gender / nationality
-$querystring_items = 'SELECT s.english as survival, A.number as anumber, B.number as bnumber
+$querystring_items = 'SELECT s.english as survival, A.survival as survivalID, A.number as anumber, B.number as bnumber
                       FROM
                         (SELECT COUNT(v.ID_victim) as number, t.survivalID as survival
                         FROM nmv__victim v
@@ -56,7 +56,14 @@ $layout
 	->set('title','Statistic - Survival');
 $layout
 	->set('content',
-          '<br>'
+          '<br>
+          <p>Some persons where victim of more than one experiment. They can have different survival-values for every experiment.
+          <br>
+          In this table only one of these survival-values is used for every victim. <br>
+          (for example: a victim survived the first experiment, but not the second one -> only the survival-value of the second experiment is counted)
+          <br>
+          In ascending priority: "survived", "died in experiment (procedures)", "killed after experiment", "died later in camp", "died of injuries/aftermath", "body used after death", "killed for an experiment"
+          </p>'
 					// Tabelle bauen
 					.$dbi->getListView('statistics_survival_table',$query_items)
           .'<br><br>'
