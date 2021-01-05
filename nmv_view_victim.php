@@ -22,7 +22,7 @@ $querystring = '
            residence_after_1945_country, residence_after_1945_place,
            occupation_after_1945, n45.english nationality_after_1945,
            v.consequential_injuries, v.compensation, v.compensation_details,
-           v.notes_after_1945, v.mpg_project
+           v.notes_after_1945, v.mpg_project, v.arrest_prehistory, v.arrest_location, ac.english as arrest_country, v.arrest_history
     FROM nmv__victim v
     LEFT JOIN nmv__marital_family_status m ON (m.ID_marital_family_status = v.ID_marital_family_status )
     LEFT JOIN nmv__education ed ON (ed.ID_education = v.ID_education)
@@ -33,6 +33,7 @@ $querystring = '
     LEFT JOIN nmv__occupation p ON (p.ID_occupation = v.occupation)
     LEFT JOIN nmv__country bc ON (bc.ID_country = v.ID_birth_country)
     LEFT JOIN nmv__country dc ON (dc.ID_country = v.ID_death_country)
+    LEFT JOIN nmv__country ac ON (ac.ID_country = v.ID_arrest_country)
     WHERE ID_victim = ?';
 
 $result = null;
@@ -83,13 +84,20 @@ if ($victim = $result->fetch_object()) {
         buildDataSheetRow('Ethnic group',           $victim->ethnic_group).
         buildDataSheetRow('Occupation',
             $victim->occupation.
-            ($victim->occupation_details ?' ('.$victim->occupation_details.')':'')
-        ).
+            ($victim->occupation_details ?' ('.$victim->occupation_details.')':'')).
         buildDataSheetRow('Notes',$victim->notes)
-    );
+          );
+        //complete db
+        if(!($dbi->checkUserPermission('mpg'))):
+          $content .= '<br>'.buildElement('table','grid',
+          buildDataSheetRow('Arrest prehistory',      $victim->arrest_prehistory).
+          buildDataSheetRow('Arrest location',        $victim->arrest_location).
+          buildDataSheetRow('Arrest country',      $victim->arrest_country).
+          buildDataSheetRow('Arrest history',      $victim->arrest_history));
+        endif;
     //complete db d 1
     if (!($dbi->checkUserPermission('mpg'))) :
-      $content .= buildElement('h3', 'Life after 1945');
+      $content .= '<br>'.buildElement('h3', 'Life after 1945');
       $content .= buildElement('table','grid',
           buildDataSheetRow('Country and place',
               $victim->residence_after_1945_country . ' / ' .
@@ -103,7 +111,7 @@ if ($victim = $result->fetch_object()) {
       );
     endif;
 
-    $content .= buildElement('h3', 'Other Names');
+    $content .= '<br>'.buildElement('h3', 'Other Names');
     // query: get other names
     $querystring = "
     SELECT vn.ID_name ID_name,
@@ -143,7 +151,7 @@ if ($victim = $result->fetch_object()) {
     	$content .= '</div>';
     }
 
-    $content .= buildElement('h3', 'Victim Imprisonment');
+    $content .= '<br>'.buildElement('h3', 'Victim Imprisonment');
     // query: get prison numbers
     $querystring = "
     SELECT ID_imprisoniation, ID_victim, number, location,
@@ -182,7 +190,7 @@ if ($victim = $result->fetch_object()) {
     	$content .= '</div>';
     }
 
-    $content .= buildElement('h3', 'Evaluation');
+    $content .= '<br>'.buildElement('h3', 'Evaluation');
 
     //query: get evaluation data
     $querystring = '
@@ -234,10 +242,10 @@ if ($victim = $result->fetch_object()) {
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
             $content .= '<div class="buttons">';
         	if ($dbi->checkUserPermission('edit')) {
-        			$content .= createSmallButton(L_EDIT,'nmv_edit_victim_evaluation?ID_evaluation=' . $evaluation->ID_evaluation,'icon edit');
+        			$content .= createSmallButton('Edit evaluation','nmv_edit_victim_evaluation?ID_evaluation=' . $evaluation->ID_evaluation,'icon edit');
         	}
         	if ($dbi->checkUserPermission('admin')) {
-        			$content .= createSmallButton(L_DELETE,'nmv_remove_victim_evaluation?ID_evaluation=' . $evaluation->ID_evaluation,'icon delete');
+        			$content .= createSmallButton('Delete evaluation','nmv_remove_victim_evaluation?ID_evaluation=' . $evaluation->ID_evaluation,'icon delete');
         	}
         	$content .= '</div>';
         }

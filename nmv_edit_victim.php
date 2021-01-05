@@ -108,16 +108,17 @@ $form->addField ('notes',TEXTAREA)
 // Arrests group
 $form->addField ('arrest_prehistory',TEXTAREA)
     ->setClass ('keyboardInput')
-    ->setLabel ('Arrest prehistory');
+    ->setLabel ('Arrest Prehistory');
 $form->addField ('arrest_location',TEXT,255)
     ->setClass ('keyboardInput')
-    ->setLabel ('Arrest location');
-$form->addField ('arrest_country',TEXT,100)
-    ->setClass ('keyboardInput')
-    ->setLabel ('Arrest country');
+    ->setLabel ('Arrest Location');
+$form->addField ('ID_arrest_country', SELECT)
+		->setLabel ('Arrest Country')
+		->addOption (NO_VALUE, 'please choose')
+		->addOptionsFromTable ('nmv__country', 'ID_country', 'english');
 $form->addField ('arrest_history',TEXTAREA)
     ->setClass ('keyboardInput')
-    ->setLabel ('Arrest history');
+    ->setLabel ('Arrest History');
 
 
 //complete db d
