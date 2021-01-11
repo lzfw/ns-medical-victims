@@ -50,6 +50,18 @@ $form->addField ('number',TEXT,50)
 $form->addField ('location',TEXT,50)
     ->setClass ('keyboardInput')
     ->setLabel ('Location');
+$form->addField ('start_year',TEXT,4)
+    ->setLabel ('Start imprisonment YYYYMD')
+    ->addCondition(VALUE,MIN,0)
+    ->addCondition(VALUE,MAX,2950);
+$form->addField ('start_month',TEXT,2)
+    ->addCondition(VALUE,MIN,0)
+    ->addCondition(VALUE,MAX,12)
+    ->appendTo('start_year');
+$form->addField ('start_day',TEXT,2)
+    ->addCondition(VALUE,MIN,0)
+    ->addCondition(VALUE,MAX,31)
+    ->appendTo('start_year');
 
 $form
 	->addButton (SUBMIT)

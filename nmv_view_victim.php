@@ -155,7 +155,7 @@ if ($victim = $result->fetch_object()) {
     // query: get prison numbers
     $querystring = "
     SELECT ID_imprisoniation, ID_victim, number, location,
-        pc.english classification
+        pc.english classification, CONCAT(start_day, '.', start_month, '.', start_year) start_date
     FROM nmv__imprisoniation i
     LEFT JOIN nmv__victim_classification pc ON pc.ID_classification = i.ID_classification
     WHERE ID_victim = $victim_id
@@ -163,8 +163,8 @@ if ($victim = $result->fetch_object()) {
     LIMIT 300";
 
     $options = '';
-    $row_template = ['{number}', '{location}', '{classification}'];
-    $header_template = ['Number', 'Location', 'Classification'];
+    $row_template = ['{number}', '{location}', '{classification}', '{start_date}'];
+    $header_template = ['Number', 'Location', 'Classification', 'Date (DMY)'];
 
     if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
     	if ($dbi->checkUserPermission('edit')) {
