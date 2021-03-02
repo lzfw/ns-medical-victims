@@ -75,3 +75,5 @@ define('Z_LAST_SYMBOL',				'<span class="pointer" dir="ltr">&#x25ba;</span> ');
 define('Z_LIST_ROWS_MAX',			5000);
 define('Z_LIST_ROWS_PAGE',			20);
 define('Z_LIST_ROWS_SKIP',			200); // 0 = disabled
+define('Z_LIST_ROWS_PAGE',			50);
+define('Z_LIST_ROWS_SKIP',			Z_LIST_ROWS_PAGE * 10); // 0 = disabled
