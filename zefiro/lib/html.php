@@ -89,7 +89,11 @@ function buildRowsFromQuery($rowElementName, $cellElementName, $querystring, $ma
 				    function ($matches) use ($row) {
 				        return $row->{$matches[2]};
 				    }, $mask);
-				$html .= '<'.$cellElementName.'>'.$cellElementContent.'</'.$cellElementName.'>'.PHP_EOL;
+				if ($cellElementContent != NULL) :
+					$html .= '<'.$cellElementName.'>'.$cellElementContent.'</'.$cellElementName.'>'.PHP_EOL;
+				else :
+					$html .= '<'.$cellElementName.'> - </'.$cellElementName.'>'.PHP_EOL;
+				endif;
 			}
 			$html .= '</'.$rowElementName.'>'.PHP_EOL;
 		}

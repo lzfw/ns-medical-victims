@@ -403,6 +403,7 @@ class Form {
 		// end form
 		$output .= '</form>'.PHP_EOL;
 		//$output .= $this->debuglog->Show();
+		//Special characters select
 		$output .= '<details class="special-characters"><summary tabindex="0">List of special characters</summary><p>';
 		$output .= file_get_contents(__DIR__ . '/../config/special-characters.html');
 		$output .= '</p></details>';

@@ -16,6 +16,7 @@ $layout->set('sidebar', '
       <li><a href="statistics_gender_ethnicgroup.php">Gender - Ethnic Group</a></li>
       <li><a href="statistics_gender_nationality.php">Gender - Nationality</a></li>
       <li><a href="statistics_classification.php">Prisoner Classification</a></li>
+      <li><a href="statistics_experiment_victims.php">Victims of Experiment</a></li>
     </ul>
 ')
 ?>

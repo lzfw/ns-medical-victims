@@ -94,6 +94,11 @@ div.message {
 	text-align: center;
 }
 
+/* general custom classes */
+.nowrap{
+	white-space: nowrap;
+}
+
 /* show'n'hide-elements (css-checkbox-trick to show and hide elements)*/
 .hide_show_label{
 	font-weight: bold;
@@ -124,6 +129,40 @@ div.message {
 .hide_show_checkbox:checked ~ .hide_show_element{
 	display: none;
 }
+
+.toggle_label {
+	display: inline-block;
+	width: 8rem;
+	white-space: nowrap;
+}
+
+.toggle_box_0:not(:checked) ~ table .toggle_element_0 {	display: none; }
+.toggle_box_1:not(:checked) ~ table .toggle_element_1 {	display: none; }
+.toggle_box_2:not(:checked) ~ table .toggle_element_2 {	display: none; }
+.toggle_box_3:not(:checked) ~ table .toggle_element_3 {	display: none; }
+.toggle_box_4:not(:checked) ~ table .toggle_element_4 {	display: none; }
+.toggle_box_5:not(:checked) ~ table .toggle_element_5 {	display: none; }
+.toggle_box_6:not(:checked) ~ table .toggle_element_6 {	display: none; }
+.toggle_box_7:not(:checked) ~ table .toggle_element_7 {	display: none; }
+.toggle_box_8:not(:checked) ~ table .toggle_element_8 {	display: none; }
+.toggle_box_9:not(:checked) ~ table .toggle_element_9 {	display: none; }
+.toggle_box_10:not(:checked) ~ table .toggle_element_10 {	display: none; }
+.toggle_box_11:not(:checked) ~ table .toggle_element_11 {	display: none; }
+.toggle_box_12:not(:checked) ~ table .toggle_element_12 {	display: none; }
+.toggle_box_13:not(:checked) ~ table .toggle_element_13 {	display: none; }
+.toggle_box_14:not(:checked) ~ table .toggle_element_14 {	display: none; }
+.toggle_box_15:not(:checked) ~ table .toggle_element_15 {	display: none; }
+.toggle_box_16:not(:checked) ~ table .toggle_element_16 {	display: none; }
+.toggle_box_17:not(:checked) ~ table .toggle_element_17 {	display: none; }
+.toggle_box_18:not(:checked) ~ table .toggle_element_18 {	display: none; }
+.toggle_box_19:not(:checked) ~ table .toggle_element_19 {	display: none; }
+.toggle_box_20:not(:checked) ~ table .toggle_element_20 {	display: none; }
+
+.toggle_box{
+	vertical-align: bottom;
+  margin: 3px 2px 4px 1px;
+}
+
 
 
 /* special divisions */
@@ -168,7 +207,6 @@ div.message {
 }
 
 #sidebar {
-	min-height:37.7rem;
 	padding:1rem 1.25rem 1rem 1.25rem;
 	width:13rem;
 }
@@ -273,6 +311,7 @@ table.grid {
 table.grid th,table.grid td {
 	padding:2px 6px;
 	border:1px solid #ccc; /* bright gray */
+	background-color: #fff;
 }
 
 table.rows, table.columns {
@@ -420,7 +459,9 @@ span.button:hover,a.button:hover,span.smallbutton:hover,a.smallbutton:hover {
 
 span.button,span.smallbutton {
 	cursor:pointer;
+	white-space:nowrap;
 }
+
 
 /* TEXT --------------------------------------------------------------------- */
 
@@ -462,6 +503,7 @@ form label {
 	font-weight:bold;
 	font-size:.8rem;
 	line-height:1.25rem;
+	white-space: nowrap;
 }
 
 form input,form textarea {
@@ -580,4 +622,11 @@ kbd {
 	padding: 2px 4px;
 	white-space: nowrap;
 	margin: 1px;
+}
+
+@-moz-document url-prefix(){
+	.toggle_box{
+		scale: 80%;
+		vertical-align: sub;
+	}
 }

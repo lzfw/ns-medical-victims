@@ -1,9 +1,13 @@
 <?php
+/**
+ * creates a Buttons to sort a view table by a certain column
+ */
+
 
 class SortOption {
-	
+
 	// CONSTRUCTORS --------------------------------------------------------------
-	
+
 	protected function __construct ($title,$field_name,$default_order,$alternative_order) {
 		// addSortOption ( title , field_name , default_order , alternative_order )
 		$this->title = $title;
@@ -11,7 +15,7 @@ class SortOption {
 		$this->default_order = $default_order;
 		$this->alternative_order = $alternative_order;
 	}
-	
+
 	static public function create () {
 		// create ( creator )
 		$args = func_get_args();
@@ -19,9 +23,9 @@ class SortOption {
 			case 4: return new SortOption ($args[0],$args[1],$args[2],$args[3]);
 		}
 	}
-	
-	// OUTPUT --------------------------------------------------------------------	
-	
+
+	// OUTPUT --------------------------------------------------------------------
+
 	function getHTML ($dbi) {
 		$html = '';
 		if ($this->field_name == $dbi->getUserVar('sort') && $this->default_order == $dbi->getUserVar('order')) {

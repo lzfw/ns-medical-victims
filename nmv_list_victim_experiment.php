@@ -62,7 +62,7 @@ if ($victim_id) {
         $row_template = ['{title}', '{classification}', '{duration}', '{age}'];
         $header_template = ['Title', 'Classification', 'Duration', 'Age'];
 
-        $options .= createSmallButton('View Research','nmv_view_victim_experiment?ID_vict_exp={ID_vict_exp}','icon view');
+        $options .= createSmallButton('View Victim-Research','nmv_view_victim_experiment?ID_vict_exp={ID_vict_exp}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
         	if ($dbi->checkUserPermission('edit')) {
         			$options .= createSmallButton(L_EDIT,'nmv_edit_victim_experiment?ID_vict_exp={ID_vict_exp}','icon edit');
@@ -90,6 +90,10 @@ if ($victim_id) {
     }
 
     $content .= createBackLink ('View victim: '.$victim_name,'nmv_view_victim?ID_victim='.$victim_id);
+    $layout
+    	->set('title', $title)
+    	->set('content',$content)
+    	->cast();
 }
 
 
@@ -110,73 +114,72 @@ if ($experiment_id) {
         $experiment_name = $experiment->experiment_name;
         $title = 'Victims List: ' . $experiment_name;
 
+        //browsing options --> $_GET in url
+        $dbi->setUserVar('querystring', "ID_experiment=$experiment_id");
+        $dbi->setUserVar('sort',getUrlParameter('sort'),'surname');
+        $dbi->setUserVar('order',getUrlParameter('order'),'ASC');
+        $dbi->setUserVar('skip',getUrlParameter('skip'),0);
+
+
         $dbi->addBreadcrumb ($experiment_name,'nmv_view_experiment?ID_experiment='.$experiment_id);
 
-        //get number of victims
-        $querystring_count = "
-        SELECT COUNT(ve.ID_victim) AS total
-          FROM nmv__victim_experiment ve
-          LEFT JOIN nmv__experiment e ON e.ID_experiment = ve.ID_experiment
-          LEFT JOIN nmv__victim v ON v.ID_victim = ve.ID_victim
-          LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.classification
-          WHERE ve.ID_experiment = $experiment_id";
-        $query_count = $dbi->connection->query($querystring_count);
-        $total_results = $query_count->fetch_object();
-        $victim_count = $total_results->total;
+        // reconstruct GET-String (for scroll- and order- / sort- function)
 
 
         // query: get data of the victims of the experiment
-        $querystring = "
-        SELECT ve.ID_vict_exp ID_vict_exp,
-            v.first_names victim_first_names, v.surname victim_surname,
-            v.birth_place birth_place,
-            CONCAT_WS('.', v.birth_day, v.birth_month, v.birth_year) birth_date,
-            ve.ID_victim ID_victim
+        $querystring_items = "
+        SELECT
+            v.ID_victim, ve.ID_vict_exp, s.english AS survival, v.surname AS surname, v.first_names,
+            v.birth_place, v.birth_year, v.birth_month, v.birth_day, bc.english AS birth_country,
+            m.english AS marital_family_status, e.english AS education,
+            v.death_year, v.death_month, v.death_day, v.death_place, dc.english AS death_country,
+            v.cause_of_death, v.gender, r.english AS religion, n.english AS nationality_1938,
+            et.english AS ethnic_group, o.english AS occupation, v.occupation_details, v.twin,
+            v.arrest_location, ac.english AS arrest_country,
+            v.residence_after_1945_place, v.residence_after_1945_country, v.occupation_after_1945, na.english AS nationality_after_1945,
+            v.mpg_project, da.work_group  AS dataset_origin, es.english as evaluation_status
         FROM nmv__victim_experiment ve
-        LEFT JOIN nmv__experiment e ON e.ID_experiment = ve.ID_experiment
-        LEFT JOIN nmv__victim v ON v.ID_victim = ve.ID_victim
-        LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.classification
-        WHERE ve.ID_experiment = $experiment_id
-        ORDER BY exp_start_year, exp_start_month, exp_start_day, exp_end_year, exp_end_month, exp_end_day
-        LIMIT 600";
+        LEFT JOIN nmv__victim v                    ON v.ID_victim = ve.ID_victim
+        LEFT JOIN nmv__survival s                  ON s.ID_survival = ve.ID_survival
+        LEFT JOIN nmv__marital_family_status m     ON m.ID_marital_family_status = v.ID_marital_family_status
+      	LEFT JOIN nmv__education e                 ON e.ID_education = v.ID_education
+      	LEFT JOIN nmv__country bc                  ON bc.ID_country = v.ID_birth_country
+      	LEFT JOIN nmv__country dc                  ON dc.ID_country = v.ID_death_country
+      	LEFT JOIN nmv__country ac                  ON ac.ID_country = v.ID_arrest_country
+      	LEFT JOIN nmv__religion r                  ON r.ID_religion = v.religion
+      	LEFT JOIN nmv__nationality n               ON n.ID_nationality = v.nationality_1938
+      	LEFT JOIN nmv__nationality na              ON na.ID_nationality = v.nationality_after_1945
+      	LEFT JOIN nmv__ethnicgroup et              ON et.ID_ethnicgroup = v.ethnic_group
+      	LEFT JOIN nmv__occupation o                ON o.ID_occupation = v.occupation
+      	LEFT JOIN nmv__dataset_origin da           ON da.ID_dataset_origin = v.ID_dataset_origin
+      	LEFT JOIN nmv__evaluation ev               ON ev.ID_victim = v.ID_victim
+        LEFT JOIN nmv__victim_evaluation_status es ON es.ID_status = ev.evaluation_status
+        WHERE ve.ID_experiment = $experiment_id";
 
-        $options = '';
-        $row_template = ['{victim_surname}', '{victim_first_names}', '{birth_place}', '{birth_date}'];
-        $header_template = ['Surname', 'First Names', 'Birth Place', 'Birth Date'];
+        // Gesamtzahl der Suchergebnisse feststellen
+        $querystring_count = "SELECT COUNT(*) AS total FROM ($querystring_items) AS xyz";
+        $query_count = $dbi->connection->query($querystring_count);
+        $total_results = $query_count->fetch_object();
+        //$victim_count = $total_results->total;
+        $dbi->setUserVar('total_results',$total_results->total);
 
-        $options .= createSmallButton('View Details','nmv_view_victim_experiment?ID_vict_exp={ID_vict_exp}','icon view');
-        if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
-        	if ($dbi->checkUserPermission('edit')) {
-        			$options .= createSmallButton(L_EDIT,'nmv_edit_victim_experiment?ID_vict_exp={ID_vict_exp}','icon edit');
-        	}
-        	if ($dbi->checkUserPermission('admin')) {
-        			$options .= createSmallButton(L_DELETE,'nmv_remove_victim_experiment?ID_vict_exp={ID_vict_exp}','icon delete');
-        	}
-        }
-    	$row_template[] = $options;
-    	$header_template[] = L_OPTIONS;
+        // order-klausel
+        $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']} LIMIT ".($dbi->user['skip']).','.Z_LIST_ROWS_PAGE;
 
-        $content .= '<p>Number of victims: '.$victim_count.'</p>';
-        $content .= buildTableFromQuery(
-            $querystring,
-            $row_template,
-            $header_template,
-            'grid');
+        // query ausführen
+        $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 
-        // Disabled for now - needs support by nmv_edit_victim_experiment
-        /*
-        if ($dbi->checkUserPermission('edit')) {
-        	$content .= '<div class="buttons">';
-        	$content .= createButton ('New Biomedical Research Entry',
-        	    'nmv_edit_victim_experiment?ID_experiment='.$experiment_id,'icon add');
-        	$content .= '</div>';
-        }*/
+        //layout
+        $layout
+        	//->set('title','Victims')
+        	->set('content',
+        	    $dbi->getListView('table_nmv_victims_exp',$query_items)
+              . createBackLink ('View Biomedical Research: '.$experiment_name,'nmv_view_experiment?ID_experiment='.$experiment_id)
+
+        	)
+        	->cast();
+
+
+
     }
-
-    $content .= createBackLink ('View Biomedical Research: '.$experiment_name,'nmv_view_experiment?ID_experiment='.$experiment_id);
 }
-
-$layout
-	->set('title', $title)
-	->set('content',$content)
-	->cast();

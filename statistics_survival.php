@@ -49,6 +49,22 @@ $querystring_items = 'SELECT s.english as survival, A.survival as survivalID, A.
                       ';
 $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 
+//TODO additional query, in case every survival-entry shall be displayed
+// SELECT A.survival as survival, A.ID_survival as survivalID, A.number as anumber, B.number as bnumber
+// FROM (SELECT COUNT(v.ID_victim) AS number, s.english as survival, ve.ID_survival
+//     FROM nmv__victim v
+//     LEFT JOIN nmv__victim_experiment ve ON v.ID_victim = ve.ID_victim
+//     LEFT JOIN nmv__survival s ON s.ID_survival = ve.ID_survival
+//     GROUP BY ve.ID_survival) A
+//   LEFT JOIN
+//   	(SELECT COUNT(v.ID_victim) AS number, s.english as survival, ve.ID_survival
+//     FROM nmv__victim v
+//     LEFT JOIN nmv__victim_experiment ve ON v.ID_victim = ve.ID_victim
+//     LEFT JOIN nmv__survival s ON s.ID_survival = ve.ID_survival
+//     WHERE v.mpg_project = -1
+//     GROUP BY ve.ID_survival) B
+//   ON A.ID_survival = B.ID_survival
+
 // execute query
 $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 

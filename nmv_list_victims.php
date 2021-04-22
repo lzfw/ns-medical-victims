@@ -10,6 +10,7 @@ $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 
 $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 
+//TODO -> überflüsssig?
 $options = '';
 if ($dbi->checkUserPermission('edit')) {
 		$options .= createSmallButton(L_EDIT,'nmv_edit_victim?ID_victim={ID_victim}','icon edit');
@@ -21,8 +22,22 @@ $options .= createSmallButton("medical history",'nmv_list_med_hist?ID_victim={ID
 
 // Select-Klauseln erstellen
 $querystring_count = 'SELECT COUNT(v.ID_victim) AS total FROM nmv__victim v'; // für Treffer gesamt
-$querystring_items = 'SELECT `ID_victim`, `surname`, `first_names`, `birth_place` FROM nmv__victim'; // für Ergebnisliste
-$querystring_where = array(); // für Filter
+$querystring_items = '
+	SELECT v.ID_victim, v.surname, v.first_names, v.birth_place, v.birth_year, v.birth_month, v.birth_day, m.english AS marital_family_status, e.english AS education, bc.english AS birth_country, v.death_year, v.death_month, v.death_day, v.death_place, dc.english AS death_country, v.cause_of_death, v.gender, r.english AS religion, n.english AS nationality_1938, et.english AS ethnic_group, o.english AS occupation, v.occupation_details, v.twin, v.arrest_location, ac.english AS arrest_country, v.residence_after_1945_place, v.residence_after_1945_country, v.occupation_after_1945, na.english AS nationality_after_1945, v.mpg_project, da.work_group  AS dataset_origin, es.english as evaluation_status
+	FROM nmv__victim v
+	LEFT JOIN nmv__marital_family_status m ON m.ID_marital_family_status = v.ID_marital_family_status
+	LEFT JOIN nmv__education e ON e.ID_education = v.ID_education
+	LEFT JOIN nmv__country bc ON bc.ID_country = v.ID_birth_country
+	LEFT JOIN nmv__country dc ON dc.ID_country = v.ID_death_country
+	LEFT JOIN nmv__country ac ON ac.ID_country = v.ID_arrest_country
+	LEFT JOIN nmv__religion r ON r.ID_religion = v.religion
+	LEFT JOIN nmv__nationality n ON n.ID_nationality = v.nationality_1938
+	LEFT JOIN nmv__nationality na ON na.ID_nationality = v.nationality_after_1945
+	LEFT JOIN nmv__ethnicgroup et ON et.ID_ethnicgroup = v.ethnic_group
+	LEFT JOIN nmv__occupation o ON o.ID_occupation = v.occupation
+	LEFT JOIN nmv__dataset_origin da ON da.ID_dataset_origin = v.ID_dataset_origin
+	LEFT JOIN nmv__evaluation ev ON ev.ID_victim = v.ID_victim
+  LEFT JOIN nmv__victim_evaluation_status es ON es.ID_status = ev.evaluation_status'; // für Ergebnisliste
 
 //complete db d
 if ($dbi->checkUserPermission('mpg')) :
