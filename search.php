@@ -19,6 +19,7 @@ include_once './search_forms/nmv_search_victims_filter.php';
 include_once './search_forms/nmv_search_mpg_filter.php';
 include_once './search_forms/nmv_search_diagnoses.php';
 include_once './search_forms/nmv_search_perpetrators_filter.php';
+include_once './search_forms/nmv_search_vic_exp_filter.php';
 
 // victim search form
 $victimForm = new Form ('search_victim','nmv_result_victims.php','GET');
@@ -300,6 +301,15 @@ $layout
 							<br>If more than one filter is applied, the search only returns results that match <strong>all</strong> selected criteria
 							<br><br></p>' .
 							($dbi->checkUserPermission('view') ? $victimsVariableForm->run() : 'In order to search victims, <a href="/z_login">please log in</a>.') .
+					'</div>
+			</div>
+			<div class="relative">
+					<input class="hide_show_checkbox"  id="checkbox_filter_vic_exp" type="checkbox" checked="checked">
+					<label class="hide_show_label" id="label_filter_vic_exp" for="checkbox_filter_vic_exp">Filter - Victim-Experiment</label>
+					<div class="hide_show_element block" id="element_filter_vic_exp">
+							<br>If more than one filter is applied, the search only returns results that match <strong>all</strong> selected criteria
+							<br><br></p>' .
+							($dbi->checkUserPermission('view') ? $victimExperimentForm->run() : 'In order to search victims, <a href="/z_login">please log in</a>.') .
 					'</div>
 			</div>
 			<div class="relative">
