@@ -85,24 +85,28 @@ $survival_table = buildTableFromQuery(
     $survival_query,
     ['{survival}', '{count_survival}'],
     ['Survival', 'Number of victims'],
-    'grid');
+    'grid',
+    ['Total number', $total_number]);
 $ethnicity_table = buildTableFromQuery(
     $ethnicity_query,
     ['{ethnic_group}', '{count_ethnic_group}'],
     ['Ethnic Group', 'Number of victims'],
-    'grid');
+    'grid',
+    ['Total number', $total_number]);
 $nationality_table = buildTableFromQuery(
     $nationality_query,
     ['{nationality}', '{count_nationality}'],
     ['Nationality (1938)', 'Number of victims'],
-    'grid');
+    'grid',
+    ['Total number', $total_number]);
 $compensation_table = buildTableFromQuery(
     $compensation_query,
     ['(Compensation Scheme x)', '(Number of victims compensated)'],
     //TODO: activate following line and delet line above when data is transferred
     //['{compensation}', '{count_compensation}'],
     ['Compensation', 'Number of victims'],
-    'grid');
+    'grid',
+    ['Total number', $total_number]);
 
 
 
@@ -114,7 +118,7 @@ $layout
           '<br><div>Mouseclick on dropdown-bar and type ID of experiment or click on title of experiment<br>
                     Then click OK-button <br> <br>'
             . $experiment_select->run() .
-          '<hr><hr><br><strong>Experiment ID  ' . $experiment_id . ' - ' . $experiment_title . '</strong><br>
+          '<hr><hr><br>ID Experiment:  <strong>' . $experiment_id . ' </strong><br>Title:<strong> ' . $experiment_title . '</strong><br>
           Total number of victims: <strong>' . $total_number . '</strong><br>
           Number of victims compensated: <strong>' . $compensation_outdated_count . '</strong><br><br>
 
