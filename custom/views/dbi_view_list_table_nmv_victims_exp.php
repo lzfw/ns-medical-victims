@@ -25,7 +25,7 @@ class View_List_Table_NMV_Victims_Exp extends View_List {
 		$this->addSortOption ('Ethnic Group','ethnic_group','ASC','DESC');
 		$this->addSortOption ('Survival','survival','ASC','DESC');
 		$html = '';
-		$html .= $this->getBrowseOptions_HTML ();
+		//$html .= $this->getBrowseOptions_HTML ();
 		$html .= $this->getSortOptions_HTML ();
 
 		if ($results->num_rows>0) {

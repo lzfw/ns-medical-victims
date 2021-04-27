@@ -164,15 +164,19 @@ if ($experiment_id) {
         $dbi->setUserVar('total_results',$total_results->total);
 
         // order-klausel
-        $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']} LIMIT ".($dbi->user['skip']).','.Z_LIST_ROWS_PAGE;
+        // version with Z_LIST_ROWS_PAGE victims per page and pagination:
+        //$querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}".($dbi->user['skip']).','.Z_LIST_ROWS_PAGE;
+        //version with all victims on one page:
+        $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 
         // query ausführen
         $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 
         //layout
         $layout
-        	//->set('title','Victims')
+        	->set('title','Victims of Experiment')
         	->set('content',
+              "<br><p>Title of Experiment:<strong> $experiment_name </strong><br> Number of Victims:<strong> $total_results->total</strong></p><br>" .
         	    $dbi->getListView('table_nmv_victims_exp',$query_items)
               . createBackLink ('View Biomedical Research: '.$experiment_name,'nmv_view_experiment?ID_experiment='.$experiment_id)
 
