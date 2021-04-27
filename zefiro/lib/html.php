@@ -123,6 +123,13 @@ function buildTableFromQuery () {
 				buildRowsFromQuery('tr','td',$args[0],$args[1])
 			);
 
+		case 5: // 0:querystring, 1:mask, 2:headerArray, 3:class/Id, 4:additional row
+			return buildElement('table',$args[3],
+				buildRow('tr','th',$args[2]).
+				buildRowsFromQuery('tr','td',$args[0],$args[1]).
+				buildRow('tr','th',$args[4])
+			);
+
 		default: return false;
 	}
 
