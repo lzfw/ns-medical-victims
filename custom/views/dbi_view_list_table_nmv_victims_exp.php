@@ -54,7 +54,7 @@ class View_List_Table_NMV_Victims_Exp extends View_List {
 			    </tr>';
 			}
 			$html .= '</table>';
-			$html .= $this->getBrowseOptions_HTML ();
+			//$html .= $this->getBrowseOptions_HTML ();
 		}
 		else {
 			$html .= L_NO_RESULTS;
