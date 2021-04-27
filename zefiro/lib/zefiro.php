@@ -9,6 +9,10 @@ function createBackLink ($title,$url = 'javascript:history.back()') {
 	return '<p class="icon back"><a href="'.$url.'">'.$title.'</a></p>'.PHP_EOL;
 }
 
+function createNewTabLink ($title,$url) {
+	return '<p class="icon forward"><a href="'.$url.'" target="_blank">'.$title.'</a></p>'.PHP_EOL;
+}
+
 function isServerScriptName ($string) {
 	return basename($_SERVER['SCRIPT_NAME']) == $string;
 }
@@ -214,4 +218,3 @@ function mysql_backup ($tableNames,$appendix='') {
 	}
 	return $backupString;
 }
-

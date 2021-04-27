@@ -176,10 +176,13 @@ if ($experiment_id) {
         $layout
         	->set('title','Victims of Experiment')
         	->set('content',
-              "<br><p>Title of Experiment:<strong> $experiment_name </strong><br> Number of Victims:<strong> $total_results->total</strong></p><br>" .
-        	    $dbi->getListView('table_nmv_victims_exp',$query_items)
+              "<br><p>Title of Experiment:<strong> $experiment_name </strong><br>
+              Number of Victims:<strong> $total_results->total</strong></p>"
+              . createNewTabLink ('Show statistics of the experiment in new browser tab',"statistics_experiment_victims.php?ID_experiment=$experiment_id")
+              . '<br>'
+        	    . $dbi->getListView('table_nmv_victims_exp',$query_items)
               . createBackLink ('View Biomedical Research: '.$experiment_name,'nmv_view_experiment?ID_experiment='.$experiment_id)
-
+              . createNewTabLink ('Show statistics of the experiment in new browser tab',"statistics_experiment_victims.php?ID_experiment=$experiment_id")
         	)
         	->cast();
 

@@ -118,7 +118,8 @@ $layout
           '<br><div>Mouseclick on dropdown-bar and type ID of experiment or click on title of experiment<br>
                     Then click OK-button <br> <br>'
             . $experiment_select->run() .
-          '<hr><hr><br>ID Experiment:  <strong>' . $experiment_id . ' </strong><br>Title:<strong> ' . $experiment_title . '</strong><br>
+          '<hr><hr><br>' . createNewTabLink ('Show table of victims in new browser tab',"nmv_list_victim_experiment.php?ID_experiment=$experiment_id") 
+          . 'ID Experiment:  <strong>' . $experiment_id . ' </strong><br>Title:<strong> ' . $experiment_title . '</strong><br>
           Total number of victims: <strong>' . $total_number . '</strong><br>
           Number of victims compensated: <strong>' . $compensation_outdated_count . '</strong><br><br>
 
@@ -129,8 +130,7 @@ $layout
             . $compensation_table . '<br>'
             .
           '</div>'
-
-
+          .createNewTabLink ('Show table of victims in new browser tab',"nmv_list_victim_experiment.php?ID_experiment=$experiment_id")
 
         );
 require_once 'statistics_navigation.php'; // navigation to different statistics
