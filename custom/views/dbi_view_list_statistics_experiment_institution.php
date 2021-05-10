@@ -34,7 +34,7 @@ class View_List_Statistics_Experiment_Institution extends View_List {
 					$institution = $item->institution == '' ? 'No entry' : htmlentities($item->institution, ENT_HTML5);
 					$institution .= $item->institution == '' ? '' : ' (ID ' . htmlentities($item->ID_institution . ')', ENT_HTML5);
 			    $html .= '<tr>
-			        <td>' . $institution . '</td>
+			        <td><a href="nmv_view_institution?ID_institution=' . $item->ID_institution . '"> ' . $institution . '</a></td>
 			        <td>' . htmlentities($item->anumber, ENT_HTML5) . '</td>
 			        <td>' . htmlentities($item->bnumber, ENT_HTML5) . '</td>
 			    </tr>';
