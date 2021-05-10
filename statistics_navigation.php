@@ -8,6 +8,7 @@ $layout->set('sidebar', '
       <li><a href="statistics_ethnicgroup.php">Ethnic Group</a></li>
       <li><a href="statistics_experiment_foi.php">Experiment (Field of Interest)</a></li>
       <li><a href="statistics_experiment_startyear.php">Experiment (Startyear)</a></li>
+      <li><a href="statistics_experiment_institution.php">Experiment (Institution)</a></li>
       <li><a href="statistics_nationality.php">Nationality</a></li>
       <li><a href="statistics_birthcountry.php">Country of Birth</a></li>
       <li><a href="statistics_survival.php">Survival</a></li>

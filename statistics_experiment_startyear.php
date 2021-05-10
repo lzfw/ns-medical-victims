@@ -1,6 +1,6 @@
 <?php
 /**
-*creates statistics for gender / nationality
+*creates statistics for the startyear of an experiment
 *
 *
 *
@@ -49,7 +49,7 @@ $layout
 						Numbers of research victims by year the research started.
 						<br> <strong>One person can be victim of different experiments with different startyears.
 						<br> Not all victims are assigned to an experiment.</strong>
-						<br> The total number in this table therefore does not correspond to the number of victims in the database.
+						<br> The total number in this table therefore does not correspond to the number of victims in the database, but to the number of victims linked to an experiment.
 					</p>'
 					// Tabelle bauen
 					.$dbi->getListView('statistics_experiment_startyear_table',$query_items)
