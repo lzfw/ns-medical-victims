@@ -52,7 +52,7 @@ $form->addField ('ID_diagnosis',SELECT)
     ->setLabel ('Brain Diagnosis')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__diagnosis', 'ID_diagnosis', "CONCAT(english, ' -- ', IFNULL(type, 'no type'))");
-$form->addField ('diagnosis',TEXT, 70)
+$form->addField ('diagnosis',TEXT, 500)
     ->appendTo('ID_diagnosis');
 $form->addField ('brain_report_year',TEXT,4)
     ->setLabel ('Brain Report Date YMD')
