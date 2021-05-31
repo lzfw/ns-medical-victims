@@ -113,6 +113,14 @@ if (!($dbi->checkUserPermission('mpg'))) :
     ->setLabel ('experiment')
     ->addOption (NO_VALUE,'all experiments')
     ->addOptionsFromQuery ( "$querystring_experiment");
+
+  $victimsVariableForm->addField('exp_institution', SELECT)
+      ->setLabel ('experiment - institution')
+      ->addOption (NO_VALUE, 'all experiment-institutions')
+      ->addOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name',
+                            'EXISTS (SELECT *
+                                      FROM nmv__experiment
+                                      WHERE nmv__experiment.ID_institution = nmv__institution.ID_institution)');
 endif;
 
 $victimsVariableForm->addField('ID_classification', SELECT)
@@ -180,7 +188,7 @@ $victimsVariableForm->addField('brain_report_ID_diagnosis', SELECT)
                                   WHERE nmv__med_history_brain.ID_diagnosis = nmv__diagnosis.ID_diagnosis)');
 
 $victimsVariableForm->addField('brain_report_diagnosis', TEXT, 120)
-->setLabel ('brain report - diagnosis (not standardized yet)');
+->setLabel ('brain report - diagnosis <br>(not standardized yet)');
 
 $victimsVariableForm->addField('hospitalisation_year', TEXT, 4)
   ->setLabel ('hospitalisation - entry year (yyyy)');
@@ -199,7 +207,7 @@ $victimsVariableForm->addField('hospitalisation_ID_diagnosis', SELECT)
                                   WHERE nmv__med_history_hosp.ID_diagnosis = nmv__diagnosis.ID_diagnosis)');
 
 $victimsVariableForm->addField('hospitalisation_diagnosis', TEXT, 120)
-->setLabel ('hospitalisation - diagnosis (not standardized yet)');
+->setLabel ('hospitalisation - diagnosis <br>(not standardized yet)');
 
 // complete db d 3
 if (!($dbi->checkUserPermission('mpg'))) :

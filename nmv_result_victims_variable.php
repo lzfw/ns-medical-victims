@@ -60,6 +60,7 @@ $ticked_fields = array ();
 //fields involving data from tables other than nmv__victim
 //key defines table and column
 $special_fields = array('e.ID_experiment'			=> 'ID_experiment',
+												'e.ID_institution'    => 'exp_institution',
  												'i.ID_classification' => 'ID_classification',
 												'i.location' 					=> 'location',
 												't.ID_tissue_state' 	=> 'ID_tissue_state',
@@ -226,6 +227,10 @@ if (isset($_GET['ID_arrest_country']) && $_GET['ID_arrest_country']) {
 if (isset($_GET['ID_experiment']) && $_GET['ID_experiment']) {
 	$search_term = $dbi->connection->query('SELECT experiment_title FROM nmv__experiment WHERE ID_experiment = '.$_GET['ID_experiment'])->fetch_row();
 	$suche_nach[] = 'title of experiment = '.$search_term[0];
+}
+if (isset($_GET['exp_institution']) && $_GET['exp_institution']) {
+	$search_term = $dbi->connection->query('SELECT institution_name FROM nmv__institution WHERE ID_institution = '.$_GET['exp_institution'])->fetch_row();
+	$suche_nach[] = 'institution of experiment = '.$search_term[0];
 }
 if (isset($_GET['ID_classification']) && $_GET['ID_classification']) {
 	$search_term = $dbi->connection->query('SELECT english FROM nmv__victim_classification WHERE ID_classification = '.$_GET['ID_classification'])->fetch_row();
