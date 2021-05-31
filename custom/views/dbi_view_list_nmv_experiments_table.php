@@ -16,8 +16,9 @@ class View_List_NMV_Experiments_Table extends View_List {
 
 	public function get_HTML ($results) {
 	    global $dbi;
-		$this->addSortOption ('Title','experiment_title','ASC','DESC');
 		$this->addSortOption ('ID','ID_experiment','ASC','DESC');
+		$this->addSortOption ('Title','experiment_title','ASC','DESC');
+		$this->addSortOption ('Institution','institution_name','ASC','DESC');
 		$this->addSortOption ('Field of Interest','field_of_interest','ASC, experiment_title ASC','DESC, experiment_title DESC');
 		$this->addSortOption ('Objective','objective','ASC, experiment_title ASC','DESC, experiment_title DESC');
 		$html = '';
@@ -35,11 +36,12 @@ class View_List_NMV_Experiments_Table extends View_List {
 
 		if ($results->num_rows>0) {
 		    $html .= '<table class="grid">';
-		    $html .= '<th>Title</th><th>ID</th><th>Field of Interest</th><th>Objective</th><th>Options</th>';
+		    $html .= '<th>ID</th><th>Title</th><th>Institution</th><th>Field of Interest</th><th>Objective</th><th>Options</th>';
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
-			        <td><a href="nmv_view_experiment?ID_experiment=' . $item->ID_experiment . '">' . htmlentities($item->experiment_title, ENT_HTML5) . '</a></td>
 							<td>' . $item->ID_experiment . '</td>
+			        <td><a href="nmv_view_experiment?ID_experiment=' . $item->ID_experiment . '">' . htmlentities($item->experiment_title, ENT_HTML5) . '</a></td>
+							<td>' . htmlentities($item->institution_name, ENT_HTML5) . '</td>
 							<td>' . htmlentities($item->field_of_interest, ENT_HTML5) . '</td>
 			        <td>' . htmlentities($item->objective, ENT_HTML5) . '</td>
 			        <td>' . str_replace('{ID_experiment}', $item->ID_experiment, $options) . '</td>
