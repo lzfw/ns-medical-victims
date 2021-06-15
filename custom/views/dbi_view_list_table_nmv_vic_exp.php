@@ -35,7 +35,7 @@ class View_List_Table_NMV_Vic_Exp extends View_List {
 		$html .= $this->getBrowseOptions_HTML ();
 		$html .= $this->getSortOptions_HTML ();
 
-		$html .= '<br><p><strong>Please Note: </strong>There are multiple entries for victims who were forced to participate in more then one experiment. </p>';
+		$html .= '<br><p><strong>Please Note: </strong>There are multiple entries for victims who were forced to participate in more than one experiment. </p>';
 
 		if ($results->num_rows>0) {
 		    $html .= '<table class="grid">';

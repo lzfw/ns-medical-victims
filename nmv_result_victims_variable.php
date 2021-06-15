@@ -106,10 +106,14 @@ $dbi->setUserVar('querystring',implode('&',$query));
 
 // make select-clauses part one
 $querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
-																				v.birth_year, v.birth_country, v.birth_place,
-																				n.english AS nationality_1938, et.english AS ethnic_group
+																				v.birth_year, bc.english AS birth_country, v.birth_place,
+																				n.english AS nationality_1938, et.english AS ethnic_group,
+																				ve.exp_start_year, ve.exp_start_day, ve.exp_start_month,
+																				s.english AS survival
 												FROM nmv__victim v
+												LEFT JOIN nmv__country bc 					ON bc.ID_country = v.ID_birth_country
 												LEFT JOIN nmv__victim_experiment ve	ON v.ID_victim = ve.ID_victim
+												LEFT JOIN nmv__survival s 					ON s.ID_survival = ve.ID_survival
 												LEFT JOIN nmv__experiment e 				ON ve.ID_experiment = e.ID_experiment
 												LEFT JOIN nmv__imprisoniation i			ON v.ID_victim = i.ID_victim
 												LEFT JOIN nmv__nationality n        ON n.ID_nationality = v.nationality_1938
@@ -181,7 +185,7 @@ $total_results = $query_count->fetch_object();
 $dbi->setUserVar('total_results',$total_results->total);
 
 // order-klausel
-$querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']} LIMIT ".($dbi->user['skip']).','.Z_LIST_ROWS_PAGE;
+$querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 
 // query ausführen
 $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
@@ -286,23 +290,38 @@ if (isset($_GET['compensation']) && $_GET['compensation']) {
 	$suche_nach[] = 'compensation = '.$search_term[0];
 }
 
-
+//echo $_GET['ID_experiment'];
 
 // breadcrumbs
 $dbi->addBreadcrumb (L_SEARCH,'search.php');
 
 // layout
-$layout
-	->set('title',L_RESULTS)
-	->set('content',
-        '<p>Search for: <em>'.implode(', ',$suche_nach).'</em></p>'
-        .$dbi->getListView('table_nmv_victims_details',$query_items)
-        .'<div class="buttons">'
-				.createButton (L_MODIFY_SEARCH,'javascript:history.back()','icon search')
-        .createButton (L_NEW_SEARCH,'search.php','icon search')
-        .'</div>'
-	)
-	//->set('sidebar','<h3>'.L_HELP.'</h3>'.$dbi->getTextblock_HTML ('results'))
-	->cast();
+if ($_GET['ID_experiment'] || $_GET['exp_institution']):
+	$layout
+		->set('title',L_RESULTS)
+		->set('content',
+	        '<p>Search for: <em>'.implode(', ',$suche_nach).'</em></p>'
+	        . $dbi->getListView('table_nmv_victims_exp',$query_items)
+	        .'<div class="buttons">'
+					.createButton (L_MODIFY_SEARCH,'javascript:history.back()','icon search')
+	        .createButton (L_NEW_SEARCH,'search.php','icon search')
+	        .'</div>'
+		)
+		//->set('sidebar','<h3>'.L_HELP.'</h3>'.$dbi->getTextblock_HTML ('results'))
+		->cast();
+else:
+	$layout
+		->set('title',L_RESULTS)
+		->set('content',
+	        '<p>Search for: <em>'.implode(', ',$suche_nach).'</em></p>'
+	        . $dbi->getListView('table_nmv_victims_details',$query_items)
+	        .'<div class="buttons">'
+					.createButton (L_MODIFY_SEARCH,'javascript:history.back()','icon search')
+	        .createButton (L_NEW_SEARCH,'search.php','icon search')
+	        .'</div>'
+		)
+		//->set('sidebar','<h3>'.L_HELP.'</h3>'.$dbi->getTextblock_HTML ('results'))
+		->cast();
+endif;
 
 ?>

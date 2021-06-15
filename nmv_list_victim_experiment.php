@@ -56,7 +56,7 @@ if ($victim_id) {
         LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.classification
         WHERE ve.ID_victim = $victim_id
         ORDER BY exp_start_year, exp_start_month, exp_start_day, exp_end_year, exp_end_month, exp_end_day
-        LIMIT 300";
+        ";
 
         $options = '';
         $row_template = ['{title}', '{classification}', '{duration}', '{age}'];
@@ -126,7 +126,8 @@ if ($experiment_id) {
         // reconstruct GET-String (for scroll- and order- / sort- function)
 
 
-        // query: get data of the victims of the experiment
+        // query: get data of the victims of the experiment 
+
         $querystring_items = "
         SELECT
             v.ID_victim, ve.ID_vict_exp, s.english AS survival, v.surname AS surname, v.first_names,
@@ -137,7 +138,7 @@ if ($experiment_id) {
             et.english AS ethnic_group, o.english AS occupation, v.occupation_details, v.twin,
             v.arrest_location, ac.english AS arrest_country,
             v.residence_after_1945_place, v.residence_after_1945_country, v.occupation_after_1945, na.english AS nationality_after_1945,
-            v.mpg_project, da.work_group  AS dataset_origin, es.english as evaluation_status
+            v.mpg_project, da.work_group  AS dataset_origin, es.english as evaluation_status, ve.exp_start_day, ve.exp_start_month, ve.exp_start_year
         FROM nmv__victim_experiment ve
         LEFT JOIN nmv__victim v                    ON v.ID_victim = ve.ID_victim
         LEFT JOIN nmv__survival s                  ON s.ID_survival = ve.ID_survival
