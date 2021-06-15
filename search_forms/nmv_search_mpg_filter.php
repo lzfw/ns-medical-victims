@@ -41,7 +41,10 @@ $MPGfilterForm->addField ('ID_institution',SELECT)
 				'EXISTS (	SELECT * FROM nmv__med_history_brain
 									WHERE nmv__institution.ID_institution = nmv__med_history_brain.ID_institution)
 				OR EXISTS (SELECT * FROM nmv__med_history_hosp
-				WHERE nmv__institution.ID_institution = nmv__med_history_hosp.ID_institution)');
+				WHERE nmv__institution.ID_institution = nmv__med_history_hosp.ID_institution)
+				OR EXISTS (SELECT * FROM nmv__victim_experiment ve
+				LEFT JOIN nmv__experiment e ON e.ID_experiment = ve.ID_experiment
+				WHERE nmv__institution.ID_institution = e.ID_institution)');
 
 
 $MPGfilterForm->addField ('ID_dataset_origin',SELECT)

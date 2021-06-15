@@ -66,6 +66,9 @@ $dbi->setUserVar('querystring',implode('&',$query));
 $querystring_items = 'SELECT DISTINCT v.ID_victim, v.surname, v.first_names, v.birth_year, v.birth_country, v.birth_place
 											FROM nmv__victim v
 											LEFT JOIN nmv__med_history_brain b 	ON v.ID_victim = b.ID_victim
+											LEFT JOIN nmv__med_history_hosp h   ON v.ID_victim = h.ID_victim
+											LEFT JOIN nmv__victim_experiment ve ON v.ID_victim = ve.ID_victim
+											LEFT JOIN nmv__experiment e 				ON e.ID_experiment = ve.ID_experiment
 											LEFT JOIN nmv__med_history_tissue t ON v.ID_victim = t.ID_victim
 											LEFT JOIN nmv__imprisoniation i    	ON v.ID_victim = i.ID_victim
 											LEFT JOIN nmv__victim_source vs 	 	ON v.ID_victim = vs.ID_victim'; // für Ergebnisliste
@@ -83,7 +86,9 @@ $querystring_where[] = "v.mpg_project = -1";
 foreach ($exact_fields as $field) {
     if (getUrlParameter($field)) {
 				if ($field == 'ID_institution'):
-        	$querystring_where[] = "b.$field = '".getUrlParameter($field)."'";
+        	$querystring_where[] = "b.$field = '".getUrlParameter($field)."'
+					OR h.$field = '".getUrlParameter($field)."'
+					OR e.$field = '".getUrlParameter($field)."'";
 				else:
 					$querystring_where[] = "v.$field = '".getUrlParameter($field)."'";
 				endif;
