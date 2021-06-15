@@ -35,7 +35,7 @@ $MPGfilterForm->addField ('m_series', CHECKBOX, -1)
 
 
 $MPGfilterForm->addField ('ID_institution',SELECT)
-	    ->setLabel ('Institution')
+	    ->setLabel ('Institution (Brain Report, <br> Hospitalisation, Experiment)')
 	    ->addOption (NO_VALUE,'all institutions')
 	    ->addOptionsFromTable( 'nmv__institution', 'ID_institution', 'institution_name',
 				'EXISTS (	SELECT * FROM nmv__med_history_brain

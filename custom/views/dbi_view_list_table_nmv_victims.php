@@ -22,7 +22,7 @@ class View_List_Table_NMV_Victims extends View_List {
 		$this->addSortOption ('Born','birth_year','ASC','DESC');
 		$this->addSortOption ('Birth Place','birth_place','ASC','DESC');
 		$html = '';
-		$html .= $this->getBrowseOptions_HTML ();
+		//$html .= $this->getBrowseOptions_HTML ();
 		$html .= $this->getSortOptions_HTML ();
 
         $options = '';
@@ -50,7 +50,7 @@ class View_List_Table_NMV_Victims extends View_List {
 			    </tr>';
 			}
 			$html .= '</table>';
-			$html .= $this->getBrowseOptions_HTML ();
+			//$html .= $this->getBrowseOptions_HTML ();
 		}
 		else {
 			$html .= L_NO_RESULTS;
