@@ -27,7 +27,7 @@ $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 // zu durchsuchende felder und suchsystematik definieren:
 
 // felder, die immer exakt gematcht werden (Trunkierung nicht möglich, Diakritika distinkt, Basiszeichen distinkt)
-$exact_fields = array ('ID_dataset_origin', 'ID_institution');
+$exact_fields = array ('ID_dataset_origin', 'ID_institution', 'ID_tissue_institution');
 
 // felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
 // --> If no diacritics are applied, it finds covers any combination: η would also return ἠ, ἦ or ἥ, while ἠ would find only ἠ.
@@ -63,8 +63,13 @@ foreach ($ticked_fields as $field) {
 $dbi->setUserVar('querystring',implode('&',$query));
 
 // make select-clauses
-$querystring_items = 'SELECT DISTINCT v.ID_victim, v.surname, v.first_names, v.birth_year, v.birth_country, v.birth_place
+$querystring_items = 'SELECT DISTINCT v.ID_victim, v.surname, v.first_names, v.birth_year,
+															bc.english AS birth_country, v.birth_place, et.english AS ethnic_group,
+															n.english AS nationality_1938
 											FROM nmv__victim v
+											LEFT JOIN nmv__country bc						ON v.ID_birth_country = bc.ID_country
+											LEFT JOIN nmv__nationality n 				ON v.nationality_1938 = n.ID_nationality
+											LEFT JOIN nmv__ethnicgroup et 			ON v.ethnic_group = et.ID_ethnicgroup
 											LEFT JOIN nmv__med_history_brain b 	ON v.ID_victim = b.ID_victim
 											LEFT JOIN nmv__med_history_hosp h   ON v.ID_victim = h.ID_victim
 											LEFT JOIN nmv__victim_experiment ve ON v.ID_victim = ve.ID_victim
@@ -85,13 +90,18 @@ $querystring_where[] = "v.mpg_project = -1";
 
 foreach ($exact_fields as $field) {
     if (getUrlParameter($field)) {
-				if ($field == 'ID_institution'):
-        	$querystring_where[] = "b.$field = '".getUrlParameter($field)."'
-					OR h.$field = '".getUrlParameter($field)."'
-					OR e.$field = '".getUrlParameter($field)."'";
-				else:
-					$querystring_where[] = "v.$field = '".getUrlParameter($field)."'";
-				endif;
+			if ($field == 'ID_institution'){
+				$querystring_where[] = "b.$field = '".getUrlParameter($field)."'
+				OR h.$field = '".getUrlParameter($field)."'
+				OR e.$field = '".getUrlParameter($field)."'";
+			}
+			elseif ($field == 'ID_tissue_institution'){
+				$querystring_where[] = "t.ID_institution = '".getUrlParameter($field)."'";
+			}
+			else{
+				$querystring_where[] = "v.$field = '".getUrlParameter($field)."'";
+			}
+
     }
 }
 foreach ($like_fields as $field) {
@@ -161,6 +171,10 @@ if (isset($_GET['ID_institution']) && $_GET['ID_institution']) {
 	$institution = $dbi->connection->query('SELECT institution_name FROM nmv__institution WHERE ID_institution = '.$_GET['ID_institution'])->fetch_row();
 	$suche_nach[] = 'institution = '.$institution[0];
 }
+if (isset($_GET['ID_tissue_institution']) && $_GET['ID_tissue_institution']){
+	$tissue_institution = $dbi->connection->query('SELECT institution_name FROM nmv__institution WHERE ID_institution = '.$_GET['ID_tissue_institution'])->fetch_row();
+	$suche_nach[] = 'tissue-institution = '.$tissue_institution[0];
+}
 if (isset($_GET['ID_dataset_origin']) && $_GET['ID_dataset_origin']) {
 	$workgroup = $dbi->connection->query('SELECT work_group FROM nmv__dataset_origin WHERE ID_dataset_origin = '.$_GET['ID_dataset_origin'])->fetch_row();
 	$suche_nach[] = 'workgroup = '.$workgroup[0];
@@ -172,8 +186,9 @@ $dbi->addBreadcrumb (L_SEARCH,'search.php');
 $layout
 	->set('title',L_RESULTS)
 	->set('content',
-        '<p>Search for: <em>'.implode(', ',$suche_nach).'</em></p>'
-        .$dbi->getListView('table_nmv_victims',$query_items)
+				'<p>Search for: <em>'.implode(', ',$suche_nach).'</em><br>
+				Number of results: '. $total_results->total. '</p>'
+        .$dbi->getListView('table_nmv_victims_details',$query_items)
         .'<div class="buttons">'
 				.createButton (L_MODIFY_SEARCH,'javascript:history.back()','icon search')
         .createButton (L_NEW_SEARCH,'search.php','icon search')
