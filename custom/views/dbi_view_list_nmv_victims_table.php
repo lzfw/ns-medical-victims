@@ -35,7 +35,7 @@ class View_List_NMV_Victims_Table extends View_List {
 		// endforeach;
 
 		$html = '';
-		//$html .= $this->getBrowseOptions_HTML ();
+		$html .= $this->getBrowseOptions_HTML ();
 		$html .= $this->getSortOptions_HTML ();
 
 		// hide / show columns
@@ -118,6 +118,7 @@ class View_List_NMV_Victims_Table extends View_List {
 						</tr>';
 			}
 			$html .= '</table>';
+			$html .= $this->getBrowseOptions_HTML ();
 		}
 		else {
 			$html .= L_NO_RESULTS;
