@@ -117,7 +117,8 @@ $dbi->addBreadcrumb (L_SEARCH,'search.php');
 $layout
 	->set('title',L_RESULTS)
 	->set('content',
-        '<p>Search for: <em>'.implode(', ',$suche_nach).'</em></p>'
+        '<p>Search for: <em>'.implode(', ',$suche_nach).'</em><br>
+				Number of results: ' . $total_results->total . ' </p>'
         .$dbi->getListView('nmv_literature_table',$query_items)
         .'<div class="buttons">'
 				.createButton (L_MODIFY_SEARCH,'javascript:history.back()','icon search')
