@@ -72,7 +72,8 @@ $special_fields = array('e.ID_experiment'			=> 'ID_experiment',
 												'h.ID_institution'		=> 'hospitalisation_institution',
 												'h.ID_diagnosis'			=> 'hospitalisation_ID_diagnosis',
 												'ev.evaluation_status'=> 'evaluation_status',
-												'ev.compensation'  		=> 'compensation'
+												'ev.compensation'  		=> 'compensation',
+												't.ID_institution'   	=> 'tissue_institution'
 												);
 
 $special_contain_fields = array('b.diagnosis'	=> 'brain_report_diagnosis',
@@ -247,6 +248,10 @@ if (isset($_GET['ID_dataset_origin']) && $_GET['ID_dataset_origin']) {
 	$search_term = $dbi->connection->query('SELECT work_group FROM nmv__dataset_origin WHERE ID_dataset_origin = '.$_GET['ID_dataset_origin'])->fetch_row();
 	$suche_nach[] = 'workgroup(s) = '.$search_term[0];
 }
+if (isset($_GET['tissue_institution']) && $_GET['tissue_institution']) {
+	$search_term = $dbi->connection->query('SELECT institution_name FROM nmv__institution WHERE ID_institution = '.$_GET['tissue_institution'])->fetch_row();
+	$suche_nach[] = 'location of tissue = '.$search_term[0];
+}
 if (isset($_GET['ID_tissue_form']) && $_GET['ID_tissue_form']) {
 	$search_term = $dbi->connection->query('SELECT english FROM nmv__tissue_form WHERE ID_tissue_form = '.$_GET['ID_tissue_form'])->fetch_row();
 	$suche_nach[] = 'form of tissue = '.$search_term[0];
@@ -300,7 +305,8 @@ if ($_GET['ID_experiment'] || $_GET['exp_institution']):
 	$layout
 		->set('title',L_RESULTS)
 		->set('content',
-	        '<p>Search for: <em>'.implode(', ',$suche_nach).'</em></p>'
+	        '<p>Search for: <em>'.implode(', ',$suche_nach).'</em><br>
+					Number of results: '. $total_results->total. '</p>'
 	        . $dbi->getListView('table_nmv_victims_exp',$query_items)
 	        .'<div class="buttons">'
 					.createButton (L_MODIFY_SEARCH,'javascript:history.back()','icon search')
@@ -313,7 +319,8 @@ else:
 	$layout
 		->set('title',L_RESULTS)
 		->set('content',
-	        '<p>Search for: <em>'.implode(', ',$suche_nach).'</em></p>'
+	        '<p>Search for: <em>'.implode(', ',$suche_nach).'</em><br>
+					Number of results: '. $total_results->total. '</p>'
 	        . $dbi->getListView('table_nmv_victims_details',$query_items)
 	        .'<div class="buttons">'
 					.createButton (L_MODIFY_SEARCH,'javascript:history.back()','icon search')

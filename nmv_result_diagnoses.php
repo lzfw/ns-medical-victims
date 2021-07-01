@@ -84,18 +84,18 @@ foreach ($special_contain_fields as $field) {
 $dbi->setUserVar('querystring',implode('&',$query));
 
 // make select-clauses
-$querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names, v.birth_year, v.birth_country, v.birth_place
+$querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names, v.birth_year,
+															bc.english AS birth_country, n.english AS nationality_1938, et.english AS ethnic_group,
+															v.birth_place
 												FROM nmv__victim v
-												LEFT JOIN nmv__victim_experiment ve
-												ON v.ID_victim = ve.ID_victim
-												LEFT JOIN nmv__experiment e
-												ON ve.ID_experiment = e.ID_experiment
-												LEFT JOIN nmv__med_history_brain b
-												ON v.ID_victim = b.ID_victim
-												LEFT JOIN nmv__med_history_hosp h
-												ON v.ID_victim = h.ID_victim
-                        LEFT JOIN nmv__diagnosis d
-                        ON b.ID_diagnosis = d.ID_diagnosis OR h.ID_diagnosis = d.ID_diagnosis
+												LEFT JOIN nmv__country bc									ON v.ID_birth_country = bc.ID_country
+												LEFT JOIN nmv__nationality n 							ON v.nationality_1938 = n.ID_nationality
+												LEFT JOIN nmv__ethnicgroup et							ON v.ethnic_group = et.ID_ethnicgroup
+												LEFT JOIN nmv__victim_experiment ve				ON v.ID_victim = ve.ID_victim
+												LEFT JOIN nmv__experiment e								ON ve.ID_experiment = e.ID_experiment
+												LEFT JOIN nmv__med_history_brain b				ON v.ID_victim = b.ID_victim
+												LEFT JOIN nmv__med_history_hosp h					ON v.ID_victim = h.ID_victim
+                        LEFT JOIN nmv__diagnosis d                ON b.ID_diagnosis = d.ID_diagnosis OR h.ID_diagnosis = d.ID_diagnosis
                         '; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
 
@@ -160,7 +160,7 @@ $total_results = $query_count->fetch_object();
 $dbi->setUserVar('total_results',$total_results->total);
 
 // order-klausel
-$querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']} LIMIT ".($dbi->user['skip']).','.Z_LIST_ROWS_PAGE;
+$querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 
 // query ausführen
 $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
@@ -179,8 +179,9 @@ $dbi->addBreadcrumb (L_SEARCH,'search.php');
 $layout
 	->set('title',L_RESULTS)
 	->set('content',
-        '<p>Search for: <em>'.implode(', ',$suche_nach).'</em></p>'
-        .$dbi->getListView('table_nmv_victims',$query_items)
+        '<p>Search for: <em>'.implode(', ',$suche_nach).'</em><br>
+				Number of results: '. $total_results->total. '</p>'
+        .$dbi->getListView('table_nmv_victims_details',$query_items)
         .'<div class="buttons">'
 				.createButton (L_MODIFY_SEARCH,'javascript:history.back()','icon search')
         .createButton (L_NEW_SEARCH,'search.php','icon search')

@@ -24,7 +24,6 @@ class View_List_Table_NMV_Victims_Details extends View_List {
 		$this->addSortOption ('Nationality (1938)','nationality_1938','ASC','DESC');
 		$this->addSortOption ('Ethnic Group','ethnic_group','ASC','DESC');
 		$html = '';
-		$html .= $this->getBrowseOptions_HTML ();
 		$html .= $this->getSortOptions_HTML ();
 
 		if ($results->num_rows>0) {
@@ -45,14 +44,13 @@ class View_List_Table_NMV_Victims_Details extends View_List {
 							<td>' . htmlentities($item->first_names, ENT_HTML5) . '</td>
 			        <td><a href="nmv_view_victim?ID_victim=' . $item->ID_victim . '">' . $item->ID_victim . '</a></td>
 							<td>' . htmlentities($item->birth_year, ENT_HTML5) . '</td>
-							<td>' . htmlentities($item->birth_country, ENT_HTML5) . '</td>
+							<td class="nowrap">' . htmlentities($item->birth_country, ENT_HTML5) . '</td>
 							<td>' . htmlentities($item->nationality_1938, ENT_HTML5) . '</td>
 							<td>' . htmlentities($item->ethnic_group, ENT_HTML5) . '</td>
-			        <td>' . str_replace('{ID_victim}', $item->ID_victim, $options) . '</td>
+			        <td class="nowrap">' . str_replace('{ID_victim}', $item->ID_victim, $options) . '</td>
 			    </tr>';
 			}
 			$html .= '</table>';
-			$html .= $this->getBrowseOptions_HTML ();
 		}
 		else {
 			$html .= L_NO_RESULTS;

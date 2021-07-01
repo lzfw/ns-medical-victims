@@ -32,7 +32,6 @@ class View_List_Table_NMV_Vic_Exp extends View_List {
 		$this->addSortOption ('Location Deatails (Exp)','location_details','ASC','DESC');
 
 		$html = '';
-		$html .= $this->getBrowseOptions_HTML ();
 		$html .= $this->getSortOptions_HTML ();
 
 		$html .= '<br><p><strong>Please Note: </strong>There are multiple entries for victims who were forced to participate in more than one experiment. </p>';
@@ -56,7 +55,7 @@ class View_List_Table_NMV_Vic_Exp extends View_List {
 			        <td><a href="nmv_view_victim?ID_victim=' . $item->ID_victim . '">' . htmlentities($item->surname, ENT_HTML5) . '</a></td>
 							<td>' . htmlentities($item->first_names, ENT_HTML5) . '</td>
 							<td>' . htmlentities($item->birth_year, ENT_HTML5) . '</td>
-							<td>' . htmlentities($item->birth_country, ENT_HTML5) . '</td>
+							<td class="nowrap">' . htmlentities($item->birth_country, ENT_HTML5) . '</td>
 							<td>' . htmlentities($item->gender, ENT_HTML5) . '</td>
 							<td>' . htmlentities($item->ethnic_group, ENT_HTML5) . '</td>
 							<td>' . htmlentities($item->exp_start_year, ENT_HTML5) . '</td>
@@ -66,11 +65,10 @@ class View_List_Table_NMV_Vic_Exp extends View_List {
 							<td>' . htmlentities($item->institution_name, ENT_HTML5) . '</td>
 							<td>' . htmlentities($item->location, ENT_HTML5) . '</td>
 							<td>' . htmlentities($item->location_details, ENT_HTML5) . '</td>
-			        <td>' . str_replace('{ID_victim}', $item->ID_victim, $options) . '</td>
+			        <td class="nowrap">' . str_replace('{ID_victim}', $item->ID_victim, $options) . '</td>
 			    </tr>';
 			}
 			$html .= '</table>';
-			$html .= $this->getBrowseOptions_HTML ();
 		}
 		else {
 			$html .= L_NO_RESULTS;

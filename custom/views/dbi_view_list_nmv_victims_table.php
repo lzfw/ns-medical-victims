@@ -33,8 +33,9 @@ class View_List_NMV_Victims_Table extends View_List {
 		// foreach ($column as $key=>$value) :
 		// 	$this->addSortOption ($value, $key, 'ASC', 'DESC');
 		// endforeach;
+
 		$html = '';
-		$html .= $this->getBrowseOptions_HTML ();
+		//$html .= $this->getBrowseOptions_HTML ();
 		$html .= $this->getSortOptions_HTML ();
 
 		// hide / show columns

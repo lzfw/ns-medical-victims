@@ -166,7 +166,7 @@ $total_results = $query_count->fetch_object();
 $dbi->setUserVar('total_results',$total_results->total);
 
 // order-klausel
-$querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']} LIMIT ".($dbi->user['skip']).','.Z_LIST_ROWS_PAGE;
+$querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 
 // query ausführen
 $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
@@ -190,7 +190,8 @@ $dbi->addBreadcrumb (L_SEARCH,'search.php');
 $layout
 	->set('title','Results Victim-Experiment-Entries')
 	->set('content',
-        '<p>Search for: <em>'.implode(', ',$suche_nach).'</em></p>'
+        '<p>Search for: <em>'.implode(', ',$suche_nach).'</em><br>
+				Number of results: '. $total_results->total. '</p>'
         .$dbi->getListView('table_nmv_vic_exp',$query_items)
         .'<div class="buttons">'
 				.createButton (L_MODIFY_SEARCH,'javascript:history.back()','icon search')
