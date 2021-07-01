@@ -12,7 +12,7 @@ $dbi->addBreadcrumb ('Literature','nmv_list_literature');
 // query: get literature data
 $querystring = '
     SELECT authors, lit_year, lit_title, article, journal_or_series,
-           editor, volume, location, pages, publisher, scientific_exploitation,
+           editor, volume, location, pages, publisher, scientific_exploitation, written_by_perpetrator,
            notes, url, isbn_10, isbn_13
     FROM nmv__literature v
     WHERE ID_literature = ?';
@@ -55,6 +55,8 @@ if ($literature = $result->fetch_object()) {
         buildDataSheetRow('Publisher',              $literature->publisher).
         buildDataSheetRow('Scientific exploitation',
             $literature->scientific_exploitation ? 'Yes' : 'No').
+        buildDataSheetRow('Written by perpetrator',
+            $literature->written_by_perpetrator ? 'Yes (at least one author is listed as perpetrator in this database)' : 'No').
         buildDataSheetRow('Notes',                  $literature->notes).
         buildDataSheetRow('URL',                    $literature->url).
         buildDataSheetRow('ISBN-10',                  $literature->isbn_10).
