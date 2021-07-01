@@ -30,7 +30,7 @@ $total_results = $query_count->fetch_object();
 $dbi->setUserVar('total_results',$total_results->total);
 
 // SQL ORDER BY clause
-$querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']} LIMIT ".($dbi->user['skip']).','.Z_LIST_ROWS_PAGE;
+$querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 
 // execute queries
 $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
@@ -38,6 +38,7 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $layout
 	->set('title','Sources')
 	->set('content',
+			'<p>Number of source entries: ' . $total_results->total . '</p>' .
 	    $dbi->getListView('nmv_sources_table',$query_items)
 	    .($dbi->checkUserPermission('edit')
 	        ? '<div class="buttons">'.createButton ('New Source','nmv_edit_source','icon add').'</div>'

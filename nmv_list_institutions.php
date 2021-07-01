@@ -32,7 +32,7 @@ $total_results = $query_count->fetch_object();
 $dbi->setUserVar('total_results',$total_results->total);
 
 // order-klausel
-$querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']} LIMIT ".($dbi->user['skip']).','.Z_LIST_ROWS_PAGE;
+$querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 
 // query ausführen
 $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
@@ -40,6 +40,7 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $layout
 	->set('title','Institutions')
 	->set('content',
+			'<p>Number of institution entries: ' . $total_results->total . ' </p>' .
 	    $dbi->getListView('nmv_institutions_table',$query_items)
 	    .($dbi->checkUserPermission('edit')
 	        ? '<div class="buttons">'.createButton ('New Institution','nmv_edit_institution','icon addUser').'</div>'

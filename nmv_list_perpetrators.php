@@ -20,33 +20,8 @@ if ($dbi->checkUserPermission('admin')) {
 
 // Select-Klauseln erstellen
 $querystring_count = 'SELECT COUNT(*) AS total FROM nmv__perpetrator p'; // für Treffer gesamt
-$querystring_items = 'SELECT `ID_perpetrator`, `surname`, `first_names`, `birth_place` FROM nmv__perpetrator p'; // für Ergebnisliste
+$querystring_items = 'SELECT `ID_perpetrator`, `surname`, `first_names`, `birth_place`, birth_year FROM nmv__perpetrator p'; // für Ergebnisliste
 $querystring_where = array(); // für Filter
-
-/*
-$content = '';
-
-$content .= buildTableFromQuery(
-    'SELECT `ID_perpetrator`, `surname`, `first_names`, `birth_place`
-        FROM nmv__perpetrator
-        ORDER BY `surname` DESC
-        LIMIT 10',
-    ['<a href="nmv_view_perpetrator?ID_perpetrator={ID_perpetrator}">{surname}</a>', '{first_names}', '{ID_perpetrator}', '{birth_place}', $options],
-    ['surname', 'first names', 'id', 'birth place', 'options'],
-    'grid');
-
-if ($dbi->checkUserPermission('edit')) {
-	$content .= '<div class="buttons">';
-	$content .= createButton ('New Perpetrator','nmv_edit_perpetrator','icon addUser');
-	$content .= '</div>';
-}
-$content .= createBackLink (L_CONTENTS,'z_menu_contents');
-
-$layout
-	->set('title','Perpetrators')
-	->set('content',$content)
-	->cast();
-*/
 
 // Gesamtanzahl der Suchergebnisse feststellen
 $query_count = $dbi->connection->query($querystring_count);
@@ -64,7 +39,8 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $layout
 	->set('title','Perpetrators')
 	->set('content',
-	    $dbi->getListView('nmv_perpetrators_table',$query_items)
+			'<p>Number of perpetrator entries: ' . $total_results->total . '</p>' .
+	    $dbi->getListView('table_nmv_perpetrators',$query_items)
 	    .($dbi->checkUserPermission('edit')
 	        ? '<div class="buttons">'.createButton ('New Perpetrator','nmv_edit_perpetrator','icon addUser').'</div>'
 	        : '')

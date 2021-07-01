@@ -20,7 +20,6 @@ class View_List_Table_NMV_Perpetrators extends View_List {
 		$this->addSortOption ('ID','ID_perpetrator','ASC','DESC');
 		$this->addSortOption ('Birth Place','birth_place','ASC','DESC');
 		$html = '';
-		$html .= $this->getBrowseOptions_HTML ();
 		$html .= $this->getSortOptions_HTML ();
 
         $options = '';
@@ -44,12 +43,10 @@ class View_List_Table_NMV_Perpetrators extends View_List {
 			        <td><a href="nmv_view_perpetrator?ID_perpetrator=' . $item->ID_perpetrator . '">' . $item->ID_perpetrator . '</a></td>
 							<td>' . htmlentities($item->birth_year, ENT_HTML5) . '</td>
 							<td>' . htmlentities($item->birth_place, ENT_HTML5) . '</td>
-			        <td>' . str_replace('{ID_perpetrator}', $item->ID_perpetrator, $options) . '</td>
+			        <td class="nowrap">' . str_replace('{ID_perpetrator}', $item->ID_perpetrator, $options) . '</td>
 			    </tr>';
 			}
 			$html .= '</table>';
-			$html .= $this->getBrowseOptions_HTML ();
-
 		}
 		else {
 			$html .= L_NO_RESULTS;

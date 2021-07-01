@@ -1,9 +1,9 @@
 <?php
 
 class View_List_NMV_Institutions_Table extends View_List {
-	
+
 	// CONSTRUCTOR ---------------------------------------------------------------
-	
+
 	static public function create () {
 		// create ( Creator )
 		$args = func_get_args();
@@ -11,9 +11,9 @@ class View_List_NMV_Institutions_Table extends View_List {
 			case 1: return new View_List_NMV_Institutions_Table ($args[0]);
 		}
 	}
-	
-	// VIEW ----------------------------------------------------------------------	
-	
+
+	// VIEW ----------------------------------------------------------------------
+
 	public function get_HTML ($results) {
 	    global $dbi;
 		$this->addSortOption ('Name','institution_name','ASC','DESC');
@@ -22,7 +22,6 @@ class View_List_NMV_Institutions_Table extends View_List {
 		$this->addSortOption ('Country','country','ASC, institution_name ASC','DESC, institution_name DESC');
 		$this->addSortOption ('Type','itype','ASC, institution_name ASC','DESC, institution_name DESC');
 		$html = '';
-		$html .= $this->getBrowseOptions_HTML ();
 		$html .= $this->getSortOptions_HTML ();
 
         $options = '';
@@ -44,7 +43,7 @@ class View_List_NMV_Institutions_Table extends View_List {
 			        <td>' . htmlentities($item->location, ENT_HTML5) . '</td>
 			        <td>' . htmlentities($item->country, ENT_HTML5) . '</td>
 			        <td>' . htmlentities($item->itype, ENT_HTML5) . '</td>
-			        <td>' . str_replace('{ID_institution}', $item->ID_institution, $options) . '</td>
+			        <td class="nowrap">' . str_replace('{ID_institution}', $item->ID_institution, $options) . '</td>
 			    </tr>';
 			}
 			$html .= '</table>';

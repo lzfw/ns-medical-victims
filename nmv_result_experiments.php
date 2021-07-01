@@ -54,12 +54,11 @@ $dbi->setUserVar('querystring',implode('&',$query));
 
 // Select-Klauseln erstellen
 //$querystring_count = 'SELECT COUNT(e.ID_experiment) AS total FROM nmv__experiment e'; // für Treffer gesamt
-$querystring_items = 'SELECT DISTINCT e.ID_experiment, e.experiment_title, e.field_of_interest, e.objective
+$querystring_items = 'SELECT DISTINCT e.ID_experiment, e.experiment_title, e.field_of_interest, e.objective, i.institution_name
 											FROM nmv__experiment e
-											LEFT JOIN nmv__perpetrator_experiment pe
-											ON e.ID_experiment = pe.ID_experiment
-											LEFT JOIN nmv__perpetrator p
-											ON pe.ID_perpetrator = p.ID_perpetrator'; // für Ergebnisliste
+											LEFT JOIN nmv__perpetrator_experiment pe		ON e.ID_experiment = pe.ID_experiment
+											LEFT JOIN nmv__perpetrator p								ON pe.ID_perpetrator = p.ID_perpetrator
+											LEFT JOIN nmv__institution i 								ON i.ID_institution = e.ID_institution'; // für Ergebnisliste
 $querystring_where = array(); // für Filter
 
 // MySQL-Zeichenfilter definieren (Trunkierungszeichen werden zu MySQL-Zeichen)
@@ -108,7 +107,7 @@ $total_results = $query_count->fetch_object();
 $dbi->setUserVar('total_results',$total_results->total);
 
 // order-klausel
-$querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']} LIMIT ".($dbi->user['skip']).','.Z_LIST_ROWS_PAGE;
+$querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 
 // query ausführen
 $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
@@ -138,7 +137,8 @@ $dbi->addBreadcrumb (L_SEARCH,'search.php');
 $layout
 	->set('title',L_RESULTS)
 	->set('content',
-        '<p>Search for: <em>'.implode(', ',$suche_nach).'</em></p>'
+        '<p>Search for: <em>'.implode(', ',$suche_nach).'</em><br>
+				Number of results: '. $total_results->total. '</p>'
         .$dbi->getListView('nmv_experiments_table',$query_items)
         .'<div class="buttons">'
 				.createButton (L_MODIFY_SEARCH,'javascript:history.back()','icon search')

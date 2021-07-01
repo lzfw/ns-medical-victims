@@ -22,7 +22,6 @@ class View_List_NMV_Experiments_Table extends View_List {
 		$this->addSortOption ('Field of Interest','field_of_interest','ASC, experiment_title ASC','DESC, experiment_title DESC');
 		$this->addSortOption ('Objective','objective','ASC, experiment_title ASC','DESC, experiment_title DESC');
 		$html = '';
-		$html .= $this->getBrowseOptions_HTML ();
 		$html .= $this->getSortOptions_HTML ();
 
         $options = '';
@@ -44,11 +43,10 @@ class View_List_NMV_Experiments_Table extends View_List {
 							<td>' . htmlentities($item->institution_name, ENT_HTML5) . '</td>
 							<td>' . htmlentities($item->field_of_interest, ENT_HTML5) . '</td>
 			        <td>' . htmlentities($item->objective, ENT_HTML5) . '</td>
-			        <td>' . str_replace('{ID_experiment}', $item->ID_experiment, $options) . '</td>
+			        <td class="nowrap">' . str_replace('{ID_experiment}', $item->ID_experiment, $options) . '</td>
 			    </tr>';
 			}
 			$html .= '</table>';
-			$html .= $this->getBrowseOptions_HTML ();
 
 		}
 		else {

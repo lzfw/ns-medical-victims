@@ -21,8 +21,8 @@ if ($dbi->checkUserPermission('admin')) {
 $querystring_count = 'SELECT COUNT(ID_experiment) AS total FROM nmv__experiment v'; // für Treffer gesamt
 $querystring_items = 'SELECT `ID_experiment`, i.institution_name, `experiment_title`, `field_of_interest`, `objective`, c.`english` classification
         FROM nmv__experiment e
-        LEFT JOIN nmv__experiment_classification c ON c.`ID_exp_classification` = e.`classification`
-				LEFT JOIN nmv__institution i ON i.ID_institution = e.ID_institution'; // für Ergebnisliste
+        LEFT JOIN nmv__experiment_classification c 	ON c.`ID_exp_classification` = e.`classification`
+				LEFT JOIN nmv__institution i 								ON i.ID_institution = e.ID_institution'; // für Ergebnisliste
 $querystring_where = array(); // für Filter
 
 // Gesamtanzahl der Suchergebnisse feststellen
@@ -31,7 +31,7 @@ $total_results = $query_count->fetch_object();
 $dbi->setUserVar('total_results',$total_results->total);
 
 // order-klausel
-$querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']} LIMIT ".($dbi->user['skip']).','.Z_LIST_ROWS_PAGE;
+$querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 
 // query ausführen
 $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
@@ -39,6 +39,7 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $layout
 	->set('title','Biomedical Research')
 	->set('content',
+			'<p>Number of experiments: '. $total_results->total. ' </p>'.
 	    $dbi->getListView('nmv_experiments_table',$query_items)
 	    .($dbi->checkUserPermission('edit')
 	        ? '<div class="buttons">'.createButton ('New Biomedical Research','nmv_edit_experiment','icon add').'</div>'
