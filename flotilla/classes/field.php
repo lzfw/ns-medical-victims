@@ -321,7 +321,7 @@ abstract class Field {
 		$leadout = NULL;
 		if (!$this->is_hidden()) {
 			if (get_class($this) != 'Field_StaticText' and get_class($this) != 'Field_SubHeadline') {
-				if ($this->description) $leadout .= "\t\t\t<div class=\"description\">$this->description</div>".PHP_EOL;
+				if ($this->description) $leadout .= "\t\t\t<span class=\"description\">$this->description</span>".PHP_EOL;
 				$leadout .= "\t\t</td>".PHP_EOL;
 				if ($this->error) $leadout .= "\t\t<td><div class=\"error\">$this->error</div></td>".PHP_EOL;
 				elseif ($this->valid) $leadout .= "\t\t<td><div class=\"valid\">".FLO_FIELD_IS_VALID."</div></td>".PHP_EOL;
