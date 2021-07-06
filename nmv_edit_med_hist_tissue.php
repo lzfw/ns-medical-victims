@@ -6,7 +6,7 @@ $dbi->requireUserPermission ('edit');
 
 $form = new Form ('nmv_med_hist_tissue');
 
-// query: get victim data
+// query: get victim data for display on edit-page
 $victim_id = (int) getUrlParameter('ID_victim', 0);
 $victim_name = 'Error: Unknown.';
 if ($victim_id) {
@@ -49,6 +49,10 @@ $form->addField ('ID_tissue_state',SELECT,REQUIRED)
     ->setLabel ('Tissue State')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__tissue_state', 'ID_tissue_state', "english");
+$form->addField('ID_institution', SELECT)
+    ->setLabel('Institution')
+    ->addOption(NO_VALUE, 'please choose')
+    ->addOptionsFromTable('nmv__institution', 'ID_institution', "CONCAT(RPAD(institution_name, 70, '_ '), '_ ', LEFT(IFNULL(location, '-'), 50))");
 $form->addField ('since_year',TEXT,4)
     ->setLabel ('State Since YMD')
     ->addCondition(VALUE,MIN,0)
@@ -61,8 +65,6 @@ $form->addField ('since_day',TEXT,2)
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,31)
     ->appendTo('since_year');
-$form->addField ('location',TEXT,150)
-    ->setLabel ('Tissue Location');
 $form->addField ('notes',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Notes');

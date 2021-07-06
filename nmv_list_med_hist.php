@@ -42,7 +42,7 @@ if ($victim_id) {
 
         $content .= '<h3>Hospitalization</h3>';
         $content .= '<table class="grid">';
-        $content .= '<tr><th>Institution</th><th>Date</th><th>ID</th><th>Options</th>';
+        $content .= '<tr><th>Institution</th><th>Date<br>(D.M.Y)</th><th>ID</th><th>Options</th>';
         $content .= '</tr>';
         while ($entry = $query->fetch_object()) {
         	$content .= '<tr>';
@@ -85,7 +85,7 @@ if ($victim_id) {
 
         $content .= '<h3>Brain Research</h3>';
         $content .= '<table class="grid">';
-        $content .= '<tr><th>Institution</th><th>Date</th><th>ID</th><th>Options</th>';
+        $content .= '<tr><th>Institution</th><th>Date<br>(D.M.Y)</th><th>ID</th><th>Options</th>';
         $content .= '</tr>';
         while ($entry = $query->fetch_object()) {
         	$content .= '<tr>';
@@ -114,11 +114,13 @@ if ($victim_id) {
         // query: get brain tissue data
         $querystring = "
         SELECT h.ID_med_history_tissue id, f.english tissue_form,
-            s.english tissue_state, location, h.ref_no ref_no,
-            CONCAT_WS('.', h.since_day, h.since_month, h.since_year) date
+            s.english tissue_state, h.ref_no ref_no,
+            CONCAT_WS('.', h.since_day, h.since_month, h.since_year) date,
+            CONCAT(IFNULL(i.institution_name,'unknown'), ' - ', IFNULL(i.location, '-')) AS institution
         FROM nmv__med_history_tissue h
         LEFT JOIN nmv__tissue_form f ON f.ID_tissue_form = h.ID_tissue_form
         LEFT JOIN nmv__tissue_state s ON s.ID_tissue_state = h.ID_tissue_state
+        LEFT JOIN nmv__institution i ON i.ID_institution = h.ID_institution
         WHERE ID_victim = $victim_id
         ORDER BY ref_no, h.since_year, h.since_month, h.since_day
         LIMIT 300";
@@ -126,7 +128,7 @@ if ($victim_id) {
 
         $content .= '<h3>Brain Tissues</h3>';
         $content .= '<table class="grid">';
-        $content .= '<tr><th>Ref No.</th><th>Date</th><th>Tissue Form</th><th>Tissue State</th><th>Location</th><th>ID</th><th>Options</th>';
+        $content .= '<tr><th>Ref No.</th><th>Date<br>(D.M.Y)</th><th>Tissue Form</th><th>Tissue State</th><th>Institution - Location</th><th>ID</th><th>Options</th>';
 
         $content .= '</tr>';
         while ($entry = $query->fetch_object()) {
@@ -135,7 +137,7 @@ if ($victim_id) {
           $content .= "<td>$entry->date</td>";
           $content .= '<td>'.htmlspecialchars($entry->tissue_form,ENT_HTML5).'</td>';
         	$content .= '<td>'.htmlspecialchars($entry->tissue_state,ENT_HTML5).'</td>';
-        	$content .= '<td>'.htmlspecialchars($entry->location,ENT_HTML5).'</td>';
+        	$content .= '<td>'.htmlspecialchars($entry->institution,ENT_HTML5).'</td>';
           $content .= "<td>$entry->id</td>";
         	$content .= '<td class="nowrap">';
             $content .= createSmallButton('View Details','nmv_view_med_hist_tissue?ID_med_history_tissue='.$entry->id,'icon view');

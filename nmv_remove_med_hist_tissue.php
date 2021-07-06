@@ -42,11 +42,12 @@ function get_victim($dbi, $id) {
 
 function get_med_hist_tissue($dbi, $id) {
     $sql = "SELECT h.ID_med_history_tissue id, f.english tissue_form,
-            s.english tissue_state, location,
+            s.english tissue_state, i.institution_name AS institution,
             CONCAT_WS('-', h.since_year, h.since_month, h.since_day) date
         FROM nmv__med_history_tissue h
         LEFT JOIN nmv__tissue_form f ON f.ID_tissue_form = h.ID_tissue_form
         LEFT JOIN nmv__tissue_state s ON s.ID_tissue_state = h.ID_tissue_state
+        LEFT JOIN nmv__institution i ON i.ID_institution = h.ID_institution
         WHERE ID_med_history_tissue = ?";
 
     if ($stmt = $dbi->connection->prepare($sql)) {
@@ -89,7 +90,7 @@ function prompt($dbi, $item) {
     $victim_med_hist_tissue =
         htmlspecialchars($med_hist_tissue->tissue_form, ENT_HTML5).' - ' .
         htmlspecialchars($med_hist_tissue->tissue_state, ENT_HTML5).' - ' .
-        htmlspecialchars($med_hist_tissue->location, ENT_HTML5).' - ' .
+        htmlspecialchars($med_hist_tissue->institution, ENT_HTML5).' - ' .
         htmlspecialchars($med_hist_tissue->date, ENT_HTML5).' - ' .
         htmlspecialchars($victim->first_names, ENT_HTML5).' '.
         htmlspecialchars($victim->surname, ENT_HTML5);

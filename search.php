@@ -127,10 +127,12 @@ $experimentsForm->addField ('classification', SELECT)
 $experimentsForm->addField ('ID_institution', SELECT)
 		->setLabel ('Institution')
 		->addOption (NO_VALUE,'all institutions')
-		->addOptionsFromTable	 ( 'nmv__institution', 'ID_institution', 'institution_name',
+		->addOptionsFromTable	 ( 'nmv__institution', 'ID_institution', "CONCAT(RPAD(institution_name, 70, '_ '), '_ ', LEFT(IFNULL(location, '-'), 50))",
 															'EXISTS (	SELECT *
 																				FROM nmv__experiment
 																				WHERE nmv__institution.ID_institution = nmv__experiment.ID_institution)');
+
+
 
 $experimentsForm
 	->addButton (SUBMIT,L_SEARCH);

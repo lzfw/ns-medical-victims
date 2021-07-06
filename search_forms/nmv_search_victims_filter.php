@@ -117,7 +117,7 @@ if (!($dbi->checkUserPermission('mpg'))) :
   $victimsVariableForm->addField('exp_institution', SELECT)
       ->setLabel ('experiment - institution')
       ->addOption (NO_VALUE, 'all experiment-institutions')
-      ->addOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name',
+      ->addOptionsFromTable('nmv__institution', 'ID_institution', "CONCAT(RPAD(institution_name, 70, '_ '), '_ ', LEFT(IFNULL(location, '-'), 50))",
                             'EXISTS (SELECT *
                                       FROM nmv__experiment
                                       WHERE nmv__experiment.ID_institution = nmv__institution.ID_institution)');
@@ -159,6 +159,11 @@ $victimsVariableForm->addField('ID_dataset_origin', SELECT)
   ->addOption (NO_VALUE,'all workgroups')
   ->addOptionsFromTable('nmv__dataset_origin', 'ID_dataset_origin', 'work_group');
 
+$victimsVariableForm->addField('tissue_institution', SELECT)
+    ->setLabel('tissue - institution')
+    ->addOption(NO_VALUE, 'all institutions')
+    ->addValidOptionsFromTable('nmv__institution', 'ID_institution', "CONCAT(RPAD(institution_name, 70, '_ '), '_ ', LEFT(IFNULL(location, '-'), 50))", 'nmv__med_history_tissue');
+
 $victimsVariableForm->addField('ID_tissue_form', SELECT)
   ->setLabel ('tissue - form')
   ->addOption (NO_VALUE,'all forms')
@@ -177,7 +182,7 @@ $victimsVariableForm->addField('brain_report_year', SELECT)
 $victimsVariableForm->addField('brain_report_institution', SELECT)
   ->setLabel ('brain report - institution')
   ->addOption (NO_VALUE,'all institutions')
-  ->addValidOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name', 'nmv__med_history_brain');
+  ->addValidOptionsFromTable('nmv__institution', 'ID_institution', "CONCAT(RPAD(institution_name, 70, '_ '), '_ ', LEFT(IFNULL(location, '-'), 50))", 'nmv__med_history_brain');
 
 $victimsVariableForm->addField('brain_report_ID_diagnosis', SELECT)
   ->setLabel ('brain report - diagnosis')
@@ -196,7 +201,7 @@ $victimsVariableForm->addField('hospitalisation_year', TEXT, 4)
   $victimsVariableForm->addField('hospitalisation_institution', SELECT)
     ->setLabel ('hospitalisation - institution')
     ->addOption (NO_VALUE,'all institutions')
-    ->addValidOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name', 'nmv__med_history_hosp');
+    ->addValidOptionsFromTable('nmv__institution', 'ID_institution', "CONCAT(RPAD(institution_name, 70, '_ '), '_ ', LEFT(IFNULL(location, '-'), 50))", 'nmv__med_history_hosp');
 
 $victimsVariableForm->addField('hospitalisation_ID_diagnosis', SELECT)
   ->setLabel ('hospitalisation - diagnosis')
