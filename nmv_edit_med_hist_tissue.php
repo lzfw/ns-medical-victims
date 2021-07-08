@@ -52,7 +52,7 @@ $form->addField ('ID_tissue_state',SELECT,REQUIRED)
 $form->addField('ID_institution', SELECT)
     ->setLabel('Institution')
     ->addOption(NO_VALUE, 'please choose')
-    ->addOptionsFromTable('nmv__institution', 'ID_institution', "CONCAT(RPAD(institution_name, 70, '_ '), '_ ', LEFT(IFNULL(location, '-'), 50))");
+    ->addOptionsFromTable('nmv__institution', 'ID_institution', "CONCAT(IFNULL(institution_name, '-/-'), '&emsp;---&emsp;', LEFT(IFNULL(location, '-/-'), 50))");
 $form->addField ('since_year',TEXT,4)
     ->setLabel ('State Since YMD')
     ->addCondition(VALUE,MIN,0)

@@ -37,7 +37,7 @@ $MPGfilterForm->addField('m_series', CHECKBOX, -1)
 $MPGfilterForm->addField('ID_institution', SELECT)
 	    ->setLabel('Institution (Brain Report, <br> Hospitalisation, Experiment)')
 	    ->addOption(NO_VALUE, 'all institutions')
-	    ->addOptionsFromTable('nmv__institution', 'ID_institution', "CONCAT(RPAD(institution_name, 80, '_ '), '_ ', LEFT(IFNULL(location, '-'), 50))",
+	    ->addOptionsFromTable('nmv__institution', 'ID_institution', "CONCAT(IFNULL(institution_name, '-/-'), '&emsp;---&emsp;', LEFT(IFNULL(location, '-/-'), 50))",
 				'EXISTS (SELECT * FROM nmv__med_history_brain
 									WHERE nmv__institution.ID_institution = nmv__med_history_brain.ID_institution)
 				OR EXISTS (SELECT * FROM nmv__med_history_hosp
@@ -49,7 +49,7 @@ $MPGfilterForm->addField('ID_institution', SELECT)
 $MPGfilterForm->addField('ID_tissue_institution', SELECT)
 		->setLabel('Institution (Tissue)')
 		->addOption(NO_VALUE, 'all institutions')
-		->addOptionsFromTable('nmv__institution', 'ID_institution', "CONCAT(RPAD(institution_name, 80, '_ '), '_ ', LEFT(IFNULL(location, '-'), 50))",
+		->addOptionsFromTable('nmv__institution', 'ID_institution', "CONCAT(IFNULL(institution_name, '-/-'), '&emsp;---&emsp;', LEFT(IFNULL(location, '-/-'), 50))",
 	 		'EXISTS (SELECT * FROM nmv__med_history_tissue WHERE nmv__institution.ID_institution = nmv__med_history_tissue.ID_institution)');
 
 

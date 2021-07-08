@@ -44,7 +44,7 @@ $form->addField ('ID_victim',PROTECTED_TEXT)
 $form->addField ('ID_institution',SELECT,REQUIRED)
     ->setLabel ('Institution')
     ->addOption (NO_VALUE,'please choose')
-    ->addOptionsFromTable ( 'nmv__institution', 'ID_institution', "LEFT(concat(IFNULL(LEFT(institution_name, 60), '#'),' - ',IFNULL(LEFT(location,40), '#'),' - ',IFNULL(country, '#')),100)");
+    ->addOptionsFromTable ( 'nmv__institution', 'ID_institution', "CONCAT(IFNULL(institution_name, '-/-'), '&emsp;---&emsp;', LEFT(IFNULL(location, '-/-'), 50))");
 $form->addField ('institution',TEXT,70)
     ->setClass ('keyboardInput')
     ->appendTo('ID_institution');
