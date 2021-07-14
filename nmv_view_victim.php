@@ -155,7 +155,7 @@ if ($victim = $result->fetch_object()) {
     // query: get prison numbers
     $querystring = "
     SELECT ID_imprisoniation, ID_victim, number, location,
-        pc.english classification, CONCAT(start_day, '.', start_month, '.', start_year) start_date
+        pc.english classification, CONCAT(IFNULL(start_day, '-'), '.', IFNULL(start_month, '-'), '.', IFNULL(start_year, '-')) AS start_date
     FROM nmv__imprisoniation i
     LEFT JOIN nmv__victim_classification pc ON pc.ID_classification = i.ID_classification
     WHERE ID_victim = $victim_id
