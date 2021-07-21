@@ -187,7 +187,7 @@ $victimsVariableForm->addField('brain_report_institution', SELECT)
 $victimsVariableForm->addField('brain_report_ID_diagnosis', SELECT)
   ->setLabel ('brain report - diagnosis')
   ->addOption (NO_VALUE,'all diagnoses')
-  ->addOptionsFromTable('nmv__diagnosis', 'ID_diagnosis', "CONCAT(IFNULL(english, 'no entry'),' - ',IFNULL(type, 'no entry'))",
+  ->addOptionsFromTable('nmv__diagnosis', 'ID_diagnosis', 'english',
                         'EXISTS (	SELECT *
                                   FROM nmv__med_history_brain
                                   WHERE nmv__med_history_brain.ID_diagnosis = nmv__diagnosis.ID_diagnosis)');
@@ -206,7 +206,7 @@ $victimsVariableForm->addField('hospitalisation_year', TEXT, 4)
 $victimsVariableForm->addField('hospitalisation_ID_diagnosis', SELECT)
   ->setLabel ('hospitalisation - diagnosis')
   ->addOption (NO_VALUE,'all diagnoses')
-  ->addOptionsFromTable('nmv__diagnosis', 'ID_diagnosis', "CONCAT(IFNULL(english, 'no entry'),' - ',IFNULL(type, 'no entry'))",
+  ->addOptionsFromTable('nmv__diagnosis', 'ID_diagnosis', 'english',
                         'EXISTS (	SELECT *
                                   FROM nmv__med_history_hosp
                                   WHERE nmv__med_history_hosp.ID_diagnosis = nmv__diagnosis.ID_diagnosis)');

@@ -55,7 +55,7 @@ $form->addField ('ID_institution_order',SELECT)
 $form->addField ('ID_diagnosis',SELECT)
     ->setLabel ('Diagnosis')
     ->addOption (NO_VALUE,'please choose')
-    ->addOptionsFromTable ( 'nmv__diagnosis', 'ID_diagnosis', "CONCAT(english, ' -- ', IFNULL(type, 'no type'))");
+    ->addOptionsFromTable ( 'nmv__diagnosis', 'ID_diagnosis', 'english');
 $form->addField ('diagnosis',TEXT,500)
     ->appendTo('ID_diagnosis');
 $form->addField ('ID_educational_abilities',SELECT)

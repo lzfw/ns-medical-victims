@@ -16,10 +16,7 @@ $form->addField ('english',TEXT,250)
     ->setLabel ('english');
 $form->addField ('deutsch',TEXT,250)
     ->setLabel ('deutsch');
-$form->addField ('type',SELECT)
-    ->setLabel ('type')
-		->addOption(NO_VALUE, 'please choose')
-		->addOptionsFromArray(['clinical' => 'clinical', 'postmortem' => 'postmortem', 'sterilisation' => 'sterilisation']);
+
 
 
 $form

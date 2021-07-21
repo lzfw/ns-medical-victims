@@ -67,7 +67,7 @@ if ($victim = $result->fetch_object()) {
     $victim_death = $victim->death.
         ($victim->death_place?' in '.$victim->death_place:'').
         ($victim->death_country?' in '.$victim->death_country :'').
-        ($victim->{"cause_of_death"}?' caused by '.$victim->{"cause_of_death"}:'');
+        ($victim->{"cause_of_death"}?', cause of death: '.$victim->{"cause_of_death"}:'');
     $content = buildElement('h3', 'Personal Data');
     $content .= buildElement('table','grid',
         buildDataSheetRow('Victim ID',              $victim_id).

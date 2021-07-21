@@ -11,15 +11,13 @@ $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 $dbi->addBreadcrumb ('Diagnosis','nmv_list_diagnosis');
 
 function breadcrumb($dbi, $item, $record_id) {
-    $diagnosis_names = $item->english .
-        ' (' . $item->type . ')';
+    $diagnosis_names = $item->english;
     $dbi->addBreadcrumb ($diagnosis_names,'nmv_view_diagnosis?ID_diagnosis='.$record_id);
 }
 
 function prompt($dbi, $item) {
     $diagnosis = htmlspecialchars($item->ID_diagnosis, ENT_HTML5).': '.
-        htmlspecialchars($item->english, ENT_HTML5).' ('.
-        htmlspecialchars($item->type, ENT_HTML5).')';
+        htmlspecialchars($item->english, ENT_HTML5);
     return 'Remove diagnosis'.': "<em>'.$diagnosis.'</em>".';
 }
 
