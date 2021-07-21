@@ -78,9 +78,9 @@ $content .= createButton("Perpetrators",'nmv_list_perpetrator_literature?ID_lite
 if(!($dbi->checkUserPermission('mpg'))):
   $content .= createButton("Biomedical Research",'nmv_list_experiment_literature?ID_literature='.$literature_id,'icon report-paper');
 endif;
-$content .= '</div>';
+$content .= '</div><br>';
 
-$content .= createBackLink ("List of Literature",'nmv_list_literature');
+$content .= createButton ('BACK','javascript:history.back()');
 
 
 $layout
