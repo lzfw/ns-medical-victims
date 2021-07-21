@@ -47,7 +47,7 @@ if ($institution = $result->fetch_object()) {
         buildDataSheetRow('Institution ID',        $institution_id).
         buildDataSheetRow('Name',                  $institution->institution_name).
         buildDataSheetRow('Location',              $institution->location).
-        buildDataSheetRow('Country',               $institution->country).
+        buildDataSheetRow('Present Country',               $institution->country).
         buildDataSheetRow('Type',                  $institution->type).
         buildDataSheetRow('Notes',                 $institution->notes)
     );

@@ -21,7 +21,7 @@ $form->addField ('location',TEXT,250)
     ->setClass ('keyboardInput')
     ->setLabel ('Location');
 $form->addField ('country',TEXT,50)
-    ->setLabel ('Country');
+    ->setLabel ('Present Country');
 $form->addField ('type',SELECT)
     ->setLabel ('Type')
     ->addOption (NO_VALUE,'please choose')

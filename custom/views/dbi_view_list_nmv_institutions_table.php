@@ -35,7 +35,7 @@ class View_List_NMV_Institutions_Table extends View_List {
 
 		if ($results->num_rows>0) {
 		    $html .= '<table class="grid">';
-		    $html .= '<th>Institution</th><th>ID</th><th>Location</th><th>Country</th><th>Type</th><th>Options</th>';
+		    $html .= '<th>Institution</th><th>ID</th><th>Location</th><th>Present Country</th><th>Type</th><th>Options</th>';
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
 			        <td><a href="nmv_view_institution?ID_institution=' . $item->ID_institution . '">' . htmlentities($item->institution_name, ENT_HTML5) . '</a></td>
