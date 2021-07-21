@@ -274,8 +274,9 @@ $content .= createButton("Medical History",'nmv_list_med_hist?ID_victim='.$victi
 if (!($dbi->checkUserPermission('mpg'))) :
   $content .= createButton("Biomedical Research",'nmv_list_victim_experiment?ID_victim='.$victim_id,'icon report-paper');
 endif;
-$content .= createButton("Literature",'nmv_list_victim_literature?ID_victim='.$victim_id,'icon report-paper');
-$content .= createButton("Sources",'nmv_list_victim_source?ID_victim='.$victim_id,'icon report-paper');
+//$content .= createButton("Literature",'nmv_list_victim_literature?ID_victim='.$victim_id,'icon report-paper');
+//$content .= createButton("Sources",'nmv_list_victim_source?ID_victim='.$victim_id,'icon report-paper');
+$content .= createButton("Literature and Sources", 'nmv_list_victim_literature_and_sources?ID_victim='.$victim_id, 'icon report-paper');
 $content .= '</div>';
 
 $content .= createBackLink ("List of Victims",'nmv_list_victims');
