@@ -27,12 +27,12 @@ if ($victim_id) {
         // query: get hosp data
         $querystring = "
         SELECT  h.ID_med_history_hosp id, i.ID_institution id_institution,
-                LEFT(concat(
-                  IFNULL(LEFT(i.institution_name, 60), '#'),' - ',
+                concat(
+                  IFNULL(LEFT(i.institution_name, 150), '#'),' - ',
                   IFNULL(LEFT(i.location,40), '#'),' - ',
-                  IFNULL(i.country, '#')),100) institution,
+                  IFNULL(i.country, '#')) institution,
                 h.institution other_institution,
-                CONCAT_WS('.', h.date_entry_day, h.date_entry_month, h.date_entry_year) date
+                CONCAT_WS('.', IFNULL(h.date_entry_day, '-'), IFNULL(h.date_entry_month, '-'), IFNULL(h.date_entry_year, '-')) date
         FROM nmv__med_history_hosp h
         LEFT JOIN nmv__institution i ON i.ID_institution = h.ID_institution
         WHERE ID_victim = $victim_id
@@ -74,8 +74,8 @@ if ($victim_id) {
 
         // query: get brain research data
         $querystring = "
-        SELECT h.ID_med_history_brain id, LEFT(concat(IFNULL(LEFT(i.institution_name, 60), '#'),' - ',IFNULL(LEFT(i.location,40), '#'),' - ',IFNULL(i.country, '#')),100) institution,
-            CONCAT_WS('.', h.brain_report_day, h.brain_report_month, h.brain_report_year) date
+        SELECT h.ID_med_history_brain id, concat(IFNULL(i.institution_name, '#'),' - ',IFNULL(i.location, '#'),' - ',IFNULL(i.country, '#')) institution,
+            CONCAT_WS('.', IFNULL(h.brain_report_day, '-'), IFNULL(h.brain_report_month, '-'), IFNULL(h.brain_report_year, '-')) date
         FROM nmv__med_history_brain h
         LEFT JOIN nmv__institution i ON i.ID_institution = h.ID_institution
         WHERE ID_victim = $victim_id
@@ -115,7 +115,7 @@ if ($victim_id) {
         $querystring = "
         SELECT h.ID_med_history_tissue id, f.english tissue_form,
             s.english tissue_state, h.ref_no ref_no,
-            CONCAT_WS('.', h.since_day, h.since_month, h.since_year) date,
+            CONCAT_WS('.', IFNULL(h.since_day, '-'), IFNULL(h.since_month, '-'), IFNULL(h.since_year, '-')) date,
             CONCAT(IFNULL(i.institution_name,'unknown'), ' - ', IFNULL(i.location, '-')) AS institution
         FROM nmv__med_history_tissue h
         LEFT JOIN nmv__tissue_form f ON f.ID_tissue_form = h.ID_tissue_form
@@ -135,9 +135,9 @@ if ($victim_id) {
         	$content .= '<tr>';
           $content .= "<td>$entry->ref_no</td>";
           $content .= "<td>$entry->date</td>";
-          $content .= '<td>'.htmlspecialchars($entry->tissue_form,ENT_HTML5).'</td>';
-        	$content .= '<td>'.htmlspecialchars($entry->tissue_state,ENT_HTML5).'</td>';
-        	$content .= '<td>'.htmlspecialchars($entry->institution,ENT_HTML5).'</td>';
+          $content .= '<td class="nowrap">'.htmlspecialchars($entry->tissue_form,ENT_HTML5).'</td>';
+        	$content .= '<td class="nowrap">'.htmlspecialchars($entry->tissue_state,ENT_HTML5).'</td>';
+        	$content .= '<td class="nowrap">'.htmlspecialchars($entry->institution,ENT_HTML5).'</td>';
           $content .= "<td>$entry->id</td>";
         	$content .= '<td class="nowrap">';
             $content .= createSmallButton('View Details','nmv_view_med_hist_tissue?ID_med_history_tissue='.$entry->id,'icon view');

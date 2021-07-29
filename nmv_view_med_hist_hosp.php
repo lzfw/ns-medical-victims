@@ -18,10 +18,10 @@ $querystring = "
     SELECT
         v.ID_victim ID_victim,
         v.first_names first_names, v.surname surname, v.birth_place birth_place,
-        LEFT(CONCAT(
-            IFNULL(LEFT(i.institution_name, 60), '#'),' - ',
-            IFNULL(LEFT(i.location,40), '#'),' - ',
-            IFNULL(i.country, '#')),100) institution_l,
+        CONCAT(
+            IFNULL(i.institution_name, '#'),' - ',
+            IFNULL(i.location, '#'),' - ',
+            IFNULL(i.country, '#')) institution_l,
         o.english as institution_order,
         diag.english as diagnosis_l,
         e.english as educational_abilities,
@@ -98,7 +98,7 @@ $content .= '</table>';
         $content .= createButton("basic victim data",'nmv_view_victim?ID_victim='.$victim_id,'icon report-paper');
 	}
 	$content .= '</div>';
-	
+
 if ($victim_id) {
     $content .= createBackLink ('Medical History: ' . $victim_name,'nmv_list_med_hist?ID_victim=' . $victim_id);
 }

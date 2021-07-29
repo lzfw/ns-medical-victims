@@ -18,10 +18,10 @@ $querystring = "
     SELECT
         v.ID_victim ID_victim,
         v.first_names first_names, v.surname surname, v.birth_place birth_place,
-        LEFT(CONCAT(
-            IFNULL(LEFT(i.institution_name, 60), '#'),' - ',
-            IFNULL(LEFT(i.location,40), '#'),' - ',
-            IFNULL(i.country, '#')),100) institution,
+        CONCAT(
+            IFNULL(i.institution_name, '#'),' - ',
+            IFNULL(i.location, '#'),' - ',
+            IFNULL(i.country, '#'))institution,
         diag.english as diagnosis_l,
         CONCAT_WS('-', h.brain_report_year, h.brain_report_month, h.brain_report_day) brain_report_date,
         h.kwi_researcher kwi_researcher, h.diagnosis diagnosis,
@@ -41,7 +41,7 @@ if ($victim = $query->fetch_object()) {
 
     $dbi->addBreadcrumb ($victim_name,'nmv_view_victim?ID_victim=' . $victim_id);
     $dbi->addBreadcrumb ('Medical History','nmv_list_med_hist?ID_victim=' . $victim_id);
-    
+
     $content .= '<tr><th>Victim ID</th><td>'.
         htmlspecialchars($victim->ID_victim, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Brain Research ID</th><td>'.
@@ -72,7 +72,7 @@ $content .= '</table>';
         $content .= createButton("basic victim data",'nmv_view_victim?ID_victim='.$victim_id,'icon report-paper');
 	}
 	$content .= '</div>';
-	
+
 if ($victim_id) {
     $content .= createBackLink ('Medical History: ' . $victim_name,'nmv_list_med_hist?ID_victim=' . $victim_id);
 }
