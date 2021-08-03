@@ -107,6 +107,8 @@ $form->addField ('year_of_qualification_2',TEXT,4)
 $form->addField ('title_of_dissertation_2',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Title of Dissertation 2');
+$form->addField ('leopoldina_member',CHECKBOX,-1)
+    ->setLabel ('Leopoldina Member');
 $form->addField ('nsdap_member',CHECKBOX,-1)
     ->setLabel ('NSDAP Member');
 $form->addField ('nsdap_since_when',TEXT,4)

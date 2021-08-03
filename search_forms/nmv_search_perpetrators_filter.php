@@ -85,6 +85,9 @@ $perpetratorsFilterForm->addField('career_history', TEXT, 100)
 
 $perpetratorsFilterForm->addField('br-memberships', STATIC_TEXT, '<br>');
 
+$perpetratorsFilterForm->addField('leopoldina_member', CHECKBOX, -1)
+  ->setLabel ('Leopoldina member');
+
 $perpetratorsFilterForm->addField('nsdap_member', CHECKBOX, -1)
   ->setLabel ('NSDAP member');
 

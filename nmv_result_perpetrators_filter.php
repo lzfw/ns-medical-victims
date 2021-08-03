@@ -40,7 +40,7 @@ $exact_fields = array (	'birth_year',				'death_year',					'gender',
 												'religion', 				'nationality_1938',
 												'ID_perp_class',		'nsdap_member', 			'ss_member',
 												'sa_member', 				'other_nsdap_organisations_member',
-												'ID_birth_country', 'ID_death_country'
+												'ID_birth_country', 'ID_death_country',		'leopoldina_member'
 											);
 
 // felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
@@ -200,6 +200,7 @@ if (isset($_GET['ID_perp_class']) && $_GET['ID_perp_class']) {
 	$suche_nach[] = 'classification = '.$search_term[0];
 }
 if (isset($_GET['career_history']) && $_GET['career_history']) $suche_nach[] = 'career history = '.$_GET['career_history'];
+if (isset($_GET['leopoldina_member']) && $_GET['leopoldina_member']) $suche_nach[] = 'leopoldina members';
 if (isset($_GET['nsdap_member']) && $_GET['nsdap_member']) $suche_nach[] = 'nsdap members';
 if (isset($_GET['ss_member']) && $_GET['ss_member']) $suche_nach[] = 'ss members';
 if (isset($_GET['sa_member']) && $_GET['sa_member']) $suche_nach[] = 'sa members';

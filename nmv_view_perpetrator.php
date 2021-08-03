@@ -19,7 +19,7 @@ $querystring = '
            n.english as nationality, c.english as classification, occupation,
            career_history, place_of_qualification_1, year_of_qualification_1, type_of_qualification_1,
            title_of_dissertation_1, place_of_qualification_2, year_of_qualification_2, type_of_qualification_2,
-           title_of_dissertation_2, nsdap_member, nsdap_since_when,
+           title_of_dissertation_2, leopoldina_member, nsdap_member, nsdap_since_when,
            ss_member, ss_since_when, sa_member, sa_since_when,
            other_nsdap_organisations_member, details_all_memberships,
            career_after_1945, prosecution, prison_time, notes
@@ -54,7 +54,7 @@ if ($stmt = $dbi->connection->prepare($querystring)) {
 }
 
 function formatMembership($is_member, $since) {
-    return ( $is_member ? 'yes' : 'no / unknown' ) .
+    return ( $is_member ? 'yes' : '-' ) .
         ($since ? ', since ' . $since : '');
 }
 
@@ -62,17 +62,19 @@ if ($perpetrator = $result->fetch_object()) {
     $perpetrator_name = $perpetrator->first_names.' '.$perpetrator->surname;
     $perpetrator_title = $perpetrator->titles;
     $perpetrator_birth = $perpetrator->birth.
-        ($perpetrator->birth_place ? ' in '.$perpetrator->birth_place : '').
-        ($perpetrator->birth_country ? ' ('.$perpetrator->birth_country . ')' : '');
+        ($perpetrator->birth_place ? ' in '.$perpetrator->birth_place : '-').
+        ($perpetrator->birth_country ? ' ('.$perpetrator->birth_country . ')' : '-');
     $perpetrator_death = $perpetrator->death.
-        ($perpetrator->death_place ?' in '.$perpetrator->death_place:'').
-        ($perpetrator->death_country ? ' ('.$perpetrator->death_country.')':'');
+        ($perpetrator->death_place ?' in '.$perpetrator->death_place:'-').
+        ($perpetrator->death_country ? ' ('.$perpetrator->death_country.')':'-');
     $nsdap_member = formatMembership(
         $perpetrator->nsdap_member, $perpetrator->nsdap_since_when);
     $ss_member = formatMembership(
         $perpetrator->ss_member, $perpetrator->ss_since_when);
     $sa_member = formatMembership(
         $perpetrator->sa_member, $perpetrator->sa_since_when);
+    $leopoldina_member = $perpetrator->leopoldina_member ? 'yes' : '-';
+
 
     $content = buildElement('table','grid',
         buildDataSheetRow('Perpetrator ID',         $perpetrator_id).
@@ -100,11 +102,12 @@ if ($perpetrator = $result->fetch_object()) {
             $perpetrator->year_of_qualification_2).
         buildDataSheetRow('Title of dissertation 2',
             $perpetrator->title_of_dissertation_2).
+        buildDataSheetRow('Leopoldina member',      $leopoldina_member) .
         buildDataSheetRow('NSDAP member',           $nsdap_member).
         buildDataSheetRow('SS member',              $ss_member).
         buildDataSheetRow('SA member',              $sa_member).
-        buildDataSheetRow('Other NSDAP org. memebership',
-            $perpetrator->other_nsdap_organisations_member ? 'yes' : 'no / unknown').
+        buildDataSheetRow('Other NSDAP org. membership',
+            $perpetrator->other_nsdap_organisations_member ? 'yes' : '-').
         buildDataSheetRow('Membership details',
             $perpetrator->details_all_memberships).
         buildDataSheetRow('Career after 1945',      $perpetrator->career_after_1945).
