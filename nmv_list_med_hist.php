@@ -8,7 +8,7 @@ $dbi->addBreadcrumb ('Victims','nmv_list_victims');
 
 $victim_id = (int) getUrlParameter('ID_victim', 0);
 $victim_name = 'Error: Missing victim.';
-$content = '';
+$content = '<br>';
 
 if ($victim_id) {
     // query: get victim data
@@ -69,7 +69,7 @@ if ($victim_id) {
         	$content .= '<div class="buttons">';
         	$content .= createButton ('New Hospitalization Entry',
         	    'nmv_edit_med_hist_hosp?ID_victim='.$victim_id,'icon add');
-        	$content .= '</div>';
+        	$content .= '</div><br>';
         }
 
         // query: get brain research data
@@ -83,7 +83,7 @@ if ($victim_id) {
         LIMIT 300";
         $query = $dbi->connection->query($querystring);
 
-        $content .= '<h3>Brain Research</h3>';
+        $content .= '<h3>Brain Report</h3>';
         $content .= '<table class="grid">';
         $content .= '<tr><th>Institution</th><th>Date<br>(D.M.Y)</th><th>ID</th><th>Options</th>';
         $content .= '</tr>';
@@ -106,9 +106,9 @@ if ($victim_id) {
         $content .= '</table>';
         if ($dbi->checkUserPermission('edit')) {
         	$content .= '<div class="buttons">';
-        	$content .= createButton ('New Brain Research Entry',
+        	$content .= createButton ('New Brain Report Entry',
         	    'nmv_edit_med_hist_brain?ID_victim='.$victim_id,'icon add');
-        	$content .= '</div>';
+        	$content .= '</div><br>';
         }
 
         // query: get brain tissue data
@@ -126,7 +126,7 @@ if ($victim_id) {
         LIMIT 300";
         $query = $dbi->connection->query($querystring);
 
-        $content .= '<h3>Brain Tissues</h3>';
+        $content .= '<h3>Brain Tissue</h3>';
         $content .= '<table class="grid">';
         $content .= '<tr><th>Ref No.</th><th>Date<br>(D.M.Y)</th><th>Tissue Form</th><th>Tissue State</th><th>Institution - Location</th><th>ID</th><th>Options</th>';
 
@@ -155,7 +155,7 @@ if ($victim_id) {
         	$content .= '<div class="buttons">';
         	$content .= createButton ('New Brain Tissue Entry',
         	    'nmv_edit_med_hist_tissue?ID_victim='.$victim_id,'icon add');
-        	$content .= '</div>';
+        	$content .= '</div><br>';
         }
     }
 

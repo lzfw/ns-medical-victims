@@ -44,7 +44,7 @@ if ($victim = $query->fetch_object()) {
 
     $content .= '<tr><th>Victim ID</th><td>'.
         htmlspecialchars($victim->ID_victim, ENT_HTML5).'</td></tr>';
-    $content .= '<tr><th>Brain Research ID</th><td>'.
+    $content .= '<tr><th>Brain Report ID</th><td>'.
         htmlspecialchars($med_hist_id, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Institution</th><td>'.
         htmlspecialchars($victim->institution, ENT_HTML5).'</td></tr>';
@@ -78,6 +78,6 @@ if ($victim_id) {
 }
 
 $layout
-	->set('title','Brain History: '.$victim_name)
+	->set('title','Brain Report: '.$victim_name)
 	->set('content',$content)
 	->cast();

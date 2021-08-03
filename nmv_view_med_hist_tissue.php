@@ -74,6 +74,6 @@ if ($victim_id) {
 }
 
 $layout
-	->set('title','Tissue History: '.$victim_name)
+	->set('title','Brain Tissue: '.$victim_name)
 	->set('content',$content)
 	->cast();

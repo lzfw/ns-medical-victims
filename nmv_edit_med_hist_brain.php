@@ -33,7 +33,7 @@ if ($victim_id) {
 
 
 $form
-	->setLabel('Brain research related to victim ' . $victim_name);
+	->setLabel('Brain report related to victim ' . $victim_name);
 
 $form
 	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
@@ -85,6 +85,6 @@ $dbi->addBreadcrumb ('Victims','nmv_list_victims');
 $dbi->addBreadcrumb ('Medical History of '.$victim_name,'nmv_list_med_hist?ID_victim='.$victim_id);
 
 $layout
-	->set('title',getUrlParameter('ID_med_history_brain') ? 'Edit Brain Research' : 'New Brain Research')
+	->set('title',getUrlParameter('ID_med_history_brain') ? 'Edit Brain Report' : 'New Brain Report')
 	->set('content',$form->run().'<div class="message">'.$form->success_message.'</div>'.$form->debuglog->Show())
 	->cast();
