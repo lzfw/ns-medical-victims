@@ -137,7 +137,7 @@ if ($victim_id) {
           $content .= "<td>$entry->date</td>";
           $content .= '<td class="nowrap">'.htmlspecialchars($entry->tissue_form,ENT_HTML5).'</td>';
         	$content .= '<td class="nowrap">'.htmlspecialchars($entry->tissue_state,ENT_HTML5).'</td>';
-        	$content .= '<td class="nowrap">'.htmlspecialchars($entry->institution,ENT_HTML5).'</td>';
+        	$content .= '<td>'.htmlspecialchars($entry->institution,ENT_HTML5).'</td>';
           $content .= "<td>$entry->id</td>";
         	$content .= '<td class="nowrap">';
             $content .= createSmallButton('View Details','nmv_view_med_hist_tissue?ID_med_history_tissue='.$entry->id,'icon view');
