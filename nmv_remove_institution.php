@@ -12,15 +12,14 @@ $dbi->addBreadcrumb ('Institutions','nmv_list_institutions');
 
 function breadcrumb($dbi, $item, $record_id) {
     $institution_name = $item->institution_name .
-        ' (' . $item->location . ', ' . $item->country . ')';
+        ' (' . $item->location . ')';
     $dbi->addBreadcrumb ($institution_name,'nmv_view_institution?ID_institution='.$record_id);
 }
 
 function prompt($dbi, $item) {
     $institution = htmlspecialchars($item->ID_institution, ENT_HTML5).': '.
         htmlspecialchars($item->institution_name, ENT_HTML5).' '.
-        htmlspecialchars($item->location, ENT_HTML5).' '.
-        htmlspecialchars($item->country, ENT_HTML5);
+        htmlspecialchars($item->location, ENT_HTML5);
     return 'Remove Institution'.': "<em>'.$institution.'</em>".';
 }
 

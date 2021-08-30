@@ -11,20 +11,21 @@ $dbi->addBreadcrumb ('Biomedical Research','nmv_list_experiments');
 
 // query: get experiment data
 $querystring = '
-    SELECT e.ID_experiment, e.experiment_title experiment_title, c.english classification, e.funding funding,
-        e.field_of_interest field_of_interest, e.objective objective,
-        e.number_victims_remark number_victims_remark, e.notes notes,
-        e.number_victims_estimate number_victims_estimate,
-        e.number_fatalities_estimate number_fatalities_estimate,
-        e.confirmed_experiment confirmed_experiment,
-        e. location_details location_details,
-        CONCAT_WS(\'-\', e.start_year, e.start_month, e.start_day) start,
-        CONCAT_WS(\'-\', e.end_year, e.end_month, e.end_day) end,
-        e.notes_location notes_location,
-    LEFT(concat(IFNULL(LEFT(i.institution_name, 60), \'#\'),\' - \',IFNULL(LEFT(i.location,40), \'#\'),\' - \',IFNULL(i.country, \'#\')),100) institution
+    SELECT e.ID_experiment, e.experiment_title AS experiment_title, c.english AS classification, e.funding AS funding,
+        e.field_of_interest AS field_of_interest, e.objective AS objective,
+        e.number_victims_remark AS number_victims_remark, e.notes AS notes,
+        e.number_victims_estimate AS number_victims_estimate,
+        e.number_fatalities_estimate AS number_fatalities_estimate,
+        e.confirmed_experiment AS confirmed_experiment,
+        e. location_details AS location_details,
+        CONCAT_WS(\'-\', e.start_year, e.start_month, e.start_day) AS start,
+        CONCAT_WS(\'-\', e.end_year, e.end_month, e.end_day) AS end,
+        e.notes_location AS notes_location,
+    LEFT(concat(IFNULL(LEFT(i.institution_name, 60), \'#\'),\' - \',IFNULL(LEFT(i.location,40), \'#\'),\' - \',IFNULL(co.english, \'#\')),100) institution
     FROM nmv__experiment e
-    LEFT JOIN nmv__experiment_classification c ON (c.ID_exp_classification = e.classification )
-    LEFT JOIN nmv__institution i on (i.ID_institution = e.ID_institution)
+    LEFT JOIN nmv__experiment_classification c ON c.ID_exp_classification = e.classification
+    LEFT JOIN nmv__institution i ON i.ID_institution = e.ID_institution
+    LEFT JOIN nmv__country co ON co.ID_country = i.ID_country
     WHERE ID_experiment = ?';
 
 $result = null;
@@ -57,7 +58,8 @@ if ($experiment = $result->fetch_object()) {
         buildDataSheetRow('ID experiment',            $experiment->ID_experiment).
         buildDataSheetRow('Title',                    $experiment->experiment_title . $confirmed).
         buildDataSheetRow('Classification',           $experiment->classification).
-        buildDataSheetRow('Institution, location',    $experiment->institution . "\n - " . $experiment->location_details).
+        buildDataSheetRow('Institution',              $experiment->institution).
+        buildDataSheetRow('Location Details',         $experiment->location_details).
         buildDataSheetRow('Notes on location',        $experiment->notes_location).
         buildDataSheetRow('Funding',                  $experiment->funding).
         buildDataSheetRow('Duration',                 $experiment->start . ' - ' . $experiment->end).

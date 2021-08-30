@@ -20,13 +20,15 @@ $querystring = "
         v.first_names AS first_names, v.surname AS surname, v.birth_place AS birth_place,
         h.ID_med_history_tissue AS id, f.english AS tissue_form,
             s.english AS tissue_state, i.institution_name, i.location AS institution_location,
+            c.english AS institution_country,
             CONCAT_WS('-', h.since_year, h.since_month, h.since_day) AS date,
             h.notes AS notes, h.ref_no AS ref_no
     FROM nmv__med_history_tissue h
-    LEFT JOIN nmv__victim v                ON (h.ID_victim = v.ID_victim)
-    LEFT JOIN nmv__tissue_form f           ON (f.ID_tissue_form = h.ID_tissue_form)
-    LEFT JOIN nmv__tissue_state s          ON (s.ID_tissue_state = h.ID_tissue_state)
-    LEFT JOIN nmv__institution i           ON (i.ID_institution = h.ID_institution)
+    LEFT JOIN nmv__victim v                ON h.ID_victim = v.ID_victim
+    LEFT JOIN nmv__tissue_form f           ON f.ID_tissue_form = h.ID_tissue_form
+    LEFT JOIN nmv__tissue_state s          ON s.ID_tissue_state = h.ID_tissue_state
+    LEFT JOIN nmv__institution i           ON i.ID_institution = h.ID_institution
+    LEFT JOIN nmv__country c               ON c.ID_country = i.ID_country
     WHERE h.ID_med_history_tissue = ".$dbi->getUserVar('ID_med_history_tissue');
 $query = $dbi->connection->query($querystring);
 
@@ -50,7 +52,7 @@ if ($victim = $query->fetch_object()) {
     $content .= '<tr><th>State since</th><td>'.
         htmlspecialchars($victim->date, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Tissue location<br>(Institution)</th><td>'.
-        htmlspecialchars($victim->institution_name, ENT_HTML5) . '<br>in ' . htmlspecialchars($victim->institution_location, ENT_HTML5) . '</td></tr>';
+        htmlspecialchars($victim->institution_name, ENT_HTML5) . '<br>in ' . htmlspecialchars($victim->institution_location, ENT_HTML5) .  ', ' . htmlspecialchars($victim->institution_country, ENT_HTML5) . '</td></tr>';
     $content .= '<tr><th>Notes</th><td>'.
         htmlspecialchars($victim->notes, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Reference number</th><td>'.

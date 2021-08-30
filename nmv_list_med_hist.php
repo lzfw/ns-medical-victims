@@ -30,11 +30,12 @@ if ($victim_id) {
                 concat(
                   IFNULL(LEFT(i.institution_name, 150), '#'),' - ',
                   IFNULL(LEFT(i.location,40), '#'),' - ',
-                  IFNULL(i.country, '#')) institution,
+                  IFNULL(c.english, '#')) institution,
                 h.institution other_institution,
                 CONCAT_WS('.', IFNULL(h.date_entry_day, '-'), IFNULL(h.date_entry_month, '-'), IFNULL(h.date_entry_year, '-')) date
         FROM nmv__med_history_hosp h
         LEFT JOIN nmv__institution i ON i.ID_institution = h.ID_institution
+        LEFT JOIN nmv__country c ON c.ID_country = i.ID_country
         WHERE ID_victim = $victim_id
         ORDER BY h.date_entry_year, h.date_entry_month, h.date_entry_day
         LIMIT 300";
@@ -74,10 +75,11 @@ if ($victim_id) {
 
         // query: get brain research data
         $querystring = "
-        SELECT h.ID_med_history_brain id, concat(IFNULL(i.institution_name, '#'),' - ',IFNULL(i.location, '#'),' - ',IFNULL(i.country, '#')) institution,
+        SELECT h.ID_med_history_brain id, concat(IFNULL(i.institution_name, '#'),' - ',IFNULL(i.location, '#'),' - ',IFNULL(c.english, '#')) institution,
             CONCAT_WS('.', IFNULL(h.brain_report_day, '-'), IFNULL(h.brain_report_month, '-'), IFNULL(h.brain_report_year, '-')) date
         FROM nmv__med_history_brain h
         LEFT JOIN nmv__institution i ON i.ID_institution = h.ID_institution
+        LEFT JOIN nmv__country c ON c.ID_country = i.ID_country
         WHERE ID_victim = $victim_id
         ORDER BY h.brain_report_year, h.brain_report_month, h.brain_report_day
         LIMIT 300";
@@ -116,11 +118,12 @@ if ($victim_id) {
         SELECT h.ID_med_history_tissue id, f.english tissue_form,
             s.english tissue_state, h.ref_no ref_no,
             CONCAT_WS('.', IFNULL(h.since_day, '-'), IFNULL(h.since_month, '-'), IFNULL(h.since_year, '-')) date,
-            CONCAT(IFNULL(i.institution_name,'unknown'), ' - ', IFNULL(i.location, '-')) AS institution
+            CONCAT(IFNULL(i.institution_name,'unknown'), ' - ', IFNULL(i.location, '-'), ' - ', IFNULL(c.english, '-')) AS institution
         FROM nmv__med_history_tissue h
         LEFT JOIN nmv__tissue_form f ON f.ID_tissue_form = h.ID_tissue_form
         LEFT JOIN nmv__tissue_state s ON s.ID_tissue_state = h.ID_tissue_state
         LEFT JOIN nmv__institution i ON i.ID_institution = h.ID_institution
+        LEFT JOIN nmv__country c ON c.ID_country = i.ID_country
         WHERE ID_victim = $victim_id
         ORDER BY ref_no, h.since_year, h.since_month, h.since_day
         LIMIT 300";

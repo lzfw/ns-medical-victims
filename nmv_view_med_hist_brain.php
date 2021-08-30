@@ -21,7 +21,7 @@ $querystring = "
         CONCAT(
             IFNULL(i.institution_name, '#'),' - ',
             IFNULL(i.location, '#'),' - ',
-            IFNULL(i.country, '#'))institution,
+            IFNULL(c.english, '#'))institution,
         diag.english as diagnosis_l,
         CONCAT_WS('-', h.brain_report_year, h.brain_report_month, h.brain_report_day) brain_report_date,
         h.kwi_researcher kwi_researcher, h.diagnosis diagnosis,
@@ -29,6 +29,7 @@ $querystring = "
     FROM nmv__med_history_brain h
     LEFT JOIN nmv__victim v               ON (h.ID_victim = v.ID_victim)
     LEFT JOIN nmv__institution i           ON (h.ID_institution = i.ID_institution)
+    LEFT JOIN nmv__country c               ON (c.ID_country = i.ID_country)
     LEFT JOIN nmv__diagnosis diag          ON (h.ID_diagnosis = diag.ID_diagnosis)
     WHERE h.ID_med_history_brain = ".$dbi->getUserVar('ID_med_history_brain');
 $query = $dbi->connection->query($querystring);

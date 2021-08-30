@@ -2,33 +2,35 @@
 require_once 'zefiro/ini.php';
 require_once 'flotilla/ini.php';
 
-$dbi->requireUserPermission ('edit');
+$dbi->requireUserPermission('edit');
 
-$form = new Form ('nmv_edit_institution');
+$form = new Form('nmv_edit_institution');
 
 $form
 	->setLabel('Institution');
 
 $form
-	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
+	->addConnection(MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
 	->setPrimaryKeyName('ID_institution');
-$form->addfield ('ID_institution', PROTECTED_TEXT)
-    ->setLabel ('Institution ID');
-$form->addField ('institution_name',TEXT,250)
-    ->setClass ('keyboardInput')
-    ->setLabel ('Name');
-$form->addField ('location',TEXT,250)
-    ->setClass ('keyboardInput')
-    ->setLabel ('Location');
-$form->addField ('country',TEXT,50)
-    ->setLabel ('Present Country');
-$form->addField ('type',SELECT)
-    ->setLabel ('Type')
-    ->addOption (NO_VALUE,'please choose')
-    ->addOptionsFromTable ( 'nmv__institution_type', 'ID_institution_type', 'english');
-$form->addField ('notes',TEXTAREA)
-    ->setClass ('keyboardInput')
-    ->setLabel ('Notes');
+$form->addfield('ID_institution', PROTECTED_TEXT)
+    ->setLabel('Institution ID');
+$form->addField('institution_name',TEXT,250)
+    ->setClass('keyboardInput')
+    ->setLabel('Name');
+$form->addField('location',TEXT,250)
+    ->setClass('keyboardInput')
+    ->setLabel('Location');
+$form->addField('ID_country',SELECT)
+    ->setLabel('Present Country')
+		->addOption(NO_VALUE, 'please choose')
+		->addOptionsFromTable('nmv__country', 'ID_country', 'english');
+$form->addField('type',SELECT)
+    ->setLabel('Type')
+    ->addOption(NO_VALUE,'please choose')
+    ->addOptionsFromTable('nmv__institution_type', 'ID_institution_type', 'english');
+$form->addField('notes',TEXTAREA)
+    ->setClass('keyboardInput')
+    ->setLabel('Notes');
 
 $form
 	->addButton (SUBMIT)

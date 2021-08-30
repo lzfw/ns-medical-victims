@@ -16,30 +16,31 @@ $dbi->addBreadcrumb ('Victims','nmv_list_victims');
 // query: get victim data
 $querystring = "
     SELECT
-        v.ID_victim ID_victim,
-        v.first_names first_names, v.surname surname, v.birth_place birth_place,
+        v.ID_victim AS ID_victim,
+        v.first_names AS first_names, v.surname AS surname, v.birth_place AS birth_place,
         CONCAT(
             IFNULL(i.institution_name, '#'),' - ',
             IFNULL(i.location, '#'),' - ',
-            IFNULL(i.country, '#')) institution_l,
-        o.english as institution_order,
-        diag.english as diagnosis_l,
-        e.english as educational_abilities,
-        b.english as behaviour,
-        d.english as disability,
-        CONCAT_WS('-', h.date_entry_year, h.date_entry_month, h.date_entry_day) date_entry,
-        CONCAT_WS('-', h.date_exit_year, h.date_exit_month, h.date_exit_day) date_exit,
-        h.age_entry age_entry, h.age_exit age_exit,
-        h.institution institution, h.diagnosis diagnosis, h.autopsy_ref_no autopsy_ref_no,
-        h.notes notes
+            IFNULL(c.english, '#')) AS institution_l,
+        o.english AS institution_order,
+        diag.english AS diagnosis_l,
+        e.english AS educational_abilities,
+        b.english AS behaviour,
+        d.english AS disability,
+        CONCAT_WS('-', h.date_entry_year, h.date_entry_month, h.date_entry_day) AS date_entry,
+        CONCAT_WS('-', h.date_exit_year, h.date_exit_month, h.date_exit_day) AS date_exit,
+        h.age_entry AS age_entry, h.age_exit AS age_exit,
+        h.institution AS institution, h.diagnosis AS diagnosis, h.autopsy_ref_no AS autopsy_ref_no,
+        h.notes AS notes
     FROM nmv__med_history_hosp h
-    LEFT JOIN nmv__victim v               ON (h.ID_victim = v.ID_victim)
-    LEFT JOIN nmv__institution i           ON (h.ID_institution = i.ID_institution)
-    LEFT JOIN nmv__institution_order o     ON (h.ID_institution_order = o.ID_institution_order)
-    LEFT JOIN nmv__diagnosis diag          ON (h.ID_diagnosis = diag.ID_diagnosis)
-    LEFT JOIN nmv__educational_abilities e ON (h.ID_educational_abilities = e.ID_educational_abilities)
-    LEFT JOIN nmv__behaviour b             ON (h.ID_behaviour = b.ID_behaviour)
-    LEFT JOIN nmv__disability d            ON (h.ID_disability = d.ID_disability)
+    LEFT JOIN nmv__victim v               ON h.ID_victim = v.ID_victim
+    LEFT JOIN nmv__institution i           ON h.ID_institution = i.ID_institution
+    LEFT JOIN nmv__institution_order o     ON h.ID_institution_order = o.ID_institution_order
+    LEFT JOIN nmv__country c               ON c.ID_country = i.ID_country
+    LEFT JOIN nmv__diagnosis diag          ON h.ID_diagnosis = diag.ID_diagnosis
+    LEFT JOIN nmv__educational_abilities e ON h.ID_educational_abilities = e.ID_educational_abilities
+    LEFT JOIN nmv__behaviour b             ON h.ID_behaviour = b.ID_behaviour
+    LEFT JOIN nmv__disability d            ON h.ID_disability = d.ID_disability
     WHERE h.ID_med_history_hosp = ".$dbi->getUserVar('ID_med_history_hosp');
 $query = $dbi->connection->query($querystring);
 
@@ -57,10 +58,11 @@ if ($victim = $query->fetch_object()) {
     $content .= '<tr><th>Hospitalization ID</th><td>'.
         htmlspecialchars($med_hist_id, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Institution</th><td>'.
-        htmlspecialchars($victim->institution_l, ENT_HTML5). ' <br>'.
-        htmlspecialchars($victim->institution, ENT_HTML5). ' <br>'.
-        ($victim->institution_order
-            ?' ('.htmlspecialchars($victim->institution_order, ENT_HTML5).')'
+        htmlspecialchars($victim->institution_l, ENT_HTML5).
+      '</td></tr>';
+    $content .= '<tr><th>Institution Order</th><td>'.
+            ($victim->institution_order
+            ?htmlspecialchars($victim->institution_order, ENT_HTML5)
             :'')
         .'</td></tr>';
     $content .= '<tr><th>Diagnosis</th><td>'.

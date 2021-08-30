@@ -41,7 +41,7 @@ function get_victim($dbi, $id) {
 }
 
 function get_med_hist_brain($dbi, $id) {
-    $sql = "SELECT h.ID_med_history_brain id, LEFT(concat(IFNULL(LEFT(i.institution_name, 60), '#'),' - ',IFNULL(LEFT(i.location,40), '#'),' - ',IFNULL(i.country, '#')),100) institution,
+    $sql = "SELECT h.ID_med_history_brain id, LEFT(concat(IFNULL(LEFT(i.institution_name, 60), '#'),' - ',IFNULL(LEFT(i.location,40), '#')),100) institution,
             CONCAT_WS('-', h.brain_report_year, h.brain_report_month, h.brain_report_day) date
         FROM nmv__med_history_brain h
         LEFT JOIN nmv__institution i ON i.ID_institution = h.ID_institution

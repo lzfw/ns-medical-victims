@@ -41,7 +41,7 @@ function get_victim($dbi, $id) {
 }
 
 function get_med_hist_hosp($dbi, $id) {
-    $sql = "SELECT h.ID_med_history_hosp id, LEFT(concat(IFNULL(LEFT(i.institution_name, 60), '#'),' - ',IFNULL(LEFT(i.location,40), '#'),' - ',IFNULL(i.country, '#')),100) institution,
+    $sql = "SELECT h.ID_med_history_hosp id, LEFT(concat(IFNULL(LEFT(i.institution_name, 60), '#'),' - ',IFNULL(LEFT(i.location,40), '#')),100) institution,
             CONCAT_WS('-', h.date_entry_year, h.date_entry_month, h.date_entry_day) date
         FROM nmv__med_history_hosp h
         LEFT JOIN nmv__institution i ON i.ID_institution = h.ID_institution
