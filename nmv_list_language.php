@@ -21,7 +21,7 @@ $total_results = $query_count->fetch_object();
 $dbi->setUserVar('total_results',$total_results->total);
 
 // order-klausel
-$querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']} LIMIT ".($dbi->user['skip']).','.Z_LIST_ROWS_PAGE;
+$querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 
 // query ausführen
 $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
@@ -32,7 +32,7 @@ $layout
       '<p>Number of language entries: ' . $total_results->total . ' </p>' .
       ($dbi->checkUserPermission('admin')
 	        ? '<div class="buttons">'.createButton ('New Language','nmv_edit_language','icon addUser').'</div>'
-	        : '') . 
+	        : '') .
 	    $dbi->getListView('nmv_language_table',$query_items)
 	    .($dbi->checkUserPermission('admin')
 	        ? '<div class="buttons">'.createButton ('New Language','nmv_edit_language','icon addUser').'</div>'
