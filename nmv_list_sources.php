@@ -39,6 +39,9 @@ $layout
 	->set('title','Sources')
 	->set('content',
 			'<p>Number of source entries: ' . $total_results->total . '</p>' .
+			($dbi->checkUserPermission('edit')
+	        ? '<div class="buttons">'.createButton ('New Source','nmv_edit_source','icon add').'</div>'
+	        : '') .
 	    $dbi->getListView('nmv_sources_table',$query_items)
 	    .($dbi->checkUserPermission('edit')
 	        ? '<div class="buttons">'.createButton ('New Source','nmv_edit_source','icon add').'</div>'

@@ -41,6 +41,9 @@ $layout
 	->set('title','Institutions')
 	->set('content',
 			'<p>Number of institution entries: ' . $total_results->total . ' </p>' .
+			($dbi->checkUserPermission('edit')
+	        ? '<div class="buttons">'.createButton ('New Institution','nmv_edit_institution','icon addUser').'</div>'
+	        : '') . 
 	    $dbi->getListView('nmv_institutions_table',$query_items)
 	    .($dbi->checkUserPermission('edit')
 	        ? '<div class="buttons">'.createButton ('New Institution','nmv_edit_institution','icon addUser').'</div>'

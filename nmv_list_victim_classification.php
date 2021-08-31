@@ -29,6 +29,10 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $layout
 	->set('title','Victim Classification (Imprisonment)')
 	->set('content',
+      '<p>Number of classification entries: ' . $total_results->total . '</p>' .
+      ($dbi->checkUserPermission('admin')
+	        ? '<div class="buttons">'.createButton ('New Victim classification','nmv_edit_victim_classification','icon addUser').'</div>'
+	        : '') .
 	    $dbi->getListView('nmv_victim_classification_table',$query_items)
 	    .($dbi->checkUserPermission('admin')
 	        ? '<div class="buttons">'.createButton ('New Victim classification','nmv_edit_victim_classification','icon addUser').'</div>'

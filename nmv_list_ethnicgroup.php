@@ -29,6 +29,10 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $layout
 	->set('title','Ethnicgroup')
 	->set('content',
+      '<p>Number of ethnic group entries: ' . $total_results->total . ' </p>' .
+      ($dbi->checkUserPermission('admin')
+      ? '<div class="buttons">'.createButton ('New Ethnicgroup','nmv_edit_ethnicgroup','icon addUser').'</div>'
+      : '') .
 	    $dbi->getListView('nmv_ethnicgroup_table',$query_items)
 	    .($dbi->checkUserPermission('admin')
 	        ? '<div class="buttons">'.createButton ('New Ethnicgroup','nmv_edit_ethnicgroup','icon addUser').'</div>'

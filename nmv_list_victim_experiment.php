@@ -126,7 +126,7 @@ if ($experiment_id) {
         // reconstruct GET-String (for scroll- and order- / sort- function)
 
 
-        // query: get data of the victims of the experiment 
+        // query: get data of the victims of the experiment
 
         $querystring_items = "
         SELECT

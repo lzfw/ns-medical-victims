@@ -40,6 +40,9 @@ $layout
 	->set('title','Perpetrators')
 	->set('content',
 			'<p>Number of perpetrator entries: ' . $total_results->total . '</p>' .
+			($dbi->checkUserPermission('edit')
+	        ? '<div class="buttons">'.createButton ('New Perpetrator','nmv_edit_perpetrator','icon addUser').'</div>'
+	        : '') .
 	    $dbi->getListView('table_nmv_perpetrators',$query_items)
 	    .($dbi->checkUserPermission('edit')
 	        ? '<div class="buttons">'.createButton ('New Perpetrator','nmv_edit_perpetrator','icon addUser').'</div>'

@@ -22,7 +22,6 @@ class View_List_NMV_Experiment_Classification_Table extends View_List {
 
 
 		$html = '';
-		$html .= $this->getBrowseOptions_HTML ();
 		$html .= $this->getSortOptions_HTML ();
 
         $options = '';

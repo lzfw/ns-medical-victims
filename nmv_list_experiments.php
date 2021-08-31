@@ -39,6 +39,9 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $layout
 	->set('title','Biomedical Research')
 	->set('content',
+			($dbi->checkUserPermission('edit')
+			? '<div class="buttons">'.createButton ('New Biomedical Research','nmv_edit_experiment','icon add').'</div>'
+			: '') .
 			'<p>Number of experiments: '. $total_results->total. ' </p>'.
 	    $dbi->getListView('nmv_experiments_table',$query_items)
 	    .($dbi->checkUserPermission('edit')

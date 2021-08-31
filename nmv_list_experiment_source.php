@@ -40,6 +40,12 @@ if ($source_id) {
         ORDER BY title
         LIMIT 300";
 
+        $querystring_count = "SELECT COUNT(*) AS total FROM nmv__experiment_source es WHERE es.ID_source = $source_id"; // für Treffer gesamt
+
+        // Gesamtanzahl der Suchergebnisse feststellen
+        $query_count = $dbi->connection->query($querystring_count);
+        $total_results = $query_count->fetch_object();
+
         $options = '';
         $row_template = ['<a href="nmv_view_experiment?ID_experiment={ID_experiment}">{title}</a>', '{classification}', '{location}'];
         $header_template = ['Title', 'Classification', 'Location'];
@@ -56,12 +62,25 @@ if ($source_id) {
         $row_template[] = $options;
         $header_template[] = L_OPTIONS;
 
+
+        $content .= '<p>Number of experiments: ' . $total_results->total . ' </p>';
+
+        //new experiment - button
+        if ($dbi->checkUserPermission('edit')) {
+          $content .= '<div class="buttons">';
+          $content .= createButton ('New Biomedical Research Entry',
+              'nmv_edit_experiment_source?ID_source='.$source_id,'icon add');
+          $content .= '</div>';
+        }
+
+        // table view
         $content .= buildTableFromQuery(
             $querystring,
             $row_template,
             $header_template,
             'grid');
 
+        // new experiment button
         if ($dbi->checkUserPermission('edit')) {
         	$content .= '<div class="buttons">';
         	$content .= createButton ('New Biomedical Research Entry',
@@ -78,9 +97,9 @@ if ($experiment_id) {
 
     // query: get experiment data
     $querystring = "
-    SELECT CONCAT(COALESCE(experiment_title, ''), ' - ', COALESCE(field_of_interest, '')) experiment_name
-    FROM nmv__experiment
-    WHERE ID_experiment = $experiment_id";
+      SELECT CONCAT(COALESCE(experiment_title, ''), ' - ', COALESCE(field_of_interest, '')) experiment_name
+      FROM nmv__experiment
+      WHERE ID_experiment = $experiment_id";
     $query = $dbi->connection->query($querystring);
     $experiment = $query->fetch_object();
 
@@ -101,6 +120,13 @@ if ($experiment_id) {
         ORDER BY title
         LIMIT 300";
 
+        $querystring_count = "SELECT COUNT(*) AS total FROM nmv__experiment_source es WHERE es.ID_experiment = $experiment_id"; // für Treffer gesamt
+
+        // Gesamtanzahl der Suchergebnisse feststellen
+        $query_count = $dbi->connection->query($querystring_count);
+        $total_results = $query_count->fetch_object();
+
+
         $options = '';
         $row_template = ['<a href="nmv_view_source?ID_source={ID_source}">{title}</a>', '{medium}', '{year}', '{location}'];
         $header_template = ['Title', 'Medium', 'Year', 'Location'];
@@ -116,12 +142,24 @@ if ($experiment_id) {
         $row_template[] = $options;
         $header_template[] = L_OPTIONS;
 
+        $content .= '<p>Number of sources: ' . $total_results->total . ' </p>';
+
+        // new source - button
+        if ($dbi->checkUserPermission('edit')) {
+          $content .= '<div class="buttons">';
+          $content .= createButton ('New Source Entry',
+              'nmv_edit_experiment_source?ID_experiment='.$experiment_id,'icon add');
+          $content .= '</div>';
+        }
+
+        // table view
         $content .= buildTableFromQuery(
             $querystring,
             $row_template,
             $header_template,
             'grid');
 
+        // new source - button
         if ($dbi->checkUserPermission('edit')) {
         	$content .= '<div class="buttons">';
         	$content .= createButton ('New Source Entry',

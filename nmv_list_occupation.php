@@ -29,6 +29,10 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $layout
 	->set('title','Occupation')
 	->set('content',
+      '<p>Number of occupation entries: ' . $total_results->total . '</p>' .
+      ($dbi->checkUserPermission('admin')
+	        ? '<div class="buttons">'.createButton ('New Occupation','nmv_edit_occupation','icon addUser').'</div>'
+	        : '') .
 	    $dbi->getListView('nmv_occupation_table',$query_items)
 	    .($dbi->checkUserPermission('admin')
 	        ? '<div class="buttons">'.createButton ('New Occupation','nmv_edit_occupation','icon addUser').'</div>'

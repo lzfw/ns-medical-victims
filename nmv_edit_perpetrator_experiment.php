@@ -6,8 +6,10 @@ $dbi->requireUserPermission ('edit');
 
 $form = new Form ('nmv_perpetrator_experiment');
 
-// query: get perpetrator data
+$perp_exp_id = (int) getUrlParameter('ID_perp_exp', 0);
 $perpetrator_id = (int) getUrlParameter('ID_perpetrator', 0);
+
+// query: get perpetrator data
 $perpetrator_name = 'Error: Unknown.';
 if ($perpetrator_id) {
     $querystring = "
@@ -18,13 +20,12 @@ if ($perpetrator_id) {
     $perpetrator = $query->fetch_object();
     $perpetrator_name = $perpetrator->perpetrator_name;
 } else {
-    $med_id = (int) getUrlParameter('ID_perp_exp', 0);
     $querystring = "
-    SELECT CONCAT(COALESCE(v.surname, ''), ' ', COALESCE(v.first_names, '')) perpetrator_name,
-        v.ID_perpetrator perpetrator_id
-    FROM nmv__perpetrator v
-    RIGHT JOIN nmv__perpetrator_experiment h ON (h.ID_perpetrator = v.ID_perpetrator)
-    WHERE ID_perp_exp = $med_id";
+    SELECT CONCAT(COALESCE(p.surname, ''), ' ', COALESCE(p.first_names, '')) perpetrator_name,
+        p.ID_perpetrator perpetrator_id
+    FROM nmv__perpetrator p
+    RIGHT JOIN nmv__perpetrator_experiment pe ON (pe.ID_perpetrator = p.ID_perpetrator)
+    WHERE ID_perp_exp = $perp_exp_id";
     $query = $dbi->connection->query($querystring);
     $perpetrator = $query->fetch_object();
     $perpetrator_id = $perpetrator->perpetrator_id;

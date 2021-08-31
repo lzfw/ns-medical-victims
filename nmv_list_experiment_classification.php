@@ -29,6 +29,10 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $layout
 	->set('title','Experiment Classification')
 	->set('content',
+      '<p>Number of experiment classification entries: ' . $total_results->total . ' </p>' .
+      ($dbi->checkUserPermission('admin')
+      ? '<div class="buttons">'.createButton ('New Experiment Classification','nmv_edit_experiment_classification','icon addUser').'</div>'
+      : '') .
 	    $dbi->getListView('nmv_experiment_classification_table',$query_items)
 	    .($dbi->checkUserPermission('admin')
 	        ? '<div class="buttons">'.createButton ('New Experiment Classification','nmv_edit_experiment_classification','icon addUser').'</div>'

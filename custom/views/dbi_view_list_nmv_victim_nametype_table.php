@@ -22,7 +22,6 @@ class View_List_NMV_Victim_Nametype_Table extends View_List {
 
 
 		$html = '';
-		$html .= $this->getBrowseOptions_HTML ();
 		$html .= $this->getSortOptions_HTML ();
 
     $options = '';
@@ -42,7 +41,6 @@ class View_List_NMV_Victim_Nametype_Table extends View_List {
 			    </tr>';
 			}
 			$html .= '</table>';
-			$html .= $this->getBrowseOptions_HTML ();
 		}
 		else {
 			$html .= L_NO_RESULTS;

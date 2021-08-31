@@ -29,6 +29,10 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $layout
 	->set('title','Diagnosis')
 	->set('content',
+      '<p>Number of diagnosis entries: ' . $total_results->total . ' </p>' .
+      ($dbi->checkUserPermission('admin')
+      ? '<div class="buttons">'.createButton ('New Diagnosis','nmv_edit_diagnosis','icon addUser').'</div>'
+      : '') .
 	    $dbi->getListView('nmv_diagnosis_table',$query_items)
 	    .($dbi->checkUserPermission('admin')
 	        ? '<div class="buttons">'.createButton ('New Diagnosis','nmv_edit_diagnosis','icon addUser').'</div>'

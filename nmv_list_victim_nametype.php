@@ -29,6 +29,10 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $layout
 	->set('title','Nametype')
 	->set('content',
+      '<p>Number of nametype entries: ' . $total_results->total . '</p>' .
+      ($dbi->checkUserPermission('admin')
+	        ? '<div class="buttons">'.createButton ('New Nametype','nmv_edit_victim_nametype','icon addUser').'</div>'
+	        : '') .
 	    $dbi->getListView('nmv_victim_nametype_table',$query_items)
 	    .($dbi->checkUserPermission('admin')
 	        ? '<div class="buttons">'.createButton ('New Nametype','nmv_edit_victim_nametype','icon addUser').'</div>'

@@ -29,6 +29,10 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $layout
 	->set('title','Dataset Origin')
 	->set('content',
+      '<p>Number of origin entries: ' . $total_results->total . ' </p>' .
+      ($dbi->checkUserPermission('admin')
+      ? '<div class="buttons">'.createButton ('New Dataset Origin','nmv_edit_dataset_origin','icon addUser').'</div>'
+      : '') .
 	    $dbi->getListView('nmv_dataset_origin_table',$query_items)
 	    .($dbi->checkUserPermission('admin')
 	        ? '<div class="buttons">'.createButton ('New Dataset Origin','nmv_edit_dataset_origin','icon addUser').'</div>'

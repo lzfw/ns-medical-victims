@@ -56,12 +56,22 @@ if ($victim_id) {
         $row_template[] = $options;
         $header_template[] = L_OPTIONS;
 
+        // new entry - button
+        if ($dbi->checkUserPermission('edit')) {
+          $content .= '<div class="buttons">';
+          $content .= createButton ('New source Entry',
+              'nmv_edit_victim_source?ID_victim='.$victim_id,'icon add');
+          $content .= '</div>';
+        }
+
+        // table view
         $content .= buildTableFromQuery(
             $querystring,
             $row_template,
             $header_template,
             'grid');
 
+        // new entry - button
         if ($dbi->checkUserPermission('edit')) {
         	$content .= '<div class="buttons">';
         	$content .= createButton ('New source Entry',

@@ -39,6 +39,9 @@ $layout
 	->set('title','Literature')
 	->set('content',
 			'<p>Number of literature entries: ' . $total_results->total . '</p>' .
+			($dbi->checkUserPermission('edit')
+	        ? '<div class="buttons">'.createButton ('New Literature','nmv_edit_literature','icon add').'</div>'
+	        : '') . 
 	    $dbi->getListView('nmv_literature_table',$query_items)
 	    .($dbi->checkUserPermission('edit')
 	        ? '<div class="buttons">'.createButton ('New Literature','nmv_edit_literature','icon add').'</div>'

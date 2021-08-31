@@ -29,6 +29,10 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $layout
 	->set('title','Tissue Form')
 	->set('content',
+      '<p>Number of tissue form entries: ' . $total_results->total . '</p>' .
+      ($dbi->checkUserPermission('admin')
+	        ? '<div class="buttons">'.createButton ('New Tissue Form','nmv_edit_tissue_form','icon addUser').'</div>'
+	        : '') .
 	    $dbi->getListView('nmv_tissue_form_table',$query_items)
 	    .($dbi->checkUserPermission('admin')
 	        ? '<div class="buttons">'.createButton ('New Tissue Form','nmv_edit_tissue_form','icon addUser').'</div>'

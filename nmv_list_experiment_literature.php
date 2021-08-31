@@ -40,6 +40,12 @@ if ($literature_id) {
         ORDER BY title
         LIMIT 300";
 
+        $querystring_count = "SELECT COUNT(*) AS total FROM nmv__experiment_literature el WHERE el.ID_literature = $literature_id"; // für Treffer gesamt
+
+        // Gesamtanzahl der Suchergebnisse feststellen
+        $query_count = $dbi->connection->query($querystring_count);
+        $total_results = $query_count->fetch_object();
+
         $options = '';
         $row_template = ['<a href="nmv_view_experiment?ID_experiment={ID_experiment}">{title}</a>', '{classification}', '{pages}'];
         $header_template = ['Title', 'Classification', 'Pages'];
@@ -56,12 +62,24 @@ if ($literature_id) {
         $row_template[] = $options;
         $header_template[] = L_OPTIONS;
 
+        $content .= '<p>Number of experiments: ' . $total_results->total . ' </p>';
+
+        // new entry button
+        if ($dbi->checkUserPermission('edit')) {
+        	$content .= '<div class="buttons">';
+        	$content .= createButton ('New Biomedical Research Entry',
+        	    'nmv_edit_experiment_literature?ID_literature='.$literature_id,'icon add');
+        	$content .= '</div>';
+        }
+
+        // table
         $content .= buildTableFromQuery(
             $querystring,
             $row_template,
             $header_template,
             'grid');
 
+        // new entry button
         if ($dbi->checkUserPermission('edit')) {
         	$content .= '<div class="buttons">';
         	$content .= createButton ('New Biomedical Research Entry',
@@ -101,6 +119,12 @@ if ($experiment_id) {
         ORDER BY title
         LIMIT 300";
 
+        $querystring_count = "SELECT COUNT(*) AS total FROM nmv__experiment_literature el WHERE el.ID_experiment = $experiment_id"; // für Treffer gesamt
+
+        // Gesamtanzahl der Suchergebnisse feststellen
+        $query_count = $dbi->connection->query($querystring_count);
+        $total_results = $query_count->fetch_object();
+
         $options = '';
         $row_template = ['<a href="nmv_view_literature?ID_literature={ID_literature}">{title}</a>', '{authors}', '{pages}'];
         $header_template = ['Title', 'Authors', 'Pages'];
@@ -116,12 +140,24 @@ if ($experiment_id) {
         	$header_template[] = L_OPTIONS;
         }
 
+        $content .= '<p>Number of literature: ' . $total_results->total . ' </p>';
+
+        // new entry - button
+        if ($dbi->checkUserPermission('edit')) {
+        	$content .= '<div class="buttons">';
+        	$content .= createButton ('New Literature Entry',
+        	    'nmv_edit_experiment_literature?ID_experiment='.$experiment_id,'icon add');
+        	$content .= '</div>';
+        }
+
+        // table view
         $content .= buildTableFromQuery(
             $querystring,
             $row_template,
             $header_template,
             'grid');
 
+        // new entry - button
         if ($dbi->checkUserPermission('edit')) {
         	$content .= '<div class="buttons">';
         	$content .= createButton ('New Literature Entry',

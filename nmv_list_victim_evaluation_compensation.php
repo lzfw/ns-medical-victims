@@ -29,6 +29,10 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $layout
 	->set('title','Victim Evaluation - Compensation')
 	->set('content',
+      '<p>Number of compensation entries: ' . $total_results->total . '</p>' .
+      ($dbi->checkUserPermission('admin')
+	        ? '<div class="buttons">'.createButton ('New Compensation','nmv_edit_victim_evaluation_compensation','icon addUser').'</div>'
+	        : '') .
 	    $dbi->getListView('nmv_victim_evaluation_compensation_table',$query_items)
 	    .($dbi->checkUserPermission('admin')
 	        ? '<div class="buttons">'.createButton ('New Compensation','nmv_edit_victim_evaluation_compensation','icon addUser').'</div>'

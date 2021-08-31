@@ -10,6 +10,7 @@ $experiment_id = (int) getUrlParameter('ID_experiment', 0);
 
 $perpetrator_name = 'Error: Missing perpetrator.';
 $experiment_name = 'Error: Missing biomedical research.';
+$title = '';
 $content = '';
 
 if ($perpetrator_id) {
@@ -25,6 +26,7 @@ if ($perpetrator_id) {
 
     if ($perpetrator) {
         $perpetrator_name = $perpetrator->perpetrator_name;
+        $title = 'Biomedical Research: ' . $perpetrator_name;
 
         $dbi->addBreadcrumb ($perpetrator_name,'nmv_view_perpetrator?ID_perpetrator='.$perpetrator_id);
 
@@ -71,12 +73,23 @@ if ($perpetrator_id) {
     	$header_template[] = L_OPTIONS;
 
         $content .= '<p>Number of experiments: '.$experiment_count.'</p>';
+
+        // new entry - button
+        if ($dbi->checkUserPermission('edit')) {
+          $content .= '<div class="buttons">';
+          $content .= createButton ('New Biomedical Research Entry',
+              'nmv_edit_perpetrator_experiment?ID_perpetrator='.$perpetrator_id,'icon add');
+          $content .= '</div>';
+        }
+
+        // table view
         $content .= buildTableFromQuery(
             $querystring,
             $row_template,
             $header_template,
             'grid');
 
+        // new entry - button
         if ($dbi->checkUserPermission('edit')) {
         	$content .= '<div class="buttons">';
         	$content .= createButton ('New Biomedical Research Entry',
@@ -104,7 +117,7 @@ if ($experiment_id) {
 
         $dbi->addBreadcrumb ($experiment_name,'nmv_view_experiment?ID_experiment='.$experiment_id);
 
-        //get number of victims
+        //get number of perpetrators
         $querystring_count = "
         SELECT COUNT(pe.ID_perpetrator) AS total
           FROM nmv__perpetrator_experiment pe
@@ -117,7 +130,7 @@ if ($experiment_id) {
         $perpetrator_count = $total_results->total;
 
 
-        // query: get victims data
+        // query: get perpetrator data
         $querystring = "
         SELECT pe.ID_perp_exp ID_perp_exp, CONCAT(p.first_names, ' ', p.surname) perpetrator_name,
             p.birth_place birth_place,
@@ -146,21 +159,15 @@ if ($experiment_id) {
         }
     	$row_template[] = $options;
     	$header_template[] = L_OPTIONS;
+
         $content .= '<p>Number of Perpetrators: '.$perpetrator_count.'</p>';
+
+        // table view
         $content .= buildTableFromQuery(
             $querystring,
             $row_template,
             $header_template,
             'grid');
-
-        // Not supported by nmv_edit_perpetrator_experiment yet
-        /*
-        if ($dbi->checkUserPermission('edit')) {
-        	$content .= '<div class="buttons">';
-        	$content .= createButton ('New Biomedical Research Entry',
-        	    'nmv_edit_perpetrator_experiment?ID_experiment='.$experiment_id,'icon add');
-        	$content .= '</div>';
-        }*/
     }
 
     $content .= createBackLink ('View Biomedical Research: '.$experiment_name,'nmv_view_experiment?ID_experiment='.$experiment_id);

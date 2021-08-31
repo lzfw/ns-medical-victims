@@ -21,7 +21,6 @@ class View_List_NMV_Dataset_Origin_Table extends View_List {
 
 
 		$html = '';
-		$html .= $this->getBrowseOptions_HTML ();
 		$html .= $this->getSortOptions_HTML ();
 
         $options = '';

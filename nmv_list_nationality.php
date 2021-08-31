@@ -29,6 +29,10 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $layout
 	->set('title','Nationality')
 	->set('content',
+      '<p>Number of nationality entries: ' . $total_results->total . '</p>' .
+      ($dbi->checkUserPermission('admin')
+	        ? '<div class="buttons">'.createButton ('New Nationality','nmv_edit_nationality','icon addUser').'</div>'
+	        : '') . 
 	    $dbi->getListView('nmv_nationality_table',$query_items)
 	    .($dbi->checkUserPermission('admin')
 	        ? '<div class="buttons">'.createButton ('New Nationality','nmv_edit_nationality','icon addUser').'</div>'

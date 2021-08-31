@@ -29,6 +29,10 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $layout
 	->set('title','Survival')
 	->set('content',
+      '<p>Number of survival entries: ' . $total_results->total . '</p>' .
+      ($dbi->checkUserPermission('admin')
+	        ? '<div class="buttons">'.createButton ('New Survival','nmv_edit_survival','icon addUser').'</div>'
+	        : '') .
 	    $dbi->getListView('nmv_survival_table',$query_items)
 	    .($dbi->checkUserPermission('admin')
 	        ? '<div class="buttons">'.createButton ('New Survival','nmv_edit_survival','icon addUser').'</div>'

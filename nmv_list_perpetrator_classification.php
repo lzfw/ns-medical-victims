@@ -29,6 +29,10 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $layout
 	->set('title','Perpetrator Classification')
 	->set('content',
+      '<p>Number of occupation entries: ' . $total_results->total . '</p>' .
+      ($dbi->checkUserPermission('admin')
+	        ? '<div class="buttons">'.createButton ('New Perpetrator Classification','nmv_edit_perpetrator_classification','icon addUser').'</div>'
+	        : '') .
 	    $dbi->getListView('nmv_perpetrator_classification_table',$query_items)
 	    .($dbi->checkUserPermission('admin')
 	        ? '<div class="buttons">'.createButton ('New Perpetrator Classification','nmv_edit_perpetrator_classification','icon addUser').'</div>'

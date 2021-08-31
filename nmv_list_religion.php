@@ -29,6 +29,10 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $layout
 	->set('title','Religion')
 	->set('content',
+      '<p>Number of religion entries: ' . $total_results->total . '</p>' .
+      ($dbi->checkUserPermission('admin')
+	        ? '<div class="buttons">'.createButton ('New Religion','nmv_edit_religion','icon addUser').'</div>'
+	        : '') .
 	    $dbi->getListView('nmv_religion_table',$query_items)
 	    .($dbi->checkUserPermission('admin')
 	        ? '<div class="buttons">'.createButton ('New Religion','nmv_edit_religion','icon addUser').'</div>'

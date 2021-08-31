@@ -29,6 +29,10 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $layout
 	->set('title','Victim Evaluation - Status')
 	->set('content',
+      '<p>Number of status entries: ' . $total_results->total . '</p>' .
+      ($dbi->checkUserPermission('admin')
+	        ? '<div class="buttons">'.createButton ('New Status','nmv_edit_victim_evaluation_status','icon addUser').'</div>'
+	        : '') .
 	    $dbi->getListView('nmv_victim_evaluation_status_table',$query_items)
 	    .($dbi->checkUserPermission('admin')
 	        ? '<div class="buttons">'.createButton ('New Status','nmv_edit_victim_evaluation_status','icon addUser').'</div>'

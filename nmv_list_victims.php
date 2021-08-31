@@ -64,6 +64,9 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $layout
 	->set('title','Victims')
 	->set('content',
+			($dbi->checkUserPermission('edit')
+	        ? '<div class="buttons">'.createButton ('New Victim','nmv_edit_victim','icon addUser').'</div>'
+	        : '') .
 	    $dbi->getListView('nmv_victims_table',$query_items)
 	    .($dbi->checkUserPermission('edit')
 	        ? '<div class="buttons">'.createButton ('New Victim','nmv_edit_victim','icon addUser').'</div>'

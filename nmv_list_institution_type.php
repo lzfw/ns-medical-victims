@@ -29,6 +29,10 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $layout
 	->set('title','Institution Type')
 	->set('content',
+      '<p>Number of institution type entries: ' . $total_results->total . ' </p>' .
+      ($dbi->checkUserPermission('admin')
+	        ? '<div class="buttons">'.createButton ('New Institution Type','nmv_edit_institution_type','icon addUser').'</div>'
+	        : '') . 
 	    $dbi->getListView('nmv_institution_type_table',$query_items)
 	    .($dbi->checkUserPermission('admin')
 	        ? '<div class="buttons">'.createButton ('New Institution Type','nmv_edit_institution_type','icon addUser').'</div>'

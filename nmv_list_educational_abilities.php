@@ -29,6 +29,10 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $layout
 	->set('title','Educational Abilities')
 	->set('content',
+      '<p>Number of educational abilities entries: ' . $total_results->total . ' </p>' .
+      ($dbi->checkUserPermission('admin')
+      ? '<div class="buttons">'.createButton ('New Educational Abilities','nmv_edit_educational_abilities','icon addUser').'</div>'
+      : '') .
 	    $dbi->getListView('nmv_educational_abilities_table',$query_items)
 	    .($dbi->checkUserPermission('admin')
 	        ? '<div class="buttons">'.createButton ('New Educational Abilities','nmv_edit_educational_abilities','icon addUser').'</div>'

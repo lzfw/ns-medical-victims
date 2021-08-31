@@ -58,18 +58,28 @@ if ($victim_id) {
         $row_template[] = $options;
     	$header_template[] = L_OPTIONS;
 
-        $content .= buildTableFromQuery(
-            $querystring_literature,
-            $row_template,
-            $header_template,
-            'grid');
+      // new entry - button
+      if ($dbi->checkUserPermission('edit')) {
+        $content .= '<div class="buttons">';
+        $content .= createButton ('New literature Entry',
+            'nmv_edit_victim_literature?ID_victim='.$victim_id,'icon add');
+        $content .= '</div>';
+      }
 
-        if ($dbi->checkUserPermission('edit')) {
-        	$content .= '<div class="buttons">';
-        	$content .= createButton ('New literature Entry',
-        	    'nmv_edit_victim_literature?ID_victim='.$victim_id,'icon add');
-        	$content .= '</div>';
-        }
+      // table view
+      $content .= buildTableFromQuery(
+          $querystring_literature,
+          $row_template,
+          $header_template,
+          'grid');
+
+      // new entry - button
+      if ($dbi->checkUserPermission('edit')) {
+      	$content .= '<div class="buttons">';
+      	$content .= createButton ('New literature Entry',
+      	    'nmv_edit_victim_literature?ID_victim='.$victim_id,'icon add');
+      	$content .= '</div>';
+      }
 
         // query: get source data
         $querystring_source = "
@@ -101,13 +111,22 @@ if ($victim_id) {
         $row_template[] = $options;
         $header_template[] = L_OPTIONS;
 
+        // new entry - button
+        if ($dbi->checkUserPermission('edit')) {
+          $content .= '<div class="buttons">';
+          $content .= createButton ('New source Entry',
+              'nmv_edit_victim_source?ID_victim='.$victim_id,'icon add');
+          $content .= '</div>';
+        }
 
+        // table view
         $content .= buildTableFromQuery(
             $querystring_source,
             $row_template,
             $header_template,
             'grid');
 
+        // new entry - button
         if ($dbi->checkUserPermission('edit')) {
           $content .= '<div class="buttons">';
           $content .= createButton ('New source Entry',
@@ -120,87 +139,7 @@ if ($victim_id) {
     $content .= createBackLink ('View victim: '.$victim_name,'nmv_view_victim?ID_victim='.$victim_id);
 }
 
-// if ($literature_id) {
-//     $dbi->addBreadcrumb ('literature','nmv_list_literature');
-//
-//     // query: get literature data
-//     $querystring = "
-//     SELECT CONCAT(COALESCE(lit_title, ''), ' - ', COALESCE(authors, '')) literature_name
-//     FROM nmv__literature
-//     WHERE ID_literature = $literature_id";
-//     $query = $dbi->connection->query($querystring);
-//     $literature = $query->fetch_object();
-//
-//     if ($literature) {
-//         $literature_name = $literature->literature_name;
-//
-//         $dbi->addBreadcrumb ($literature_name,'nmv_view_literature?ID_literature='.$literature_id);
-//
-//         // query: get linked data
-//         //complete db d (AND v.mpg_project = -1)
-//         if($dbi->checkUserPermission('mpg')){
-//             $querystring = "
-//             SELECT vl.ID_vict_lit ID_vict_lit,
-//                 CONCAT(v.ID_victim, ': ', v.first_names, ' ', v.surname) victim_name,
-//                 v.birth_place birth_place,
-//                 CONCAT_WS('.', v.birth_day, v.birth_month, v.birth_year) birth_date,
-//                 vl.pages pages, vl.ID_victim
-//             FROM nmv__victim_literature vl
-//             LEFT JOIN nmv__literature l ON l.ID_literature = vl.ID_literature
-//             LEFT JOIN nmv__victim v ON v.ID_victim = vl.ID_victim
-//             WHERE vl.ID_literature = $literature_id
-//             AND v.mpg_project = -1
-//             ORDER BY victim_name
-//             LIMIT 300";
-//           }else{
-//             $querystring = "
-//             SELECT vl.ID_vict_lit ID_vict_lit,
-//                 CONCAT(v.ID_victim, ': ', v.first_names, ' ', v.surname) victim_name,
-//                 v.birth_place birth_place,
-//                 CONCAT_WS('.', v.birth_day, v.birth_month, v.birth_year) birth_date,
-//                 vl.pages pages, vl.ID_victim
-//             FROM nmv__victim_literature vl
-//             LEFT JOIN nmv__literature l ON l.ID_literature = vl.ID_literature
-//             LEFT JOIN nmv__victim v ON v.ID_victim = vl.ID_victim
-//             WHERE vl.ID_literature = $literature_id
-//             ORDER BY victim_name
-//             LIMIT 300";
-//           }
-//
-//         $options = '';
-//         $row_template = ['{victim_name}', '{birth_place}', '{birth_date}', '{pages}'];
-//         $header_template = ['Victim', 'Birth Place', 'Birth Date', 'Pages'];
-//
-//         $options .= createSmallButton('view Victim','nmv_view_victim?ID_victim={ID_victim}','icon view');
-//         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
-//         	if ($dbi->checkUserPermission('edit')) {
-//         			$options .= createSmallButton(L_EDIT,'nmv_edit_victim_literature?ID_vict_lit={ID_vict_lit}','icon edit');
-//         	}
-//         	if ($dbi->checkUserPermission('admin')) {
-//         			$options .= createSmallButton(L_DELETE,'nmv_remove_victim_literature?ID_vict_lit={ID_vict_lit}','icon delete');
-//         	}
-//         }
-//         $row_template[] = $options;
-//         $header_template[] = L_OPTIONS;
-//
-//         $content .= buildTableFromQuery(
-//             $querystring,
-//             $row_template,
-//             $header_template,
-//             'grid');
-//
-//         // Not supported by nmv_edit_victim_literature yet
-//         /*
-//         if ($dbi->checkUserPermission('edit')) {
-//         	$content .= '<div class="buttons">';
-//         	$content .= createButton ('New literature Entry',
-//         	    'nmv_edit_victim_literature?ID_literature='.$literature_id,'icon add');
-//         	$content .= '</div>';
-//         }*/
-//     }
-//
-//     $content .= createBackLink ('View literature: '.$literature_name,'nmv_view_literature?ID_literature='.$literature_id);
-// }
+
 
 $layout
 	->set('title',('Literature list: "' . $victim_name . '"'))

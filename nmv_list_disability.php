@@ -29,7 +29,11 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $layout
 	->set('title','Disability')
 	->set('content',
-	    $dbi->getListView('nmv_disability_table',$query_items)
+      '<p>Number of disability entries: ' . $total_results->total . ' </p>' .
+      ($dbi->checkUserPermission('admin')
+      ? '<div class="buttons">'.createButton ('New Disability','nmv_edit_disability','icon addUser').'</div>'
+      : '') .
+      $dbi->getListView('nmv_disability_table',$query_items)
 	    .($dbi->checkUserPermission('admin')
 	        ? '<div class="buttons">'.createButton ('New Disability','nmv_edit_disability','icon addUser').'</div>'
 	        : '')

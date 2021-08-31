@@ -29,6 +29,10 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $layout
 	->set('title','Behaviour')
 	->set('content',
+      '<p>Number of behaviour entries: ' . $total_results->total . ' </p>' .
+      ($dbi->checkUserPermission('admin')
+      ? '<div class="buttons">'.createButton ('New Behaviour','nmv_edit_behaviour','icon addUser').'</div>'
+      : '') .
 	    $dbi->getListView('nmv_behaviour_table',$query_items)
 	    .($dbi->checkUserPermission('admin')
 	        ? '<div class="buttons">'.createButton ('New Behaviour','nmv_edit_behaviour','icon addUser').'</div>'
