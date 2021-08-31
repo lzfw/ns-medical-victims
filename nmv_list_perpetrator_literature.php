@@ -56,12 +56,22 @@ if ($perpetrator_id) {
     	$row_template[] = $options;
     	$header_template[] = L_OPTIONS;
 
-        $content .= buildTableFromQuery(
-            $querystring,
-            $row_template,
-            $header_template,
-            'grid');
+      // new entry - button
+      if ($dbi->checkUserPermission('edit')) {
+        $content .= '<div class="buttons">';
+        $content .= createButton ('New Literature Entry',
+            'nmv_edit_perpetrator_literature?ID_perpetrator='.$perpetrator_id,'icon add');
+        $content .= '</div>';
+      }
 
+      // table view
+      $content .= buildTableFromQuery(
+          $querystring,
+          $row_template,
+          $header_template,
+          'grid');
+
+        // new entry - button
         if ($dbi->checkUserPermission('edit')) {
         	$content .= '<div class="buttons">';
         	$content .= createButton ('New Literature Entry',

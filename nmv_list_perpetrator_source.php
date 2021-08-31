@@ -56,18 +56,28 @@ if ($perpetrator_id) {
     	$row_template[] = $options;
     	$header_template[] = L_OPTIONS;
 
-        $content .= buildTableFromQuery(
-            $querystring,
-            $row_template,
-            $header_template,
-            'grid');
+      // new entry - button
+      if ($dbi->checkUserPermission('edit')) {
+      	$content .= '<div class="buttons">';
+      	$content .= createButton ('New source Entry',
+      	    'nmv_edit_perpetrator_source?ID_perpetrator='.$perpetrator_id,'icon add');
+      	$content .= '</div>';
+      }
 
-        if ($dbi->checkUserPermission('edit')) {
-        	$content .= '<div class="buttons">';
-        	$content .= createButton ('New source Entry',
-        	    'nmv_edit_perpetrator_source?ID_perpetrator='.$perpetrator_id,'icon add');
-        	$content .= '</div>';
-        }
+      // table view
+      $content .= buildTableFromQuery(
+          $querystring,
+          $row_template,
+          $header_template,
+          'grid');
+
+      // new entry - button
+      if ($dbi->checkUserPermission('edit')) {
+      	$content .= '<div class="buttons">';
+      	$content .= createButton ('New source Entry',
+      	    'nmv_edit_perpetrator_source?ID_perpetrator='.$perpetrator_id,'icon add');
+      	$content .= '</div>';
+      }
     }
 
     $content .= createBackLink ('View perpetrator: '.$perpetrator_name,'nmv_view_perpetrator?ID_perpetrator='.$perpetrator_id);

@@ -74,19 +74,30 @@ if ($victim_id) {
     	$row_template[] = $options;
     	$header_template[] = L_OPTIONS;
 
-        $content .= '<p>Number of experiments: '.$experiment_count.'</p>';
-        $content .= buildTableFromQuery(
-            $querystring,
-            $row_template,
-            $header_template,
-            'grid');
+      $content .= '<p>Number of experiments: '.$experiment_count.'</p>';
 
-        if ($dbi->checkUserPermission('edit')) {
-        	$content .= '<div class="buttons">';
-        	$content .= createButton ('New Biomedical Research Entry',
-        	    'nmv_edit_victim_experiment?ID_victim='.$victim_id,'icon add');
-        	$content .= '</div>';
-        }
+      // new entry - button
+      if ($dbi->checkUserPermission('edit')) {
+        $content .= '<div class="buttons">';
+        $content .= createButton ('New Biomedical Research Entry',
+            'nmv_edit_victim_experiment?ID_victim='.$victim_id,'icon add');
+        $content .= '</div>';
+      }
+
+      // table view
+      $content .= buildTableFromQuery(
+          $querystring,
+          $row_template,
+          $header_template,
+          'grid');
+
+      // new entry - button
+      if ($dbi->checkUserPermission('edit')) {
+      	$content .= '<div class="buttons">';
+      	$content .= createButton ('New Biomedical Research Entry',
+      	    'nmv_edit_victim_experiment?ID_victim='.$victim_id,'icon add');
+      	$content .= '</div>';
+      }
     }
 
     $content .= createBackLink ('View victim: '.$victim_name,'nmv_view_victim?ID_victim='.$victim_id);
