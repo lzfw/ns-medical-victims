@@ -35,8 +35,7 @@ if ($victim_id) {
         LEFT JOIN nmv__victim_nametype vnt ON vnt.ID_nametype = vn.nametype
         LEFT JOIN nmv__victim v ON v.ID_victim = vn.ID_victim
         WHERE vn.ID_victim = $victim_id
-        ORDER BY nametype, victim_name, victim_first_names
-        LIMIT 300";
+        ORDER BY nametype, victim_name, victim_first_names";
 
         $options = '';
         $row_template = ['{victim_name}', '{victim_first_names}', '{nametype}'];

@@ -39,8 +39,7 @@ if ($victim_id) {
         LEFT JOIN nmv__victim v ON v.ID_victim = vl.ID_victim
 
         WHERE vl.ID_victim = $victim_id
-        ORDER BY title, authors, year
-        LIMIT 300";
+        ORDER BY title, authors, year";
 
         $options = '';
         $row_template = ['{title}', '{authors}', '{year}', '{pages}'];
@@ -90,8 +89,7 @@ if ($victim_id) {
         LEFT JOIN nmv__source s ON s.ID_source = vs.ID_source
         LEFT JOIN nmv__victim v ON v.ID_victim = vs.ID_victim
         WHERE vs.ID_victim = $victim_id
-        ORDER BY title, year, medium
-        LIMIT 300";
+        ORDER BY title, year, medium";
 
         $content .= '<br><br><br><br><br><h2>Sources List: "' . $victim_name . '"</h2>';
 

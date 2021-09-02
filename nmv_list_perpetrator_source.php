@@ -37,8 +37,7 @@ if ($perpetrator_id) {
         LEFT JOIN nmv__source s ON s.ID_source = ps.ID_source
         LEFT JOIN nmv__perpetrator p ON p.ID_perpetrator = ps.ID_perpetrator
         WHERE ps.ID_perpetrator = $perpetrator_id
-        ORDER BY title, year, medium
-        LIMIT 300";
+        ORDER BY title, year, medium";
 
         $options = '';
         $row_template = ['{title}', '{year}', '{medium}', '{location}'];
@@ -110,8 +109,7 @@ if ($source_id) {
         LEFT JOIN nmv__source s ON s.ID_source = ps.ID_source
         LEFT JOIN nmv__perpetrator p ON p.ID_perpetrator = ps.ID_perpetrator
         WHERE ps.ID_source = $source_id
-        ORDER BY perpetrator_name
-        LIMIT 300";
+        ORDER BY perpetrator_name";
 
         $options = '';
         $row_template = ['{perpetrator_name}', '{birth_place}', '{birth_date}', '{location}'];

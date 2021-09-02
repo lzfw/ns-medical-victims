@@ -37,8 +37,7 @@ if ($victim_id) {
         LEFT JOIN nmv__source s ON s.ID_source = vs.ID_source
         LEFT JOIN nmv__victim v ON v.ID_victim = vs.ID_victim
         WHERE vs.ID_victim = $victim_id
-        ORDER BY title, year, medium
-        LIMIT 300";
+        ORDER BY title, year, medium";
 
         $options = '';
         $row_template = ['{title}', '{year}', '{medium}', '{location}'];
@@ -97,72 +96,87 @@ if ($source_id) {
     if ($source) {
         $source_name = $source->source_name;
 
+        //browsing options --> $_GET in url
+        $dbi->setUserVar('querystring', "ID_source=$source_id");
+        $dbi->setUserVar('sort',getUrlParameter('sort'),'surname');
+        $dbi->setUserVar('order',getUrlParameter('order'),'ASC');
+        $dbi->setUserVar('skip',getUrlParameter('skip'),0);
+
         $dbi->addBreadcrumb ($source_name,'nmv_view_source?ID_source='.$source_id);
 
         // query: get linking data
         //complete db d(AND v.mpg_project = -1)
         if ($dbi->checkUserPermission('mpg')) :
-          $querystring = "
-            SELECT vs.ID_vict_source ID_vict_source,
-                CONCAT(v.ID_victim, ': ', v.first_names, ' ', v.surname) victim_name,
-                v.birth_place birth_place,
+          $querystring_items = "SELECT vs.ID_vict_source ID_vict_source,
+                v.surname surname, v.first_names first_names,
+                v.birth_place birth_place, v.birth_year birth_year,
                 CONCAT_WS('.', v.birth_day, v.birth_month, v.birth_year) birth_date,
                 vs.location location, vs.ID_victim ID_victim
             FROM nmv__victim_source vs
             LEFT JOIN nmv__source s ON s.ID_source = vs.ID_source
             LEFT JOIN nmv__victim v ON v.ID_victim = vs.ID_victim
             WHERE vs.ID_source = $source_id
-            AND v.mpg_project = -1
-            ORDER BY victim_name
-            LIMIT 300";
+            AND v.mpg_project = -1";
+          $querystring_count = "SELECT COUNT(vs.ID_victim) AS total
+                                FROM nmv__victim_source vs
+                                LEFT JOIN nmv__victim v ON v.ID_victim = vs.ID_victim
+                                WHERE vs.ID_source = $source_id
+                                AND v.mpg_project = -1";
         else :
-          $querystring = "
-            SELECT vs.ID_vict_source ID_vict_source,
-                CONCAT(v.ID_victim, ': ', v.first_names, ' ', v.surname) victim_name,
-                v.birth_place birth_place,
+          $querystring_items = "SELECT vs.ID_vict_source ID_vict_source,
+                v.surname surname, v.first_names first_names,
+                v.birth_place birth_place, v.birth_year birth_year,
                 CONCAT_WS('.', v.birth_day, v.birth_month, v.birth_year) birth_date,
                 vs.location location, vs.ID_victim ID_victim
             FROM nmv__victim_source vs
             LEFT JOIN nmv__source s ON s.ID_source = vs.ID_source
             LEFT JOIN nmv__victim v ON v.ID_victim = vs.ID_victim
-            WHERE vs.ID_source = $source_id
-            ORDER BY victim_name
-            LIMIT 300";
+            WHERE vs.ID_source = $source_id";
+            $querystring_count = "SELECT COUNT(vs.ID_victim) AS total
+                                  FROM nmv__victim_source vs
+                                  LEFT JOIN nmv__victim v ON v.ID_victim = vs.ID_victim
+                                  WHERE vs.ID_source = $source_id";
         endif;
 
-        $options = '';
-        $row_template = ['{victim_name}', '{birth_place}', '{birth_date}', '{location}'];
-        $header_template = ['Victim', 'Birth Place', 'Birth Date', 'Location'];
+        // Gesamtanzahl der Suchergebnisse feststellen
+        $query_count = $dbi->connection->query($querystring_count);
+        $total_results = $query_count->fetch_object();
+        $dbi->setUserVar('total_results',$total_results->total);
+        // order-klausel
+        $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']} ";
 
-        $options .= createSmallButton('view Victim','nmv_view_victim?ID_victim={ID_victim}','icon view');
-        if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
-        	if ($dbi->checkUserPermission('edit')) {
-        			$options .= createSmallButton(L_EDIT,'nmv_edit_victim_source?ID_vict_source={ID_vict_source}','icon edit');
-        	}
-        	if ($dbi->checkUserPermission('admin')) {
-        			$options .= createSmallButton(L_DELETE,'nmv_remove_victim_source?ID_vict_source={ID_vict_source}','icon delete');
-        	}
-        }
-        $row_template[] = $options;
-    	$header_template[] = L_OPTIONS;
+        // query ausführen
+        $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 
-        $content .= buildTableFromQuery(
-            $querystring,
-            $row_template,
-            $header_template,
-            'grid');
+        $content .= 'Number of results: '. $total_results->total. '</p>'
+                    .$dbi->getListView('table_nmv_victims',$query_items) ;
 
-        // Not supported by nmv_edit_victim_source yet
-        /*
-        if ($dbi->checkUserPermission('edit')) {
-        	$content .= '<div class="buttons">';
-        	$content .= createButton ('New source Entry',
-        	    'nmv_edit_victim_source?ID_source='.$source_id,'icon add');
-        	$content .= '</div>';
-        }*/
+      //   $options = '';
+      //   $row_template = ['{ID_victim}', '{surname}', '{birth_place}', '{birth_date}', '{location}'];
+      //   $header_template = ['ID', 'Surname', 'Birth Place', 'Birth Date', 'Location'];
+      //
+      //   $options .= createSmallButton('view Victim','nmv_view_victim?ID_victim={ID_victim}','icon view');
+      //   if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
+      //   	if ($dbi->checkUserPermission('edit')) {
+      //   			$options .= createSmallButton(L_EDIT,'nmv_edit_victim_source?ID_vict_source={ID_vict_source}','icon edit');
+      //   	}
+      //   	if ($dbi->checkUserPermission('admin')) {
+      //   			$options .= createSmallButton(L_DELETE,'nmv_remove_victim_source?ID_vict_source={ID_vict_source}','icon delete');
+      //   	}
+      //   }
+      //   $row_template[] = $options;
+    	// $header_template[] = L_OPTIONS;
+      // $query_count = $dbi->connection->query($querystring_count);
+      // $total_results = $query_count->fetch_object();
+      // $content .= '<p>Number of classification entries: ' . $total_results->total . '</p>' .
+      // $content .= buildTableFromQuery(
+      //     $querystring,
+      //     $row_template,
+      //     $header_template,
+      //     'grid');
     }
 
-    $content .= createBackLink ('View source: '.$source_name,'nmv_view_source?ID_source='.$source_id);
+    //$content .= createBackLink ('View source: '.$source_name,'nmv_view_source?ID_source='.$source_id);
 }
 
 $layout

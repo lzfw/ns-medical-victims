@@ -53,8 +53,7 @@ if ($perpetrator_id) {
         LEFT JOIN nmv__perpetrator p ON p.ID_perpetrator = pe.ID_perpetrator
         LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.classification
         WHERE pe.ID_perpetrator = $perpetrator_id
-        ORDER BY title
-        LIMIT 300";
+        ORDER BY title";
 
         $options = '';
         $row_template = ['{title}', '{classification}'];
@@ -141,8 +140,7 @@ if ($experiment_id) {
         LEFT JOIN nmv__perpetrator p ON p.ID_perpetrator = pe.ID_perpetrator
         LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.classification
         WHERE pe.ID_experiment = $experiment_id
-        ORDER BY perpetrator_name
-        LIMIT 300";
+        ORDER BY perpetrator_name";
 
         $options = '';
         $row_template = ['{perpetrator_name}', '{birth_place}', '{birth_date}'];

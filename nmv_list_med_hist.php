@@ -37,8 +37,7 @@ if ($victim_id) {
         LEFT JOIN nmv__institution i ON i.ID_institution = h.ID_institution
         LEFT JOIN nmv__country c ON c.ID_country = i.ID_country
         WHERE ID_victim = $victim_id
-        ORDER BY h.date_entry_year, h.date_entry_month, h.date_entry_day
-        LIMIT 300";
+        ORDER BY h.date_entry_year, h.date_entry_month, h.date_entry_day";
         $query = $dbi->connection->query($querystring);
 
         $content .= '<h3>Hospitalization</h3>';
@@ -81,8 +80,7 @@ if ($victim_id) {
         LEFT JOIN nmv__institution i ON i.ID_institution = h.ID_institution
         LEFT JOIN nmv__country c ON c.ID_country = i.ID_country
         WHERE ID_victim = $victim_id
-        ORDER BY h.brain_report_year, h.brain_report_month, h.brain_report_day
-        LIMIT 300";
+        ORDER BY h.brain_report_year, h.brain_report_month, h.brain_report_day";
         $query = $dbi->connection->query($querystring);
 
         $content .= '<h3>Brain Report</h3>';
@@ -125,8 +123,7 @@ if ($victim_id) {
         LEFT JOIN nmv__institution i ON i.ID_institution = h.ID_institution
         LEFT JOIN nmv__country c ON c.ID_country = i.ID_country
         WHERE ID_victim = $victim_id
-        ORDER BY ref_no, h.since_year, h.since_month, h.since_day
-        LIMIT 300";
+        ORDER BY ref_no, h.since_year, h.since_month, h.since_day";
         $query = $dbi->connection->query($querystring);
 
         $content .= '<h3>Brain Tissue</h3>';

@@ -37,8 +37,7 @@ if ($source_id) {
         LEFT JOIN nmv__source s ON s.ID_source = es.ID_source
         LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.classification
         WHERE es.ID_source = $source_id
-        ORDER BY title
-        LIMIT 300";
+        ORDER BY title";
 
         $querystring_count = "SELECT COUNT(*) AS total FROM nmv__experiment_source es WHERE es.ID_source = $source_id"; // für Treffer gesamt
 
@@ -117,8 +116,7 @@ if ($experiment_id) {
         LEFT JOIN nmv__source s ON s.ID_source = es.ID_source
         LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.classification
         WHERE es.ID_experiment = $experiment_id
-        ORDER BY title
-        LIMIT 300";
+        ORDER BY title";
 
         $querystring_count = "SELECT COUNT(*) AS total FROM nmv__experiment_source es WHERE es.ID_experiment = $experiment_id"; // für Treffer gesamt
 

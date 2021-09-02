@@ -37,8 +37,7 @@ if ($literature_id) {
         LEFT JOIN nmv__literature l ON l.ID_literature = el.ID_literature
         LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.classification
         WHERE el.ID_literature = $literature_id
-        ORDER BY title
-        LIMIT 300";
+        ORDER BY title";
 
         $querystring_count = "SELECT COUNT(*) AS total FROM nmv__experiment_literature el WHERE el.ID_literature = $literature_id"; // für Treffer gesamt
 
@@ -116,8 +115,7 @@ if ($experiment_id) {
         LEFT JOIN nmv__literature l ON l.ID_literature = el.ID_literature
         LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.classification
         WHERE el.ID_experiment = $experiment_id
-        ORDER BY title
-        LIMIT 300";
+        ORDER BY title";
 
         $querystring_count = "SELECT COUNT(*) AS total FROM nmv__experiment_literature el WHERE el.ID_experiment = $experiment_id"; // für Treffer gesamt
 

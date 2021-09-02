@@ -120,8 +120,7 @@ if ($victim = $result->fetch_object()) {
     FROM nmv__victim_name vn
     LEFT JOIN nmv__victim_nametype vnt ON vnt.ID_nametype = vn.nametype
     WHERE vn.ID_victim = $victim_id
-    ORDER BY nametype, victim_name, victim_first_names
-    LIMIT 300";
+    ORDER BY nametype, victim_name, victim_first_names";
 
     $options = '';
     $row_template = ['{victim_name}', '{victim_first_names}', '{nametype}'];
@@ -159,8 +158,7 @@ if ($victim = $result->fetch_object()) {
     FROM nmv__imprisoniation i
     LEFT JOIN nmv__victim_classification pc ON pc.ID_classification = i.ID_classification
     WHERE ID_victim = $victim_id
-    ORDER BY start_year, start_month, start_day
-    LIMIT 300";
+    ORDER BY start_year, start_month, start_day";
 
     $options = '';
     $row_template = ['{number}', '{location}', '{classification}', '{start_date}'];

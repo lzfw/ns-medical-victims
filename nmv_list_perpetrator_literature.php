@@ -37,8 +37,7 @@ if ($perpetrator_id) {
         LEFT JOIN nmv__literature l ON l.ID_literature = pl.ID_literature
         LEFT JOIN nmv__perpetrator p ON p.ID_perpetrator = pl.ID_perpetrator
         WHERE pl.ID_perpetrator = $perpetrator_id
-        ORDER BY title, authors, year
-        LIMIT 300";
+        ORDER BY title, authors, year0";
 
         $options = '';
         $row_template = ['{title}', '{authors}', '{year}', '{pages}'];
@@ -110,8 +109,7 @@ if ($literature_id) {
         LEFT JOIN nmv__literature l ON l.ID_literature = pl.ID_literature
         LEFT JOIN nmv__perpetrator p ON p.ID_perpetrator = pl.ID_perpetrator
         WHERE pl.ID_literature = $literature_id
-        ORDER BY perpetrator_name
-        LIMIT 300";
+        ORDER BY perpetrator_name";
 
         $options = '';
         $row_template = ['{perpetrator_name}', '{birth_place}', '{birth_date}', '{pages}'];

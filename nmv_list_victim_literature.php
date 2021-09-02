@@ -37,8 +37,7 @@ if ($victim_id) {
         LEFT JOIN nmv__literature l ON l.ID_literature = vl.ID_literature
         LEFT JOIN nmv__victim v ON v.ID_victim = vl.ID_victim
         WHERE vl.ID_victim = $victim_id
-        ORDER BY title, authors, year
-        LIMIT 300";
+        ORDER BY title, authors, year";
 
         $options = '';
         $row_template = ['{title}', '{authors}', '{year}', '{pages}'];
@@ -103,8 +102,7 @@ if ($literature_id) {
             LEFT JOIN nmv__victim v ON v.ID_victim = vl.ID_victim
             WHERE vl.ID_literature = $literature_id
             AND v.mpg_project = -1
-            ORDER BY victim_name
-            LIMIT 300";
+            ORDER BY victim_name";
           }else{
             $querystring = "
             SELECT vl.ID_vict_lit ID_vict_lit,
@@ -116,8 +114,7 @@ if ($literature_id) {
             LEFT JOIN nmv__literature l ON l.ID_literature = vl.ID_literature
             LEFT JOIN nmv__victim v ON v.ID_victim = vl.ID_victim
             WHERE vl.ID_literature = $literature_id
-            ORDER BY victim_name
-            LIMIT 300";
+            ORDER BY victim_name";
           }
 
         $options = '';
