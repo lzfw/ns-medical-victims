@@ -27,7 +27,7 @@ class View_List_Statistics_Experiment_Institution extends View_List {
 
 		if ($results->num_rows>0) {
 		    $html .= '<table class="grid">';
-		    $html .= '<th>Institution</th><th>all Czechoslovakian victims</th><th>mpg only</th>';
+		    $html .= '<th>Institution</th><th>complete database</th><th>mpg only</th>';
 				$asum = 0;
 				$bsum = 0;
 			while ($item = $results->fetch_object()) {
