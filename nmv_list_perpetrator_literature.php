@@ -37,7 +37,7 @@ if ($perpetrator_id) {
         LEFT JOIN nmv__literature l ON l.ID_literature = pl.ID_literature
         LEFT JOIN nmv__perpetrator p ON p.ID_perpetrator = pl.ID_perpetrator
         WHERE pl.ID_perpetrator = $perpetrator_id
-        ORDER BY title, authors, year0";
+        ORDER BY title, authors, year";
 
         $options = '';
         $row_template = ['{title}', '{authors}', '{year}', '{pages}'];
