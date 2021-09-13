@@ -23,18 +23,18 @@ $form->addField ('first_names',TEXT,50)
 $form->addField ('titles',TEXT,50)
     ->setClass ('keyboardInput')
     ->setLabel ('Titles');
-$form->addField ('birth_year',TEXT,4)
-    ->setLabel ('Birth YMD')
+$form->addField ('birth_day',TEXT,2)
+    ->setLabel ('Birth DMY')
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,1950);
 $form->addField ('birth_month',TEXT,2)
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,12)
-    ->appendTo('birth_year');
-$form->addField ('birth_day',TEXT,2)
+    ->appendTo('birth_day');
+$form->addField ('birth_year',TEXT,4)
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,31)
-    ->appendTo('birth_year');
+    ->appendTo('birth_day');
 $form->addField ('birth_place',TEXT,200)
     ->setClass ('keyboardInput')
     ->setLabel ('Birth Place');
@@ -42,18 +42,18 @@ $form->addField ('ID_birth_country', SELECT)
 		->setLabel ('Birth Country')
 		->addOption (NO_VALUE, 'please choose')
 		->addOptionsFromTable ('nmv__country', 'ID_country', 'english');
-$form->addField ('death_year',TEXT,4)
-    ->setLabel ('Death YMD')
+$form->addField ('death_day',TEXT,2)
+    ->setLabel ('Death DMY')
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,2050);
 $form->addField ('death_month',TEXT,2)
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,12)
-    ->appendTo ('death_year');
-$form->addField ('death_day',TEXT,2)
+    ->appendTo ('death_day');
+$form->addField ('death_year',TEXT,4)
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,31)
-    ->appendTo ('death_year');
+    ->appendTo ('death_day');
 $form->addField ('death_place',TEXT,200)
     ->setClass ('keyboardInput')
     ->setLabel ('Death Place');

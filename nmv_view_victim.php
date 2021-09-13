@@ -10,11 +10,11 @@ $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 $dbi->addBreadcrumb ('Victims','nmv_list_victims');
 
 // query: get victim data
-$querystring = '
+$querystring = "
     SELECT first_names, surname,
-           CONCAT_WS(\'-\', birth_year, birth_month, birth_day) birth, twin,
-           birth_place, death_place, bc.english as birth_country, dc.english as death_country,
-           CONCAT_WS(\'-\', death_year, death_month, death_day) death,
+           CONCAT(IFNULL(birth_day , '-'), '.', IFNULL(birth_month , '-'), '.', IFNULL(birth_year, '-')) birth, twin,
+           birth_place, bc.english as birth_country, death_place, dc.english as death_country,
+           CONCAT(IFNULL(death_day , '-'), '.', IFNULL(death_month , '-'), '.', IFNULL(death_year, '-')) death,
            cause_of_death, gender, m.english as marital_family_status,
            ed.english as education, r.english as religion,
            n.english as nationality, e.english as ethnic_group,
@@ -34,7 +34,7 @@ $querystring = '
     LEFT JOIN nmv__country bc ON (bc.ID_country = v.ID_birth_country)
     LEFT JOIN nmv__country dc ON (dc.ID_country = v.ID_death_country)
     LEFT JOIN nmv__country ac ON (ac.ID_country = v.ID_arrest_country)
-    WHERE ID_victim = ?';
+    WHERE ID_victim = ?";
 
 $result = null;
 if ($stmt = $dbi->connection->prepare($querystring)) {
@@ -74,8 +74,8 @@ if ($victim = $result->fetch_object()) {
         buildDataSheetRow('Name',                   $victim_name).
         buildDataSheetRow('MPG project',            $victim->mpg_project ? 'Yes' : '').
         buildDataSheetRow('Gender',                 $victim->gender).
-        buildDataSheetRow('Birth',                  $victim_birth).
-        buildDataSheetRow('Death',                  $victim_death).
+        buildDataSheetRow('Birth DMY',                  $victim_birth).
+        buildDataSheetRow('Death DMY',                  $victim_death).
         buildDataSheetRow('Marital familiy status',
             $victim->marital_family_status).
         buildDataSheetRow('Highest education level',$victim->education).

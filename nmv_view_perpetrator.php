@@ -10,26 +10,25 @@ $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 $dbi->addBreadcrumb ('Perpetrators','nmv_list_perpetrators');
 
 // query: get perpetrator data
-$querystring = '
-    SELECT first_names, surname, titles,
-           CONCAT_WS(\'-\', birth_year, birth_month, birth_day) birth,
-           birth_place, bc.english as birth_country, death_place, dc.english as death_country,
-           CONCAT_WS(\'-\', death_year, death_month, death_day) death,
-           gender, r.english as religion,
-           n.english as nationality, c.english as classification, occupation,
-           career_history, place_of_qualification_1, year_of_qualification_1, type_of_qualification_1,
-           title_of_dissertation_1, place_of_qualification_2, year_of_qualification_2, type_of_qualification_2,
-           title_of_dissertation_2, leopoldina_member, leopoldina_since_when, nsdap_member, nsdap_since_when,
-           ss_member, ss_since_when, sa_member, sa_since_when,
-           other_nsdap_organisations_member, details_all_memberships,
-           career_after_1945, prosecution, prison_time, notes
+$querystring = "SELECT first_names, surname, titles,
+                 CONCAT(IFNULL(birth_day , '-'), '.', IFNULL(birth_month , '-'), '.', IFNULL(birth_year, '-')) birth,
+                 birth_place, bc.english as birth_country, death_place, dc.english as death_country,
+                 CONCAT(IFNULL(death_day , '-'), '.', IFNULL(death_month , '-'), '.', IFNULL(death_year, '-')) death,
+                 gender, r.english as religion,
+                 n.english as nationality, c.english as classification, occupation,
+                 career_history, place_of_qualification_1, year_of_qualification_1, type_of_qualification_1,
+                 title_of_dissertation_1, place_of_qualification_2, year_of_qualification_2, type_of_qualification_2,
+                 title_of_dissertation_2, leopoldina_member, leopoldina_since_when, nsdap_member, nsdap_since_when,
+                 ss_member, ss_since_when, sa_member, sa_since_when,
+                 other_nsdap_organisations_member, details_all_memberships,
+                 career_after_1945, prosecution, prison_time, notes
     FROM nmv__perpetrator p
     LEFT JOIN nmv__religion r ON (r.ID_religion = p.religion)
     LEFT JOIN nmv__nationality n ON (n.ID_nationality = p.nationality_1938)
     LEFT JOIN nmv__perpetrator_classification c ON (c.ID_perp_class = p.ID_perp_class)
     LEFT JOIN nmv__country bc ON (bc.ID_country = p.ID_birth_country)
     LEFT JOIN nmv__country dc ON (dc.ID_country = p.ID_death_country)
-    WHERE ID_perpetrator = ?';
+    WHERE ID_perpetrator = ?";
 
 $result = null;
 if ($stmt = $dbi->connection->prepare($querystring)) {
@@ -78,8 +77,8 @@ if ($perpetrator = $result->fetch_object()) {
         buildDataSheetRow('Name',                   $perpetrator_name).
         buildDataSheetRow('Title(s)',               $perpetrator_title).
         buildDataSheetRow('Gender',                 $perpetrator->gender).
-        buildDataSheetRow('Birth (d/m/y)',          $perpetrator_birth).
-        buildDataSheetRow('Death (d/m/y)',          $perpetrator_death).
+        buildDataSheetRow('Birth (d.m.y)',          $perpetrator_birth).
+        buildDataSheetRow('Death (d.m.y)',          $perpetrator_death).
         buildDataSheetRow('Religion',               $perpetrator->religion).
         buildDataSheetRow('Nationality (1938)',     $perpetrator->nationality).
         buildDataSheetRow('Occupation',             $perpetrator->occupation).
