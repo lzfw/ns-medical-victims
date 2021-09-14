@@ -53,18 +53,17 @@ $form->addField('ID_institution', SELECT)
     ->setLabel('Institution')
     ->addOption(NO_VALUE, 'please choose')
     ->addOptionsFromTable('nmv__institution', 'ID_institution', "CONCAT(IFNULL(institution_name, '-/-'), '&emsp;---&emsp;', LEFT(IFNULL(location, '-/-'), 50))");
-$form->addField ('since_year',TEXT,4)
-    ->setLabel ('State Since YMD')
+$form->addField ('since_day',TEXT,2)
+    ->setLabel ('State Since DMYYYY')
     ->addCondition(VALUE,MIN,0)
-    ->addCondition(VALUE,MAX,2950);
+    ->addCondition(VALUE,MAX,31);
 $form->addField ('since_month',TEXT,2)
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,12)
-    ->appendTo('since_year');
-$form->addField ('since_day',TEXT,2)
+    ->appendTo('since_day');
+$form->addField ('since_year',TEXT,4)
     ->addCondition(VALUE,MIN,0)
-    ->addCondition(VALUE,MAX,31)
-    ->appendTo('since_year');
+    ->appendTo('since_day');
 $form->addField ('notes',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Notes');

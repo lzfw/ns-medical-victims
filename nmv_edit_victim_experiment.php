@@ -71,30 +71,30 @@ $form->addField ('ID_survival',SELECT)
     ->setLabel ('Survival')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__survival', 'ID_survival', 'english');
-$form->addField ('exp_start_year',TEXT,4)
-    ->setLabel ('Start Date YMD')
+$form->addField ('exp_start_day',TEXT,2)
+    ->setLabel ('Start Date DMYYYY')
     ->addCondition(VALUE,MIN,0)
-    ->addCondition(VALUE,MAX,2950);
+    ->addCondition(VALUE,MAX,31);
 $form->addField ('exp_start_month',TEXT,2)
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,12)
-    ->appendTo('exp_start_year');
-$form->addField ('exp_start_day',TEXT,2)
+    ->appendTo('exp_start_day');
+$form->addField ('exp_start_year',TEXT,4)
     ->addCondition(VALUE,MIN,0)
-    ->addCondition(VALUE,MAX,31)
-    ->appendTo('exp_start_year');
-$form->addField ('exp_end_year',TEXT,4)
-    ->setLabel ('End Date YMD')
+    ->addCondition(VALUE,MAX,1950)
+    ->appendTo('exp_start_day');
+$form->addField ('exp_end_day',TEXT,2)
+    ->setLabel ('End Date DMYYYY')
     ->addCondition(VALUE,MIN,0)
-    ->addCondition(VALUE,MAX,2950);
+    ->addCondition(VALUE,MAX,31);
 $form->addField ('exp_end_month',TEXT,2)
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,12)
-    ->appendTo('exp_end_year');
-$form->addField ('exp_end_day',TEXT,2)
+    ->appendTo('exp_end_day');
+$form->addField ('exp_end_year',TEXT,4)
     ->addCondition(VALUE,MIN,0)
-    ->addCondition(VALUE,MAX,31)
-    ->appendTo('exp_end_year');
+    ->addCondition(VALUE,MAX,2950)
+    ->appendTo('exp_end_day');
 $form->addField ('notes_perpetrator',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Notes about Perpetrator');

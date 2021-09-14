@@ -28,30 +28,30 @@ $form->addField ('ID_institution',SELECT)
 $form->addField ('location_details',TEXT,250)
     ->setClass ('keyboardInput')
     ->setLabel ('Location Details');
-$form->addField ('start_year',TEXT,4)
-    ->setLabel ('Start YMD')
+$form->addField ('start_day',TEXT,2)
+    ->setLabel ('Start DMYYYY')
     ->addCondition(VALUE,MIN,0)
-    ->addCondition(VALUE,MAX,2050);
+    ->addCondition(VALUE,MAX,31);
 $form->addField ('start_month',TEXT,2)
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,12)
-    ->appendTo ('start_year');
-$form->addField ('start_day',TEXT,2)
+    ->appendTo ('start_day');
+$form->addField ('start_year',TEXT,4)
     ->addCondition(VALUE,MIN,0)
-    ->addCondition(VALUE,MAX,31)
-    ->appendTo ('start_year');
-$form->addField ('end_year',TEXT,4)
-    ->setLabel ('End YMD')
+    ->addCondition(VALUE,MAX,1950)
+    ->appendTo ('start_day');
+$form->addField ('end_day',TEXT,2)
+    ->setLabel ('End DMYYYY')
     ->addCondition(VALUE,MIN,0)
-    ->addCondition(VALUE,MAX,2050);
+    ->addCondition(VALUE,MAX,31);
 $form->addField ('end_month',TEXT,2)
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,12)
-    ->appendTo ('end_year');
-$form->addField ('end_day',TEXT,2)
+    ->appendTo ('end_day');
+$form->addField ('end_year',TEXT,4)
     ->addCondition(VALUE,MIN,0)
-    ->addCondition(VALUE,MAX,31)
-    ->appendTo ('end_year');
+    ->addCondition(VALUE,MAX,1999)
+    ->appendTo ('end_day');
 $form->addField ('notes_location',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Notes (Location)');

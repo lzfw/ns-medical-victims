@@ -16,27 +16,26 @@ $dbi->addBreadcrumb ('Victims','nmv_list_victims');
 
 
 // query: get victim data
-$querystring = "
-    SELECT
-        ve.ID_victim ID_victim, ve.ID_experiment,
-        v.first_names first_names, v.surname surname, v.birth_place birth_place,
-        LEFT(concat(IFNULL(LEFT(e.experiment_title, 60), '#'),' - ',IFNULL(LEFT(e.field_of_interest,40), '#'),' - ',IFNULL(e.funding, '#')),100) experiment,
-        ve.experiment_duration experiment_duration, ve.age_experiment_start age_experiment_start,
-        ve.outcome_injuries outcome_injuries,
-        ve.notes_perpetrator notes_perpetrator, ve.narratives narratives,
-        CONCAT_WS('-', ve.exp_start_year, ve.exp_start_month, ve.exp_start_day) ve_start_date,
-        CONCAT_WS('-', ve.exp_end_year, ve.exp_end_month, ve.exp_end_day) ve_end_date,
-        ve.notes notes,
-        CONCAT(IFNULL(e.experiment_title, 'no entry'), ' - ', IFNULL(e.field_of_interest, 'no entry'), ' - ID ',
-                      e.ID_experiment, ' - ',
-                      IFNULL(i.institution_name, 'no entry')) as ei_info,
-        s.english survival
-    FROM nmv__victim_experiment ve
-    LEFT JOIN nmv__victim v                ON (ve.ID_victim = v.ID_victim)
-    LEFT JOIN nmv__experiment e            ON (ve.ID_experiment = e.ID_experiment)
-    LEFT JOIN nmv__institution i           ON (e.ID_institution = i.ID_institution)
-    LEFT JOIN nmv__survival s              ON (ve.ID_survival = s.ID_survival)
-    WHERE ve.ID_vict_exp = ".$dbi->getUserVar('ID_vict_exp');
+$querystring = "SELECT
+                    ve.ID_victim AS ID_victim, ve.ID_experiment,
+                    v.first_names AS first_names, v.surname AS surname, v.birth_place AS birth_place,
+                    LEFT(concat(IFNULL(LEFT(e.experiment_title, 60), '#'),' - ',IFNULL(LEFT(e.field_of_interest,40), '#'),' - ',IFNULL(e.funding, '#')),100) AS experiment,
+                    ve.experiment_duration AS experiment_duration, ve.age_experiment_start AS age_experiment_start,
+                    ve.outcome_injuries AS outcome_injuries,
+                    ve.notes_perpetrator AS notes_perpetrator, ve.narratives AS narratives,
+                    CONCAT(IFNULL(ve.exp_start_day, '-'), '.',IFNULL(ve.exp_start_month, '-'), '.', IFNULL(ve.exp_start_year, '-')) AS ve_start_date,
+                    CONCAT(IFNULL(ve.exp_end_day, '-'), '.',IFNULL(ve.exp_end_month, '-'), '.', IFNULL(ve.exp_end_year, '-')) AS ve_end_date,
+                    ve.notes AS notes,
+                    CONCAT(IFNULL(e.experiment_title, 'no entry'), ' - ', IFNULL(e.field_of_interest, 'no entry'), ' - ID ',
+                                  e.ID_experiment, ' - ',
+                                  IFNULL(i.institution_name, 'no entry')) AS ei_info,
+                    s.english AS survival
+                FROM nmv__victim_experiment ve
+                LEFT JOIN nmv__victim v                ON (ve.ID_victim = v.ID_victim)
+                LEFT JOIN nmv__experiment e            ON (ve.ID_experiment = e.ID_experiment)
+                LEFT JOIN nmv__institution i           ON (e.ID_institution = i.ID_institution)
+                LEFT JOIN nmv__survival s              ON (ve.ID_survival = s.ID_survival)
+                WHERE ve.ID_vict_exp = " . $dbi->getUserVar('ID_vict_exp');
 $query = $dbi->connection->query($querystring);
 
 $content = '';
@@ -61,8 +60,8 @@ if ($ve = $query->fetch_object()) {
         htmlspecialchars($ei_info, ENT_HTML5).'</a></td></tr>';
     $content .= '<tr><th>Biomedical Research Duration</th><td>'.
         htmlspecialchars($ve->experiment_duration, ENT_HTML5).'</td></tr>';
-    $content .= '<tr><th>Start and End Date</th><td>'.
-        htmlspecialchars($ve->ve_start_date . ' - ' . $ve->ve_end_date, ENT_HTML5).'</td></tr>';
+    $content .= '<tr><th>Start and End Date D.M.Y</th><td>'.
+        htmlspecialchars('from ' . $ve->ve_start_date . ' until ' . $ve->ve_end_date, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Age (experiment start)</th><td>'.
         htmlspecialchars($ve->age_experiment_start, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Injuries</th><td>'.
@@ -90,6 +89,6 @@ $content .= '</table>';
     $content .= '</div>';
 
 $layout
-	->set('title','View Biomedical Research')
+	->set('title','View Victim-Experiment-Link')
 	->set('content',$content)
 	->cast();

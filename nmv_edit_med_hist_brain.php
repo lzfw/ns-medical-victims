@@ -54,18 +54,18 @@ $form->addField ('ID_diagnosis',SELECT)
     ->addOptionsFromTable ( 'nmv__diagnosis', 'ID_diagnosis', 'english');
 $form->addField ('diagnosis',TEXT, 500)
     ->appendTo('ID_diagnosis');
-$form->addField ('brain_report_year',TEXT,4)
-    ->setLabel ('Brain Report Date YMD')
+$form->addField ('brain_report_day',TEXT,2)
+    ->setLabel ('Brain Report Date DMYYYY')
     ->addCondition(VALUE,MIN,0)
-    ->addCondition(VALUE,MAX,2950);
+    ->addCondition(VALUE,MAX,31);
 $form->addField ('brain_report_month',TEXT,2)
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,12)
-    ->appendTo('brain_report_year');
-$form->addField ('brain_report_day',TEXT,2)
+    ->appendTo('brain_report_day');
+$form->addField ('brain_report_year',TEXT,4)
     ->addCondition(VALUE,MIN,0)
-    ->addCondition(VALUE,MAX,31)
-    ->appendTo('brain_report_year');
+    ->addCondition(VALUE,MAX,1950)
+    ->appendTo('brain_report_day');
 $form->addField ('notes',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Notes');

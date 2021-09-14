@@ -44,8 +44,8 @@ define('L_ERROR_QUERY',					'The database query could not be executed.');
 
 // browsing -------------------------------------------------------------------
 
-define('L_FORWARD',						'forward');
-define('L_BACK',						'back');
+define('L_FORWARD',						'forward to next page');
+define('L_BACK',						'back to previous page');
 
 // bookmarks -------------------------------------------------------------------
 

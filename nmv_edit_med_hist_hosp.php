@@ -70,30 +70,30 @@ $form->addField ('ID_disability',SELECT)
     ->setLabel ('Disability')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__disability', 'ID_disability', 'english');
-$form->addField ('date_entry_year',TEXT,4)
-    ->setLabel ('Entry Date YMD')
+$form->addField ('date_entry_day',TEXT,2)
+    ->setLabel ('Entry Date DMYYYY')
     ->addCondition(VALUE,MIN,0)
-    ->addCondition(VALUE,MAX,2950);
+    ->addCondition(VALUE,MAX,31);
 $form->addField ('date_entry_month',TEXT,2)
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,12)
-    ->appendTo('date_entry_year');
-$form->addField ('date_entry_day',TEXT,2)
+    ->appendTo('date_entry_day');
+$form->addField ('date_entry_year',TEXT,4)
     ->addCondition(VALUE,MIN,0)
-    ->addCondition(VALUE,MAX,31)
-    ->appendTo('date_entry_year');
-$form->addField ('date_exit_year',TEXT,4)
-    ->setLabel ('Exit Date YMD')
+    ->addCondition(VALUE,MAX,1950)
+    ->appendTo('date_entry_day');
+$form->addField ('date_exit_day',TEXT,2)
+    ->setLabel ('Exit Date DMYYYY')
     ->addCondition(VALUE,MIN,0)
-    ->addCondition(VALUE,MAX,2950);
+    ->addCondition(VALUE,MAX,31);
 $form->addField ('date_exit_month',TEXT,2)
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,12)
-    ->appendTo('date_exit_year');
-$form->addField ('date_exit_day',TEXT,2)
+    ->appendTo('date_exit_day');
+$form->addField ('date_exit_year',TEXT,4)
     ->addCondition(VALUE,MIN,0)
-    ->addCondition(VALUE,MAX,31)
-    ->appendTo('date_exit_year');
+    ->addCondition(VALUE,MAX,2099)
+    ->appendTo('date_exit_day');
 $form->addField ('age_entry',TEXT,3)
     ->setLabel ('Entry Age')
     ->addCondition(VALUE,MIN,0)

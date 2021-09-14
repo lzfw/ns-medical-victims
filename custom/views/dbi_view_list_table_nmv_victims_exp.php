@@ -37,6 +37,7 @@ class View_List_Table_NMV_Victims_Exp extends View_List {
 			while ($item = $results->fetch_object()) {
 					$options = '';
 	        $options .= createSmallButton('View Victim',"nmv_view_victim?ID_victim=$item->ID_victim",'icon view');
+	        $options .= createSmallButton('View Victim-Experiment',"nmv_view_victim_experiment?ID_vict_exp=$item->ID_vict_exp",'icon view');
 					$start_day = $item->exp_start_day ?: '-';
 					$start_month = $item->exp_start_month ?: '-';
 					$start_year = $item->exp_start_year ?: '-';

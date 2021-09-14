@@ -26,18 +26,18 @@ $form->addField ('ID_dataset_origin',SELECT)
     ->setLabel ('Origin Dataset')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTableOrderedById ( 'nmv__dataset_origin', 'ID_dataset_origin', 'work_group');
-$form->addField ('birth_year',TEXT,4)
-    ->setLabel ('Birth YYYYMD')
+$form->addField ('birth_day',TEXT,2)
+    ->setLabel ('Birth DMYYYY')
     ->addCondition(VALUE,MIN,0)
-    ->addCondition(VALUE,MAX,2950);
+    ->addCondition(VALUE,MAX,31);
 $form->addField ('birth_month',TEXT,2)
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,12)
-    ->appendTo('birth_year');
-$form->addField ('birth_day',TEXT,2)
+    ->appendTo('birth_day');
+$form->addField ('birth_year',TEXT,4)
     ->addCondition(VALUE,MIN,0)
-    ->addCondition(VALUE,MAX,31)
-    ->appendTo('birth_year');
+    ->addCondition(VALUE,MAX,1950)
+    ->appendTo('birth_day');
 $form->addField ('twin',CHECKBOX,-1)
     ->setLabel ('Twin')
     ->appendTo('birth_year');
@@ -48,18 +48,18 @@ $form->addField ('ID_birth_country', SELECT)
 		->setLabel ('Birth Country')
 		->addOption (NO_VALUE, 'please choose')
 		->addOptionsFromTable ('nmv__country', 'ID_country', 'english');
-$form->addField ('death_year',TEXT,4)
-    ->setLabel ('Death YYYYMD')
+$form->addField ('death_day',TEXT,2)
+    ->setLabel ('Death DMYYYY')
     ->addCondition(VALUE,MIN,0)
-    ->addCondition(VALUE,MAX,2050);
+    ->addCondition(VALUE,MAX,31);
 $form->addField ('death_month',TEXT,2)
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,12)
-    ->appendTo ('death_year');
-$form->addField ('death_day',TEXT,2)
+    ->appendTo ('death_day');
+$form->addField ('death_year',TEXT,4)
     ->addCondition(VALUE,MIN,0)
-    ->addCondition(VALUE,MAX,31)
-    ->appendTo ('death_year');
+    ->addCondition(VALUE,MAX,2099)
+    ->appendTo ('death_day');
 $form->addField ('death_place',TEXT,250)
     ->setClass ('keyboardInput')
     ->setLabel ('Death Place');

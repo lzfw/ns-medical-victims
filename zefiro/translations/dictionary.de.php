@@ -44,8 +44,8 @@ define('L_ERROR_QUERY',					'Die Anfrage konnte nicht ausgeführt werden.');
 
 // browsing -------------------------------------------------------------------
 
-define('L_FORWARD',						'vor');
-define('L_BACK',						'zurück');
+define('L_FORWARD',						'vor zur nächsten Seite');
+define('L_BACK',						'zurück zur vorherigen Seite');
 
 // bookmarks ------------------------------------------------------------------
 
