@@ -218,20 +218,28 @@ $victimsVariableForm->addField('hospitalisation_diagnosis', TEXT, 120)
 if (!($dbi->checkUserPermission('mpg'))) :
   $victimsVariableForm->addField('post_1945-text', SUBHEADLINE, '<br> &nbsp; Survivors: after 1945 &nbsp; ');
 
-  $victimsVariableForm->addField ('residence_after_1945_country',TEXT,120)
-  	->setLabel ('after 1945 - residence (country)');
+  $victimsVariableForm->addField('residence_after_1945_country', TEXT, 120)
+  	->setLabel('after 1945 - residence (country)');
 
-  $victimsVariableForm->addField ('occupation_after_1945',TEXT,120)
-  	->setLabel ('after 1945 - occupation');
+  $victimsVariableForm->addField('occupation_after_1945', TEXT, 120)
+  	->setLabel('after 1945 - occupation');
 
   $victimsVariableForm->addField('nationality_after_1945', SELECT)
-    ->setLabel ('after 1945 - nationality')
-    ->addOption (NO_VALUE,'all nationalities')
+    ->setLabel('after 1945 - nationality')
+    ->addOption(NO_VALUE,'all nationalities')
     ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'english',
-                          'EXISTS (	SELECT *
+                          'EXISTS (SELECT *
                                     FROM nmv__victim
                                     WHERE nmv__nationality.ID_nationality = nmv__victim.nationality_after_1945)');
 endif;
+
+$victimsVariableForm->addField('notes-text', SUBHEADLINE, '<br> &nbsp; keyword search in notes &nbsp;');
+$victimsVariableForm->addField('notes', TEXT, 120)
+  ->setLabel('keyword in "notes"');
+$victimsVariableForm->addField('notes_after_1945', TEXT, 120)
+  ->setLabel('keyword in "notes after 1945"');
+
+
 
 
 // add buttons

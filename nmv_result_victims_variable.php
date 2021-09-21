@@ -48,7 +48,7 @@ $exact_fields = array (	'twin', 					'mpg_project', 				'ID_birth_country',
 $like_fields = array ();
 
 //felder, die mit LIKE %xy% gematcht werden
-$contain_fields = array('residence_after_1945_country', 'occupation_after_1945');
+$contain_fields = array('residence_after_1945_country', 'occupation_after_1945', 'notes', 'notes_after_1945');
 
 // felder, die mit like ODER exakt gematcht werden (Trunkierung möglich, Diakritika indistinkt)
 // --> Arabic vowel signs are treated indistinctively: سبب would also return سَبَبٌ, and vice versa.
@@ -294,6 +294,9 @@ if (isset($_GET['compensation']) && $_GET['compensation']) {
 	$search_term = $dbi->connection->query('SELECT english FROM nmv__victim_evaluation_compensation WHERE ID_compensation = '.$_GET['compensation'])->fetch_row();
 	$suche_nach[] = 'compensation = '.$search_term[0];
 }
+if (isset($_GET['notes']) && $_GET['notes']) $suche_nach[] = 'notes = ... '.$_GET['notes'] . ' ...';
+if (isset($_GET['notes_after_1945']) && $_GET['notes_after_1945']) $suche_nach[] = 'notes after 1945 = ... ' . $_GET['notes_after_1945'] . ' ...';
+
 
 //echo $_GET['ID_experiment'];
 
