@@ -54,7 +54,7 @@ $dbi->setUserVar('querystring',implode('&',$query));
 
 // Select-Klauseln erstellen
 $querystring_count = 'SELECT COUNT(v.ID_perpetrator) AS total FROM nmv__perpetrator v'; // für Treffer gesamt
-$querystring_items = 'SELECT v.ID_perpetrator, v.surname, v.first_names, v.birth_year, v.birth_country, v.birth_place FROM nmv__perpetrator v'; // für Ergebnisliste
+$querystring_items = 'SELECT v.ID_perpetrator, v.surname, v.first_names, v.birth_year, v.birth_country, v.birth_place, p.occupation FROM nmv__perpetrator v'; // für Ergebnisliste
 $querystring_where = array(); // für Filter
 
 // MySQL-Zeichenfilter definieren (Trunkierungszeichen werden zu MySQL-Zeichen)
@@ -117,7 +117,7 @@ $layout
 	->set('title',L_RESULTS)
 	->set('content',
         '<p>Search for: <em>'.implode(', ',$suche_nach).'</em><br>
-				Number of results: ' . $total_results->total . '</p>' 
+				Number of results: ' . $total_results->total . '</p>'
         .$dbi->getListView('table_nmv_perpetrators',$query_items)
         .'<div class="buttons">'
 				.createButton (L_MODIFY_SEARCH,'javascript:history.back()','icon search')
