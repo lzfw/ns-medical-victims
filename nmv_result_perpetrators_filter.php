@@ -66,6 +66,7 @@ $special_fields = array();
 
 $special_contain_fields = array();
 
+
 // reconstruct GET-String (for scroll-function)
 $query = array();
 foreach ($exact_fields as $field) {
@@ -142,6 +143,7 @@ foreach ($special_contain_fields as $key=>$field) {
 			$querystring_where[] = "$key LIKE '%".$filtered_field."%'";
     }
 }
+//customized queries
 if (getUrlParameter('place_of_qualification')) {
 	$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter('place_of_qualification'));
 	$querystring_where[] = "(p.place_of_qualification_1 LIKE '%".$filtered_field."%' OR p.place_of_qualification_2 LIKE '%".$filtered_field."%')";
@@ -153,6 +155,25 @@ if (getUrlParameter('title_of_dissertation')) {
 	$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter('title_of_dissertation'));
 	$querystring_where[] = "(p.title_of_dissertation_1 LIKE '%".$filtered_field."%' OR p.title_of_dissertation_2 LIKE '%".$filtered_field."%')";
 }
+if (getUrlParameter('prison_time-info')) {
+	$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter('prison_time-info'));
+	$querystring_where[] = "(p.prison_time IS NOT NULL)";
+}
+if (getUrlParameter('prosecution-info')) {
+	$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter('prosecution-info'));
+	$querystring_where[] = "(p.prosecution IS NOT NULL)";
+}
+if (getUrlParameter('freetext-fields')) {
+	$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter('freetext-fields'));
+	$querystring_where[] = "(CONCAT(IFNULL(p.occupation, ''), ' ', IFNULL(p.career_history, ''), ' ', IFNULL(p.details_all_memberships, ''),
+	 																' ', IFNULL(p.career_after_1945, ''), ' ', IFNULL(p.prosecution, ''), ' ', IFNULL(p.prison_time, ''),
+																	' ', IFNULL(p.notes, ''), ' ') LIKE '%".$filtered_field."%')";
+}
+if (getUrlParameter('died_before_end_of_war')) {
+	$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter('died_before_end_of_war'));
+	$querystring_where[] = "(death_year < 1946 AND death_month < 6)";
+}
+
 
 //WHERE-CLAUSES zusammenführen
 if (count($querystring_where) > 0) {
@@ -210,6 +231,11 @@ if (isset($_GET['prosecution']) && $_GET['prosecution']) $suche_nach[] = 'prosec
 if (isset($_GET['prison_time']) && $_GET['prison_time']) $suche_nach[] = 'prison time = '.$_GET['prison_time'];
 if (isset($_GET['career_after_1945']) && $_GET['career_after_1945']) $suche_nach[] = 'career after 1945 = '.$_GET['career_after_1945'];
 if (isset($_GET['notes']) && $_GET['notes']) $suche_nach[] = 'notes = '.$_GET['notes'];
+
+if (isset($_GET['prosecution-info']) && $_GET['prosecution-info']) $suche_nach[] = 'perpetrators with information about prosecution';
+if (isset($_GET['prison_time-info']) && $_GET['prison_time-info']) $suche_nach[] = 'perpetrators with information about prison time';
+if (isset($_GET['died_before_end_of_war']) && $_GET['died_before_end_of_war']) $suche_nach[] = 'perpetrators who died before June 1945';
+if (isset($_GET['freetext-fields']) && $_GET['freetext-fields']) $suche_nach[] = 'keyword search in freetext-fields for: '.$_GET['freetext-fields'];
 
 // breadcrumbs
 $dbi->addBreadcrumb (L_SEARCH,'search.php');
