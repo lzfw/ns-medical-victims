@@ -192,15 +192,11 @@ if ($victim = $result->fetch_object()) {
 
     //query: get evaluation data
     $querystring = '
-       SELECT ID_evaluation, ID_victim, confirmed_victim, confirmed_due_to,
-              es.english "evaluation_status", status_due_to, status_notes,
-              pending_notes, pending_due_to, ec.english "compensation",
-              evaluation_list
+       SELECT ID_evaluation, ID_victim, es.english "evaluation_status", status_due_to, status_notes,
+            evaluation_list
         FROM nmv__evaluation e
         LEFT JOIN nmv__victim_evaluation_status es
             ON (e.evaluation_status = es.ID_status)
-        LEFT JOIN nmv__victim_evaluation_compensation ec
-            ON (e.compensation = ec.ID_compensation)
         WHERE ID_victim = ?
         ORDER BY ID_evaluation
         LIMIT 5';
@@ -234,7 +230,6 @@ if ($victim = $result->fetch_object()) {
             buildDataSheetRow('Status Notes',  $evaluation->status_notes).
             ($evaluation->pending_due_to ? buildDataSheetRow('Pending due to',  $evaluation->pending_due_to) : '').
             ($evaluation->pending_notes ? buildDataSheetRow('Pending Notes',  $evaluation->pending_notes) : '').
-            buildDataSheetRow('Compensation',  $evaluation->compensation).
             buildDataSheetRow('Evaluation List',        $evaluation->evaluation_list)
         );
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {

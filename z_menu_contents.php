@@ -42,7 +42,6 @@ $layout
 				. createListItem('Education (Victim)','nmv_list_education','')
 				. createListItem('Educational Abilities (Hospitalisation)','nmv_list_educational_abilities','')
 				. createListItem('Ethnic Group','nmv_list_ethnicgroup','')
-				. createListItem('Evaluation Compensation','nmv_list_victim_evaluation_compensation','')
 				. createListItem('Evaluation Status','nmv_list_victim_evaluation_status','')
 				. createListItem('Institution Type','nmv_list_institution_type','')
 				. createListItem('Marital / Family Status','nmv_list_marital_family_status','')

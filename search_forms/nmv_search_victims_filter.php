@@ -141,11 +141,6 @@ $victimsVariableForm->addField('evaluation_status', SELECT)
   ->addOption (NO_VALUE,'all evaluation status')
   ->addOptionsFromTable('nmv__victim_evaluation_status', 'ID_status', 'english');
 
-  $victimsVariableForm->addField('compensation', SELECT)
-    ->setLabel ('compensation')
-    ->addOption (NO_VALUE,'all compensations')
-    ->addOptionsFromTable('nmv__victim_evaluation_compensation', 'ID_compensation', 'english');
-
 $victimsVariableForm->addField('mpg-text', SUBHEADLINE, '<br> &nbsp; MPG-project-related &nbsp; ');
 
 // complete db d 2

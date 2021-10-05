@@ -72,7 +72,6 @@ $special_fields = array('e.ID_experiment'			=> 'ID_experiment',
 												'h.ID_institution'		=> 'hospitalisation_institution',
 												'h.ID_diagnosis'			=> 'hospitalisation_ID_diagnosis',
 												'ev.evaluation_status'=> 'evaluation_status',
-												'ev.compensation'  		=> 'compensation',
 												't.ID_institution'   	=> 'tissue_institution'
 												);
 
@@ -289,10 +288,6 @@ if (isset($_GET['occupation_after_1945']) && $_GET['occupation_after_1945']) $su
 if (isset($_GET['nationality_after_1945']) && $_GET['nationality_after_1945']) {
 	$search_term = $dbi->connection->query('SELECT english FROM nmv__nationality WHERE ID_nationality = '.$_GET['nationality_after_1945'])->fetch_row();
 	$suche_nach[] = 'nationality after 1945 = '.$search_term[0];
-}
-if (isset($_GET['compensation']) && $_GET['compensation']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__victim_evaluation_compensation WHERE ID_compensation = '.$_GET['compensation'])->fetch_row();
-	$suche_nach[] = 'compensation = '.$search_term[0];
 }
 if (isset($_GET['notes']) && $_GET['notes']) $suche_nach[] = 'notes = ... '.$_GET['notes'] . ' ...';
 if (isset($_GET['notes_after_1945']) && $_GET['notes_after_1945']) $suche_nach[] = 'notes after 1945 = ... ' . $_GET['notes_after_1945'] . ' ...';
