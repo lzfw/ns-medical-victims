@@ -10,7 +10,7 @@ $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 $dbi->addBreadcrumb ('Perpetrators','nmv_list_perpetrators');
 
 // query: get perpetrator data
-$querystring = "SELECT first_names, surname, titles,
+$querystring = "SELECT first_names, surname, titles, mpg_project,
                  CONCAT(IFNULL(birth_day , '-'), '.', IFNULL(birth_month , '-'), '.', IFNULL(birth_year, '-')) birth,
                  birth_place, bc.english as birth_country, death_place, dc.english as death_country,
                  CONCAT(IFNULL(death_day , '-'), '.', IFNULL(death_month , '-'), '.', IFNULL(death_year, '-')) death,
@@ -76,6 +76,7 @@ if ($perpetrator = $result->fetch_object()) {
         buildDataSheetRow('Perpetrator ID',         $perpetrator_id).
         buildDataSheetRow('Name',                   $perpetrator_name).
         buildDataSheetRow('Title(s)',               $perpetrator_title).
+        buildDataSheetRow('MPG-Project',            $perpetrator->mpg_project ? 'yes' : '-').
         buildDataSheetRow('Gender',                 $perpetrator->gender).
         buildDataSheetRow('Birth (d.m.y)',          $perpetrator_birth).
         buildDataSheetRow('Death (d.m.y)',          $perpetrator_death).

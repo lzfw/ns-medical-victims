@@ -13,6 +13,10 @@ $perpetratorsFilterForm = new Form('search_perpetrators_filter','nmv_result_perp
 $perpetratorsFilterForm->addConnection(MYSQL_DB,$db_host,$db_user,$db_pass,$db_name);
 
 // add form-fields
+
+$perpetratorsFilterForm->addField('mpg_project', CHECKBOX, -1)
+  ->setLabel('Relevant for MPG-Project');
+
 $perpetratorsFilterForm->addField('ID_birth_country', SELECT)
   ->setLabel('Country of Birth')
   ->addOption(NO_VALUE,'all countries')

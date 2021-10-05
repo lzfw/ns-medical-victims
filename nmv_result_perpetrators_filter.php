@@ -40,7 +40,8 @@ $exact_fields = array (	'birth_year',				'death_year',					'gender',
 												'religion', 				'nationality_1938',
 												'ID_perp_class',		'nsdap_member', 			'ss_member',
 												'sa_member', 				'other_nsdap_organisations_member',
-												'ID_birth_country', 'ID_death_country',		'leopoldina_member'
+												'ID_birth_country', 'ID_death_country',		'leopoldina_member',
+												'mpg_project'
 											);
 
 // felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
@@ -236,13 +237,14 @@ if (isset($_GET['prosecution-info']) && $_GET['prosecution-info']) $suche_nach[]
 if (isset($_GET['prison_time-info']) && $_GET['prison_time-info']) $suche_nach[] = 'perpetrators with information about prison time';
 if (isset($_GET['died_before_end_of_war']) && $_GET['died_before_end_of_war']) $suche_nach[] = 'perpetrators who died before June 1945';
 if (isset($_GET['freetext-fields']) && $_GET['freetext-fields']) $suche_nach[] = 'keyword search in freetext-fields for: '.$_GET['freetext-fields'];
+if (isset($_GET['mpg_project']) && $_GET['mpg_project']) $suche_nach[] = 'perpetrators relevant for MPG-Project';
 
 // breadcrumbs
 $dbi->addBreadcrumb (L_SEARCH,'search.php');
 
 // layout
 $layout
-	->set('title',L_RESULTS)
+	->set('title', 'Results Perpetrators Filter')
 	->set('content',
         '<p>Search for: <em>'.implode(', ',$suche_nach).'</em><br>
 				Number of results: ' . $total_results->total . '</p>'
