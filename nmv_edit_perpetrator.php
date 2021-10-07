@@ -138,7 +138,7 @@ $form->addField('sa_since_when',TEXT,4)
     ->addCondition(VALUE,MAX,1945)
     ->appendTo('sa_member');
 $form->addField('other_nsdap_organisations_member',CHECKBOX,-1)
-    ->setLabel('Other NSDAP Org. Member');
+    ->setLabel('Other NS Org. Member');
 $form->addField('details_all_memberships',TEXTAREA)
     ->setLabel('Membership Details');
 $form->addField('career_after_1945',TEXTAREA)

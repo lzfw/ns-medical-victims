@@ -103,7 +103,7 @@ if ($perpetrator = $result->fetch_object()) {
         buildDataSheetRow('NSDAP member',           $nsdap_member).
         buildDataSheetRow('SS member',              $ss_member).
         buildDataSheetRow('SA member',              $sa_member).
-        buildDataSheetRow('Other NSDAP org. membership',
+        buildDataSheetRow('Other NS org. membership',
             $perpetrator->other_nsdap_organisations_member ? 'yes' : '-').
         buildDataSheetRow('Membership details',
             $perpetrator->details_all_memberships).

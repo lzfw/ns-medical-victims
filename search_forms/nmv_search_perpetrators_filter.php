@@ -110,7 +110,7 @@ $perpetratorsFilterForm->addField('sa_member', CHECKBOX, -1)
   ->setLabel('SA member');
 
 $perpetratorsFilterForm->addField('other_nsdap_organisations_member', CHECKBOX, -1)
-  ->setLabel('Other NSDAP Organisations');
+  ->setLabel('Other NS Organisations');
 
 $perpetratorsFilterForm->addField('details_all_memberships', TEXT, 100)
   ->setLabel('Details all memberships (keyword)');
