@@ -52,8 +52,9 @@ if ($victim = $query->fetch_object()) {
     $content .= '<tr><th>KWI researcher</th><td>'.
             htmlspecialchars($victim->kwi_researcher, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Diagnosis</th><td>'.
-        htmlspecialchars($victim->diagnosis_l, ENT_HTML5). ' <br>'.
         htmlspecialchars($victim->diagnosis, ENT_HTML5).'</td></tr>';
+    $content .= '<tr><th>Diagnosis Tags</th><td>'.
+        htmlspecialchars($victim->diagnosis_l, ENT_HTML5). '</td></tr>';
     $content .= '<tr><th>Report date</th><td>'.
         htmlspecialchars($victim->brain_report_date, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Notes</th><td>'.

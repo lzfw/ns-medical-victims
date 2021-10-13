@@ -48,12 +48,12 @@ $form->addField ('ID_institution',SELECT,REQUIRED)
 $form->addField ('kwi_researcher',TEXT,150)
     ->setClass ('keyboardInput')
     ->setLabel ('KWI Researcher');
+$form->addField ('diagnosis',TEXTAREA)
+    ->setLabel('Brain Diagnosis');
 $form->addField ('ID_diagnosis',SELECT)
-    ->setLabel ('Brain Diagnosis')
+    ->setLabel ('Diagnosis Tags')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__diagnosis', 'ID_diagnosis', 'english');
-$form->addField ('diagnosis',TEXT, 500)
-    ->appendTo('ID_diagnosis');
 $form->addField ('brain_report_day',TEXT,2)
     ->setLabel ('Brain Report Date DMYYYY')
     ->addCondition(VALUE,MIN,0)

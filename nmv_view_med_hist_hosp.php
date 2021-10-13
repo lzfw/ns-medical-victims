@@ -66,9 +66,9 @@ if ($victim = $query->fetch_object()) {
             :'')
         .'</td></tr>';
     $content .= '<tr><th>Diagnosis</th><td>'.
-        htmlspecialchars($victim->diagnosis_l, ENT_HTML5). ' <br>'.
         htmlspecialchars($victim->diagnosis, ENT_HTML5).'</td></tr>';
-
+    $content .= '<tr><th>Diagnosis Tags</th><td>'.
+        htmlspecialchars($victim->diagnosis_l, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Educational abilities</th><td>'.
         htmlspecialchars($victim->educational_abilities, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Behaviour</th><td>'.
