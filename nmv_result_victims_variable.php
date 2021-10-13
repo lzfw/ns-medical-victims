@@ -48,7 +48,8 @@ $exact_fields = array (	'twin', 					'mpg_project', 				'ID_birth_country',
 $like_fields = array ();
 
 //felder, die mit LIKE %xy% gematcht werden
-$contain_fields = array('residence_after_1945_country', 'occupation_after_1945', 'notes', 'notes_after_1945');
+$contain_fields = array('residence_after_1945_country', 'occupation_after_1945',
+												'notes', 'notes_after_1945');
 
 // felder, die mit like ODER exakt gematcht werden (Trunkierung möglich, Diakritika indistinkt)
 // --> Arabic vowel signs are treated indistinctively: سبب would also return سَبَبٌ, and vice versa.
@@ -75,8 +76,11 @@ $special_fields = array('e.ID_experiment'			=> 'ID_experiment',
 												't.ID_institution'   	=> 'tissue_institution'
 												);
 
-$special_contain_fields = array('b.diagnosis'	=> 'brain_report_diagnosis',
-																'h.diagnosis' => 'hospitalisation_diagnosis');
+$special_contain_fields = array('b.diagnosis'					=> 'brain_report_diagnosis',
+																'h.diagnosis'				 	=> 'hospitalisation_diagnosis',
+																'b.ref_no'            => 'ref_no_brain',
+																't.ref_no'						=> 'ref_no_tissue',
+																'h.autopsy_ref_no'		=> 'autopsy_ref_no');
 
 // reconstruct GET-String (for scroll-function)
 $query = array();
@@ -186,7 +190,6 @@ $dbi->setUserVar('total_results',$total_results->total);
 
 // order-klausel
 $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
-
 // query ausführen
 $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 
@@ -259,6 +262,7 @@ if (isset($_GET['ID_tissue_state']) && $_GET['ID_tissue_state']) {
 	$search_term = $dbi->connection->query('SELECT english FROM nmv__tissue_state WHERE ID_tissue_state = '.$_GET['ID_tissue_state'])->fetch_row();
 	$suche_nach[] = 'form of state = '.$search_term[0];
 }
+if (isset($_GET['ref_no_tissue']) && $_GET['ref_no_tissue']) $suche_nach[] = 'RefNo Tissue contains:  '.$_GET['ref_no_tissue'];
 if (isset($_GET['brain_report_year']) && $_GET['brain_report_year']) $suche_nach[] = 'year of brain report = '.$_GET['brain_report_year'];
 if (isset($_GET['brain_report_institution']) && $_GET['brain_report_institution']) {
 	$search_term = $dbi->connection->query('SELECT institution_name FROM nmv__institution WHERE ID_institution = '.$_GET['brain_report_institution'])->fetch_row();
@@ -273,6 +277,8 @@ if (isset($_GET['hospitalisation_ID_diagnosis']) && $_GET['hospitalisation_ID_di
 	$search_term = $dbi->connection->query('SELECT english FROM nmv__diagnosis WHERE ID_diagnosis = '.$_GET['hospitalisation_ID_diagnosis'])->fetch_row();
 	$suche_nach[] = 'diagnosis from hospitalisation = '.$search_term[0];
 }
+if (isset($_GET['ref_no_brain']) && $_GET['ref_no_brain']) $suche_nach[] = 'RefNo Brain report contains:  '.$_GET['ref_no_brain'];
+
 if (isset($_GET['hospitalisation_year']) && $_GET['hospitalisation_year']) $suche_nach[] = 'year of hospitalisation = '.$_GET['hospitalisation_year'];
 if (isset($_GET['hospitalisation_institution']) && $_GET['hospitalisation_institution']) {
 	$search_term = $dbi->connection->query('SELECT institution_name FROM nmv__institution WHERE ID_institution = '.$_GET['hospitalisation_institution'])->fetch_row();
@@ -283,6 +289,8 @@ if (isset($_GET['evaluation_status']) && $_GET['evaluation_status']) {
 	$search_term = $dbi->connection->query('SELECT english FROM nmv__victim_evaluation_status WHERE ID_status = '.$_GET['evaluation_status'])->fetch_row();
 	$suche_nach[] = 'evaluation status = '.$search_term[0];
 }
+if (isset($_GET['autopsy_ref_no']) && $_GET['autopsy_ref_no']) $suche_nach[] = 'AutopsyRefNo Hospitalisation contains:  '.$_GET['autopsy_ref_no'];
+
 if (isset($_GET['residence_after_1945_country']) && $_GET['residence_after_1945_country']) $suche_nach[] = 'residence after 1945 (country) = '.$_GET['residence_after_1945_country'];
 if (isset($_GET['occupation_after_1945']) && $_GET['occupation_after_1945']) $suche_nach[] = 'occupation after 1945 = '.$_GET['occupation_after_1945'];
 if (isset($_GET['nationality_after_1945']) && $_GET['nationality_after_1945']) {

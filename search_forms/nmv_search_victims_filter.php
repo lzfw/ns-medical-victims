@@ -154,6 +154,8 @@ $victimsVariableForm->addField('ID_dataset_origin', SELECT)
   ->addOption (NO_VALUE,'all workgroups')
   ->addOptionsFromTable('nmv__dataset_origin', 'ID_dataset_origin', 'work_group');
 
+$victimsVariableForm->addField('br-tissue', STATIC_TEXT, '<br>');
+
 $victimsVariableForm->addField('tissue_institution', SELECT)
     ->setLabel('tissue - institution')
     ->addOption(NO_VALUE, 'all institutions')
@@ -168,6 +170,11 @@ $victimsVariableForm->addField('ID_tissue_state', SELECT)
   ->setLabel ('tissue - state')
   ->addOption (NO_VALUE,'all states')
   ->addOptionsFromTable('nmv__tissue_state', 'ID_tissue_state', 'english');
+
+$victimsVariableForm->addField('ref_no_tissue', TEXT, 120)
+  ->setLabel('tissue - Reference Number');
+
+$victimsVariableForm->addField('br-brain', STATIC_TEXT, '<br>');
 
 $victimsVariableForm->addField('brain_report_year', SELECT)
   ->setLabel ('brain report - year')
@@ -188,7 +195,12 @@ $victimsVariableForm->addField('brain_report_ID_diagnosis', SELECT)
                                   WHERE nmv__med_history_brain.ID_diagnosis = nmv__diagnosis.ID_diagnosis)');
 
 $victimsVariableForm->addField('brain_report_diagnosis', TEXT, 120)
-->setLabel ('brain report - diagnosis <br>(not standardized yet)');
+  ->setLabel ('brain report - diagnosis <br>(not standardized yet)');
+
+$victimsVariableForm->addField('ref_no_brain', TEXT, 120)
+  ->setLabel('brain report - Reference Number');
+
+$victimsVariableForm->addField('br-hosp', STATIC_TEXT, '<br>');
 
 $victimsVariableForm->addField('hospitalisation_year', TEXT, 4)
   ->setLabel ('hospitalisation - entry year (yyyy)');
@@ -208,6 +220,9 @@ $victimsVariableForm->addField('hospitalisation_ID_diagnosis', SELECT)
 
 $victimsVariableForm->addField('hospitalisation_diagnosis', TEXT, 120)
 ->setLabel ('hospitalisation - diagnosis <br>(not standardized yet)');
+
+$victimsVariableForm->addField('autopsy_ref_no', TEXT, 120)
+  ->setLabel('hospitalisation - Autopsy Number');
 
 // complete db d 3
 if (!($dbi->checkUserPermission('mpg'))) :
