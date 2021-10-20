@@ -23,7 +23,7 @@ $querystring = "
             IFNULL(i.location, '#'),' - ',
             IFNULL(c.english, '#'))institution,
         diag.english as diagnosis_l,
-        CONCAT_WS('-', h.brain_report_year, h.brain_report_month, h.brain_report_day) brain_report_date,
+        CONCAT(IFNULL(h.brain_report_day, '-'), '.', IFNULL(h.brain_report_month, '-'), '.', IFNULL(h.brain_report_year, '-')) AS brain_report_date,
         h.kwi_researcher kwi_researcher, h.diagnosis diagnosis,
         h.notes notes, h.ref_no ref_no
     FROM nmv__med_history_brain h
@@ -55,7 +55,7 @@ if ($victim = $query->fetch_object()) {
         htmlspecialchars($victim->diagnosis, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Diagnosis Tags</th><td>'.
         htmlspecialchars($victim->diagnosis_l, ENT_HTML5). '</td></tr>';
-    $content .= '<tr><th>Report date</th><td>'.
+    $content .= '<tr><th>Report date dmyyyy</th><td>'.
         htmlspecialchars($victim->brain_report_date, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Notes</th><td>'.
         htmlspecialchars($victim->notes, ENT_HTML5).'</td></tr>';

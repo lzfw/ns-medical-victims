@@ -21,7 +21,7 @@ $querystring = "
         h.ID_med_history_tissue AS id, f.english AS tissue_form,
             s.english AS tissue_state, i.institution_name, i.location AS institution_location,
             c.english AS institution_country,
-            CONCAT_WS('-', h.since_year, h.since_month, h.since_day) AS date,
+            CONCAT(IFNULL(h.since_day, '-'), '.', IFNULL(h.since_month, '-'), '.', IFNULL(h.since_year, '-')) AS date,
             h.notes AS notes, h.ref_no AS ref_no
     FROM nmv__med_history_tissue h
     LEFT JOIN nmv__victim v                ON h.ID_victim = v.ID_victim
@@ -49,7 +49,7 @@ if ($victim = $query->fetch_object()) {
         htmlspecialchars($victim->tissue_form, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Tissue state</th><td>'.
             htmlspecialchars($victim->tissue_state, ENT_HTML5).'</td></tr>';
-    $content .= '<tr><th>State since</th><td>'.
+    $content .= '<tr><th>State since dmyyyy</th><td>'.
         htmlspecialchars($victim->date, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Tissue location<br>(Institution)</th><td>'.
         htmlspecialchars($victim->institution_name, ENT_HTML5) . '<br>in ' . htmlspecialchars($victim->institution_location, ENT_HTML5) .  ', ' . htmlspecialchars($victim->institution_country, ENT_HTML5) . '</td></tr>';

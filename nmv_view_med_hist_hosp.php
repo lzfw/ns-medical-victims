@@ -27,8 +27,8 @@ $querystring = "
         e.english AS educational_abilities,
         b.english AS behaviour,
         d.english AS disability,
-        CONCAT_WS('-', h.date_entry_year, h.date_entry_month, h.date_entry_day) AS date_entry,
-        CONCAT_WS('-', h.date_exit_year, h.date_exit_month, h.date_exit_day) AS date_exit,
+        CONCAT(IFNULL(h.date_entry_day, '-'), '.', IFNULL(h.date_entry_month, '-'), '.', IFNULL(h.date_entry_year, '-')) AS date_entry,
+        CONCAT(IFNULL(h.date_exit_day, '-'), '.', IFNULL(h.date_exit_month, '-'), '.', IFNULL(h.date_exit_year, '-')) AS date_exit,
         h.age_entry AS age_entry, h.age_exit AS age_exit,
         h.institution AS institution, h.diagnosis AS diagnosis, h.autopsy_ref_no AS autopsy_ref_no,
         h.notes AS notes
@@ -77,9 +77,9 @@ if ($victim = $query->fetch_object()) {
         htmlspecialchars($victim->behaviour, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Disability</th><td>'.
         htmlspecialchars($victim->disability, ENT_HTML5).'</td></tr>';
-    $content .= '<tr><th>Entry date</th><td>'.
+    $content .= '<tr><th>Entry date dmyyyy</th><td>'.
         htmlspecialchars($victim->date_entry, ENT_HTML5).'</td></tr>';
-    $content .= '<tr><th>Exit date</th><td>'.
+    $content .= '<tr><th>Exit date dmyyyy</th><td>'.
         htmlspecialchars($victim->date_exit, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Entry age</th><td>'.
         htmlspecialchars($victim->age_entry, ENT_HTML5).'</td></tr>';
