@@ -59,6 +59,8 @@ if ($victim = $query->fetch_object()) {
         htmlspecialchars($med_hist_id, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Institution</th><td>'.
         htmlspecialchars($victim->institution_l, ENT_HTML5).
+        '<br>' .
+        htmlspecialchars($victim->institution, ENT_HTML5) .
       '</td></tr>';
     $content .= '<tr><th>Institution Order</th><td>'.
             ($victim->institution_order
