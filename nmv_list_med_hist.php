@@ -46,7 +46,7 @@ if ($victim_id) {
         $content .= '</tr>';
         while ($entry = $query->fetch_object()) {
         	$content .= '<tr>';
-          $content .= '<td><a href="nmv_view_med_hist_hosp?ID_med_history_hosp='.$entry->id.'">'.htmlspecialchars($entry->institution,ENT_HTML5). ' - ' .htmlspecialchars($entry->other_institution,ENT_HTML5).'</a></td>';
+          $content .= '<td><a href="nmv_view_med_hist_hosp?ID_med_history_hosp='.$entry->id.'">'.htmlspecialchars($entry->institution,ENT_HTML5). ' <br> ' .htmlspecialchars($entry->other_institution,ENT_HTML5).'</a></td>';
         	$content .= "<td>$entry->date</td>";
         	$content .= "<td>$entry->id</td>";
         	$content .= '<td class="nowrap">';
