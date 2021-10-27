@@ -21,6 +21,8 @@ class View_List_NMV_Experiments_Table extends View_List {
 		$this->addSortOption ('Institution','institution_name','ASC','DESC');
 		$this->addSortOption ('Field of Interest','field_of_interest','ASC, experiment_title ASC','DESC, experiment_title DESC');
 		$this->addSortOption ('Objective','objective','ASC, experiment_title ASC','DESC, experiment_title DESC');
+		$this->addSortOption ('Start Year', 'start_year', 'ASC, experiment_title ASC', 'DESC, experiment_title ASC');
+		$this->addSortOption ('End Year', 'end_year', 'ASC, experiment_title ASC', 'DESC, experiment_title ASC');
 		$html = '';
 		$html .= $this->getSortOptions_HTML ();
 
@@ -35,7 +37,7 @@ class View_List_NMV_Experiments_Table extends View_List {
 
 		if ($results->num_rows>0) {
 		    $html .= '<table class="grid">';
-		    $html .= '<th>ID</th><th>Title</th><th>Institution</th><th>Field of Interest</th><th>Objective</th><th>Options</th>';
+		    $html .= '<th>ID</th><th>Title</th><th>Institution</th><th>Field of Interest</th><th>Objective</th><th>Start Year</th><th>End Year</th><th>Options</th>';
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
 							<td>' . $item->ID_experiment . '</td>
@@ -43,6 +45,8 @@ class View_List_NMV_Experiments_Table extends View_List {
 							<td>' . htmlentities($item->institution_name, ENT_HTML5) . '</td>
 							<td>' . htmlentities($item->field_of_interest, ENT_HTML5) . '</td>
 			        <td>' . htmlentities($item->objective, ENT_HTML5) . '</td>
+			        <td>' . htmlentities($item->start_year, ENT_HTML5) . '</td>
+			        <td>' . htmlentities($item->end_year, ENT_HTML5) . '</td>
 			        <td class="nowrap">' . str_replace('{ID_experiment}', $item->ID_experiment, $options) . '</td>
 			    </tr>';
 			}
