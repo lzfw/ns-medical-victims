@@ -54,7 +54,8 @@ $dbi->setUserVar('querystring',implode('&',$query));
 
 // Select-Klauseln erstellen
 //$querystring_count = 'SELECT COUNT(e.ID_experiment) AS total FROM nmv__experiment e'; // für Treffer gesamt
-$querystring_items = 'SELECT DISTINCT e.ID_experiment, e.experiment_title, e.field_of_interest, e.objective, i.institution_name
+$querystring_items = 'SELECT DISTINCT e.ID_experiment, e.experiment_title, e.field_of_interest, e.objective,
+																			i.institution_name, e.start_year, e.end_year
 											FROM nmv__experiment e
 											LEFT JOIN nmv__perpetrator_experiment pe		ON e.ID_experiment = pe.ID_experiment
 											LEFT JOIN nmv__perpetrator p								ON pe.ID_perpetrator = p.ID_perpetrator
