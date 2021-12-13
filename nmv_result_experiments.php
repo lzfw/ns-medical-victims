@@ -55,11 +55,14 @@ $dbi->setUserVar('querystring',implode('&',$query));
 // Select-Klauseln erstellen
 //$querystring_count = 'SELECT COUNT(e.ID_experiment) AS total FROM nmv__experiment e'; // für Treffer gesamt
 $querystring_items = 'SELECT DISTINCT e.ID_experiment, e.experiment_title, e.field_of_interest, e.objective,
-																			i.institution_name, e.start_year, e.end_year
+																			i.institution_name, e.start_year, e.end_year, GROUP_CONCAT(DISTINCT f.english ORDER BY f.english ASC SEPARATOR "\n") AS fields_of_interest
 											FROM nmv__experiment e
 											LEFT JOIN nmv__perpetrator_experiment pe		ON e.ID_experiment = pe.ID_experiment
 											LEFT JOIN nmv__perpetrator p								ON pe.ID_perpetrator = p.ID_perpetrator
-											LEFT JOIN nmv__institution i 								ON i.ID_institution = e.ID_institution'; // für Ergebnisliste
+											LEFT JOIN nmv__institution i 								ON i.ID_institution = e.ID_institution
+											LEFT JOIN nmv__experiment_foi ef						ON ef.ID_experiment = e.ID_experiment
+											LEFT JOIN nmv__field_of_interest f 					ON f.ID_foi = ef.ID_foi
+											'; // für Ergebnisliste
 $querystring_where = array(); // für Filter
 
 // MySQL-Zeichenfilter definieren (Trunkierungszeichen werden zu MySQL-Zeichen)
@@ -100,6 +103,7 @@ if (count($querystring_where) > 0) {
     //$querystring_count .= ' WHERE '.implode(' AND ',$querystring_where);
     $querystring_items .= ' WHERE '.implode(' AND ',$querystring_where);
 }
+$querystring_items .= 'GROUP BY e.ID_experiment';
 
 // Gesamtanzahl der Suchergebnisse feststellen
 $querystring_count = "SELECT COUNT(*) AS total FROM ($querystring_items) AS xyz";
@@ -109,6 +113,7 @@ $dbi->setUserVar('total_results',$total_results->total);
 
 // order-klausel
 $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
+
 
 // query ausführen
 $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
