@@ -37,13 +37,14 @@ class View_List_NMV_Experiments_Table extends View_List {
 
 		if ($results->num_rows>0) {
 		    $html .= '<table class="grid">';
-		    $html .= '<th>ID</th><th>Title</th><th>Institution</th><th>Field of Interest</th><th>Objective</th><th>Start Year</th><th>End Year</th><th>Options</th>';
+		    $html .= '<th>ID</th><th>Title</th><th>Institution</th><th>Field of Interest</th><th>Fields of Interest</th><th>Objective</th><th>Start Year</th><th>End Year</th><th>Options</th>';
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
 							<td>' . $item->ID_experiment . '</td>
 			        <td><a href="nmv_view_experiment?ID_experiment=' . $item->ID_experiment . '">' . htmlentities($item->experiment_title, ENT_HTML5) . '</a></td>
 							<td>' . htmlentities($item->institution_name, ENT_HTML5) . '</td>
 							<td>' . htmlentities($item->field_of_interest, ENT_HTML5) . '</td>
+							<td class= "prewrap">' . htmlentities($item->fields_of_interest, ENT_HTML5) . '</td>
 			        <td>' . htmlentities($item->objective, ENT_HTML5) . '</td>
 			        <td>' . htmlentities($item->start_year, ENT_HTML5) . '</td>
 			        <td>' . htmlentities($item->end_year, ENT_HTML5) . '</td>

@@ -99,6 +99,10 @@ div.message {
 	white-space: nowrap;
 }
 
+.prewrap{
+	white-space: pre;
+}
+
 /* show'n'hide-elements (css-checkbox-trick to show and hide elements)*/
 .hide_show_label{
 	font-weight: bold;
