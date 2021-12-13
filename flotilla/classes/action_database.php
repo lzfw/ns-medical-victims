@@ -68,7 +68,6 @@ class Action_Database extends Action {
 				}
 			}
 		}
-		print_r($insert_values);
 		$querystring .= "($tag_target_name, $insert_name) VALUES ";
 		if($insert_values[0] != '') {
 			foreach($insert_values[0] as $value) {
