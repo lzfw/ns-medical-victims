@@ -59,7 +59,7 @@ $tagged = $dbi->connection->query("SELECT foi.english
 while ($tag = $tagged->fetch_row()) {
 	$tag_array[] = $tag[0];
 }
-if($dbi->checkUserPermission('edit')): $tag_button = '<br>' . createButton('Change Tags', 'nmv_edit_experiment_foi.php?ID_experiment=' . $experiment_id, 'icon edit');
+if($dbi->checkUserPermission('edit')): $tag_button = '<br>' . createButton('Edit Tags', 'nmv_edit_experiment_foi.php?ID_experiment=' . $experiment_id, 'icon edit');
 endif;
 
 
@@ -76,7 +76,7 @@ if ($experiment = $result->fetch_object()) {
         buildDataSheetRow('Notes on location',        $experiment->notes_location).
         buildDataSheetRow('Funding',                  $experiment->funding).
         buildDataSheetRow('Duration DMY - DMY',                 'from ' . $experiment->start . ' until ' . $experiment->end).
-        buildDataSheetRow('Field of interest',        $experiment->field_of_interest).
+        buildDataSheetRow('Field of interest <br> (outdated, will be deleted)',        $experiment->field_of_interest).
         buildDataSheetRowTag('Fields of interest',    $tag_array, $tag_button).
         buildDataSheetRow('Objective',                $experiment->objective).
         buildDataSheetRow('Number of victims (estimate)',    $experiment->number_victims_estimate).
