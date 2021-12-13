@@ -76,7 +76,6 @@ class Action_Database extends Action {
 		}
 		$querystring .= implode(', ', $valuearray) . ';';
 		$this->Query_Tag_Delete($tag_target_name, $tag_target_value);
-		echo $querystring;
 		$query = $this->Query($querystring);
 		return $query;
 	}
