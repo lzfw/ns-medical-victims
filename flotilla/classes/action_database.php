@@ -6,17 +6,19 @@ class Action_Database extends Action {
 	protected $string_vartypes = array('char','varchar','text','date','time');
 
 	private $table;
+	private $tag;
 	private $autoinsert;
 
 		// CONSTRUCTORS --------------------------------------------------------------
 
-	protected function __construct (Form $Creator,$table,$autoinsert = AUTOINSERT_OFF) {
+	protected function __construct (Form $Creator,$table,$tag = '',$autoinsert = AUTOINSERT_OFF) {
 	    /**
 	     *
 	     * @var Form $Creator
 	     */
 		$this->Creator = $Creator;
 		$this->table = $table;
+		$this->tag = $tag;
 		$this->autoinsert = $autoinsert;
 		$this->Creator->debuglog->Write(DEBUG_INFO,'. DATABASE ACTION created');
 	}
@@ -27,6 +29,7 @@ class Action_Database extends Action {
 		switch (func_num_args()) {
 			case 2: return new Action_Database ($args[0],$args[1]);
 			case 3: return new Action_Database ($args[0],$args[1],$args[2]);
+			case 4: return new Action_Database ($args[0],$args[1],$args[2], $args[3]);
 			default: $this->Creator->debuglog->Write(DEBUG_WARNING,'. DATABASE ACTION - invalid number of arguments');
 		}
 	}
@@ -44,6 +47,45 @@ class Action_Database extends Action {
 		$querystring = 'SELECT * FROM `'.$this->table.'`';
 		$querystring .= ' WHERE `'.$this->Creator->Connection->GetPrimaryKeyName().'`='.$this->Creator->Connection->GetPrimaryKeyValue();
 		return $this->Query($querystring);
+	}
+
+	function Query_Tag_Insert() {
+		$querystring = "INSERT INTO $this->table ";
+		$valuearray = array();
+		$tag_target_name = '';
+		$tag_target_value = 0;
+		$insert_name =  '';
+		$insert_values = array();
+		reset($this->Creator->Fields);
+		foreach($this->Creator->Fields as $index => $Field) {
+			if($Field->name != $this->Creator->Connection->GetPrimaryKeyName()) { //don't touch the primary key of an entry
+				if(is_string($Field->user_value)) {
+					$tag_target_value = $Field->user_value;
+					$tag_target_name = $Field->name;
+				} else {
+					$insert_values[] = $Field->user_value;
+					$insert_name = $Field->name;
+				}
+			}
+		}
+		print_r($insert_values);
+		$querystring .= "($tag_target_name, $insert_name) VALUES ";
+		if($insert_values[0] != '') {
+			foreach($insert_values[0] as $value) {
+				$valuearray[] = "($tag_target_value, $value) ";
+			}
+		}
+		$querystring .= implode(', ', $valuearray) . ';';
+		$this->Query_Tag_Delete($tag_target_name, $tag_target_value);
+		echo $querystring;
+		$query = $this->Query($querystring);
+		return $query;
+	}
+
+	function Query_Tag_Delete ($tag_target_name, $tag_target_value) {
+				$deletestring = "DELETE FROM $this->table WHERE $tag_target_name = $tag_target_value; ";
+				$query = $this->Query($deletestring);
+				return $query;
 	}
 
 	function Query_Insert () {
@@ -281,7 +323,7 @@ class Action_Database extends Action {
 	}
 
 	// DATA INPUT / OUTPUT -------------------------------------------------------
-
+	//if buttons with load-function are clicked
 	function onLoad () {
 		if ($this->Creator->Connection->getPrimaryKeyValue()) {
 			$this->Creator->debuglog->Write(DEBUG_INFO,'PRIMARY KEY found');
@@ -308,6 +350,7 @@ class Action_Database extends Action {
 		}
 	}
 
+	//if buttons with submit-function are clicked
 	function onSubmit () {
 		$this->Creator->debuglog->Write(DEBUG_INFO,'DATABASE ACTION');
 		if ($this->Creator->Connection->getPrimaryKeyValue()) {
@@ -324,12 +367,22 @@ class Action_Database extends Action {
 		else {
 			// INSERT NEW ENTRY
 			$this->Creator->debuglog->Write(DEBUG_INFO,'. PRIMARY KEY not found');
-			if (($this->Query_Insert()) && ($this->Query_Update_Subtables())) {
-				$this->Creator->debuglog->Write(DEBUG_INFO,'. INSERT successful');
-				$this->Creator->success_message = 'ACTION SUCCESSFUL';
+			if ($this->tag == 'tag') {
+					if($this->Query_Tag_Insert()) {
+						$this->Creator->debuglog->Write(DEBUG_INFO,'. TAG UPDATE successful');
+						$this->Creator->success_message = 'ACTION SUCCESSFUL';
+					} else {
+							$this->Creator->debuglog->Write(DEBUG_ERROR,'TAG UPDATE failed');
+							$this->Creator->success_message = 'ACTION FAILED';
+					}
 			} else {
-				$this->Creator->debuglog->Write(DEBUG_ERROR,'INSERT failed');
-				$this->Creator->success_message = 'ACTION FAILED';
+				if (($this->Query_Insert()) && ($this->Query_Update_Subtables())) {
+					$this->Creator->debuglog->Write(DEBUG_INFO,'. INSERT successful');
+					$this->Creator->success_message = 'ACTION SUCCESSFUL';
+				} else {
+					$this->Creator->debuglog->Write(DEBUG_ERROR,'INSERT failed');
+					$this->Creator->success_message = 'ACTION FAILED';
+				}
 			}
 		}
 	}

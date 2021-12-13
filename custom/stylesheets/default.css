@@ -462,6 +462,19 @@ span.button,span.smallbutton {
 	white-space:nowrap;
 }
 
+/* tags */
+span.tag {
+	border: 1px solid #888;
+	border-radius: 0.2rem;
+	padding: 0 0.2rem;
+	margin: 0.2rem;
+}
+
+div.flex_wrap {
+	display: flex;
+	flex-wrap: wrap;
+}
+
 
 /* TEXT --------------------------------------------------------------------- */
 

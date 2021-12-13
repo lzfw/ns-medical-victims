@@ -49,12 +49,12 @@ class Field_MultiCheckbox extends Field {
 		$options_querystring = "
 			SELECT {$args[1]} AS value, {$args[2]} AS title
 			FROM {$args[0]}
-			".(isset($args[3])?'WHERE '.$args[3]:'')."
 			ORDER BY {$args[2]}
 		";
 		$options_query = $this->Creator->Connection->link->query($options_querystring);
 		while ($option = $options_query->fetch_object()) {
-			$this->Options[] = new MultiCheckbox_Option ($this->name,$option->value,$option->title);
+			$tagged = in_array($option->value, $args[3]);
+			$this->Options[] = new MultiCheckbox_Option ($this->name,$option->value,$option->title,$tagged);
 			$this->Creator->debuglog->Write(DEBUG_INFO,'. . new Multiple Checkbox Option "'.$option->value.'" created');
 		}
 		return $this;
@@ -69,7 +69,7 @@ class Field_MultiCheckbox extends Field {
 	public function HTMLOutput () {
 		$output = NULL;
 		if ($this->is_appended()) {
-			$output .= "<label for=\"{$this->getId()}\" class=\"label\">$this->label</label>";
+			$output .= "<label for=\"{$this->getID()}\" class=\"label\">$this->label</label>";
 		}
 		$output .= "\t\t\t<div";
 		$output .= ' id="'.$this->getId().'"';
@@ -80,7 +80,13 @@ class Field_MultiCheckbox extends Field {
 		}
 		$output .= '>'.PHP_EOL;
 		foreach ($this->Options as $option) {
-			$is_checked = (isset($this->user_value) && in_array($option->getValue(),$this->user_value));
+			//TODO delete if not needed
+			//$value = $this->getValue();
+			// if($option->getValue() == 1) {$is_checked = true;}
+			// else {$is_checked = false;}
+		  //$is_checked = (isset($this->user_value) && in_array($option->getValue(),$this->user_value));
+			$is_checked = $option->getTagged();
+		//	$is_checked = ($option->getTagged() || (isset($this->user_value) && in_array($option->getValue(),$this->user_value)));
 			$output .= $option->HTMLOutput($is_checked);
 		}
 		$output .= "\t\t\t</div>".PHP_EOL;
@@ -99,10 +105,11 @@ class MultiCheckbox_Option {
 
 	// CONSTRUCTORS --------------------------------------------------------------
 
-	public function __construct ($name,$value,$title) {
+	public function __construct ($name,$value,$title,$tagged) {
 		$this->name = $name;
 		$this->value = $value;
 		$this->title = $title;
+		$this->tagged = $tagged;
 	}
 
 	// PROPERTIES ----------------------------------------------------------------
@@ -113,6 +120,10 @@ class MultiCheckbox_Option {
 
 	public function getId () {
 		return $this->name.'-'.$this->value;
+	}
+
+	public function getTagged () {
+		return $this->tagged;
 	}
 
 	// HTML OUTPUT ---------------------------------------------------------------

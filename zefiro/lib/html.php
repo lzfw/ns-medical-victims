@@ -57,6 +57,23 @@ function buildDataSheetRow (string $thContent, ?string $tdContent, $entityConver
         );
 }
 
+function buildDataSheetRowTag (string $thContent, array $tdContent, string $tag_button, $entityConversionFlags = ENT_HTML5) {
+	$tdContent_converted = array();
+	foreach($tdContent as $tag){
+		$tag = $entityConversionFlags === FALSE
+		    ? $tag
+		    : htmlspecialchars($tag, $entityConversionFlags);
+		$tdContent_converted[] = $tag;
+	}
+
+	$tags = "<div class='flex_wrap'><span class='tag'>" . implode("</span><span class='tag'>", $tdContent_converted) . "</span></div>";
+    return
+        buildElement('tr',
+            buildElement('th', $thContent).
+						buildElement('td', $tags . $tag_button)
+        );
+}
+
 // query functions
 
 // single values

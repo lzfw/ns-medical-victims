@@ -18,13 +18,13 @@ if ($perpetrator_id) {
     $perpetrator = $query->fetch_object();
     $perpetrator_name = $perpetrator->perpetrator_name;
 } else {
-    $vict_source_id = (int) getUrlParameter('ID_perp_source', 0);
+    $perp_source_id = (int) getUrlParameter('ID_perp_source', 0);
     $querystring = "
     SELECT CONCAT(COALESCE(v.surname, ''), ' ', COALESCE(v.first_names, '')) perpetrator_name,
         v.ID_perpetrator perpetrator_id
     FROM nmv__perpetrator v
     RIGHT JOIN nmv__perpetrator_source h ON (h.ID_perpetrator = v.ID_perpetrator)
-    WHERE ID_perp_source = $vict_source_id";
+    WHERE ID_perp_source = $perp_source_id";
     $query = $dbi->connection->query($querystring);
     $perpetrator = $query->fetch_object();
     $perpetrator_id = $perpetrator->perpetrator_id;

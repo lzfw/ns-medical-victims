@@ -5,6 +5,8 @@ $dbi->requireUserPermission ('view');
 
 $dbi->setUserVar ('ID_experiment',getUrlParameter('ID_experiment'),NULL);
 $experiment_id = (int) getUrlParameter('ID_experiment',0);
+$tag_array = array();
+$tag_button = '';
 
 $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 $dbi->addBreadcrumb ('Biomedical Research','nmv_list_experiments');
@@ -49,6 +51,18 @@ if ($stmt = $dbi->connection->prepare($querystring)) {
         ' / #' . $dbi->connection->errno . ' / ' . $dbi->connection->error);
 }
 
+//query get tags
+$tagged = $dbi->connection->query("SELECT foi.english
+                                   FROM nmv__experiment_foi ef
+                                   LEFT JOIN nmv__field_of_interest foi ON foi.ID_foi = ef.ID_foi
+                                   WHERE ef.ID_experiment = $experiment_id");
+while ($tag = $tagged->fetch_row()) {
+	$tag_array[] = $tag[0];
+}
+if($dbi->checkUserPermission('edit')): $tag_button = '<br>' . createButton('Change Tags', 'nmv_edit_experiment_foi.php?ID_experiment=' . $experiment_id, 'icon edit');
+endif;
+
+
 if ($experiment = $result->fetch_object()) {
     $confirmed = $experiment->confirmed_experiment ? ' (confirmed biomedical research)' : '';
     $experiment_name = $experiment->experiment_title . $confirmed;
@@ -63,6 +77,7 @@ if ($experiment = $result->fetch_object()) {
         buildDataSheetRow('Funding',                  $experiment->funding).
         buildDataSheetRow('Duration DMY - DMY',                 'from ' . $experiment->start . ' until ' . $experiment->end).
         buildDataSheetRow('Field of interest',        $experiment->field_of_interest).
+        buildDataSheetRowTag('Fields of interest',    $tag_array, $tag_button).
         buildDataSheetRow('Objective',                $experiment->objective).
         buildDataSheetRow('Number of victims (estimate)',    $experiment->number_victims_estimate).
         buildDataSheetRow('Number of fatalities (estimate)', $experiment->number_fatalities_estimate).
