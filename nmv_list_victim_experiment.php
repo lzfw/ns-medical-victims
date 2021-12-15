@@ -46,19 +46,20 @@ if ($victim_id) {
 
         // query: get experiment data
         $querystring = "SELECT ve.ID_vict_exp AS ID_vict_exp, ve.experiment_duration AS duration, ve.age_experiment_start AS age,
-                            COALESCE(e.experiment_title, 'unspecified') AS title, c.english AS classification,
+                            COALESCE(e.experiment_title, 'unspecified') AS title, c.english AS classification, i.institution_name AS institution,
                             ve.ID_experiment AS ID_experiment
                         FROM nmv__victim_experiment ve
-                        LEFT JOIN nmv__experiment e ON e.ID_experiment = ve.ID_experiment
-                        LEFT JOIN nmv__victim v ON v.ID_victim = ve.ID_victim
-                        LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.classification
+                        LEFT JOIN nmv__experiment e                 ON e.ID_experiment = ve.ID_experiment
+                        LEFT JOIN nmv__institution i                ON i.ID_institution = e.ID_institution
+                        LEFT JOIN nmv__victim v                     ON v.ID_victim = ve.ID_victim
+                        LEFT JOIN nmv__experiment_classification c  ON c.ID_exp_classification = e.classification
                         WHERE ve.ID_victim = $victim_id
                         ORDER BY exp_start_year, exp_start_month, exp_start_day, exp_end_year, exp_end_month, exp_end_day
                         ";
 
         $options = '';
-        $row_template = ['{title}', '{classification}', '{duration}', '{age}'];
-        $header_template = ['Title', 'Classification', 'Duration', 'Age'];
+        $row_template = ['{title}', '{institution}', '{classification}', '{duration}', '{age}'];
+        $header_template = ['Title', 'Institution', 'Classification', 'Duration', 'Age'];
 
         $options .= createSmallButton('View Victim-Experiment-Link','nmv_view_victim_experiment?ID_vict_exp={ID_vict_exp}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
