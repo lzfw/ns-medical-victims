@@ -30,11 +30,15 @@ $exact_fields = array ('ID_experiment', 'ID_institution', 'classification');
 $like_fields = array ();
 
 //felder, die mit LIKE %xy% gematcht werden
-$contain_fields = array('experiment_title', 'funding', 'field_of_interest', 'objective', 'surname');
+$contain_fields = array('experiment_title', 'funding', 'objective', 'surname');
 
 // felder, die mit like ODER exakt gematcht werden (Trunkierung möglich, Diakritika indistinkt)
 // --> Arabic vowel signs are treated indistinctively: سبب would also return سَبَبٌ, and vice versa.
 $double_fields = array ();
+
+//fields involving data from tables other than nmv__experiment
+//key defines table and column
+$special_fields = array('ef.ID_foi'			=> 'ID_foi');
 
 // GET-String rekonstruieren (für Blätterfunktion)
 $query = array();
@@ -48,6 +52,9 @@ foreach ($contain_fields as $field) {
 	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
 }
 foreach ($double_fields as $field) {
+	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
+}
+foreach ($special_fields as $field) {
 	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
 }
 $dbi->setUserVar('querystring',implode('&',$query));
@@ -98,12 +105,17 @@ foreach ($double_fields as $field) {
 		$querystring_where[] = "(e.$field LIKE '".$filtered_field."' OR e.$field = '".getUrlParameter($field)."')";
     }
 }
+foreach ($special_fields as $key=>$field) {
+    if (getUrlParameter($field)) {
+			$querystring_where[] = "$key = '".getUrlParameter($field)."'";
+    }
+}
 
 if (count($querystring_where) > 0) {
     //$querystring_count .= ' WHERE '.implode(' AND ',$querystring_where);
     $querystring_items .= ' WHERE '.implode(' AND ',$querystring_where);
 }
-$querystring_items .= 'GROUP BY e.ID_experiment';
+$querystring_items .= ' GROUP BY e.ID_experiment';
 
 // Gesamtanzahl der Suchergebnisse feststellen
 $querystring_count = "SELECT COUNT(*) AS total FROM ($querystring_items) AS xyz";
@@ -118,13 +130,16 @@ $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 // query ausführen
 $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 
-
+echo $querystring_items;
 // ausgabe der suchtermini
 $suche_nach = array();
 if (isset($_GET['ID_experiment']) && $_GET['ID_experiment']) $suche_nach[] = 'ID = '.$_GET['ID_experiment'];
 if (isset($_GET['experiment_title']) && $_GET['experiment_title']) $suche_nach[] = 'title = '.$_GET['experiment_title'];
 if (isset($_GET['funding']) && $_GET['funding']) $suche_nach[] = 'funding = '.$_GET['funding'];
-if (isset($_GET['field_of_interest']) && $_GET['field_of_interest']) $suche_nach[] = 'field of interest = '.$_GET['field_of_interest'];
+if (isset($_GET['ID_foi']) && $_GET['ID_foi']) {
+	$search_term = $dbi->connection->query('SELECT english FROM nmv__field_of_interest WHERE ID_foi = '.$_GET['ID_foi'])->fetch_row();
+	$suche_nach[] = 'field of interest = '.$search_term[0];
+}
 if (isset($_GET['objective']) && $_GET['objective']) $suche_nach[] = 'objective = '.$_GET['objective'];
 if (isset($_GET['surname']) && $_GET['surname']) $suche_nach[] = 'surname perpetrator = '.$_GET['surname'];
 if (isset($_GET['classification']) && $_GET['classification']) {

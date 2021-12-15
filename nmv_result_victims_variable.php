@@ -73,7 +73,8 @@ $special_fields = array('e.ID_experiment'			=> 'ID_experiment',
 												'h.ID_institution'		=> 'hospitalisation_institution',
 												'h.ID_diagnosis'			=> 'hospitalisation_ID_diagnosis',
 												'ev.evaluation_status'=> 'evaluation_status',
-												't.ID_institution'   	=> 'tissue_institution'
+												't.ID_institution'   	=> 'tissue_institution',
+												'ef.ID_foi'						=> 'ID_foi'
 												);
 
 $special_contain_fields = array('b.diagnosis'					=> 'brain_report_diagnosis',
@@ -115,17 +116,19 @@ $querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
 																				ve.exp_start_year, ve.exp_start_day, ve.exp_start_month,
 																				s.english AS survival
 												FROM nmv__victim v
-												LEFT JOIN nmv__country bc 					ON bc.ID_country = v.ID_birth_country
-												LEFT JOIN nmv__victim_experiment ve	ON v.ID_victim = ve.ID_victim
-												LEFT JOIN nmv__survival s 					ON s.ID_survival = ve.ID_survival
-												LEFT JOIN nmv__experiment e 				ON ve.ID_experiment = e.ID_experiment
-												LEFT JOIN nmv__imprisoniation i			ON v.ID_victim = i.ID_victim
-												LEFT JOIN nmv__nationality n        ON n.ID_nationality = v.nationality_1938
-												LEFT JOIN nmv__ethnicgroup et       ON et.ID_ethnicgroup = v.ethnic_group
-												LEFT JOIN nmv__med_history_brain b	ON v.ID_victim = b.ID_victim
-												LEFT JOIN nmv__med_history_tissue t	ON v.ID_victim = t.ID_victim
-												LEFT JOIN nmv__med_history_hosp h		ON v.ID_victim = h.ID_victim
-												LEFT JOIN nmv__evaluation ev				ON v.ID_victim = ev.ID_victim
+												LEFT JOIN nmv__country bc 						ON bc.ID_country = v.ID_birth_country
+												LEFT JOIN nmv__victim_experiment ve		ON v.ID_victim = ve.ID_victim
+												LEFT JOIN nmv__survival s 						ON s.ID_survival = ve.ID_survival
+												LEFT JOIN nmv__experiment e 					ON ve.ID_experiment = e.ID_experiment
+												LEFT JOIN nmv__experiment_foi ef			ON ef.ID_experiment = e.ID_experiment
+												LEFT JOIN nmv__field_of_interest foi	ON foi.ID_foi = ef.ID_foi
+												LEFT JOIN nmv__imprisoniation i				ON v.ID_victim = i.ID_victim
+												LEFT JOIN nmv__nationality n        	ON n.ID_nationality = v.nationality_1938
+												LEFT JOIN nmv__ethnicgroup et       	ON et.ID_ethnicgroup = v.ethnic_group
+												LEFT JOIN nmv__med_history_brain b		ON v.ID_victim = b.ID_victim
+												LEFT JOIN nmv__med_history_tissue t		ON v.ID_victim = t.ID_victim
+												LEFT JOIN nmv__med_history_hosp h			ON v.ID_victim = h.ID_victim
+												LEFT JOIN nmv__evaluation ev					ON v.ID_victim = ev.ID_victim
 											'; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
 
@@ -234,6 +237,10 @@ if (isset($_GET['ID_arrest_country']) && $_GET['ID_arrest_country']) {
 if (isset($_GET['ID_experiment']) && $_GET['ID_experiment']) {
 	$search_term = $dbi->connection->query('SELECT experiment_title FROM nmv__experiment WHERE ID_experiment = '.$_GET['ID_experiment'])->fetch_row();
 	$suche_nach[] = 'title of experiment = '.$search_term[0];
+}
+if (isset($_GET['ID_foi']) && $_GET['ID_foi']) {
+	$search_term = $dbi->connection->query('SELECT english FROM nmv__field_of_interest WHERE ID_foi = '.$_GET['ID_foi'])->fetch_row();
+	$suche_nach[] = 'field of interest = '.$search_term[0];
 }
 if (isset($_GET['exp_institution']) && $_GET['exp_institution']) {
 	$search_term = $dbi->connection->query('SELECT institution_name FROM nmv__institution WHERE ID_institution = '.$_GET['exp_institution'])->fetch_row();

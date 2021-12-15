@@ -467,7 +467,7 @@ span.button,span.smallbutton {
 }
 
 /* tags */
-span.tag {
+.tag {
 	border: 1px solid #888;
 	border-radius: 0.2rem;
 	padding: 0 0.2rem;
