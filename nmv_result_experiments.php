@@ -130,7 +130,6 @@ $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 // query ausführen
 $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 
-echo $querystring_items;
 // ausgabe der suchtermini
 $suche_nach = array();
 if (isset($_GET['ID_experiment']) && $_GET['ID_experiment']) $suche_nach[] = 'ID = '.$_GET['ID_experiment'];
