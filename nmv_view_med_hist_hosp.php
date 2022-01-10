@@ -4,9 +4,13 @@ require_once 'zefiro/ini.php';
 $dbi->requireUserPermission ('view');
 
 $dbi->setUserVar ('ID_med_history_hosp',getUrlParameter('ID_med_history_hosp'),NULL);
-$med_hist_id = (int) getUrlParameter('ID_med_history_hosp',0);
+$ID_hosp = (int) getUrlParameter('ID_med_history_hosp',0);
 $victim_id = 0;
 $victim_name = 'Error: Unknown victim';
+$tag_array = array();
+$tag_button = '';
+$content = '';
+
 
 $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 $dbi->addBreadcrumb ('Victims','nmv_list_victims');
@@ -14,14 +18,12 @@ $dbi->addBreadcrumb ('Victims','nmv_list_victims');
 
 
 // query: get victim data
-$querystring = "
-    SELECT
-        v.ID_victim AS ID_victim,
+$querystring = "SELECT v.ID_victim AS ID_victim,
         v.first_names AS first_names, v.surname AS surname, v.birth_place AS birth_place,
         CONCAT(
             IFNULL(i.institution_name, '#'),' - ',
             IFNULL(i.location, '#'),' - ',
-            IFNULL(c.english, '#')) AS institution_l,
+            IFNULL(c.english, '#')) AS institution,
         o.english AS institution_order,
         diag.english AS diagnosis_l,
         e.english AS educational_abilities,
@@ -29,8 +31,8 @@ $querystring = "
         d.english AS disability,
         CONCAT(IFNULL(h.date_entry_day, '-'), '.', IFNULL(h.date_entry_month, '-'), '.', IFNULL(h.date_entry_year, '-')) AS date_entry,
         CONCAT(IFNULL(h.date_exit_day, '-'), '.', IFNULL(h.date_exit_month, '-'), '.', IFNULL(h.date_exit_year, '-')) AS date_exit,
-        h.age_entry AS age_entry, h.age_exit AS age_exit,
-        h.institution AS institution, h.diagnosis AS diagnosis, h.autopsy_ref_no AS autopsy_ref_no,
+        h.age_entry AS age_entry, h.age_exit AS age_exit, h.institution as institution_freetext,
+        h.diagnosis AS diagnosis, h.autopsy_ref_no AS autopsy_ref_no,
         h.notes AS notes
     FROM nmv__med_history_hosp h
     LEFT JOIN nmv__victim v               ON h.ID_victim = v.ID_victim
@@ -41,11 +43,21 @@ $querystring = "
     LEFT JOIN nmv__educational_abilities e ON h.ID_educational_abilities = e.ID_educational_abilities
     LEFT JOIN nmv__behaviour b             ON h.ID_behaviour = b.ID_behaviour
     LEFT JOIN nmv__disability d            ON h.ID_disability = d.ID_disability
-    WHERE h.ID_med_history_hosp = ".$dbi->getUserVar('ID_med_history_hosp');
+    WHERE h.ID_med_history_hosp = $ID_hosp";
 $query = $dbi->connection->query($querystring);
 
-$content = '';
-$content .= '<table class="grid">';
+//query get diagnosis tags
+$tagged = $dbi->connection->query("SELECT d.diagnosis
+                                   FROM nmv__diagnosis_hosp dh
+                                   LEFT JOIN nmv__diagnosis_tag d ON d.ID_diagnosis = dh.ID_diagnosis
+                                   WHERE dh.ID_med_history_hosp = $ID_hosp");
+while ($tag = $tagged->fetch_row()) {
+	$tag_array[] = $tag[0];
+}
+if($dbi->checkUserPermission('edit')): $tag_button = '<br>' . createButton('Edit Tags', 'nmv_edit_diagnosis_hosp_tag.php?ID_med_history_hosp=' . $ID_hosp, 'icon edit');
+endif;
+
+// $content .= '<table class="grid">';
 if ($victim = $query->fetch_object()) {
     $victim_id = $victim->ID_victim;
     $victim_name = $victim->first_names . ' ' . $victim->surname;
@@ -53,51 +65,31 @@ if ($victim = $query->fetch_object()) {
     $dbi->addBreadcrumb ($victim_name,'nmv_view_victim?ID_victim=' . $victim_id);
     $dbi->addBreadcrumb ('Medical History','nmv_list_med_hist?ID_victim=' . $victim_id);
 
-    $content .= '<tr><th>Victim ID</th><td>'.
-        htmlspecialchars($victim->ID_victim, ENT_HTML5).'</td></tr>';
-    $content .= '<tr><th>Hospitalization ID</th><td>'.
-        htmlspecialchars($med_hist_id, ENT_HTML5).'</td></tr>';
-    $content .= '<tr><th>Institution</th><td>'.
-        htmlspecialchars($victim->institution_l, ENT_HTML5).
-        '<br>' .
-        htmlspecialchars($victim->institution, ENT_HTML5) .
-      '</td></tr>';
-    $content .= '<tr><th>Institution Order</th><td>'.
-            ($victim->institution_order
-            ?htmlspecialchars($victim->institution_order, ENT_HTML5)
-            :'')
-        .'</td></tr>';
-    $content .= '<tr><th>Diagnosis</th><td>'.
-        htmlspecialchars($victim->diagnosis, ENT_HTML5).'</td></tr>';
-    $content .= '<tr><th>Diagnosis Tags</th><td>'.
-        htmlspecialchars($victim->diagnosis_l, ENT_HTML5).'</td></tr>';
-    $content .= '<tr><th>Educational abilities</th><td>'.
-        htmlspecialchars($victim->educational_abilities, ENT_HTML5).'</td></tr>';
-    $content .= '<tr><th>Behaviour</th><td>'.
-        htmlspecialchars($victim->behaviour, ENT_HTML5).'</td></tr>';
-    $content .= '<tr><th>Disability</th><td>'.
-        htmlspecialchars($victim->disability, ENT_HTML5).'</td></tr>';
-    $content .= '<tr><th>Entry date dmyyyy</th><td>'.
-        htmlspecialchars($victim->date_entry, ENT_HTML5).'</td></tr>';
-    $content .= '<tr><th>Exit date dmyyyy</th><td>'.
-        htmlspecialchars($victim->date_exit, ENT_HTML5).'</td></tr>';
-    $content .= '<tr><th>Entry age</th><td>'.
-        htmlspecialchars($victim->age_entry, ENT_HTML5).'</td></tr>';
-    $content .= '<tr><th>Exit age</th><td>'.
-        htmlspecialchars($victim->age_exit, ENT_HTML5).'</td></tr>';
-    $content .= '<tr><th>Autopsy reference number</th><td>'.
-        htmlspecialchars($victim->autopsy_ref_no, ENT_HTML5).'</td></tr>';
-    $content .= '<tr><th>Notes / Autopsy details</th><td>'.
-            htmlspecialchars($victim->notes, ENT_HTML5).'</td></tr>';
-
+    $content = buildElement('table', 'grid',
+      buildDataSheetRow('Victim ID',                $victim->ID_victim) .
+      buildDataSheetRow('Hospitalization ID',       $ID_hosp) .
+      buildDataSheetRow('Institution',              $victim->institution . ' --- '
+                                                  . $victim->institution_freetext ).
+      buildDataSheetRow('Institution Order',        $victim->institution_order) .
+      buildDataSheetRow('Diagnosis',                $victim->diagnosis) .
+      buildDataSheetRowTag('Diagnosis Tags',        $tag_array, $tag_button) .
+      buildDataSheetRow('Educational abilities',    $victim->educational_abilities) .
+      buildDataSheetRow('Behaviour',                $victim->behaviour) .
+      buildDataSheetRow('disability',               $victim->disability) .
+      buildDataSheetRow('Entry Date ddmmyyyy',      $victim->date_entry) .
+      buildDataSheetRow('Exit date ddmmyyyy',       $victim->date_exit) .
+      buildDataSheetRow('Entry Age',                $victim->age_entry) .
+      buildDataSheetRow('Exit Age',                 $victim->age_exit) .
+      buildDataSheetRow('Autopsy reference number', $victim->autopsy_ref_no) .
+      buildDataSheetRow('Notes / Autopsy details',  $victim->notes)
+    );
 }
-$content .= '</table>';
 
 	$content .= '<div class="buttons">';
 	if ($dbi->checkUserPermission('edit'))
-	    $content .= createButton ('Edit','nmv_edit_med_hist_hosp?ID_med_history_hosp='.$med_hist_id,'icon edit');
+	    $content .= createButton ('Edit','nmv_edit_med_hist_hosp?ID_med_history_hosp='.$ID_hosp,'icon edit');
 	if ($dbi->checkUserPermission('admin'))
-	    $content .= createButton(L_DELETE,'nmv_remove_med_hist_hosp?ID_med_history_hosp='.$med_hist_id,'icon delete');
+	    $content .= createButton(L_DELETE,'nmv_remove_med_hist_hosp?ID_med_history_hosp='.$ID_hosp,'icon delete');
 	if ($victim_id) {
         $content .= createButton("basic victim data",'nmv_view_victim?ID_victim='.$victim_id,'icon report-paper');
 	}

@@ -42,7 +42,6 @@ $form
   ->addButton(SUBMIT, 'Update Tags');
 
 $form
-//TODO .php beim redirect raus
 	->addAction(DATABASE, 'nmv__experiment_foi', 'tag')
   ->addAction(REDIRECT, 'nmv_view_experiment?ID_experiment={ID_experiment}');
 
