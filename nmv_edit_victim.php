@@ -137,8 +137,12 @@ if(!($dbi->checkUserPermission('mpg')))	{
 	    ->addOptionsFromTable ( 'nmv__nationality', 'ID_nationality', 'english');
 	$form->addField ('consequential_injuries',TEXTAREA)
 	    ->setLabel ('Consequential injuries');
-	$form->addField ('compensation',CHECKBOX,-1)
-	    ->setLabel ('Compensation ???');
+	$form->addField ('compensation',RADIO)
+	    ->setLabel ('Compensation')
+			->addRadioButton('yes', ' yes')
+			->addRadioButton('no', ' no')
+			->addRadioButton('not specified', ' not specified');
+
 	$form->addField ('compensation_details',TEXTAREA)
 	    ->setClass ('keyboardInput')
 	    ->setLabel ('Compensation details');

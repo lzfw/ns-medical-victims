@@ -105,7 +105,7 @@ if ($victim = $result->fetch_object()) {
           buildDataSheetRow('Occupation',             $victim->occupation_after_1945).
           buildDataSheetRow('Nationality',            $victim->nationality_after_1945).
           buildDataSheetRow('Consequential injuries', $victim->consequential_injuries).
-          buildDataSheetRow('Compensation',           $victim->compensation ? 'Yes' : 'No').
+          buildDataSheetRow('Compensation',           $victim->compensation).
           buildDataSheetRow('Compensation details',   $victim->compensation_details).
           buildDataSheetRow('Notes on life after 1945', $victim->notes_after_1945)
       );
