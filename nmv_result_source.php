@@ -54,7 +54,7 @@ $dbi->setUserVar('querystring',implode('&',$query));
 
 // Select-Klauseln erstellen
 $querystring_count = 'SELECT COUNT(s.ID_source) AS total FROM nmv__source s'; // für Treffer gesamt
-$querystring_items = 'SELECT s.ID_source, s.source_title, s.signature,
+$querystring_items = 'SELECT s.ID_source, s.source_title, s.signature, s.location,
                         s.description FROM nmv__source s'; // für Ergebnisliste
 $querystring_where = array(); // für Filter
 
