@@ -59,7 +59,7 @@ $form->addField('funding', TEXT, 250)
     ->setLabel('Funding');
 $form->addField('field_of_interest', TEXT, 50)
     ->setLabel('<hr>	Former Field of Interest <br> (will be removed) <hr>');
-$form->addField('objective', TEXT, 50)
+$form->addField('objective', TEXT, 250)
     ->setLabel('Objective');
 $form->addField('number_victims_estimate', TEXT ,6)
     ->setLabel('Estimated Number of Victims')
