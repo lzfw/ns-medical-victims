@@ -21,7 +21,7 @@ $querystring = "
            p.english as occupation, occupation_details, notes,
            residence_after_1945_country, residence_after_1945_place,
            occupation_after_1945, n45.english nationality_after_1945,
-           v.consequential_injuries, v.compensation, v.compensation_details,
+           v.consequential_injuries, IFNULL(v.compensation, 'not specified') AS compensation, v.compensation_details,
            v.notes_after_1945, v.mpg_project, v.arrest_prehistory, v.arrest_location, ac.english as arrest_country, v.arrest_history
     FROM nmv__victim v
     LEFT JOIN nmv__marital_family_status m ON (m.ID_marital_family_status = v.ID_marital_family_status )
