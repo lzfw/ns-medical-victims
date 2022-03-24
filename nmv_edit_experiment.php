@@ -57,8 +57,6 @@ $form->addField('notes_location', TEXTAREA)
 $form->addField('funding', TEXT, 250)
     ->setClass('keyboardInput')
     ->setLabel('Funding');
-$form->addField('field_of_interest', TEXT, 50)
-    ->setLabel('<hr>	Former Field of Interest <br> (will be removed) <hr>');
 $form->addField('objective', TEXT, 250)
     ->setLabel('Objective');
 $form->addField('number_victims_estimate', TEXT ,6)
@@ -76,6 +74,8 @@ $form->addField('confirmed_experiment', CHECKBOX, 1)
 $form->addField('notes', TEXTAREA)
     ->setClass('keyboardInput')
     ->setLabel('Notes');
+		$form->addField('foi', STATIC_TEXT, '<hr>	<strong>Fields of Interest</strong> can be edited in the Experiment View.<br>
+				 									Click OK-Button in order to save your changes and switch to View.<hr>');
 
 $form
 	->addButton(SUBMIT)

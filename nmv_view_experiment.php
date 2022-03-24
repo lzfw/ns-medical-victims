@@ -13,7 +13,7 @@ $dbi->addBreadcrumb ('Biomedical Research','nmv_list_experiments');
 
 // query: get experiment data
 $querystring = "SELECT e.ID_experiment, e.experiment_title AS experiment_title, c.english AS classification, e.funding AS funding,
-                    e.field_of_interest AS field_of_interest, e.objective AS objective,
+                    e.objective AS objective,
                     e.number_victims_remark AS number_victims_remark, e.notes AS notes,
                     e.number_victims_estimate AS number_victims_estimate,
                     e.number_fatalities_estimate AS number_fatalities_estimate,
@@ -59,7 +59,7 @@ $tagged = $dbi->connection->query("SELECT foi.english
 while ($tag = $tagged->fetch_row()) {
 	$tag_array[] = $tag[0];
 }
-if($dbi->checkUserPermission('edit')): $tag_button = '<br>' . createButton('Edit Tags', 'nmv_edit_experiment_foi.php?ID_experiment=' . $experiment_id, 'icon edit');
+if($dbi->checkUserPermission('edit')): $tag_button = '<br>' . createButton('Click to edit field-of-interest-tags', 'nmv_edit_experiment_foi.php?ID_experiment=' . $experiment_id, 'icon edit');
 endif;
 
 
@@ -76,7 +76,6 @@ if ($experiment = $result->fetch_object()) {
         buildDataSheetRow('Notes on location',        $experiment->notes_location).
         buildDataSheetRow('Funding',                  $experiment->funding).
         buildDataSheetRow('Duration DMY - DMY',                 'from ' . $experiment->start . ' until ' . $experiment->end).
-        buildDataSheetRow('Field of interest <br> (outdated, will be deleted)',        $experiment->field_of_interest).
         buildDataSheetRowTag('Fields of interest',    $tag_array, $tag_button).
         buildDataSheetRow('Objective',                $experiment->objective).
         buildDataSheetRow('Number of victims (estimate)',    $experiment->number_victims_estimate).

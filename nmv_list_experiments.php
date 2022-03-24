@@ -19,8 +19,7 @@ if ($dbi->checkUserPermission('admin')) {
 
 // Select-Klauseln erstellen
 $querystring_count = 'SELECT COUNT(ID_experiment) AS total FROM nmv__experiment v'; // für Treffer gesamt
-$querystring_items = 'SELECT e.ID_experiment, i.institution_name, e.experiment_title,
-															e.field_of_interest, e.objective, c.english AS classification,
+$querystring_items = 'SELECT e.ID_experiment, i.institution_name, e.experiment_title, e.objective, c.english AS classification,
 															e.start_year, e.end_year, GROUP_CONCAT(f.english ORDER BY f.english ASC SEPARATOR "\n") AS fields_of_interest
 							        FROM nmv__experiment e
 							        LEFT JOIN nmv__experiment_classification c 	ON c.ID_exp_classification = e.classification

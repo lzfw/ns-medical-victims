@@ -37,7 +37,7 @@ $contain_fields = array('experiment_title', 'funding', 'objective', 'surname');
 $double_fields = array ();
 
 //fields involving data from tables other than nmv__experiment
-//key defines table and column
+//key defines table and column here: unique query
 $special_fields = array('ef.ID_foi'			=> 'ID_foi');
 
 // GET-String rekonstruieren (für Blätterfunktion)
@@ -61,7 +61,7 @@ $dbi->setUserVar('querystring',implode('&',$query));
 
 // Select-Klauseln erstellen
 //$querystring_count = 'SELECT COUNT(e.ID_experiment) AS total FROM nmv__experiment e'; // für Treffer gesamt
-$querystring_items = 'SELECT DISTINCT e.ID_experiment, e.experiment_title, e.field_of_interest, e.objective,
+$querystring_items = 'SELECT DISTINCT e.ID_experiment, e.experiment_title, e.objective,
 																			i.institution_name, e.start_year, e.end_year, GROUP_CONCAT(DISTINCT f.english ORDER BY f.english ASC SEPARATOR "\n") AS fields_of_interest
 											FROM nmv__experiment e
 											LEFT JOIN nmv__perpetrator_experiment pe		ON e.ID_experiment = pe.ID_experiment
@@ -107,7 +107,10 @@ foreach ($double_fields as $field) {
 }
 foreach ($special_fields as $key=>$field) {
     if (getUrlParameter($field)) {
-			$querystring_where[] = "$key = '".getUrlParameter($field)."'";
+			$querystring_where[] = "e.ID_experiment IN (
+    SELECT DISTINCT ef.ID_experiment
+    FROM nmv__experiment_foi ef
+		WHERE ef.ID_foi = '".getUrlParameter($field)."')";
     }
 }
 

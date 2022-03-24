@@ -50,5 +50,5 @@ $dbi->addBreadcrumb('Biomedical Research', 'nmv_list_experiments');
 
 $layout
 	->set('title', 'Tags (Field of Interest) for Experiment ID ' . $ID_experiment . ' - ' . $experiment_title)
-	->set('content', $form->run() . '<div class="message">' . $form->success_message . '</div>' . $form->debuglog->Show())
+	->set('content', '<div>please select all fields of interest for the experiment and then click button "Update Tags"</div>' . $form->run() . '<div class="message">' . $form->success_message . '</div>' . $form->debuglog->Show())
 	->cast();
