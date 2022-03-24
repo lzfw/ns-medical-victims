@@ -27,13 +27,15 @@ class View_List_Statistics_Experiment_FOI_Table extends View_List {
 
 		if ($results->num_rows>0) {
 		    $html .= '<table class="grid">';
-		    $html .= '<th>Field of Interest</th><th>all victims</th><th>mpg only</th>';
+		    $html .= '<th>Field of Interest</th><th>Experiments with this field of interest-tag</th><th>Number of victims (complete database)</th><th>Number of victims of KWI brain research</th>';
 				$asum = 0;
 				$bsum = 0;
 			while ($item = $results->fetch_object()) {
 					$field_of_interest = $item->field_of_interest == '' ? 'No indication of the "field of interest" in the experiment' : htmlentities($item->field_of_interest, ENT_HTML5);
-			    $html .= '<tr>
+					$experiments = $item->experiments;
+					$html .= '<tr>
 			        <td>' . $field_of_interest . '</td>
+			        <td>' . $experiments . '</td>
 			        <td>' . htmlentities($item->anumber, ENT_HTML5) . '</td>
 			        <td>' . htmlentities($item->bnumber, ENT_HTML5) . '</td>
 			    </tr>';
@@ -42,6 +44,7 @@ class View_List_Statistics_Experiment_FOI_Table extends View_List {
 			}
 			$html .= '	<tr>
 										<td><strong>total number of victim-experiment-connections</strong></td>
+										<td></td>
 										<td><strong>' . $asum . '</strong></td>
 										<td><strong>' . $bsum . '</strong></td>
 									</tr>

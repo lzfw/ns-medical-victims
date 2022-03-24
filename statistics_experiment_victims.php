@@ -84,7 +84,7 @@ $compensation_outdated_count = $compensation_outdated_data[0];
 $survival_table = buildTableFromQuery(
     $survival_query,
     ['{survival}', '{count_survival}'],
-    ['Survival', 'Number of victims'],
+    ['Survival of this experiment', 'Number of victims'],
     'grid',
     ['Total number', $total_number]);
 $ethnicity_table = buildTableFromQuery(
@@ -118,7 +118,7 @@ $layout
           '<br><div>Mouseclick on dropdown-bar and type ID of experiment or click on title of experiment<br>
                     Then click OK-button <br> <br>'
             . $experiment_select->run() .
-          '<hr><hr><br>' . createNewTabLink ('Show table of victims in new browser tab',"nmv_list_victim_experiment.php?ID_experiment=$experiment_id") 
+          '<hr><hr><br>' . createNewTabLink ('Show table of victims in new browser tab',"nmv_list_victim_experiment.php?ID_experiment=$experiment_id")
           . 'ID Experiment:  <strong>' . $experiment_id . ' </strong><br>Title:<strong> ' . $experiment_title . '</strong><br>
           Total number of victims: <strong>' . $total_number . '</strong><br>
           Number of victims compensated: <strong>' . $compensation_outdated_count . '</strong><br><br>
