@@ -144,7 +144,6 @@ if (getUrlParameter($ticked_fields[6])) {
 if (count($querystring_where) > 0) {
     $querystring_items .= ' WHERE '.implode(' AND ',$querystring_where);
 }
-echo $querystring_items;
 
 
 // Gesamtanzahl der Suchergebnisse feststellen
