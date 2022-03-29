@@ -44,7 +44,7 @@ $tagged = $dbi->connection->query("SELECT d.diagnosis
 while ($tag = $tagged->fetch_row()) {
 	$tag_array[] = $tag[0];
 }
-if($dbi->checkUserPermission('edit')): $tag_button = '<br>' . createButton('Edit Tags', 'nmv_edit_diagnosis_brain_tag.php?ID_med_history_brain=' . $ID_brain, 'icon edit');
+if($dbi->checkUserPermission('edit')): $tag_button = '<br>' . createButton('Click here to edit tags', 'nmv_edit_diagnosis_brain_tag.php?ID_med_history_brain=' . $ID_brain, 'icon edit');
 endif;
 
 if ($victim = $query->fetch_object()) {
@@ -61,7 +61,6 @@ if ($victim = $query->fetch_object()) {
       buildDataSheetRow('KWI researcher',                     $victim->kwi_researcher) .
       buildDataSheetRow('Diagnosis',                          $victim->diagnosis) .
       buildDataSheetRowTag('Diagnosis Tags',                  $tag_array, $tag_button) .
-      buildDataSheetRow('Diagnosis dropdown <br> (outdated)', $victim->diagnosis_l) .
       buildDataSheetRow('Report date dmyyyy',                 $victim->brain_report_date) .
       buildDataSheetRow('Notes',                              $victim->notes) .
       buildDataSheetRow('Reference number',                   $victim->ref_no)

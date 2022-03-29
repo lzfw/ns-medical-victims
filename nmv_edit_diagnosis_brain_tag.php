@@ -44,5 +44,5 @@ $dbi->addBreadcrumb(L_CONTENTS, 'z_menu_contents');
 
 $layout
 	->set('title', 'Tags (Diagnosis) for Brain report ID ' . $ID_brain)
-	->set('content', $form->run() . '<div class="message">' . $form->success_message . '</div>' . $form->debuglog->Show())
+	->set('content','<div>please select all diagnoses for the brain report, <br>then click button "Update Tags" at the bottom of the page</div>' . $form->run() . '<div class="message">' . $form->success_message . '</div>' . $form->debuglog->Show())
 	->cast();

@@ -8,6 +8,8 @@ $form = new Form ('nmv_med_hist_brain');
 
 // query: get victim data
 $victim_id = (int) getUrlParameter('ID_victim', 0);
+$med_id = (int) getUrlParameter('ID_med_history_brain', 0);
+
 $victim_name = 'Error: Unknown.';
 if ($victim_id) {
     $querystring = "
@@ -18,7 +20,6 @@ if ($victim_id) {
     $victim = $query->fetch_object();
     $victim_name = $victim->victim_name;
 } else {
-    $med_id = (int) getUrlParameter('ID_med_history_brain', 0);
     $querystring = "
     SELECT CONCAT(v.surname, ' ', v.first_names) victim_name,
         v.ID_victim victim_id
@@ -50,10 +51,6 @@ $form->addField ('kwi_researcher',TEXT,150)
     ->setLabel ('KWI Researcher');
 $form->addField ('diagnosis',TEXTAREA)
     ->setLabel('Brain Diagnosis');
-$form->addField ('ID_diagnosis',SELECT)
-    ->setLabel ('Diagnosis Tags')
-    ->addOption (NO_VALUE,'please choose')
-    ->addOptionsFromTable ( 'nmv__diagnosis', 'ID_diagnosis', 'english');
 $form->addField ('brain_report_day',TEXT,2)
     ->setLabel ('Brain Report Date DMYYYY')
     ->addCondition(VALUE,MIN,0)
@@ -71,6 +68,8 @@ $form->addField ('notes',TEXTAREA)
     ->setLabel ('Notes');
 $form->addField ('ref_no',TEXT,50)
     ->setLabel ('Reference number');
+$form->addField('info', STATIC_TEXT, '<hr><strong>Diagnosis Tags </strong> can be edited in the Brain Report View. <br>
+Click OK-Button in order to save your changes and switch to View.<hr>');
 
 $form
 	->addButton (SUBMIT)
@@ -78,7 +77,7 @@ $form
 
 $form
 	->addAction (DATABASE,'nmv__med_history_brain')
-	->addAction (REDIRECT,'nmv_list_med_hist?ID_victim='.$victim_id);
+	->addAction (REDIRECT,'nmv_view_med_hist_brain?ID_med_history_brain={ID_med_history_brain}');
 
 $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 $dbi->addBreadcrumb ('Victims','nmv_list_victims');

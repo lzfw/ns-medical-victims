@@ -76,7 +76,7 @@ $form
 
 $form
 	->addAction (DATABASE,'nmv__med_history_tissue')
-	->addAction (REDIRECT,'nmv_list_med_hist?ID_victim='.$victim_id);
+	->addAction (REDIRECT,'nmv_view_med_hist_tissue?ID_med_history_tissue={ID_med_history_tissue}');
 
 $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 $dbi->addBreadcrumb ('Victims','nmv_list_victims');

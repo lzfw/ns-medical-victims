@@ -8,6 +8,8 @@ $form = new Form ('nmv_med_hist_hosp');
 
 // query: get victim data
 $victim_id = (int) getUrlParameter('ID_victim', 0);
+$med_id = (int) getUrlParameter('ID_med_history_hosp', 0);
+
 $victim_name = 'Error: Unknown.';
 if ($victim_id) {
     $querystring = "
@@ -18,7 +20,6 @@ if ($victim_id) {
     $victim = $query->fetch_object();
     $victim_name = $victim->victim_name;
 } else {
-    $med_id = (int) getUrlParameter('ID_med_history_hosp', 0);
     $querystring = "
     SELECT CONCAT(v.surname, ' ', v.first_names) victim_name,
         v.ID_victim victim_id
@@ -54,10 +55,6 @@ $form->addField('ID_institution_order', SELECT)
     ->addOptionsFromTable('nmv__institution_order', 'ID_institution_order', 'english');
 $form->addField('diagnosis', TEXTAREA)
     ->setLabel('Diagnosis');
-$form->addField('ID_diagnosis', SELECT)
-    ->setLabel('Diagnosis Tags')
-    ->addOption(NO_VALUE, 'please choose')
-    ->addOptionsFromTable('nmv__diagnosis', 'ID_diagnosis', 'english');
 $form->addField('ID_educational_abilities', SELECT)
     ->setLabel('Educational Abilities')
     ->addOption(NO_VALUE, 'please choose')
@@ -107,6 +104,8 @@ $form->addField('autopsy_ref_no', TEXT, 50)
 $form->addField('notes', TEXTAREA)
     ->setClass('keyboardInput')
     ->setLabel('Notes / Autopsy Details');
+$form->addField('info', STATIC_TEXT, '<hr><strong>Diagnosis Tags </strong> can be edited in the Hospitalisation View. <br>
+    Click OK-Button in order to save your changes and switch to View.<hr>');
 
 $form
 	->addButton(SUBMIT)
@@ -114,7 +113,7 @@ $form
 
 $form
 	->addAction(DATABASE, 'nmv__med_history_hosp')
-	->addAction(REDIRECT, 'nmv_list_med_hist?ID_victim='.$victim_id);
+	->addAction(REDIRECT, 'nmv_view_med_hist_hosp?ID_med_history_hosp={ID_med_history_hosp}');
 
 $dbi->addBreadcrumb(L_CONTENTS, 'z_menu_contents');
 $dbi->addBreadcrumb('Victims', 'nmv_list_victims');

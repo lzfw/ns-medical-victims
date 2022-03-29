@@ -54,7 +54,7 @@ $tagged = $dbi->connection->query("SELECT d.diagnosis
 while ($tag = $tagged->fetch_row()) {
 	$tag_array[] = $tag[0];
 }
-if($dbi->checkUserPermission('edit')): $tag_button = '<br>' . createButton('Edit Tags', 'nmv_edit_diagnosis_hosp_tag.php?ID_med_history_hosp=' . $ID_hosp, 'icon edit');
+if($dbi->checkUserPermission('edit')): $tag_button = '<br>' . createButton('Click here to edit tags', 'nmv_edit_diagnosis_hosp_tag.php?ID_med_history_hosp=' . $ID_hosp, 'icon edit');
 endif;
 
 // $content .= '<table class="grid">';
