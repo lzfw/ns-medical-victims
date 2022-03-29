@@ -116,7 +116,7 @@ if ($experiment_id) {
 
     // query: get experiment data
     $querystring = "
-    SELECT CONCAT(COALESCE(experiment_title, ''), ' - ', COALESCE(field_of_interest, '')) experiment_name
+    SELECT CONCAT(COALESCE(experiment_title, '')) experiment_name
     FROM nmv__experiment
     WHERE ID_experiment = $experiment_id";
     $query = $dbi->connection->query($querystring);
