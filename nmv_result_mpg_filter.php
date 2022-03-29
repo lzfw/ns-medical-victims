@@ -91,9 +91,9 @@ $querystring_where[] = "v.mpg_project = -1";
 foreach ($exact_fields as $field) {
     if (getUrlParameter($field)) {
 			if ($field == 'ID_institution'){
-				$querystring_where[] = "b.$field = '".getUrlParameter($field)."'
+				$querystring_where[] = "(b.$field = '".getUrlParameter($field)."'
 				OR h.$field = '".getUrlParameter($field)."'
-				OR e.$field = '".getUrlParameter($field)."'";
+				OR e.$field = '".getUrlParameter($field)."')";
 			}
 			elseif ($field == 'ID_tissue_institution'){
 				$querystring_where[] = "t.ID_institution = '".getUrlParameter($field)."'";
@@ -144,6 +144,8 @@ if (getUrlParameter($ticked_fields[6])) {
 if (count($querystring_where) > 0) {
     $querystring_items .= ' WHERE '.implode(' AND ',$querystring_where);
 }
+echo $querystring_items;
+
 
 // Gesamtanzahl der Suchergebnisse feststellen
 $querystring_count = "SELECT COUNT(*) AS total FROM ($querystring_items) AS xyz";
