@@ -282,7 +282,7 @@ $layout
 					<input class="hide_show_checkbox"  id="checkbox_search_diagnoses" type="checkbox" checked="checked">
 					<label class="hide_show_label" id="label_search_diagnoses" for="checkbox_search_diagnoses">Filter - Diagnoses</label>
 					<div class="hide_show_element block" id="element_search_diagnoses">
-							<p>Returns victims with given keyword in: cause of death, hospitalisation diagnosis, brain report diagnosis</p>' .
+							' .
 							($dbi->checkUserPermission('view') ? $diagnosesForm->run() : 'In order to search victims, <a href="/z_login">please log in</a>.') .
 					'</div>
 			</div>

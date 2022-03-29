@@ -54,7 +54,7 @@ $ticked_fields = array ();
 
 //fields involving data from tables other than nmv__victim
 //key defines table and column
-$special_fields = array();
+$special_fields = array('dt.ID_diagnosis'			=> 'diagnosis_tag');
 
 $special_contain_fields = array();
 
@@ -95,7 +95,9 @@ $querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names, v.
 												LEFT JOIN nmv__experiment e								ON ve.ID_experiment = e.ID_experiment
 												LEFT JOIN nmv__med_history_brain b				ON v.ID_victim = b.ID_victim
 												LEFT JOIN nmv__med_history_hosp h					ON v.ID_victim = h.ID_victim
-                        LEFT JOIN nmv__diagnosis d                ON b.ID_diagnosis = d.ID_diagnosis OR h.ID_diagnosis = d.ID_diagnosis
+												LEFT JOIN nmv__diagnosis_brain db 				ON db.ID_med_history_brain = b.ID_med_history_brain
+												LEFT JOIN nmv__diagnosis_hosp dh 					ON dh.ID_med_history_hosp = h.ID_med_history_hosp
+                        LEFT JOIN nmv__diagnosis_tag dt           ON dt.ID_diagnosis = db.ID_diagnosis OR dt.ID_diagnosis = dh.ID_diagnosis
                         '; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
 
@@ -128,7 +130,7 @@ foreach ($contain_fields as $field) {
 			$querystring_where[] = "v.cause_of_death LIKE '%".$filtered_field."%' OR
                               b.diagnosis LIKE '%".$filtered_field."%' OR
                               h.diagnosis LIKE '%".$filtered_field."%' OR
-                              d.english LIKE '%".$filtered_field."%'
+                              dt.diagnosis LIKE '%".$filtered_field."%'
                              ";
     }
 }
@@ -140,7 +142,7 @@ foreach ($double_fields as $field) {
 }
 foreach ($special_fields as $key=>$field) {
     if (getUrlParameter($field)) {
-			$querystring_where[] = "$key = '".getUrlParameter($field)."'";
+			$querystring_where[] = "$key = ".getUrlParameter($field)."";
     }
 }
 foreach ($special_contain_fields as $key=>$field) {
@@ -152,7 +154,6 @@ foreach ($special_contain_fields as $key=>$field) {
 if (count($querystring_where) > 0) {
     $querystring_items .= ' WHERE '.implode(' AND ',$querystring_where);
 }
-
 //Gesamtanzahl der Suchergebnisse feststellen
 $querystring_count = "SELECT COUNT(*) AS total FROM ($querystring_items) AS xyz";
 $query_count = $dbi->connection->query($querystring_count);
