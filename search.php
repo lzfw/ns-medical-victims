@@ -282,7 +282,8 @@ $layout
 					<input class="hide_show_checkbox"  id="checkbox_search_diagnoses" type="checkbox" checked="checked">
 					<label class="hide_show_label" id="label_search_diagnoses" for="checkbox_search_diagnoses">Filter - Diagnoses</label>
 					<div class="hide_show_element block" id="element_search_diagnoses">
-							' .
+					<br>Please use only one of both filters at the same time
+					<hr>' .
 							($dbi->checkUserPermission('view') ? $diagnosesForm->run() : 'In order to search victims, <a href="/z_login">please log in</a>.') .
 					'</div>
 			</div>

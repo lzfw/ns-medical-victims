@@ -68,17 +68,17 @@ $special_fields = array('e.ID_experiment'			=> 'ID_experiment',
 												't.ID_tissue_form' 		=> 'ID_tissue_form',
 												'b.brain_report_year' => 'brain_report_year',
 												'b.ID_institution'		=> 'brain_report_institution',
-												'b.ID_diagnosis'			=> 'brain_report_ID_diagnosis',
+												'db.ID_diagnosis'			=> 'brain_report_ID_diagnosis',
 												'h.date_entry_year' 	=> 'hospitalisation_year',
 												'h.ID_institution'		=> 'hospitalisation_institution',
-												'h.ID_diagnosis'			=> 'hospitalisation_ID_diagnosis',
+												'dh.ID_diagnosis'			=> 'hospitalisation_ID_diagnosis',
 												'ev.evaluation_status'=> 'evaluation_status',
 												't.ID_institution'   	=> 'tissue_institution',
 												'ef.ID_foi'						=> 'ID_foi'
 												);
 
-$special_contain_fields = array('b.diagnosis'					=> 'brain_report_diagnosis',
-																'h.diagnosis'				 	=> 'hospitalisation_diagnosis',
+$special_contain_fields = array('CONCAT(IFNULL(b.diagnosis, ""), IFNULL(dtb.diagnosis, ""))'	=> 'brain_report_diagnosis',
+																'CONCAT(IFNULL(h.diagnosis, ""), IFNULL(dth.diagnosis, ""))'	=> 'hospitalisation_diagnosis',
 																'b.ref_no'            => 'ref_no_brain',
 																't.ref_no'						=> 'ref_no_tissue',
 																'h.autopsy_ref_no'		=> 'autopsy_ref_no');
@@ -126,8 +126,12 @@ $querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
 												LEFT JOIN nmv__nationality n        	ON n.ID_nationality = v.nationality_1938
 												LEFT JOIN nmv__ethnicgroup et       	ON et.ID_ethnicgroup = v.ethnic_group
 												LEFT JOIN nmv__med_history_brain b		ON v.ID_victim = b.ID_victim
+												LEFT JOIN nmv__diagnosis_brain db 		ON db.ID_med_history_brain = b.ID_med_history_brain
+												LEFT JOIN nmv__diagnosis_tag dtb			ON dtb.ID_diagnosis = db.ID_diagnosis
 												LEFT JOIN nmv__med_history_tissue t		ON v.ID_victim = t.ID_victim
 												LEFT JOIN nmv__med_history_hosp h			ON v.ID_victim = h.ID_victim
+												LEFT JOIN nmv__diagnosis_hosp dh			ON dh.ID_med_history_hosp = h.ID_med_history_hosp
+												LEFT JOIN nmv__diagnosis_tag dth			ON dth.ID_diagnosis = dh.ID_diagnosis
 												LEFT JOIN nmv__evaluation ev					ON v.ID_victim = ev.ID_victim
 											'; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
@@ -184,7 +188,6 @@ foreach ($special_contain_fields as $key=>$field) {
 if (count($querystring_where) > 0) {
     $querystring_items .= ' WHERE '.implode(' AND ',$querystring_where);
 }
-
 //Gesamtanzahl der Suchergebnisse feststellen
 $querystring_count = "SELECT COUNT(*) AS total FROM ($querystring_items) AS xyz";
 $query_count = $dbi->connection->query($querystring_count);
@@ -276,13 +279,13 @@ if (isset($_GET['brain_report_institution']) && $_GET['brain_report_institution'
 	$suche_nach[] = 'institution of brain report = '.$search_term[0];
 }
 if (isset($_GET['brain_report_ID_diagnosis']) && $_GET['brain_report_ID_diagnosis']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__diagnosis WHERE ID_diagnosis = '.$_GET['brain_report_ID_diagnosis'])->fetch_row();
-	$suche_nach[] = 'diagnosis from brain report = '.$search_term[0];
+	$search_term = $dbi->connection->query('SELECT diagnosis FROM nmv__diagnosis_tag WHERE ID_diagnosis = '.$_GET['brain_report_ID_diagnosis'])->fetch_row();
+	$suche_nach[] = 'diagnosis tag brain report = '.$search_term[0];
 }
-if (isset($_GET['brain_report_diagnosis']) && $_GET['brain_report_diagnosis']) $suche_nach[] = 'diagnosis from brain report (not standardized yet) = '.$_GET['brain_report_diagnosis'];
+if (isset($_GET['brain_report_diagnosis']) && $_GET['brain_report_diagnosis']) $suche_nach[] = 'diagnosis from brain report contains: '.$_GET['brain_report_diagnosis'];
 if (isset($_GET['hospitalisation_ID_diagnosis']) && $_GET['hospitalisation_ID_diagnosis']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__diagnosis WHERE ID_diagnosis = '.$_GET['hospitalisation_ID_diagnosis'])->fetch_row();
-	$suche_nach[] = 'diagnosis from hospitalisation = '.$search_term[0];
+	$search_term = $dbi->connection->query('SELECT diagnosis FROM nmv__diagnosis_tag WHERE ID_diagnosis = '.$_GET['hospitalisation_ID_diagnosis'])->fetch_row();
+	$suche_nach[] = 'diagnosis tag hospitalisation = '.$search_term[0];
 }
 if (isset($_GET['ref_no_brain']) && $_GET['ref_no_brain']) $suche_nach[] = 'RefNo Brain report contains:  '.$_GET['ref_no_brain'];
 
@@ -291,7 +294,7 @@ if (isset($_GET['hospitalisation_institution']) && $_GET['hospitalisation_instit
 	$search_term = $dbi->connection->query('SELECT institution_name FROM nmv__institution WHERE ID_institution = '.$_GET['hospitalisation_institution'])->fetch_row();
 	$suche_nach[] = 'institution of hospitalisation = '.$search_term[0];
 }
-if (isset($_GET['hospitalisation_diagnosis']) && $_GET['hospitalisation_diagnosis']) $suche_nach[] = 'hospitalisation diagnosis (not standardized yet) = '.$_GET['hospitalisation_diagnosis'];
+if (isset($_GET['hospitalisation_diagnosis']) && $_GET['hospitalisation_diagnosis']) $suche_nach[] = 'hospitalisation diagnosis contains: '.$_GET['hospitalisation_diagnosis'];
 if (isset($_GET['evaluation_status']) && $_GET['evaluation_status']) {
 	$search_term = $dbi->connection->query('SELECT english FROM nmv__victim_evaluation_status WHERE ID_status = '.$_GET['evaluation_status'])->fetch_row();
 	$suche_nach[] = 'evaluation status = '.$search_term[0];
@@ -308,8 +311,6 @@ if (isset($_GET['notes']) && $_GET['notes']) $suche_nach[] = 'notes = ... '.$_GE
 if (isset($_GET['notes_after_1945']) && $_GET['notes_after_1945']) $suche_nach[] = 'notes after 1945 = ... ' . $_GET['notes_after_1945'] . ' ...';
 
 
-//echo $_GET['ID_experiment'];
-
 // breadcrumbs
 $dbi->addBreadcrumb (L_SEARCH,'search.php');
 
@@ -318,7 +319,7 @@ if ($_GET['ID_experiment'] || $_GET['exp_institution']):
 	$layout
 		->set('title',L_RESULTS)
 		->set('content',
-	        '<p>Search for: <em>'.implode(', ',$suche_nach).'</em><br>
+	        '<p>Search for: <em>'.implode(' AND ', $suche_nach).'</em><br>
 					Number of results: '. $total_results->total. '</p>'
 	        . $dbi->getListView('table_nmv_victims_exp',$query_items)
 	        .'<div class="buttons">'
@@ -332,7 +333,7 @@ else:
 	$layout
 		->set('title',L_RESULTS)
 		->set('content',
-	        '<p>Search for: <em>'.implode(', ',$suche_nach).'</em><br>
+	        '<p>Search for: <em>'.implode(', AND ',$suche_nach).'</em><br>
 					Number of results: '. $total_results->total. '</p>'
 	        . $dbi->getListView('table_nmv_victims_details',$query_items)
 	        .'<div class="buttons">'

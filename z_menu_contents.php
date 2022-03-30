@@ -37,7 +37,6 @@ $layout
 				. createListItem('Classification (Perpetrator)','nmv_list_perpetrator_classification','')
 				. createListItem('Country','nmv_list_country','')
 				. createListItem('Dataset Origin','nmv_list_dataset_origin','')
-				. createListItem('Diagnosis','nmv_list_diagnosis','')
 				. createListItem('Disability','nmv_list_disability','')
 				. createListItem('Education (Victim)','nmv_list_education','')
 				. createListItem('Educational Abilities (Hospitalisation)','nmv_list_educational_abilities','')

@@ -154,6 +154,7 @@ foreach ($special_contain_fields as $key=>$field) {
 if (count($querystring_where) > 0) {
     $querystring_items .= ' WHERE '.implode(' AND ',$querystring_where);
 }
+
 //Gesamtanzahl der Suchergebnisse feststellen
 $querystring_count = "SELECT COUNT(*) AS total FROM ($querystring_items) AS xyz";
 $query_count = $dbi->connection->query($querystring_count);
@@ -169,7 +170,10 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 // ausgabe der suchtermini
 $suche_nach = array();
 if (isset($_GET['keyword']) && $_GET['keyword']) $suche_nach[] = 'victims with diagnoses containing: '.$_GET['keyword'];
-
+if (isset($_GET['diagnosis_tag']) && $_GET['diagnosis_tag']) {
+	$search_term = $dbi->connection->query('SELECT diagnosis FROM nmv__diagnosis_tag WHERE ID_diagnosis = '.$_GET['diagnosis_tag'])->fetch_row();
+	$suche_nach[] = 'diagnosis tag = '.$search_term[0];
+}
 
 
 
@@ -180,7 +184,7 @@ $dbi->addBreadcrumb (L_SEARCH,'search.php');
 $layout
 	->set('title',L_RESULTS)
 	->set('content',
-        '<p>Search for: <em>'.implode(', ',$suche_nach).'</em><br>
+        '<p>Search for: <em>'.implode(', AND ',$suche_nach).'</em><br>
 				Number of results: '. $total_results->total. '</p>'
         .$dbi->getListView('table_nmv_victims_details',$query_items)
         .'<div class="buttons">'

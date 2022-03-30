@@ -187,7 +187,7 @@ $dbi->addBreadcrumb (L_SEARCH,'search.php');
 $layout
 	->set('title',L_RESULTS)
 	->set('content',
-				'<p>Search for: <em>'.implode(', ',$suche_nach).'</em><br>
+				'<p>Search for: <em>'.implode(', AND',$suche_nach).'</em><br>
 				Number of results: '. $total_results->total. '</p>'
         .$dbi->getListView('table_nmv_victims_details',$query_items)
         .'<div class="buttons">'

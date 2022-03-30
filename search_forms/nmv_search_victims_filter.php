@@ -191,19 +191,19 @@ $victimsVariableForm->addField('brain_report_institution', SELECT)
   ->addOption(NO_VALUE,'all institutions')
   ->addValidOptionsFromTable('nmv__institution', 'ID_institution', "CONCAT(IFNULL(institution_name, '-/-'), '&emsp;---&emsp;', LEFT(IFNULL(location, '-/-'), 50))", 'nmv__med_history_brain');
 
-$victimsVariableForm->addField('brain_report_ID_diagnosis', SELECT)
-  ->setLabel('brain report - diagnosis')
-  ->addOption(NO_VALUE,'all diagnoses')
-  ->addOptionsFromTable('nmv__diagnosis', 'ID_diagnosis', 'english',
-                        'EXISTS (	SELECT *
-                                  FROM nmv__med_history_brain
-                                  WHERE nmv__med_history_brain.ID_diagnosis = nmv__diagnosis.ID_diagnosis)');
-
-$victimsVariableForm->addField('brain_report_diagnosis', TEXT, 120)
-  ->setLabel('brain report - diagnosis <br>(not standardized yet)');
-
 $victimsVariableForm->addField('ref_no_brain', TEXT, 120)
   ->setLabel('brain report - Reference Number');
+
+$victimsVariableForm->addField('brain_report_ID_diagnosis', SELECT)
+  ->setLabel('brain report - diagnosis tags')
+  ->addOption(NO_VALUE,'all diagnoses')
+  ->addOptionsFromTable('nmv__diagnosis_tag', 'ID_diagnosis', 'diagnosis',
+                        'EXISTS (	SELECT *
+                                  FROM nmv__diagnosis_brain
+                                  WHERE nmv__diagnosis_brain.ID_diagnosis = nmv__diagnosis_tag.ID_diagnosis)');
+
+$victimsVariableForm->addField('brain_report_diagnosis', TEXT, 120)
+  ->setLabel('brain report - diagnosis <br><small>(search for keyword in freetext and in tags)</small>');
 
 $victimsVariableForm->addField('br-hosp', STATIC_TEXT, '<br>');
 
@@ -215,19 +215,20 @@ $victimsVariableForm->addField('hospitalisation_year', TEXT, 4)
     ->addOption(NO_VALUE,'all institutions')
     ->addValidOptionsFromTable('nmv__institution', 'ID_institution', "CONCAT(IFNULL(institution_name, '-/-'), '&emsp;---&emsp;', LEFT(IFNULL(location, '-/-'), 50))", 'nmv__med_history_hosp');
 
+$victimsVariableForm->addField('autopsy_ref_no', TEXT, 120)
+    ->setLabel('hospitalisation - Autopsy Number');
+
 $victimsVariableForm->addField('hospitalisation_ID_diagnosis', SELECT)
-  ->setLabel('hospitalisation - diagnosis')
+  ->setLabel('hospitalisation - diagnosis tags')
   ->addOption(NO_VALUE,'all diagnoses')
-  ->addOptionsFromTable('nmv__diagnosis', 'ID_diagnosis', 'english',
+  ->addOptionsFromTable('nmv__diagnosis_tag', 'ID_diagnosis', 'diagnosis',
                         'EXISTS (	SELECT *
-                                  FROM nmv__med_history_hosp
-                                  WHERE nmv__med_history_hosp.ID_diagnosis = nmv__diagnosis.ID_diagnosis)');
+                                  FROM nmv__diagnosis_hosp
+                                  WHERE nmv__diagnosis_hosp.ID_diagnosis = nmv__diagnosis_tag.ID_diagnosis)');
 
 $victimsVariableForm->addField('hospitalisation_diagnosis', TEXT, 120)
-->setLabel('hospitalisation - diagnosis <br>(not standardized yet)');
+->setLabel('hospitalisation - diagnosis <br><small>(search for keyword in freetext and in tags)</small><br>');
 
-$victimsVariableForm->addField('autopsy_ref_no', TEXT, 120)
-  ->setLabel('hospitalisation - Autopsy Number');
 
 // complete db d 3
 if (!($dbi->checkUserPermission('mpg'))) :
