@@ -39,7 +39,6 @@ $querystring = "SELECT v.ID_victim AS ID_victim,
     LEFT JOIN nmv__institution i           ON h.ID_institution = i.ID_institution
     LEFT JOIN nmv__institution_order o     ON h.ID_institution_order = o.ID_institution_order
     LEFT JOIN nmv__country c               ON c.ID_country = i.ID_country
-    LEFT JOIN nmv__diagnosis diag          ON h.ID_diagnosis = diag.ID_diagnosis
     LEFT JOIN nmv__educational_abilities e ON h.ID_educational_abilities = e.ID_educational_abilities
     LEFT JOIN nmv__behaviour b             ON h.ID_behaviour = b.ID_behaviour
     LEFT JOIN nmv__disability d            ON h.ID_disability = d.ID_disability

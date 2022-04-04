@@ -32,7 +32,6 @@ $querystring = "SELECT v.ID_victim ID_victim,
     LEFT JOIN nmv__victim v               ON (h.ID_victim = v.ID_victim)
     LEFT JOIN nmv__institution i           ON (h.ID_institution = i.ID_institution)
     LEFT JOIN nmv__country c               ON (c.ID_country = i.ID_country)
-    LEFT JOIN nmv__diagnosis diag          ON (h.ID_diagnosis = diag.ID_diagnosis)
     WHERE h.ID_med_history_brain = $ID_brain";
 $query = $dbi->connection->query($querystring);
 
