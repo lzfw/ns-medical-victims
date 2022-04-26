@@ -39,8 +39,7 @@ $form->addField ('birth_year',TEXT,4)
     ->addCondition(VALUE,MAX,1950)
     ->appendTo('birth_day');
 $form->addField ('twin',CHECKBOX,-1)
-    ->setLabel ('Twin')
-    ->appendTo('birth_year');
+    ->setLabel ('Twin');
 $form->addField ('birth_place',TEXT,250)
     ->setClass ('keyboardInput')
     ->setLabel ('Birth Place');
