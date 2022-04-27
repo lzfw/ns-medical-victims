@@ -61,7 +61,7 @@ $form->addField ('brain_report_month',TEXT,2)
     ->appendTo('brain_report_day');
 $form->addField ('brain_report_year',TEXT,4)
     ->addCondition(VALUE,MIN,0)
-    ->addCondition(VALUE,MAX,1950)
+    ->addCondition(VALUE,MAX,1960)
     ->appendTo('brain_report_day');
 $form->addField ('notes',TEXTAREA)
     ->setClass ('keyboardInput')
