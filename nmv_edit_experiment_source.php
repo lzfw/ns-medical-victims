@@ -15,7 +15,7 @@ $source_name = 'Error: Unknown.';
 
 if ($experiment_id) {
     $querystring = "
-    SELECT CONCAT(COALESCE(experiment_title, ''), ' ', COALESCE(field_of_interest, '')) experiment_name
+    SELECT COALESCE(experiment_title, '') experiment_name
     FROM nmv__experiment
     WHERE ID_experiment = $experiment_id";
     $query = $dbi->connection->query($querystring);
@@ -32,7 +32,7 @@ if ($experiment_id) {
 } else {
     $exp_source_id = (int) getUrlParameter('ID_exp_source', 0);
     $querystring = "
-    SELECT CONCAT(COALESCE(experiment_title, ''), ' ', COALESCE(field_of_interest, '')) experiment_name,
+    SELECT COALESCE(experiment_title, ' ') experiment_name,
         v.ID_experiment experiment_id
     FROM nmv__experiment v
     RIGHT JOIN nmv__experiment_source h ON (h.ID_experiment = v.ID_experiment)
@@ -52,10 +52,10 @@ $querystring_experiment = "  SELECT e.ID_experiment AS value, CONCAT(IFNULL(e.ex
 
 if ($source_id) {
     $form
-    	->setLabel('Biomedical Research: ' . $source_name);
+    	->setLabel('Source: ' . $source_name);
 } else {
     $form
-    	->setLabel('Source: ' . $experiment_name);
+    	->setLabel('Biomedical Research: ' . $experiment_name);
 }
 
 $form
@@ -78,9 +78,15 @@ $form
 	->addButton (SUBMIT)
 	->addButton (APPLY);
 
+if ($source_id) {
+  $form
+  	->addAction (DATABASE,'nmv__experiment_source')
+  	->addAction (REDIRECT,'nmv_list_experiment_source?ID_source='.$source_id);
+} else {
 $form
 	->addAction (DATABASE,'nmv__experiment_source')
 	->addAction (REDIRECT,'nmv_list_experiment_source?ID_experiment='.$experiment_id);
+}
 
 $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 $dbi->addBreadcrumb ('Biomedical Research','nmv_list_experiments');
