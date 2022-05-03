@@ -31,11 +31,12 @@ if ($source_id) {
         // query: get hosp data
         $querystring = "
         SELECT es.ID_exp_source ID_exp_source, es.location location, e.ID_experiment ID_experiment,
-            COALESCE(e.experiment_title, 'unspecified') title, c.english classification
+            CONCAT(COALESCE(e.experiment_title, 'unspecified'), '<br>institution: ', COALESCE(i.institution_name, '-')) title, c.english classification
         FROM nmv__experiment_source es
         LEFT JOIN nmv__experiment e ON e.ID_experiment = es.ID_experiment
         LEFT JOIN nmv__source s ON s.ID_source = es.ID_source
         LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.classification
+        LEFT JOIN nmv__institution i ON i.ID_institution = e.ID_institution
         WHERE es.ID_source = $source_id
         ORDER BY title";
 
