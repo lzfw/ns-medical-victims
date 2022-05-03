@@ -41,7 +41,7 @@ $exact_fields = array (	'twin', 					'mpg_project', 				'ID_birth_country',
 												'death_year', 		'gender',							'religion',
 												'ethnic_group', 	'nationality_1938', 	'ID_education',
 												'occupation', 		'ID_arrest_country', 	'ID_perpetrator',
-												'nationality_after_1945');
+												'photo',					'nationality_after_1945');
 
 // felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
 // --> If no diacritics are applied, it finds covers any combination: η would also return ἠ, ἦ or ἥ, while ἠ would find only ἠ.
@@ -81,7 +81,8 @@ $special_contain_fields = array('CONCAT(IFNULL(b.diagnosis, ""), IFNULL(dtb.diag
 																'CONCAT(IFNULL(h.diagnosis, ""), IFNULL(dth.diagnosis, ""))'	=> 'hospitalisation_diagnosis',
 																'b.ref_no'            => 'ref_no_brain',
 																't.ref_no'						=> 'ref_no_tissue',
-																'h.autopsy_ref_no'		=> 'autopsy_ref_no');
+																'h.autopsy_ref_no'		=> 'autopsy_ref_no',
+																);
 
 // reconstruct GET-String (for scroll-function)
 $query = array();
@@ -112,9 +113,7 @@ $dbi->setUserVar('querystring',implode('&',$query));
 // make select-clauses part one
 $querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
 																				v.birth_year, bc.english AS birth_country, v.birth_place,
-																				n.english AS nationality_1938, et.english AS ethnic_group,
-																				ve.ID_vict_exp, ve.exp_start_year, ve.exp_start_day, ve.exp_start_month,
-																				s.english AS survival
+																				n.english AS nationality_1938, et.english AS ethnic_group
 												FROM nmv__victim v
 												LEFT JOIN nmv__country bc 						ON bc.ID_country = v.ID_birth_country
 												LEFT JOIN nmv__victim_experiment ve		ON v.ID_victim = ve.ID_victim
@@ -133,6 +132,8 @@ $querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
 												LEFT JOIN nmv__diagnosis_hosp dh			ON dh.ID_med_history_hosp = h.ID_med_history_hosp
 												LEFT JOIN nmv__diagnosis_tag dth			ON dth.ID_diagnosis = dh.ID_diagnosis
 												LEFT JOIN nmv__evaluation ev					ON v.ID_victim = ev.ID_victim
+												LEFT JOIN nmv__victim_source vs 			ON vs.ID_victim = v.ID_victim
+												LEFT JOIN nmv__victim_literature vl 	ON vl.ID_victim = v.ID_victim
 											'; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
 
@@ -151,7 +152,14 @@ $replace_chars = array('', ' ', ' ', '%', '%');
 
 foreach ($exact_fields as $field) {
     if (getUrlParameter($field)) {
+			if ($field == 'photo') {
+				$querystring_where[] = "(vs.source_has_photo = -1 OR
+																 vl.literature_has_photo = -1 OR
+																 b.brain_report_has_photo = -1 OR
+																 h.hosp_has_photo = -1)";
+			} else {
         $querystring_where[] = "v.$field = '".getUrlParameter($field)."'";
+			}
     }
 }
 foreach ($like_fields as $field) {
@@ -309,6 +317,7 @@ if (isset($_GET['nationality_after_1945']) && $_GET['nationality_after_1945']) {
 }
 if (isset($_GET['notes']) && $_GET['notes']) $suche_nach[] = 'notes = ... '.$_GET['notes'] . ' ...';
 if (isset($_GET['notes_after_1945']) && $_GET['notes_after_1945']) $suche_nach[] = 'notes after 1945 = ... ' . $_GET['notes_after_1945'] . ' ...';
+if (isset($_GET['photo']) && $_GET['photo']) $suche_nach[] = 'photo contained';
 
 
 // breadcrumbs
