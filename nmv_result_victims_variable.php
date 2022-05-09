@@ -324,21 +324,21 @@ if (isset($_GET['photo']) && $_GET['photo']) $suche_nach[] = 'photo contained';
 $dbi->addBreadcrumb (L_SEARCH,'search.php');
 
 // layout
-if ($_GET['ID_experiment'] || $_GET['exp_institution']):
-	$layout
-		->set('title',L_RESULTS)
-		->set('content',
-	        '<p>Search for: <em>'.implode(' AND ', $suche_nach).'</em><br>
-					Number of results: '. $total_results->total. '</p>'
-	        . $dbi->getListView('table_nmv_victims_exp',$query_items)
-	        .'<div class="buttons">'
-					.createButton (L_MODIFY_SEARCH,'javascript:history.back()','icon search')
-	        .createButton (L_NEW_SEARCH,'search.php','icon search')
-	        .'</div>'
-		)
-		//->set('sidebar','<h3>'.L_HELP.'</h3>'.$dbi->getTextblock_HTML ('results'))
-		->cast();
-else:
+// if ($_GET['ID_experiment'] || $_GET['exp_institution']):
+// 	$layout
+// 		->set('title',L_RESULTS)
+// 		->set('content',
+// 	        '<p>Search for: <em>'.implode(' AND ', $suche_nach).'</em><br>
+// 					Number of results: '. $total_results->total. '</p>'
+// 	        . $dbi->getListView('table_nmv_victims_exp',$query_items)
+// 	        .'<div class="buttons">'
+// 					.createButton (L_MODIFY_SEARCH,'javascript:history.back()','icon search')
+// 	        .createButton (L_NEW_SEARCH,'search.php','icon search')
+// 	        .'</div>'
+// 		)
+// 		//->set('sidebar','<h3>'.L_HELP.'</h3>'.$dbi->getTextblock_HTML ('results'))
+// 		->cast();
+// else:
 	$layout
 		->set('title',L_RESULTS)
 		->set('content',
@@ -352,6 +352,6 @@ else:
 		)
 		//->set('sidebar','<h3>'.L_HELP.'</h3>'.$dbi->getTextblock_HTML ('results'))
 		->cast();
-endif;
+// endif;
 
 ?>
