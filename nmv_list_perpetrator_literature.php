@@ -32,7 +32,7 @@ if ($perpetrator_id) {
         $querystring = "
         SELECT pl.ID_perp_lit ID_perp_lit,
             COALESCE(l.lit_title, 'unspecified') title, l.authors authors, l.lit_year year,
-            pl.pages pages, pl.ID_literature ID_literature
+            pl.pages pages, pl.ID_literature ID_literature, IF(pl.literature_has_photo = -1, 'yes', '-') AS literature_has_photo
         FROM nmv__perpetrator_literature pl
         LEFT JOIN nmv__literature l ON l.ID_literature = pl.ID_literature
         LEFT JOIN nmv__perpetrator p ON p.ID_perpetrator = pl.ID_perpetrator
@@ -40,8 +40,8 @@ if ($perpetrator_id) {
         ORDER BY title, authors, year";
 
         $options = '';
-        $row_template = ['{title}', '{authors}', '{year}', '{pages}'];
-        $header_template = ['Title', 'Authors', 'Year', 'Pages'];
+        $row_template = ['{title}', '{authors}', '{year}', '{pages}', '{literature_has_photo}'];
+        $header_template = ['Title', 'Authors', 'Year', 'Pages in Literature', 'Literature Contains Photo'];
 
         $options .= createSmallButton('View Literature','nmv_view_literature?ID_literature={ID_literature}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
@@ -104,7 +104,7 @@ if ($literature_id) {
             CONCAT(p.ID_perpetrator, ': ', p.first_names, ' ', p.surname) perpetrator_name,
             p.birth_place birth_place,
             CONCAT_WS('.', p.birth_day, p.birth_month, p.birth_year) birth_date,
-            pl.pages pages, pl.ID_perpetrator
+            pl.pages pages, pl.ID_perpetrator, IF(pl.literature_has_photo = -1, 'yes', '-') AS literature_has_photo
         FROM nmv__perpetrator_literature pl
         LEFT JOIN nmv__literature l ON l.ID_literature = pl.ID_literature
         LEFT JOIN nmv__perpetrator p ON p.ID_perpetrator = pl.ID_perpetrator
@@ -112,8 +112,8 @@ if ($literature_id) {
         ORDER BY perpetrator_name";
 
         $options = '';
-        $row_template = ['{perpetrator_name}', '{birth_place}', '{birth_date}', '{pages}'];
-        $header_template = ['Perpetrator', 'Birth Place', 'Birth Date', 'Pages'];
+        $row_template = ['{perpetrator_name}', '{birth_place}', '{birth_date}', '{pages}', '{literature_has_photo}'];
+        $header_template = ['Perpetrator', 'Birth Place', 'Birth Date', 'Pages in Literature', 'Literature Contains Photo'];
 
         $options .= createSmallButton('View Perpetrator','nmv_view_perpetrator?ID_perpetrator={ID_perpetrator}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {

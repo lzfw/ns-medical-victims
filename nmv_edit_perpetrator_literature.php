@@ -47,6 +47,8 @@ $form->addField ('ID_literature',SELECT,REQUIRED)
     ->addOptionsFromTable ( 'nmv__literature', 'ID_literature', "LEFT(concat(IFNULL(LEFT(lit_title, 60), '#'),' - ',IFNULL(LEFT(authors,40), '#'),' - ',IFNULL(lit_year, '#')),100)");
 $form->addField ('pages',TEXT,250)
     ->setLabel ('pages');
+$form->addField('literature_has_photo', CHECKBOX, -1)
+    ->setLabel('literature contains photo');
 
 $form
 	->addButton (SUBMIT)

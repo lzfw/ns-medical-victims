@@ -31,7 +31,7 @@ if ($victim_id) {
                   IFNULL(LEFT(i.institution_name, 150), '#'),' - ',
                   IFNULL(LEFT(i.location,40), '#'),' - ',
                   IFNULL(c.english, '#')) institution,
-                h.institution other_institution,
+                h.institution other_institution, IF(h.hosp_has_photo, 'yes', '-') AS photo,
                 CONCAT_WS('.', IFNULL(h.date_entry_day, '-'), IFNULL(h.date_entry_month, '-'), IFNULL(h.date_entry_year, '-')) date
         FROM nmv__med_history_hosp h
         LEFT JOIN nmv__institution i ON i.ID_institution = h.ID_institution
@@ -42,13 +42,14 @@ if ($victim_id) {
 
         $content .= '<h3>Hospitalization</h3>';
         $content .= '<table class="grid">';
-        $content .= '<tr><th>Institution</th><th>Date<br>(D.M.Y)</th><th>ID</th><th>Options</th>';
+        $content .= '<tr><th>Institution</th><th>Date<br>(D.M.Y)</th><th>ID</th><th>Photo<th>Options</th>';
         $content .= '</tr>';
         while ($entry = $query->fetch_object()) {
         	$content .= '<tr>';
           $content .= '<td><a href="nmv_view_med_hist_hosp?ID_med_history_hosp='.$entry->id.'">'.htmlspecialchars($entry->institution,ENT_HTML5). ' <br> ' .htmlspecialchars($entry->other_institution,ENT_HTML5).'</a></td>';
         	$content .= "<td>$entry->date</td>";
         	$content .= "<td>$entry->id</td>";
+          $content .= "<td>$entry->photo</td>";
         	$content .= '<td class="nowrap">';
         	$content .= createSmallButton('View Details','nmv_view_med_hist_hosp?ID_med_history_hosp='.$entry->id,'icon view');
         	if ($dbi->checkUserPermission('edit')) {
@@ -71,7 +72,8 @@ if ($victim_id) {
         // query: get brain research data
         $querystring = "
         SELECT h.ID_med_history_brain id, concat(IFNULL(i.institution_name, '#'),' - ',IFNULL(i.location, '#'),' - ',IFNULL(c.english, '#')) institution,
-            CONCAT_WS('.', IFNULL(h.brain_report_day, '-'), IFNULL(h.brain_report_month, '-'), IFNULL(h.brain_report_year, '-')) date
+            CONCAT_WS('.', IFNULL(h.brain_report_day, '-'), IFNULL(h.brain_report_month, '-'), IFNULL(h.brain_report_year, '-')) date,
+            IF(h.brain_report_has_photo, 'yes', '-') AS photo
         FROM nmv__med_history_brain h
         LEFT JOIN nmv__institution i ON i.ID_institution = h.ID_institution
         LEFT JOIN nmv__country c ON c.ID_country = i.ID_country
@@ -81,13 +83,14 @@ if ($victim_id) {
 
         $content .= '<h3>Brain Report</h3>';
         $content .= '<table class="grid">';
-        $content .= '<tr><th>Institution</th><th>Date<br>(D.M.Y)</th><th>ID</th><th>Options</th>';
+        $content .= '<tr><th>Institution</th><th>Date<br>(D.M.Y)</th><th>ID</th><th>Photo</th><th>Options</th>';
         $content .= '</tr>';
         while ($entry = $query->fetch_object()) {
         	$content .= '<tr>';
         	$content .= '<td><a href="nmv_view_med_hist_brain?ID_med_history_brain='.$entry->id.'">'.htmlspecialchars($entry->institution,ENT_HTML5).'</a></td>';
         	$content .= "<td>$entry->date</td>";
         	$content .= "<td>$entry->id</td>";
+          $content .= "<td>$entry->photo</td>";
         	$content .= '<td class="nowrap">';
         	$content .= createSmallButton('View Details','nmv_view_med_hist_brain?ID_med_history_brain='.$entry->id,'icon view');
         	if ($dbi->checkUserPermission('edit')) {

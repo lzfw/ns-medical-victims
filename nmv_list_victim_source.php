@@ -32,7 +32,7 @@ if ($victim_id) {
         $querystring = "
         SELECT vs.ID_vict_source ID_vict_source,
             COALESCE(s.source_title, 'unspecified') title, s.creation_year year, s.medium medium,
-            vs.location location, vs.ID_source ID_source
+            vs.location location, vs.ID_source ID_source, IF(vs.source_has_photo = -1, 'yes', '-') AS source_has_photo
         FROM nmv__victim_source vs
         LEFT JOIN nmv__source s ON s.ID_source = vs.ID_source
         LEFT JOIN nmv__victim v ON v.ID_victim = vs.ID_victim
@@ -40,8 +40,8 @@ if ($victim_id) {
         ORDER BY title, year, medium";
 
         $options = '';
-        $row_template = ['{title}', '{year}', '{medium}', '{location}'];
-        $header_template = ['Title', 'Year', 'Medium', 'Location'];
+        $row_template = ['{title}', '{year}', '{medium}', '{location}', '{source_has_photo}'];
+        $header_template = ['Title', 'Year', 'Medium', 'Location in Source', 'Contains Photo'];
 
         $options .= createSmallButton('view source','nmv_view_source?ID_source={ID_source}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
@@ -107,11 +107,11 @@ if ($source_id) {
         // query: get linking data
         //complete db d(AND v.mpg_project = -1)
         if ($dbi->checkUserPermission('mpg')) :
-          $querystring_items = "SELECT vs.ID_vict_source ID_vict_source,
+          $querystring = "SELECT vs.ID_vict_source ID_vict_source,
                 v.surname surname, v.first_names first_names,
                 v.birth_place birth_place, v.birth_year birth_year,
                 CONCAT_WS('.', v.birth_day, v.birth_month, v.birth_year) birth_date,
-                vs.location location, vs.ID_victim ID_victim
+                vs.location location, vs.ID_victim ID_victim, IF(vs.source_has_photo = -1, 'yes', '-') AS source_has_photo
             FROM nmv__victim_source vs
             LEFT JOIN nmv__source s ON s.ID_source = vs.ID_source
             LEFT JOIN nmv__victim v ON v.ID_victim = vs.ID_victim
@@ -123,11 +123,11 @@ if ($source_id) {
                                 WHERE vs.ID_source = $source_id
                                 AND v.mpg_project = -1";
         else :
-          $querystring_items = "SELECT vs.ID_vict_source ID_vict_source,
+          $querystring = "SELECT vs.ID_vict_source ID_vict_source,
                 v.surname surname, v.first_names first_names,
                 v.birth_place birth_place, v.birth_year birth_year,
                 CONCAT_WS('.', v.birth_day, v.birth_month, v.birth_year) birth_date,
-                vs.location location, vs.ID_victim ID_victim
+                vs.location location, vs.ID_victim ID_victim, IF(vs.source_has_photo = -1, 'yes', '-') AS source_has_photo
             FROM nmv__victim_source vs
             LEFT JOIN nmv__source s ON s.ID_source = vs.ID_source
             LEFT JOIN nmv__victim v ON v.ID_victim = vs.ID_victim
@@ -146,34 +146,33 @@ if ($source_id) {
         $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']} ";
 
         // query ausführen
-        $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
+        $query_items = $dbi->connection->query($querystring.$querystring_orderby);
 
-        $content .= 'Number of results: '. $total_results->total. '</p>'
-                    .$dbi->getListView('table_nmv_victims',$query_items) ;
+        $content .= 'Number of results: '. $total_results->total. '</p>';
 
-      //   $options = '';
-      //   $row_template = ['{ID_victim}', '{surname}', '{birth_place}', '{birth_date}', '{location}'];
-      //   $header_template = ['ID', 'Surname', 'Birth Place', 'Birth Date', 'Location'];
-      //
-      //   $options .= createSmallButton('view Victim','nmv_view_victim?ID_victim={ID_victim}','icon view');
-      //   if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
-      //   	if ($dbi->checkUserPermission('edit')) {
-      //   			$options .= createSmallButton(L_EDIT,'nmv_edit_victim_source?ID_vict_source={ID_vict_source}','icon edit');
-      //   	}
-      //   	if ($dbi->checkUserPermission('admin')) {
-      //   			$options .= createSmallButton(L_DELETE,'nmv_remove_victim_source?ID_vict_source={ID_vict_source}','icon delete');
-      //   	}
-      //   }
-      //   $row_template[] = $options;
-    	// $header_template[] = L_OPTIONS;
-      // $query_count = $dbi->connection->query($querystring_count);
-      // $total_results = $query_count->fetch_object();
-      // $content .= '<p>Number of classification entries: ' . $total_results->total . '</p>' .
-      // $content .= buildTableFromQuery(
-      //     $querystring,
-      //     $row_template,
-      //     $header_template,
-      //     'grid');
+        $options = '';
+        $row_template = ['{ID_victim}', '{surname}', '{birth_place}', '{birth_date}', '{location}', '{source_has_photo}'];
+        $header_template = ['ID', 'Surname', 'Birth Place', 'Birth Date', 'Location in Source', 'Source Contains Photo'];
+
+
+        $options .= createSmallButton('view Victim','nmv_view_victim?ID_victim={ID_victim}','icon view');
+        if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
+        	if ($dbi->checkUserPermission('edit')) {
+        			$options .= createSmallButton(L_EDIT,'nmv_edit_victim_source?ID_vict_source={ID_vict_source}','icon edit');
+        	}
+        	if ($dbi->checkUserPermission('admin')) {
+        			$options .= createSmallButton(L_DELETE,'nmv_remove_victim_source?ID_vict_source={ID_vict_source}','icon delete');
+        	}
+        }
+        $row_template[] = $options;
+    	$header_template[] = L_OPTIONS;
+      $query_count = $dbi->connection->query($querystring_count);
+      $total_results = $query_count->fetch_object();
+      $content .= buildTableFromQuery(
+          $querystring,
+          $row_template,
+          $header_template,
+          'grid');
     }
 
     //$content .= createBackLink ('View source: '.$source_name,'nmv_view_source?ID_source='.$source_id);

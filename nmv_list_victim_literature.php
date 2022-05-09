@@ -32,7 +32,7 @@ if ($victim_id) {
         $querystring = "
         SELECT vl.ID_vict_lit ID_vict_lit,
             COALESCE(l.lit_title, 'unspecified') title, l.authors authors, l.lit_year year,
-            vl.pages pages, vl.ID_literature ID_literature
+            vl.pages pages, vl.ID_literature ID_literature, IF(vl.literature_has_photo = -1, 'yes', '-') AS literature_has_photo
         FROM nmv__victim_literature vl
         LEFT JOIN nmv__literature l ON l.ID_literature = vl.ID_literature
         LEFT JOIN nmv__victim v ON v.ID_victim = vl.ID_victim
@@ -40,8 +40,8 @@ if ($victim_id) {
         ORDER BY title, authors, year";
 
         $options = '';
-        $row_template = ['{title}', '{authors}', '{year}', '{pages}'];
-        $header_template = ['title', 'authors', 'year', 'pages'];
+        $row_template = ['{title}', '{authors}', '{year}', '{pages}', '{literature_has_photo}'];
+        $header_template = ['Title', 'Authors', 'Year', 'Pages in Literature', 'Literature Contains Photo'];
 
         $options .= createSmallButton('view literature','nmv_view_literature?ID_literature={ID_literature}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
@@ -96,7 +96,7 @@ if ($literature_id) {
                 CONCAT(v.ID_victim, ': ', v.first_names, ' ', v.surname) victim_name,
                 v.birth_place birth_place,
                 CONCAT_WS('.', v.birth_day, v.birth_month, v.birth_year) birth_date,
-                vl.pages pages, vl.ID_victim
+                vl.pages pages, vl.ID_victim, IF(vl.literature_has_photo = -1, 'yes', '-') AS literature_has_photo
             FROM nmv__victim_literature vl
             LEFT JOIN nmv__literature l ON l.ID_literature = vl.ID_literature
             LEFT JOIN nmv__victim v ON v.ID_victim = vl.ID_victim
@@ -109,7 +109,7 @@ if ($literature_id) {
                 CONCAT(v.ID_victim, ': ', v.first_names, ' ', v.surname) victim_name,
                 v.birth_place birth_place,
                 CONCAT_WS('.', v.birth_day, v.birth_month, v.birth_year) birth_date,
-                vl.pages pages, vl.ID_victim
+                vl.pages pages, vl.ID_victim, IF(vl.literature_has_photo = -1, 'yes', '-') AS literature_has_photo
             FROM nmv__victim_literature vl
             LEFT JOIN nmv__literature l ON l.ID_literature = vl.ID_literature
             LEFT JOIN nmv__victim v ON v.ID_victim = vl.ID_victim
@@ -118,8 +118,8 @@ if ($literature_id) {
           }
 
         $options = '';
-        $row_template = ['{victim_name}', '{birth_place}', '{birth_date}', '{pages}'];
-        $header_template = ['Victim', 'Birth Place', 'Birth Date', 'Pages'];
+        $row_template = ['{victim_name}', '{birth_place}', '{birth_date}', '{pages}', '{literature_has_photo}'];
+        $header_template = ['Victim', 'Birth Place', 'Birth Date', 'Pages in Literature', 'Literature Contains Photo'];
 
         $options .= createSmallButton('view Victim','nmv_view_victim?ID_victim={ID_victim}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {

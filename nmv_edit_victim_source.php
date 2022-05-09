@@ -39,15 +39,17 @@ $form
 	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
 	->setPrimaryKeyName('ID_vict_source');
 
-$form->addField ('ID_victim',PROTECTED_TEXT)
+$form->addField ('ID_victim', PROTECTED_TEXT)
     ->setLabel ('victim ID');
-$form->addField ('ID_source',SELECT, REQUIRED)
+$form->addField ('ID_source', SELECT, REQUIRED)
     ->setLabel ('source')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__source', 'ID_source', "LEFT(concat(IFNULL(LEFT(source_title, 60), '#'),' - ',IFNULL(LEFT(medium,40), '#'),' - ',IFNULL(creation_year, '#')),100)");
-$form->addField ('location',TEXT,250)
+$form->addField ('location', TEXT, 250)
     ->setClass ('keyboardInput')
     ->setLabel ('location');
+$form->addField('source_has_photo', CHECKBOX, -1)
+    ->setLabel('source contains photo');
 
 $form
 	->addButton (SUBMIT)

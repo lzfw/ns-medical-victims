@@ -104,6 +104,8 @@ $form->addField('autopsy_ref_no', TEXT, 50)
 $form->addField('notes', TEXTAREA)
     ->setClass('keyboardInput')
     ->setLabel('Notes / Autopsy Details');
+$form->addField('hosp_has_photo', CHECKBOX, -1)
+    ->setLabel('medical record contains photo');
 $form->addField('info', STATIC_TEXT, '<hr><strong>Diagnosis Tags </strong> can be edited in the Hospitalisation View. <br>
     Click OK-Button in order to save your changes and switch to View.<hr>');
 

@@ -32,7 +32,7 @@ $querystring = "SELECT v.ID_victim AS ID_victim,
         CONCAT(IFNULL(h.date_exit_day, '-'), '.', IFNULL(h.date_exit_month, '-'), '.', IFNULL(h.date_exit_year, '-')) AS date_exit,
         h.age_entry AS age_entry, h.age_exit AS age_exit, h.institution as institution_freetext,
         h.diagnosis AS diagnosis, h.autopsy_ref_no AS autopsy_ref_no,
-        h.notes AS notes
+        h.notes AS notes, IF(h.hosp_has_photo, 'yes', '-') AS photo
     FROM nmv__med_history_hosp h
     LEFT JOIN nmv__victim v               ON h.ID_victim = v.ID_victim
     LEFT JOIN nmv__institution i           ON h.ID_institution = i.ID_institution
@@ -64,22 +64,23 @@ if ($victim = $query->fetch_object()) {
     $dbi->addBreadcrumb ('Medical History','nmv_list_med_hist?ID_victim=' . $victim_id);
 
     $content = buildElement('table', 'grid',
-      buildDataSheetRow('Victim ID',                $victim->ID_victim) .
-      buildDataSheetRow('Hospitalization ID',       $ID_hosp) .
-      buildDataSheetRow('Institution',              $victim->institution . ' --- '
-                                                  . $victim->institution_freetext ).
-      buildDataSheetRow('Institution Order',        $victim->institution_order) .
-      buildDataSheetRow('Diagnosis',                $victim->diagnosis) .
-      buildDataSheetRowTag('Diagnosis Tags',        $tag_array, $tag_button) .
-      buildDataSheetRow('Educational abilities',    $victim->educational_abilities) .
-      buildDataSheetRow('Behaviour',                $victim->behaviour) .
-      buildDataSheetRow('disability',               $victim->disability) .
-      buildDataSheetRow('Entry Date ddmmyyyy',      $victim->date_entry) .
-      buildDataSheetRow('Exit date ddmmyyyy',       $victim->date_exit) .
-      buildDataSheetRow('Entry Age',                $victim->age_entry) .
-      buildDataSheetRow('Exit Age',                 $victim->age_exit) .
-      buildDataSheetRow('Autopsy reference number', $victim->autopsy_ref_no) .
-      buildDataSheetRow('Notes / Autopsy details',  $victim->notes)
+      buildDataSheetRow('Victim ID',                      $victim->ID_victim) .
+      buildDataSheetRow('Hospitalization ID',             $ID_hosp) .
+      buildDataSheetRow('Institution',                    $victim->institution . ' --- '
+                                                        . $victim->institution_freetext ).
+      buildDataSheetRow('Institution Order',              $victim->institution_order) .
+      buildDataSheetRow('Diagnosis',                      $victim->diagnosis) .
+      buildDataSheetRowTag('Diagnosis Tags',              $tag_array, $tag_button) .
+      buildDataSheetRow('Educational abilities',          $victim->educational_abilities) .
+      buildDataSheetRow('Behaviour',                      $victim->behaviour) .
+      buildDataSheetRow('disability',                     $victim->disability) .
+      buildDataSheetRow('Entry Date ddmmyyyy',            $victim->date_entry) .
+      buildDataSheetRow('Exit date ddmmyyyy',             $victim->date_exit) .
+      buildDataSheetRow('Entry Age',                      $victim->age_entry) .
+      buildDataSheetRow('Exit Age',                       $victim->age_exit) .
+      buildDataSheetRow('Autopsy reference number',       $victim->autopsy_ref_no) .
+      buildDataSheetRow('Notes / Autopsy details',        $victim->notes) .
+      buildDataSheetRow('Medical Record Contains Photo',  $victim->photo)
     );
 }
 

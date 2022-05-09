@@ -48,6 +48,8 @@ $form->addField ('ID_source',SELECT, REQUIRED)
 $form->addField ('location',TEXT,250)
     ->setClass ('keyboardInput')
     ->setLabel ('Location');
+$form->addField('source_has_photo', CHECKBOX, -1)
+    ->setLabel('source contains photo');
 
 $form
 	->addButton (SUBMIT)
