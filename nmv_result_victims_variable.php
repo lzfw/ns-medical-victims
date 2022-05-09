@@ -113,7 +113,9 @@ $dbi->setUserVar('querystring',implode('&',$query));
 // make select-clauses part one
 $querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
 																				v.birth_year, bc.english AS birth_country, v.birth_place,
-																				n.english AS nationality_1938, et.english AS ethnic_group
+																				n.english AS nationality_1938, et.english AS ethnic_group,
+																				ve.exp_start_day, ve.exp_start_month, ve.exp_start_year,
+																				s.english AS survival, ve.ID_vict_exp
 												FROM nmv__victim v
 												LEFT JOIN nmv__country bc 						ON bc.ID_country = v.ID_birth_country
 												LEFT JOIN nmv__victim_experiment ve		ON v.ID_victim = ve.ID_victim
@@ -324,21 +326,21 @@ if (isset($_GET['photo']) && $_GET['photo']) $suche_nach[] = 'photo contained';
 $dbi->addBreadcrumb (L_SEARCH,'search.php');
 
 // layout
-// if ($_GET['ID_experiment'] || $_GET['exp_institution']):
-// 	$layout
-// 		->set('title',L_RESULTS)
-// 		->set('content',
-// 	        '<p>Search for: <em>'.implode(' AND ', $suche_nach).'</em><br>
-// 					Number of results: '. $total_results->total. '</p>'
-// 	        . $dbi->getListView('table_nmv_victims_exp',$query_items)
-// 	        .'<div class="buttons">'
-// 					.createButton (L_MODIFY_SEARCH,'javascript:history.back()','icon search')
-// 	        .createButton (L_NEW_SEARCH,'search.php','icon search')
-// 	        .'</div>'
-// 		)
-// 		//->set('sidebar','<h3>'.L_HELP.'</h3>'.$dbi->getTextblock_HTML ('results'))
-// 		->cast();
-// else:
+if ($_GET['ID_experiment'] || $_GET['exp_institution']):
+	$layout
+		->set('title',L_RESULTS)
+		->set('content',
+	        '<p>Search for: <em>'.implode(' AND ', $suche_nach).'</em><br>
+					Number of results: '. $total_results->total. '</p>'
+	        . $dbi->getListView('table_nmv_victims_exp',$query_items)
+	        .'<div class="buttons">'
+					.createButton (L_MODIFY_SEARCH,'javascript:history.back()','icon search')
+	        .createButton (L_NEW_SEARCH,'search.php','icon search')
+	        .'</div>'
+		)
+		//->set('sidebar','<h3>'.L_HELP.'</h3>'.$dbi->getTextblock_HTML ('results'))
+		->cast();
+else:
 	$layout
 		->set('title',L_RESULTS)
 		->set('content',
@@ -352,6 +354,6 @@ $dbi->addBreadcrumb (L_SEARCH,'search.php');
 		)
 		//->set('sidebar','<h3>'.L_HELP.'</h3>'.$dbi->getTextblock_HTML ('results'))
 		->cast();
-// endif;
+endif;
 
 ?>
