@@ -22,7 +22,8 @@ $querystring = "
            residence_after_1945_country, residence_after_1945_place,
            occupation_after_1945, n45.english nationality_after_1945,
            v.consequential_injuries, IFNULL(v.compensation, 'not specified') AS compensation, v.compensation_details,
-           v.notes_after_1945, v.mpg_project, v.arrest_prehistory, v.arrest_location, ac.english as arrest_country, v.arrest_history
+           v.notes_after_1945, v.mpg_project, v.arrest_prehistory, v.arrest_location, ac.english as arrest_country, v.arrest_history,
+           IF(v.photo_exists, 'Yes', '-') AS photo_exists, notes_photo
     FROM nmv__victim v
     LEFT JOIN nmv__marital_family_status m ON (m.ID_marital_family_status = v.ID_marital_family_status )
     LEFT JOIN nmv__education ed ON (ed.ID_education = v.ID_education)
@@ -72,7 +73,7 @@ if ($victim = $result->fetch_object()) {
     $content .= buildElement('table','grid',
         buildDataSheetRow('Victim ID',              $victim_id).
         buildDataSheetRow('Name',                   $victim_name).
-        buildDataSheetRow('MPG project',            $victim->mpg_project ? 'Yes' : '').
+        buildDataSheetRow('MPG project',            $victim->mpg_project ? 'Yes' : '-').
         buildDataSheetRow('Gender',                 $victim->gender).
         buildDataSheetRow('Birth DMY',                  $victim_birth).
         buildDataSheetRow('Death DMY',                  $victim_death).
@@ -85,8 +86,13 @@ if ($victim = $result->fetch_object()) {
         buildDataSheetRow('Occupation',
             $victim->occupation.
             ($victim->occupation_details ?' ('.$victim->occupation_details.')':'')).
-        buildDataSheetRow('Notes',$victim->notes)
-          );
+        buildDataSheetRow('Notes',$victim->notes));
+
+        if ($victim->photo_exists == 'Yes') {
+        $content .= buildElement('table','grid',
+        buildDataSheetRow('Photo exists',           $victim->photo_exists).
+        buildDataSheetRow('Notes about photo',      $victim->notes_photo));
+      }
         //complete db
         if(!($dbi->checkUserPermission('mpg'))):
           $content .= '<br>'.buildElement('table','grid',

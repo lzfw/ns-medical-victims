@@ -111,32 +111,59 @@ foreach ($special_contain_fields as $field) {
 $dbi->setUserVar('querystring',implode('&',$query));
 
 // make select-clauses part one
-$querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
-																				v.birth_year, bc.english AS birth_country, v.birth_place,
-																				n.english AS nationality_1938, et.english AS ethnic_group,
-																				ve.exp_start_day, ve.exp_start_month, ve.exp_start_year,
-																				s.english AS survival, ve.ID_vict_exp
-												FROM nmv__victim v
-												LEFT JOIN nmv__country bc 						ON bc.ID_country = v.ID_birth_country
-												LEFT JOIN nmv__victim_experiment ve		ON v.ID_victim = ve.ID_victim
-												LEFT JOIN nmv__survival s 						ON s.ID_survival = ve.ID_survival
-												LEFT JOIN nmv__experiment e 					ON ve.ID_experiment = e.ID_experiment
-												LEFT JOIN nmv__experiment_foi ef			ON ef.ID_experiment = e.ID_experiment
-												LEFT JOIN nmv__field_of_interest foi	ON foi.ID_foi = ef.ID_foi
-												LEFT JOIN nmv__imprisoniation i				ON v.ID_victim = i.ID_victim
-												LEFT JOIN nmv__nationality n        	ON n.ID_nationality = v.nationality_1938
-												LEFT JOIN nmv__ethnicgroup et       	ON et.ID_ethnicgroup = v.ethnic_group
-												LEFT JOIN nmv__med_history_brain b		ON v.ID_victim = b.ID_victim
-												LEFT JOIN nmv__diagnosis_brain db 		ON db.ID_med_history_brain = b.ID_med_history_brain
-												LEFT JOIN nmv__diagnosis_tag dtb			ON dtb.ID_diagnosis = db.ID_diagnosis
-												LEFT JOIN nmv__med_history_tissue t		ON v.ID_victim = t.ID_victim
-												LEFT JOIN nmv__med_history_hosp h			ON v.ID_victim = h.ID_victim
-												LEFT JOIN nmv__diagnosis_hosp dh			ON dh.ID_med_history_hosp = h.ID_med_history_hosp
-												LEFT JOIN nmv__diagnosis_tag dth			ON dth.ID_diagnosis = dh.ID_diagnosis
-												LEFT JOIN nmv__evaluation ev					ON v.ID_victim = ev.ID_victim
-												LEFT JOIN nmv__victim_source vs 			ON vs.ID_victim = v.ID_victim
-												LEFT JOIN nmv__victim_literature vl 	ON vl.ID_victim = v.ID_victim
-											'; // für Ergebnisliste
+if ($_GET['ID_experiment'] || $_GET['exp_institution']): // query for experiment-related filters: shows and links victim-experiment data
+	$querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
+																					v.birth_year, bc.english AS birth_country, v.birth_place,
+																					n.english AS nationality_1938, et.english AS ethnic_group,
+																					ve.exp_start_day, ve.exp_start_month, ve.exp_start_year,
+																					s.english AS survival, ve.ID_vict_exp
+													FROM nmv__victim v
+													LEFT JOIN nmv__country bc 						ON bc.ID_country = v.ID_birth_country
+													LEFT JOIN nmv__victim_experiment ve		ON v.ID_victim = ve.ID_victim
+													LEFT JOIN nmv__survival s 						ON s.ID_survival = ve.ID_survival
+													LEFT JOIN nmv__experiment e 					ON ve.ID_experiment = e.ID_experiment
+													LEFT JOIN nmv__experiment_foi ef			ON ef.ID_experiment = e.ID_experiment
+													LEFT JOIN nmv__field_of_interest foi	ON foi.ID_foi = ef.ID_foi
+													LEFT JOIN nmv__imprisoniation i				ON v.ID_victim = i.ID_victim
+													LEFT JOIN nmv__nationality n        	ON n.ID_nationality = v.nationality_1938
+													LEFT JOIN nmv__ethnicgroup et       	ON et.ID_ethnicgroup = v.ethnic_group
+													LEFT JOIN nmv__med_history_brain b		ON v.ID_victim = b.ID_victim
+													LEFT JOIN nmv__diagnosis_brain db 		ON db.ID_med_history_brain = b.ID_med_history_brain
+													LEFT JOIN nmv__diagnosis_tag dtb			ON dtb.ID_diagnosis = db.ID_diagnosis
+													LEFT JOIN nmv__med_history_tissue t		ON v.ID_victim = t.ID_victim
+													LEFT JOIN nmv__med_history_hosp h			ON v.ID_victim = h.ID_victim
+													LEFT JOIN nmv__diagnosis_hosp dh			ON dh.ID_med_history_hosp = h.ID_med_history_hosp
+													LEFT JOIN nmv__diagnosis_tag dth			ON dth.ID_diagnosis = dh.ID_diagnosis
+													LEFT JOIN nmv__evaluation ev					ON v.ID_victim = ev.ID_victim
+													LEFT JOIN nmv__victim_source vs 			ON vs.ID_victim = v.ID_victim
+													LEFT JOIN nmv__victim_literature vl 	ON vl.ID_victim = v.ID_victim
+												'; // für Ergebnisliste
+else:  // default query
+		$querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
+																					v.birth_year, bc.english AS birth_country, v.birth_place,
+																					n.english AS nationality_1938, et.english AS ethnic_group
+													FROM nmv__victim v
+													LEFT JOIN nmv__country bc 						ON bc.ID_country = v.ID_birth_country
+													LEFT JOIN nmv__victim_experiment ve		ON v.ID_victim = ve.ID_victim
+													LEFT JOIN nmv__survival s 						ON s.ID_survival = ve.ID_survival
+													LEFT JOIN nmv__experiment e 					ON ve.ID_experiment = e.ID_experiment
+													LEFT JOIN nmv__experiment_foi ef			ON ef.ID_experiment = e.ID_experiment
+													LEFT JOIN nmv__field_of_interest foi	ON foi.ID_foi = ef.ID_foi
+													LEFT JOIN nmv__imprisoniation i				ON v.ID_victim = i.ID_victim
+													LEFT JOIN nmv__nationality n        	ON n.ID_nationality = v.nationality_1938
+													LEFT JOIN nmv__ethnicgroup et       	ON et.ID_ethnicgroup = v.ethnic_group
+													LEFT JOIN nmv__med_history_brain b		ON v.ID_victim = b.ID_victim
+													LEFT JOIN nmv__diagnosis_brain db 		ON db.ID_med_history_brain = b.ID_med_history_brain
+													LEFT JOIN nmv__diagnosis_tag dtb			ON dtb.ID_diagnosis = db.ID_diagnosis
+													LEFT JOIN nmv__med_history_tissue t		ON v.ID_victim = t.ID_victim
+													LEFT JOIN nmv__med_history_hosp h			ON v.ID_victim = h.ID_victim
+													LEFT JOIN nmv__diagnosis_hosp dh			ON dh.ID_med_history_hosp = h.ID_med_history_hosp
+													LEFT JOIN nmv__diagnosis_tag dth			ON dth.ID_diagnosis = dh.ID_diagnosis
+													LEFT JOIN nmv__evaluation ev					ON v.ID_victim = ev.ID_victim
+													LEFT JOIN nmv__victim_source vs 			ON vs.ID_victim = v.ID_victim
+													LEFT JOIN nmv__victim_literature vl 	ON vl.ID_victim = v.ID_victim
+												'; // für Ergebnisliste}
+endif;
 $querystring_where = array(); // for where-part of select clause
 
 //complete db d
@@ -158,7 +185,8 @@ foreach ($exact_fields as $field) {
 				$querystring_where[] = "(vs.source_has_photo = -1 OR
 																 vl.literature_has_photo = -1 OR
 																 b.brain_report_has_photo = -1 OR
-																 h.hosp_has_photo = -1)";
+																 h.hosp_has_photo = -1 OR
+																 v.photo_exists = -1)";
 			} else {
         $querystring_where[] = "v.$field = '".getUrlParameter($field)."'";
 			}
@@ -326,7 +354,8 @@ if (isset($_GET['photo']) && $_GET['photo']) $suche_nach[] = 'photo contained';
 $dbi->addBreadcrumb (L_SEARCH,'search.php');
 
 // layout
-if ($_GET['ID_experiment'] || $_GET['exp_institution']):
+if ($_GET['ID_experiment'] || $_GET['exp_institution']): // special table for experiment-related filters: shows and links victim-experiment data
+
 	$layout
 		->set('title',L_RESULTS)
 		->set('content',
@@ -340,7 +369,7 @@ if ($_GET['ID_experiment'] || $_GET['exp_institution']):
 		)
 		//->set('sidebar','<h3>'.L_HELP.'</h3>'.$dbi->getTextblock_HTML ('results'))
 		->cast();
-else:
+else: // default table
 	$layout
 		->set('title',L_RESULTS)
 		->set('content',

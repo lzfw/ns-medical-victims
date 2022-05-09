@@ -103,6 +103,10 @@ $form->addField ('occupation_details',TEXT,50)
 $form->addField ('notes',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Notes');
+$form->addField ('photo_exists', CHECKBOX, -1)
+		->setLabel ('Photo exists');
+$form->addField ('notes_photo', TEXTAREA)
+		->setLabel ('Notes about Photo');
 
 // Arrests group
 $form->addField ('arrest_prehistory',TEXTAREA)
