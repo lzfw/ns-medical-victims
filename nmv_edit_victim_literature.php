@@ -48,7 +48,7 @@ $form->addField ('ID_literature',SELECT,REQUIRED)
 $form->addField ('pages',TEXT,250)
     ->setLabel ('pages');
 $form->addField('literature_has_photo', CHECKBOX, -1)
-        ->setLabel('literature contains photo');    
+        ->setLabel('literature contains photo');
 
 $form
 	->addButton (SUBMIT)
@@ -56,7 +56,7 @@ $form
 
 $form
 	->addAction (DATABASE,'nmv__victim_literature')
-	->addAction (REDIRECT,'nmv_list_victim_literature?ID_victim='.$victim_id);
+	->addAction (REDIRECT,'nmv_list_victim_literature_and_sources?ID_victim='.$victim_id);
 
 $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 $dbi->addBreadcrumb ('Victims','nmv_list_victims');

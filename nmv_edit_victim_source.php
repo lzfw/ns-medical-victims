@@ -57,7 +57,7 @@ $form
 
 $form
 	->addAction (DATABASE,'nmv__victim_source')
-	->addAction (REDIRECT,'nmv_list_victim_source?ID_victim='.$victim_id);
+	->addAction (REDIRECT,'nmv_list_victim_literature_and_sources?ID_victim='.$victim_id);
 
 $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 $dbi->addBreadcrumb ('Victims','nmv_list_victims');
