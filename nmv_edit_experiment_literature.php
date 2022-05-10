@@ -15,7 +15,7 @@ $literature_name = 'Error: Unknown.';
 
 if ($experiment_id) {
     $querystring = "
-    SELECT CONCAT(COALESCE(experiment_title, ''), ' ', COALESCE(field_of_interest, '')) experiment_name
+    SELECT COALESCE(experiment_title, '') experiment_name
     FROM nmv__experiment
     WHERE ID_experiment = $experiment_id";
     $query = $dbi->connection->query($querystring);
@@ -32,7 +32,7 @@ if ($experiment_id) {
 } else {
     $exp_literature_id = (int) getUrlParameter('ID_exp_lit', 0);
     $querystring = "
-    SELECT CONCAT(COALESCE(experiment_title, ''), ' ', COALESCE(field_of_interest, '')) experiment_name,
+    SELECT COALESCE(experiment_title, '') experiment_name,
         v.ID_experiment experiment_id
     FROM nmv__experiment v
     RIGHT JOIN nmv__experiment_literature h ON (h.ID_experiment = v.ID_experiment)
