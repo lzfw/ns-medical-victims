@@ -254,6 +254,8 @@ $victimsVariableForm->addField('notes', TEXT, 120)
   ->setLabel('keyword in "notes"');
 $victimsVariableForm->addField('notes_after_1945', TEXT, 120)
   ->setLabel('keyword in "notes after 1945"');
+$victimsVariableForm->addField('notes_photo', TEXT, 120)
+  ->setLabel('keyword in "notes about photo"');
 
 $victimsVariableForm->addField('photo-text', STATIC_TEXT, '<br> &nbsp;  &nbsp;');
 $victimsVariableForm->addField('photo', CHECKBOX, -1)

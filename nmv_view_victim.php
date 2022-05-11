@@ -11,19 +11,19 @@ $dbi->addBreadcrumb ('Victims','nmv_list_victims');
 
 // query: get victim data
 $querystring = "
-    SELECT first_names, surname,
-           CONCAT(IFNULL(birth_day , '-'), '.', IFNULL(birth_month , '-'), '.', IFNULL(birth_year, '-')) birth, twin,
-           birth_place, bc.english as birth_country, death_place, dc.english as death_country,
-           CONCAT(IFNULL(death_day , '-'), '.', IFNULL(death_month , '-'), '.', IFNULL(death_year, '-')) death,
-           cause_of_death, gender, m.english as marital_family_status,
+    SELECT v.first_names, v.surname,
+           CONCAT(IFNULL(v.birth_day , '-'), '.', IFNULL(v.birth_month , '-'), '.', IFNULL(v.birth_year, '-')) birth, v.twin,
+           v.birth_place, bc.english as birth_country, v.death_place, dc.english as death_country,
+           CONCAT(IFNULL(v.death_day , '-'), '.', IFNULL(v.death_month , '-'), '.', IFNULL(v.death_year, '-')) death,
+           v.cause_of_death, gender, m.english as marital_family_status,
            ed.english as education, r.english as religion,
            n.english as nationality, e.english as ethnic_group,
-           p.english as occupation, occupation_details, notes,
-           residence_after_1945_country, residence_after_1945_place,
-           occupation_after_1945, n45.english nationality_after_1945,
+           p.english as occupation, v.occupation_details, v.notes,
+           v.residence_after_1945_country, v.residence_after_1945_place,
+           v.occupation_after_1945, n45.english nationality_after_1945,
            v.consequential_injuries, IFNULL(v.compensation, 'not specified') AS compensation, v.compensation_details,
            v.notes_after_1945, v.mpg_project, v.arrest_prehistory, v.arrest_location, ac.english as arrest_country, v.arrest_history,
-           IF(v.photo_exists, 'Yes', '-') AS photo_exists, notes_photo
+           IF(v.photo_exists, 'Yes', '-') AS photo_exists, v.notes_photo
     FROM nmv__victim v
     LEFT JOIN nmv__marital_family_status m ON (m.ID_marital_family_status = v.ID_marital_family_status )
     LEFT JOIN nmv__education ed ON (ed.ID_education = v.ID_education)
@@ -35,7 +35,11 @@ $querystring = "
     LEFT JOIN nmv__country bc ON (bc.ID_country = v.ID_birth_country)
     LEFT JOIN nmv__country dc ON (dc.ID_country = v.ID_death_country)
     LEFT JOIN nmv__country ac ON (ac.ID_country = v.ID_arrest_country)
-    WHERE ID_victim = ?";
+    LEFT JOIN nmv__victim_source vs ON vs.ID_victim = v.ID_victim
+    LEFT JOIN nmv__victim_literature vl ON vl.ID_victim = v.ID_victim
+    LEFT JOIN nmv__med_history_hosp h ON h.ID_victim = v.ID_victim
+    LEFT JOIN nmv__med_history_brain b ON b.ID_victim = v.ID_victim
+    WHERE v.ID_victim = ?";
 
 $result = null;
 if ($stmt = $dbi->connection->prepare($querystring)) {
