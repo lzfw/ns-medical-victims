@@ -10,14 +10,15 @@ $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 $dbi->addBreadcrumb ('Source','nmv_list_sources');
 
 // query: get source data
-$querystring = '
+$querystring = "
     SELECT source_title, signature, creation_year, pages, type,
     description, medium, published_source, notes,
     data_entry_status, names_mentioned, location, person_in_charge,
-    english language
+    english as language, url,
+    IF((access_day IS NULL AND access_month IS NULL AND access_year IS NULL), ' ', CONCAT(IFNULL(access_day, '-'), '.', IFNULL(access_month, '-'), '.', IFNULL(access_year, '-'))) as access_date
     FROM nmv__source s
     LEFT JOIN nmv__language l ON (l.ID_language = s.ID_language)
-    WHERE ID_source = ?';
+    WHERE ID_source = ?";
 
 $result = null;
 if ($stmt = $dbi->connection->prepare($querystring)) {
@@ -56,7 +57,9 @@ if ($source = $result->fetch_object()) {
         buildDataSheetRow('Medium',               $source->medium).
         buildDataSheetRow('Published source',     $source->published_source ? 'Yes' : 'No').
         buildDataSheetRow('Location',             $source->location).
-        buildDataSheetRow('Notes',                  $source->notes)
+        buildDataSheetRow('Notes',                $source->notes).
+        buildDataSheetRow('URL',                  $source->url).
+        buildDataSheetRow('Access date (dmy)',    $source->access_date)
     );
 } else {
     $source_name = 'Error: unknown source';

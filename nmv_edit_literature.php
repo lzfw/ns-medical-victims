@@ -19,7 +19,7 @@ $form->addField ('authors',TEXT,250)
     ->setLabel ('Authors');
 $form->addField ('lit_year',TEXT,50)
     ->setLabel ('Year');
-$form->addField ('lit_title',TEXT,1500)
+$form->addField ('lit_title',TEXT,1500, REQUIRED)
     ->setClass ('keyboardInput')
     ->setLabel ('Title');
 
@@ -61,6 +61,16 @@ $form->addField ('notes',TEXTAREA)
     ->setLabel ('Notes');
 $form->addField ('url',TEXT,250)
     ->setLabel ('URL');
+$form->addField ('access_day',TEXT,2)
+		->addCondition(VALUE, MIN, 1)
+		->addCondition(VALUE, MAX, 31)
+    ->setLabel ('Access date DDMMYYYY');
+$form->addField ('access_month',TEXT,2)
+		->addCondition(VALUE, MIN, 1)
+		->addCondition(VALUE, MAX, 12)
+		->appendTo('access_day');
+$form->addField ('access_year',TEXT,4)
+		->appendTo('access_day');
 $form->addField ('isbn_10',TEXT,25)
     ->setLabel ('ISBN-10');
 $form->addField ('isbn_13',TEXT,25)

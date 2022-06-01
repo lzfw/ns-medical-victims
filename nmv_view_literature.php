@@ -10,12 +10,13 @@ $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 $dbi->addBreadcrumb ('Literature','nmv_list_literature');
 
 // query: get literature data
-$querystring = '
+$querystring = "
     SELECT authors, lit_year, lit_title, article, journal_or_series,
            editor, volume, location, pages, publisher, scientific_exploitation, written_by_perpetrator,
-           notes, url, isbn_10, isbn_13
+           notes, url, isbn_10, isbn_13,
+           IF((access_day IS NULL AND access_month IS NULL AND access_year IS NULL), ' ', CONCAT(IFNULL(access_day, '-'), '.', IFNULL(access_month, '-'), '.', IFNULL(access_year, '-'))) as access_date
     FROM nmv__literature v
-    WHERE ID_literature = ?';
+    WHERE ID_literature = ?";
 
 $result = null;
 if ($stmt = $dbi->connection->prepare($querystring)) {
@@ -43,24 +44,25 @@ if ($literature = $result->fetch_object()) {
     $literature_name = '“' . $literature->lit_title.'” '.$literature->authors;
     $content = buildElement('table','grid',
         buildDataSheetRow('Literature ID',                $literature_id).
-        buildDataSheetRow('Authors',                $literature->authors).
-        buildDataSheetRow('Year',                   $literature->lit_year).
-        buildDataSheetRow('Title',                  $literature->lit_title).
-        buildDataSheetRow('Is Article',                     $literature->article ? 'Yes' : 'No').
-        buildDataSheetRow('Journal or Edited Volume',      $literature->journal_or_series).
-        buildDataSheetRow('Article Editor',                 $literature->editor).
-        buildDataSheetRow('Article Volume',                 $literature->volume).
-        buildDataSheetRow('Location',                       $literature->location).
-        buildDataSheetRow('Article Pages',                  $literature->pages).
-        buildDataSheetRow('Publisher',              $literature->publisher).
+        buildDataSheetRow('Authors',                      $literature->authors).
+        buildDataSheetRow('Year',                         $literature->lit_year).
+        buildDataSheetRow('Title',                        $literature->lit_title).
+        buildDataSheetRow('Is Article',                   $literature->article ? 'Yes' : 'No').
+        buildDataSheetRow('Journal or Edited Volume',     $literature->journal_or_series).
+        buildDataSheetRow('Article Editor',               $literature->editor).
+        buildDataSheetRow('Article Volume',               $literature->volume).
+        buildDataSheetRow('Location',                     $literature->location).
+        buildDataSheetRow('Article Pages',                $literature->pages).
+        buildDataSheetRow('Publisher',                    $literature->publisher).
         buildDataSheetRow('Scientific exploitation',
             $literature->scientific_exploitation ? 'Yes' : 'No').
         buildDataSheetRow('Written by perpetrator',
             $literature->written_by_perpetrator ? 'Yes (at least one author is listed as perpetrator in this database)' : 'No').
-        buildDataSheetRow('Notes',                  $literature->notes).
-        buildDataSheetRow('URL',                    $literature->url).
-        buildDataSheetRow('ISBN-10',                  $literature->isbn_10).
-        buildDataSheetRow('ISBN_13',                  $literature->isbn_13)
+        buildDataSheetRow('Notes',                        $literature->notes).
+        buildDataSheetRow('URL',                          $literature->url).
+        buildDataSheetRow('Access Data (dmy)',            $literature->access_date).
+        buildDataSheetRow('ISBN-10',                      $literature->isbn_10).
+        buildDataSheetRow('ISBN_13',                      $literature->isbn_13)
     );
 } else {
     $literature_name = 'Error: unknown literature';
