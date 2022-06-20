@@ -1,6 +1,6 @@
 <?php
 require_once 'zefiro/ini.php';
-
+//
 $dbi->requireUserPermission ('admin');
 
 $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
