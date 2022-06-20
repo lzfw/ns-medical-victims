@@ -176,6 +176,7 @@ class DBI {
 		switch (count($args)) {
 			case 1: return $this->View->get_HTML (); break;
 			case 2: return $this->View->get_HTML ($args[1]); break;
+			case 3: return $this->View->get_HTML ($args[1], $args[2]); break;
 			default: return false;
 		}
 	}
