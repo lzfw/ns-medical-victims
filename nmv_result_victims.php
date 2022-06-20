@@ -77,6 +77,7 @@ $querystring_items = 'SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
 											LEFT JOIN nmv__ethnicgroup et 	ON et.ID_ethnicgroup = v.ethnic_group
 											'; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
+$querystring_where[] = "was_prisoner_assistant != 'prisoner assistant only'";
 
 // MySQL-Zeichenfilter definieren (Trunkierungszeichen werden zu MySQL-Zeichen)
 $filter_chars = array("'", '%', '_', '*', '٭');

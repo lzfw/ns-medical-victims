@@ -71,7 +71,7 @@ $MPGvictimForm
 
 
 // prisoner assistant search form
-$assistantForm = new Form('search_assitant','nmv_result_assistant.php','GET');
+$assistantForm = new Form('search_assitant','nmv_result_prisoner_assistant.php','GET');
 
 $assistantForm->addConnection(MYSQL_DB,$db_host,$db_user,$db_pass,$db_name);
 
