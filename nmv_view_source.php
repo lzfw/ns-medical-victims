@@ -71,7 +71,8 @@ if ($dbi->checkUserPermission('edit'))
     $content .= createButton ('Edit Source','nmv_edit_source?ID_source='.$source_id,'icon edit');
 if ($dbi->checkUserPermission('admin'))
     $content .= createButton(L_DELETE,'nmv_remove_source?ID_source='.$source_id,'icon delete');
-$content .= createButton("Victims",'nmv_list_victim_source?ID_source='.$source_id,'icon report-paper');
+$content .= createButton("Victims",'nmv_list_victim_source?ID_source='.$source_id.'&role=victim','icon report-paper');
+$content .= createButton("Prisoner Assistants",'nmv_list_victim_source?ID_source='.$source_id.'&role=prisoner_assistant','icon report-paper');
 $content .= createButton("Perpetrators",'nmv_list_perpetrator_source?ID_source='.$source_id,'icon report-paper');
 //complete db d
 if (!($dbi->checkUserPermission('mpg'))) :

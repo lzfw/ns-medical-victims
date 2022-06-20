@@ -70,6 +70,28 @@ $MPGvictimForm
 	->addButton(SUBMIT,L_SEARCH);
 
 
+// prisoner assistant search form
+$assistantForm = new Form('search_assitant','nmv_result_assistant.php','GET');
+
+$assistantForm->addConnection(MYSQL_DB,$db_host,$db_user,$db_pass,$db_name);
+
+$assistantForm->addField('ID_victim',TEXT,5)
+	->setLabel('ID');
+
+$assistantForm->addField('surname',TEXT,120)
+    ->setClass('keyboardInput')
+	->setLabel('Surname');
+
+$assistantForm->addField('first_names',TEXT,120)
+    ->setClass('keyboardInput')
+	->setLabel('First Name(s)');
+
+$assistantForm
+	->addButton(BACK)
+	->addButton(RESET)
+	->addButton(SUBMIT,L_SEARCH);
+
+
 
 
 // perpetrator search form
@@ -249,6 +271,15 @@ $layout
 							<br>If a combination of workgroups is selected, the result shows only datasets that contain data of all these workgroups.</p>' .
 							($dbi->checkUserPermission('view') ? $MPGvictimForm->run() : 'In order to search MPG-project-victims, <a href="/z_login">please log in</a>.') .
 					'</div>
+			</div>
+			<div class="relative">
+						<input class="hide_show_checkbox"  id="checkbox_search_pa" type="checkbox" checked="checked">
+						<label class="hide_show_label" id="label_search_pa" for="checkbox_search_pa">Search - Prisoner Assistant</label>
+						<div class="hide_show_element block" id="element_search_pa">
+								<p>Search in complete database.
+								<br> If more than one field is filled in, the search returns only results that match <strong>all</strong> those fields</p>' .
+								($dbi->checkUserPermission('view') ? $assistantForm->run() : 'In order to search victims, <a href="/z_login">please log in</a>.') .
+						'</div>
 			</div>
 			<div class="relative">
 					<input class="hide_show_checkbox"  id="checkbox_search_perpetrator" type="checkbox" checked="checked">

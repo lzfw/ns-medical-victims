@@ -84,7 +84,7 @@ $content .= '</table>';
 	    $content .= createButton(L_DELETE,'nmv_remove_victim_experiment?ID_vict_exp='.$vict_exp_id,'icon delete');
 	if ($victim_id) {
         $content .= createBackLink ('Biomedical research: Victim ' . $victim_name,'nmv_list_victim_experiment?ID_victim='.$victim_id);
-        $content .= createBackLink ('Biomedical research: ' . $experiment_title,'nmv_list_victim_experiment?ID_experiment='.$experiment_id);
+        $content .= createBackLink ('Victim list: Experiment ' . $experiment_title,'nmv_list_victim_experiment?ID_experiment='.$experiment_id);
 	}
     $content .= '</div>';
 

@@ -17,6 +17,7 @@ $layout
 		).
 		($dbi->checkUserPermission('view')
 			? createListItem('Victims','nmv_list_victims','')
+				. createListItem('Prisoner Assistants', 'nmv_list_prisoner_assistants', '')
 				//complete db d
 				.($dbi->checkUserPermission('mpg')
 						? NULL
@@ -50,6 +51,7 @@ $layout
 				. createListItem('Occupation (Victim)','nmv_list_occupation','')
 				. createListItem('Order of Institution (Hospitalisation)','nmv_list_institution_order','')
 				. createListItem('Religion','nmv_list_religion','')
+				. createListItem('Role','nmv_list_role','')
 				. createListItem('Survival','nmv_list_survival','')
 				. createListItem('Tissue Form','nmv_list_tissue_form','')
 				. createListItem('Tissue State','nmv_list_tissue_state','')

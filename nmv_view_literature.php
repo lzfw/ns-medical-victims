@@ -71,10 +71,11 @@ if ($literature = $result->fetch_object()) {
 
 $content .= '<div class="buttons">';
 if ($dbi->checkUserPermission('edit'))
-    $content .= createButton ('Edit Literature','nmv_edit_literature?ID_literature='.$literature_id,'icon edit');
+    $content .= createButton ('Edit','nmv_edit_literature?ID_literature='.$literature_id,'icon edit');
 if ($dbi->checkUserPermission('admin'))
     $content .= createButton(L_DELETE,'nmv_remove_literature?ID_literature='.$literature_id,'icon delete');
-$content .= createButton("Victims",'nmv_list_victim_literature?ID_literature='.$literature_id,'icon report-paper');
+$content .= createButton("Victims",'nmv_list_victim_literature?ID_literature='.$literature_id.'&role=victim','icon report-paper');
+$content .= createButton("Prisoner Assistants",'nmv_list_victim_literature?ID_literature='.$literature_id.'&role=prisoner_assistant','icon report-paper');
 $content .= createButton("Perpetrators",'nmv_list_perpetrator_literature?ID_literature='.$literature_id,'icon report-paper');
 //complete db d
 if(!($dbi->checkUserPermission('mpg'))):

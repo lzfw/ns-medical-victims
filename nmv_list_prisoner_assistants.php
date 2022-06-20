@@ -13,7 +13,7 @@ $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 //TODO -> überflüsssig?
 // $options = '';
 // if ($dbi->checkUserPermission('edit')) {
-// 		$options .= createSmallButton(L_EDIT,'nmv_edit_victim?ID_victim={ID_victim}','icon edit');
+// 		$options .= createSmallButton(L_EDIT,'nmv_edit_victim?type=prisoner_assistant&ID_victim={ID_victim}','icon edit');
 // }
 // if ($dbi->checkUserPermission('admin')) {
 // 		$options .= createSmallButton(L_DELETE,'nmv_remove_victim?ID_victim={ID_victim}','icon delete');
@@ -21,8 +21,15 @@ $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 // $options .= createSmallButton("medical history",'nmv_list_med_hist?ID_victim={ID_victim}','icon report-paper');
 
 // Select-Klauseln erstellen
-$querystring_count = "SELECT COUNT(v.ID_victim) AS total FROM nmv__victim v WHERE v.was_prisoner_assistant != 'prisoner assistant only'"; // für Treffer gesamt
-$querystring_items = "SELECT v.ID_victim, v.surname, v.first_names, v.birth_place, v.birth_year, v.birth_month, v.birth_day, m.english AS marital_family_status, e.english AS education, bc.english AS birth_country, v.death_year, v.death_month, v.death_day, v.death_place, dc.english AS death_country, v.cause_of_death, v.gender, r.english AS religion, n.english AS nationality_1938, et.english AS ethnic_group, o.english AS occupation, v.occupation_details, v.twin, v.arrest_location, ac.english AS arrest_country, v.residence_after_1945_place, v.residence_after_1945_country, v.occupation_after_1945, na.english AS nationality_after_1945, v.mpg_project, da.work_group  AS dataset_origin, es.english as evaluation_status
+$querystring_count = "SELECT COUNT(v.ID_victim) AS total FROM nmv__victim v WHERE v.was_prisoner_assistant != 'victim only'"; // für Treffer gesamt
+$querystring_items = "	SELECT v.ID_victim, v.surname, v.first_names, v.birth_place, v.birth_year, v.birth_month, v.birth_day,
+	m.english AS marital_family_status, e.english AS education, bc.english AS birth_country,
+	v.death_year, v.death_month, v.death_day, v.death_place, dc.english AS death_country, v.cause_of_death,
+	v.gender, r.english AS religion, n.english AS nationality_1938, et.english AS ethnic_group,
+	o.english AS occupation, v.occupation_details, v.twin, v.arrest_location,
+	ac.english AS arrest_country, v.residence_after_1945_place, v.residence_after_1945_country,
+	v.occupation_after_1945, na.english AS nationality_after_1945, v.mpg_project,
+	da.work_group  AS dataset_origin, es.english as evaluation_status
 	FROM nmv__victim v
 	LEFT JOIN nmv__marital_family_status m ON m.ID_marital_family_status = v.ID_marital_family_status
 	LEFT JOIN nmv__education e ON e.ID_education = v.ID_education
@@ -37,13 +44,14 @@ $querystring_items = "SELECT v.ID_victim, v.surname, v.first_names, v.birth_plac
 	LEFT JOIN nmv__dataset_origin da ON da.ID_dataset_origin = v.ID_dataset_origin
 	LEFT JOIN nmv__evaluation ev ON ev.ID_victim = v.ID_victim
   LEFT JOIN nmv__victim_evaluation_status es ON es.ID_status = ev.evaluation_status
-	WHERE v.was_prisoner_assistant != 'prisoner assistant only'"; // für Ergebnisliste
+  WHERE v.was_prisoner_assistant != 'victim only'"; // für Ergebnisliste
 
 //complete db d
 if ($dbi->checkUserPermission('mpg')) :
 	$querystring_count .= ' AND mpg_project = -1';
 	$querystring_items .= ' AND mpg_project = -1';
 endif;
+
 
 // Gesamtanzahl der Suchergebnisse feststellen
 $query_count = $dbi->connection->query($querystring_count);
@@ -61,14 +69,14 @@ $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']} LIM
 $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 
 $layout
-	->set('title','Victims')
+	->set('title','Prisoner Assistants')
 	->set('content',
 			($dbi->checkUserPermission('edit')
-	        ? '<div class="buttons">'.createButton ('New Victim','nmv_edit_victim?type=victim','icon addUser').'</div>'
+	        ? '<div class="buttons">'.createButton ('New Prisoner Assistant','nmv_edit_victim?type=prisoner_assistant','icon addUser').'</div>'
 	        : '') .
-	    $dbi->getListView('nmv_victims_table',$query_items)
+	    $dbi->getListView('nmv_victims_table', $query_items, 'prisoner_assistant')
 	    .($dbi->checkUserPermission('edit')
-	        ? '<div class="buttons">'.createButton ('New Victim','nmv_edit_victim','icon addUser').'</div>'
+	        ? '<div class="buttons">'.createButton ('New Prisoner Assistant','nmv_edit_victim?type=prisoner_assistant','icon addUser').'</div>'
 	        : '')
 	    .createBackLink (L_CONTENTS,'z_menu_contents')
 	)

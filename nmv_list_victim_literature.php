@@ -7,9 +7,10 @@ $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 
 $victim_id = (int) getUrlParameter('ID_victim', 0);
 $literature_id = (int) getUrlParameter('ID_literature', 0);
+$role = getUrlParameter('role');
 
-$victim_name = 'Error: Missing victim.';
-$literature_name = 'Error: Missing literature.';
+$victim_name = 'No entries found.';
+$literature_name = 'No entries found.';
 $content = '';
 
 if ($victim_id) {
@@ -89,33 +90,28 @@ if ($literature_id) {
         $dbi->addBreadcrumb ($literature_name,'nmv_view_literature?ID_literature='.$literature_id);
 
         // query: get linked data
+          $querystring = "
+          SELECT vl.ID_vict_lit ID_vict_lit,
+              CONCAT(v.ID_victim, ': ', v.first_names, ' ', v.surname) victim_name,
+              v.birth_place birth_place,
+              CONCAT_WS('.', v.birth_day, v.birth_month, v.birth_year) birth_date,
+              vl.pages pages, vl.ID_victim, IF(vl.literature_has_photo = -1, 'yes', '-') AS literature_has_photo
+          FROM nmv__victim_literature vl
+          LEFT JOIN nmv__literature l ON l.ID_literature = vl.ID_literature
+          LEFT JOIN nmv__victim v ON v.ID_victim = vl.ID_victim
+          WHERE vl.ID_literature = $literature_id";
+
         //complete db d (AND v.mpg_project = -1)
         if($dbi->checkUserPermission('mpg')){
-            $querystring = "
-            SELECT vl.ID_vict_lit ID_vict_lit,
-                CONCAT(v.ID_victim, ': ', v.first_names, ' ', v.surname) victim_name,
-                v.birth_place birth_place,
-                CONCAT_WS('.', v.birth_day, v.birth_month, v.birth_year) birth_date,
-                vl.pages pages, vl.ID_victim, IF(vl.literature_has_photo = -1, 'yes', '-') AS literature_has_photo
-            FROM nmv__victim_literature vl
-            LEFT JOIN nmv__literature l ON l.ID_literature = vl.ID_literature
-            LEFT JOIN nmv__victim v ON v.ID_victim = vl.ID_victim
-            WHERE vl.ID_literature = $literature_id
-            AND v.mpg_project = -1
-            ORDER BY victim_name";
-          }else{
-            $querystring = "
-            SELECT vl.ID_vict_lit ID_vict_lit,
-                CONCAT(v.ID_victim, ': ', v.first_names, ' ', v.surname) victim_name,
-                v.birth_place birth_place,
-                CONCAT_WS('.', v.birth_day, v.birth_month, v.birth_year) birth_date,
-                vl.pages pages, vl.ID_victim, IF(vl.literature_has_photo = -1, 'yes', '-') AS literature_has_photo
-            FROM nmv__victim_literature vl
-            LEFT JOIN nmv__literature l ON l.ID_literature = vl.ID_literature
-            LEFT JOIN nmv__victim v ON v.ID_victim = vl.ID_victim
-            WHERE vl.ID_literature = $literature_id
-            ORDER BY victim_name";
-          }
+          $querystring .= " AND v.mpg_project = -1";
+        }
+        if($role == 'victim') {
+          $querystring .= " AND v.was_prisoner_assistant != 'prisoner assistant only'";
+        } elseif($role == 'prisoner_assistant') {
+          $querystring .= " AND v.was_prisoner_assistant != 'victim only'";
+        }
+
+        $querystring .= " ORDER BY victim_name";
 
         $options = '';
         $row_template = ['{victim_name}', '{birth_place}', '{birth_date}', '{pages}', '{literature_has_photo}'];
@@ -138,15 +134,6 @@ if ($literature_id) {
             $row_template,
             $header_template,
             'grid');
-
-        // Not supported by nmv_edit_victim_literature yet
-        /*
-        if ($dbi->checkUserPermission('edit')) {
-        	$content .= '<div class="buttons">';
-        	$content .= createButton ('New literature Entry',
-        	    'nmv_edit_victim_literature?ID_literature='.$literature_id,'icon add');
-        	$content .= '</div>';
-        }*/
     }
 
     $content .= createBackLink ('View literature: '.$literature_name,'nmv_view_literature?ID_literature='.$literature_id);

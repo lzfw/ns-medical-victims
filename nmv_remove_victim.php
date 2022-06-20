@@ -19,10 +19,10 @@ function prompt($dbi, $item) {
     $victim = htmlspecialchars($item->ID_victim, ENT_HTML5).': '.
         htmlspecialchars($item->first_names, ENT_HTML5).' '.
         htmlspecialchars($item->surname, ENT_HTML5);
-    return 'Remove Victim'.': "<em>'.$victim.'</em>".';
+    return 'Remove complete person\'s entry with all links'.': "<em>'.$victim.'</em>".';
 }
 
-remove_record('ID_victim', 'ID_victim', 'nmv__victim', 'victim', 'nmv_list_victims', 'nmv_view_victim?ID_victim=', 'prompt', 'breadcrumb');
+remove_record('ID_victim', 'ID_victim', 'nmv__victim', 'complete persons\' entry', 'nmv_list_victims', 'nmv_view_victim?ID_victim=', 'prompt', 'breadcrumb');
 
 $dbi->addBreadcrumb (L_ADMIN,'z_menu_admin');
 $dbi->addBreadcrumb (L_USER_ACCOUNTS,'z_list_users');

@@ -158,7 +158,7 @@ if ($victim_id) {
         }
     }
 
-    $content .= createBackLink ('View Victim: '.$victim_name,'nmv_view_victim?ID_victim='.$victim_id);
+    $content .= createBackLink ('View Personal Data: '.$victim_name,'nmv_view_victim?ID_victim='.$victim_id);
 }
 
 $layout

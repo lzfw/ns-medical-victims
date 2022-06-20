@@ -14,7 +14,7 @@ class View_List_NMV_Victims_Table extends View_List {
 
 	// VIEW ----------------------------------------------------------------------
 
-	public function get_HTML ($results) {
+	public function get_HTML ($results, $type = 'victim') {
 	    global $dbi;
 
 		// toggle columns
@@ -54,10 +54,10 @@ class View_List_NMV_Victims_Table extends View_List {
 
 		// create buttons for action on entriey
     $options = '';
-    $options .= createSmallButton('View Victim','nmv_view_victim?ID_victim={ID_victim}','icon view');
+    $options .= createSmallButton($type == 'victim' ? 'View Victim' : 'View Prisoner Assistant', 'nmv_view_victim?ID_victim={ID_victim}', 'icon view');
 
     if ($dbi->checkUserPermission('edit')) {
-    		$options .= createSmallButton(L_EDIT,'nmv_edit_victim?ID_victim={ID_victim}','icon edit');
+    		$options .= createSmallButton(L_EDIT, $type == 'victim' ? 'nmv_edit_victim?ID_victim={ID_victim}' : 'nmv_edit_victim?ID_victim={ID_victim}&type=prisoner_assistant', 'icon edit');
     }
     if ($dbi->checkUserPermission('admin')) {
     		$options .= createSmallButton(L_DELETE,'nmv_remove_victim?ID_victim={ID_victim}','icon delete');

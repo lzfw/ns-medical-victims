@@ -94,6 +94,10 @@ div.message {
 	text-align: center;
 }
 
+div.indent {
+	margin-left: 3rem;
+}
+
 /* general custom classes */
 .nowrap{
 	white-space: nowrap;
@@ -276,6 +280,10 @@ p.icon {
 p.small {
 	padding:2px 0;
 }
+
+span.red {
+	 color: red;
+ }
 
 /* TABLES ------------------------------------------------------------------- */
 

@@ -40,7 +40,7 @@ $form
 	->setPrimaryKeyName('ID_name');
 
 $form->addField ('ID_victim',PROTECTED_TEXT)
-    ->setLabel ('victim ID');
+    ->setLabel ('ID person');
 $form->addField ('nametype',SELECT)
     ->setLabel ('name type')
     ->addOption (NO_VALUE,'please choose')

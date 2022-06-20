@@ -7,9 +7,10 @@ $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 
 $victim_id = (int) getUrlParameter('ID_victim', 0);
 $source_id = (int) getUrlParameter('ID_source', 0);
+$role = getUrlParameter('role');
 
-$victim_name = 'Error: Missing victim.';
-$source_name = 'Error: Missing source.';
+$victim_name = 'No person found.';
+$source_name = 'No source found.';
 $content = '';
 
 if ($victim_id) {
@@ -105,38 +106,32 @@ if ($source_id) {
         $dbi->addBreadcrumb ($source_name,'nmv_view_source?ID_source='.$source_id);
 
         // query: get linking data
-        //complete db d(AND v.mpg_project = -1)
-        if ($dbi->checkUserPermission('mpg')) :
-          $querystring = "SELECT vs.ID_vict_source ID_vict_source,
-                v.surname surname, v.first_names first_names,
-                v.birth_place birth_place, v.birth_year birth_year,
-                CONCAT_WS('.', v.birth_day, v.birth_month, v.birth_year) birth_date,
-                vs.location location, vs.ID_victim ID_victim, IF(vs.source_has_photo = -1, 'yes', '-') AS source_has_photo
-            FROM nmv__victim_source vs
-            LEFT JOIN nmv__source s ON s.ID_source = vs.ID_source
-            LEFT JOIN nmv__victim v ON v.ID_victim = vs.ID_victim
-            WHERE vs.ID_source = $source_id
-            AND v.mpg_project = -1";
+        $querystring = "SELECT vs.ID_vict_source ID_vict_source,
+              v.surname surname, v.first_names first_names,
+              v.birth_place birth_place, v.birth_year birth_year,
+              CONCAT_WS('.', v.birth_day, v.birth_month, v.birth_year) birth_date,
+              vs.location location, vs.ID_victim ID_victim, IF(vs.source_has_photo = -1, 'yes', '-') AS source_has_photo
+          FROM nmv__victim_source vs
+          LEFT JOIN nmv__source s ON s.ID_source = vs.ID_source
+          LEFT JOIN nmv__victim v ON v.ID_victim = vs.ID_victim
+          WHERE vs.ID_source = $source_id";
           $querystring_count = "SELECT COUNT(vs.ID_victim) AS total
                                 FROM nmv__victim_source vs
                                 LEFT JOIN nmv__victim v ON v.ID_victim = vs.ID_victim
-                                WHERE vs.ID_source = $source_id
-                                AND v.mpg_project = -1";
-        else :
-          $querystring = "SELECT vs.ID_vict_source ID_vict_source,
-                v.surname surname, v.first_names first_names,
-                v.birth_place birth_place, v.birth_year birth_year,
-                CONCAT_WS('.', v.birth_day, v.birth_month, v.birth_year) birth_date,
-                vs.location location, vs.ID_victim ID_victim, IF(vs.source_has_photo = -1, 'yes', '-') AS source_has_photo
-            FROM nmv__victim_source vs
-            LEFT JOIN nmv__source s ON s.ID_source = vs.ID_source
-            LEFT JOIN nmv__victim v ON v.ID_victim = vs.ID_victim
-            WHERE vs.ID_source = $source_id";
-            $querystring_count = "SELECT COUNT(vs.ID_victim) AS total
-                                  FROM nmv__victim_source vs
-                                  LEFT JOIN nmv__victim v ON v.ID_victim = vs.ID_victim
-                                  WHERE vs.ID_source = $source_id";
-        endif;
+                                WHERE vs.ID_source = $source_id";
+
+        //complete db d(AND v.mpg_project = -1)
+        if($dbi->checkUserPermission('mpg')) {
+          $querystring .= " AND v.mpg_project = -1";
+          $querystring_count .= " AND v.mpg_project = -1";
+        }
+        if($role == 'victim') {
+          $querystring .= " AND v.was_prisoner_assistant != 'prisoner assistant only'";
+          $querystring_count .= " AND v.was_prisoner_assistant != 'prisoner assistant only'";
+        } elseif($role == 'prisoner_assistant') {
+          $querystring .= " AND v.was_prisoner_assistant != 'victim only'";
+          $querystring_count .= " AND v.was_prisoner_assistant != 'victim only'";
+        }
 
         // Gesamtanzahl der Suchergebnisse feststellen
         $query_count = $dbi->connection->query($querystring_count);

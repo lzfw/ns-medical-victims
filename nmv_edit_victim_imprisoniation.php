@@ -33,14 +33,14 @@ if ($victim_id) {
 
 
 $form
-	->setLabel('Victim Imprisonment: ' . $victim_name);
+	->setLabel('Imprisonment: ' . $victim_name);
 
 $form
 	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
 	->setPrimaryKeyName('ID_imprisoniation');
 
 $form->addField ('ID_victim',PROTECTED_TEXT)
-    ->setLabel ('Victim ID');
+    ->setLabel ('ID person');
 $form->addField ('ID_classification',SELECT)
     ->setLabel ('Classification')
     ->addOption (NO_VALUE,'please choose')
@@ -76,6 +76,6 @@ $dbi->addBreadcrumb ('Victims','nmv_list_victims');
 $dbi->addBreadcrumb ('Victim Classification: '.$victim_name,'nmv_view_victim?ID_victim='.$victim_id);
 
 $layout
-	->set('title',getUrlParameter('ID_imprisoniation') ? 'Edit Victim Imprisonment' : 'New Victim Imprisonment')
+	->set('title',getUrlParameter('ID_imprisoniation') ? 'Edit Imprisonment' : 'New Imprisonment')
 	->set('content',$form->run().'<div class="message">'.$form->success_message.'</div>'.$form->debuglog->Show())
 	->cast();

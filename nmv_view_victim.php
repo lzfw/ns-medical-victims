@@ -5,6 +5,7 @@ $dbi->requireUserPermission ('view');
 
 $dbi->setUserVar ('ID_victim',getUrlParameter('ID_victim'),NULL);
 $victim_id = (int) getUrlParameter('ID_victim',0);
+$victim_role = '';
 
 $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 $dbi->addBreadcrumb ('Victims','nmv_list_victims');
@@ -23,7 +24,7 @@ $querystring = "
            v.occupation_after_1945, n45.english nationality_after_1945,
            v.consequential_injuries, IFNULL(v.compensation, 'not specified') AS compensation, v.compensation_details,
            v.notes_after_1945, v.mpg_project, v.arrest_prehistory, v.arrest_location, ac.english as arrest_country, v.arrest_history,
-           IF(v.photo_exists, 'Yes', '-') AS photo_exists, v.notes_photo
+           IF(v.photo_exists, 'Yes', '-') AS photo_exists, v.notes_photo, v.was_prisoner_assistant
     FROM nmv__victim v
     LEFT JOIN nmv__marital_family_status m ON (m.ID_marital_family_status = v.ID_marital_family_status )
     LEFT JOIN nmv__education ed ON (ed.ID_education = v.ID_education)
@@ -75,7 +76,7 @@ if ($victim = $result->fetch_object()) {
         ($victim->{"cause_of_death"}?', cause of death: '.$victim->{"cause_of_death"}:'');
     $content = buildElement('h3', 'Personal Data');
     $content .= buildElement('table','grid',
-        buildDataSheetRow('Victim ID',              $victim_id).
+        buildDataSheetRow('ID',              $victim_id).
         buildDataSheetRow('Name',                   $victim_name).
         buildDataSheetRow('MPG project',            $victim->mpg_project ? 'Yes' : '-').
         buildDataSheetRow('Gender',                 $victim->gender).
@@ -121,6 +122,7 @@ if ($victim = $result->fetch_object()) {
       );
     endif;
 
+    $content .= '<div class="indent">';
     $content .= '<br>'.buildElement('h3', 'Other Names');
     // query: get other names
     $querystring = "
@@ -160,7 +162,7 @@ if ($victim = $result->fetch_object()) {
     	$content .= '</div>';
     }
 
-    $content .= '<br>'.buildElement('h3', 'Victim Imprisonment');
+    $content .= '<br>'.buildElement('h3', 'Imprisonment');
     // query: get prison numbers
     $querystring = "
     SELECT ID_imprisoniation, ID_victim, number, location,
@@ -266,27 +268,32 @@ if ($victim = $result->fetch_object()) {
     $content = buildElement('p','Error: Victim not found. Maybe it has been deleted from the database?');
 }
 
-$content .= '<div class="buttons">';
+$content .= '</div><div class="buttons">';
 if ($dbi->checkUserPermission('edit'))
-    $content .= createButton ('Edit Victim','nmv_edit_victim?ID_victim='.$victim_id,'icon edit');
+    $content .= createButton ('Edit personal data','nmv_edit_victim?ID_victim='.$victim_id,'icon edit');
 if ($dbi->checkUserPermission('admin'))
-    $content .= createButton(L_DELETE,'nmv_remove_victim?ID_victim='.$victim_id,'icon delete');
+    $content .= createButton('Delete complete entry','nmv_remove_victim?ID_victim='.$victim_id,'icon delete');
 $content .= '<br>';
-//$content .= createButton("other names",'nmv_list_victim_other_names?ID_victim='.$victim_id,'icon report-paper');
 $content .= createButton("Medical History",'nmv_list_med_hist?ID_victim='.$victim_id,'icon report-paper');
 //complete db d 2
 if (!($dbi->checkUserPermission('mpg'))) :
   $content .= createButton("Biomedical Research",'nmv_list_victim_experiment?ID_victim='.$victim_id,'icon report-paper');
 endif;
-//$content .= createButton("Literature",'nmv_list_victim_literature?ID_victim='.$victim_id,'icon report-paper');
-//$content .= createButton("Sources",'nmv_list_victim_source?ID_victim='.$victim_id,'icon report-paper');
 $content .= createButton("Literature and Sources", 'nmv_list_victim_literature_and_sources?ID_victim='.$victim_id, 'icon report-paper');
 $content .= '</div>';
 
-$content .= createBackLink ("List of Victims",'nmv_list_victims');
+$content .= createBackLink ("List of Persons",'nmv_list_victims');
 
+$title = 'Victim: ' . $victim_name;
+if($victim->was_prisoner_assistant =='prisoner assistant only'){
+  $title = '<span class="red">Prisoner Assistant:</span> ' . $victim_name;
+  $content = 'Prisoner Assistants were forced to participate in the conduction of unethical biomedical research' . $content;
+} else if($victim->was_prisoner_assistant == 'prisoner assistant AND victim') {
+  $title = 'Victim and <span class="red">Prisoner Assistant: </span>' .$victim_name;
+  $content = $victim_name . ' was victim of experiments and was also forced to participate in the conduction of unethical biomedical research' . $content;
+}
 
 $layout
-	->set('title','Victim: '.$victim_name)
+	->set('title', $title)
 	->set('content',$content)
 	->cast();

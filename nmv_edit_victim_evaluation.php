@@ -40,33 +40,7 @@ $form
 	->setPrimaryKeyName('ID_evaluation');
 
 $form->addField ('ID_victim',PROTECTED_TEXT)
-    ->setLabel ('Victim ID');
-/*
-$form->addField ('confirmed_victim',CHECKBOX,1)
-    ->setLabel ('Confirmed Victim');
-$form->addField ('confirmed_due_to',TEXTAREA)
-    ->setLabel ('Confirmed Due To');
-$form->addField ('confirmed_vic_notes',TEXTAREA)
-    ->setLabel ('Notes on Confirmation');
-$form->addField ('not_a_victim',CHECKBOX,1)
-    ->setLabel ('Not a victim');
-$form->addField ('not_a_victim_due_to',TEXTAREA)
-    ->setLabel ('Not a victim due to');
-$form->addField ('not_a_vic_notes',TEXTAREA)
-    ->setLabel ('Notes about not being a victim');
-*/
-/* Aleks: Paul: I did comment on the category of "pending",
-                suggesting we replace it because we are more
-                sure of our judgement.
-$form->addField ('pending',CHECKBOX,1)
-    ->setLabel ('Pending');
-$form->addField ('pending_due_to',TEXTAREA)
-    ->setLabel ('Pending Due To');
-$form->addField ('pending_current_assessment',TEXT,250)
-    ->setLabel ('Pending Current Assessment');
-$form->addField ('pending_notes',TEXTAREA)
-    ->setLabel ('Pending Notes');
-*/
+    ->setLabel ('ID person');
 $form->addField ('evaluation_status',SELECT)
     ->setLabel ('Status')
     ->addOption (NO_VALUE,'please choose')

@@ -90,10 +90,11 @@ if ($experiment = $result->fetch_object()) {
 
 $content .= '<div class="buttons">';
 if ($dbi->checkUserPermission('edit'))
-    $content .= createButton('Edit Biomedical Research','nmv_edit_experiment?ID_experiment='.$experiment_id,'icon edit');
+    $content .= createButton('Edit','nmv_edit_experiment?ID_experiment='.$experiment_id,'icon edit');
 if ($dbi->checkUserPermission('admin'))
     $content .= createButton(L_DELETE,'nmv_remove_experiment?ID_experiment='.$experiment_id,'icon delete');
 $content .= createButton("Victims",'nmv_list_victim_experiment?ID_experiment='.$experiment_id,'icon report-paper');
+$content .= createButton("Prisoner Assistants",'nmv_list_prisoner_assistant_experiment?ID_experiment='.$experiment_id,'icon report-paper');
 $content .= createButton("Perpetrators",'nmv_list_perpetrator_experiment?ID_experiment='.$experiment_id,'icon report-paper');
 $content .= createButton("Literature",'nmv_list_experiment_literature?ID_experiment='.$experiment_id,'icon report-paper');
 $content .= createButton("Sources",'nmv_list_experiment_source?ID_experiment='.$experiment_id,'icon report-paper');
