@@ -32,7 +32,8 @@ if ($perpetrator_id) {
         $querystring = "
         SELECT pl.ID_perp_lit ID_perp_lit,
             COALESCE(l.lit_title, 'unspecified') title, l.authors authors, l.lit_year year,
-            pl.pages pages, pl.ID_literature ID_literature, IF(pl.literature_has_photo = -1, 'yes', '-') AS literature_has_photo
+            pl.pages pages, pl.ID_literature ID_literature, IF(pl.literature_has_photo = -1, 'yes', '-') AS literature_has_photo,
+            pl.url, CONCAT(IFNULL(pl.access_day, '-'), '.', IFNULL(pl.access_month, '-'), '.', IFNULL(pl.access_year, '-')) as access_date
         FROM nmv__perpetrator_literature pl
         LEFT JOIN nmv__literature l ON l.ID_literature = pl.ID_literature
         LEFT JOIN nmv__perpetrator p ON p.ID_perpetrator = pl.ID_perpetrator
@@ -40,8 +41,8 @@ if ($perpetrator_id) {
         ORDER BY title, authors, year";
 
         $options = '';
-        $row_template = ['{title}', '{authors}', '{year}', '{pages}', '{literature_has_photo}'];
-        $header_template = ['Title', 'Authors', 'Year', 'Pages in Literature', 'Literature Contains Photo'];
+        $row_template = ['{title}', '{authors}', '{year}', '{pages}', '{url}', '{access_date}', '{literature_has_photo}'];
+        $header_template = ['Title', 'Authors', 'Year', 'Pages in Literature', 'URL', 'Access date', 'Literature Contains Photo'];
 
         $options .= createSmallButton('View Literature','nmv_view_literature?ID_literature={ID_literature}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {

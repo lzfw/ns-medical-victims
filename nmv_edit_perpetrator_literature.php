@@ -47,6 +47,19 @@ $form->addField ('ID_literature',SELECT,REQUIRED)
     ->addOptionsFromTable ( 'nmv__literature', 'ID_literature', "LEFT(concat(IFNULL(LEFT(lit_title, 60), '#'),' - ',IFNULL(LEFT(authors,40), '#'),' - ',IFNULL(lit_year, '#')),100)");
 $form->addField ('pages',TEXT,250)
     ->setLabel ('pages');
+$form->addField ('url',TEXTAREA)
+    ->setClass ('keyboardInput')
+    ->setLabel ('URL');
+$form->addField ('access_day',TEXT,2)
+		->addCondition(VALUE, MIN, 1)
+		->addCondition(VALUE, MAX, 31)
+    ->setLabel ('Access date DDMMYYYY');
+$form->addField ('access_month',TEXT,2)
+		->addCondition(VALUE, MIN, 1)
+		->addCondition(VALUE, MAX, 12)
+		->appendTo('access_day');
+$form->addField ('access_year',TEXT,4)
+		->appendTo('access_day');
 $form->addField('literature_has_photo', CHECKBOX, -1)
     ->setLabel('literature contains photo');
 

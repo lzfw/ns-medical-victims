@@ -48,6 +48,19 @@ $form->addField ('ID_source', SELECT, REQUIRED)
 $form->addField ('location', TEXT, 250)
     ->setClass ('keyboardInput')
     ->setLabel ('location');
+$form->addField ('url',TEXTAREA)
+    ->setClass ('keyboardInput')
+    ->setLabel ('URL');
+$form->addField ('access_day',TEXT,2)
+		->addCondition(VALUE, MIN, 1)
+		->addCondition(VALUE, MAX, 31)
+    ->setLabel ('Access date DDMMYYYY');
+$form->addField ('access_month',TEXT,2)
+		->addCondition(VALUE, MIN, 1)
+		->addCondition(VALUE, MAX, 12)
+		->appendTo('access_day');
+$form->addField ('access_year',TEXT,4)
+		->appendTo('access_day');
 $form->addField('source_has_photo', CHECKBOX, -1)
     ->setLabel('source contains photo');
 

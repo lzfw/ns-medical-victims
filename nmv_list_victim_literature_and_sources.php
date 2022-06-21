@@ -33,7 +33,8 @@ if ($victim_id) {
         $querystring_literature = "
         SELECT vl.ID_vict_lit ID_vict_lit,
             COALESCE(l.lit_title, 'unspecified') title, l.authors authors, l.lit_year year,
-            vl.pages pages, vl.ID_literature ID_literature, IF(vl.literature_has_photo = -1, 'yes', '-') AS literature_has_photo
+            vl.pages pages, vl.ID_literature ID_literature, IF(vl.literature_has_photo = -1, 'yes', '-') AS literature_has_photo,
+            vl.url, CONCAT(IFNULL(vl.access_day, '-'), '.', IFNULL(vl.access_month, '-'), '.', IFNULL(vl.access_year, '-')) as access_date
         FROM nmv__victim_literature vl
         LEFT JOIN nmv__literature l ON l.ID_literature = vl.ID_literature
         LEFT JOIN nmv__victim v ON v.ID_victim = vl.ID_victim
@@ -42,8 +43,8 @@ if ($victim_id) {
         ORDER BY title, authors, year";
 
         $options = '';
-        $row_template = ['{title}', '{authors}', '{year}', '{pages}', '{literature_has_photo}'];
-        $header_template = ['Title', 'Authors', 'Year', 'Pages', 'Contains Photo'];
+        $row_template = ['{title}', '{authors}', '{year}', '{pages}', '{url}', '{access_date}', '{literature_has_photo}'];
+        $header_template = ['Title', 'Authors', 'Year', 'Pages', 'URL', 'Access date', 'Contains Photo'];
 
         $options .= createSmallButton('view literature','nmv_view_literature?ID_literature={ID_literature}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
@@ -84,7 +85,8 @@ if ($victim_id) {
         $querystring_source = "
         SELECT vs.ID_vict_source ID_vict_source,
             COALESCE(s.source_title, 'unspecified') title, s.creation_year year, s.medium medium,
-            vs.location location, vs.ID_source ID_source, IF(vs.source_has_photo = -1, 'yes', '-') AS source_has_photo
+            vs.location location, vs.ID_source ID_source, IF(vs.source_has_photo = -1, 'yes', '-') AS source_has_photo,
+            vs.url, CONCAT(IFNULL(vs.access_day, '-'), '.', IFNULL(vs.access_month, '-'), '.', IFNULL(vs.access_year, '-')) as access_date
         FROM nmv__victim_source vs
         LEFT JOIN nmv__source s ON s.ID_source = vs.ID_source
         LEFT JOIN nmv__victim v ON v.ID_victim = vs.ID_victim
@@ -94,8 +96,8 @@ if ($victim_id) {
         $content .= '<br><br><br><br><br><h2>Sources List: "' . $victim_name . '"</h2>';
 
         $options = '';
-        $row_template = ['{title}', '{year}', '{medium}', '{location}', '{source_has_photo}'];
-        $header_template = ['Title', 'Year', 'Medium', 'Location', 'Contains Photo'];
+        $row_template = ['{title}', '{year}', '{medium}', '{location}', '{url}', '{access_date}', '{source_has_photo}'];
+        $header_template = ['Title', 'Year', 'Medium', 'Location', 'URL', 'Access date', 'Contains Photo'];
 
         $options .= createSmallButton('view source','nmv_view_source?ID_source={ID_source}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {

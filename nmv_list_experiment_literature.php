@@ -109,7 +109,8 @@ if ($experiment_id) {
         // query: get hosp data
         $querystring = "
         SELECT el.ID_exp_lit ID_exp_lit, l.lit_title title, l.authors authors,
-            el.pages pages, el.ID_literature ID_literature
+            el.pages pages, el.ID_literature ID_literature,
+            el.url, CONCAT(IFNULL(el.access_day, '-'), '.', IFNULL(el.access_month, '-'), '.', IFNULL(el.access_year, '-')) as access_date
         FROM nmv__experiment_literature el
         LEFT JOIN nmv__experiment e ON e.ID_experiment = el.ID_experiment
         LEFT JOIN nmv__literature l ON l.ID_literature = el.ID_literature
@@ -124,8 +125,8 @@ if ($experiment_id) {
         $total_results = $query_count->fetch_object();
 
         $options = '';
-        $row_template = ['<a href="nmv_view_literature?ID_literature={ID_literature}">{title}</a>', '{authors}', '{pages}'];
-        $header_template = ['Title', 'Authors', 'Pages'];
+        $row_template = ['<a href="nmv_view_literature?ID_literature={ID_literature}">{title}</a>', '{authors}', '{pages}', '{url}', '{access_date}'];
+        $header_template = ['Title', 'Authors', 'Pages', 'URL', 'Access Date'];
 
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
         	if ($dbi->checkUserPermission('edit')) {

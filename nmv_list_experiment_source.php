@@ -31,7 +31,8 @@ if ($source_id) {
         // query: get hosp data
         $querystring = "
         SELECT es.ID_exp_source ID_exp_source, es.location location, e.ID_experiment ID_experiment,
-            CONCAT(COALESCE(e.experiment_title, 'unspecified'), '<br>institution: ', COALESCE(i.institution_name, '-')) title, c.english classification
+            CONCAT(COALESCE(e.experiment_title, 'unspecified'), '<br>institution: ',
+            COALESCE(i.institution_name, '-')) title, c.english classification
         FROM nmv__experiment_source es
         LEFT JOIN nmv__experiment e ON e.ID_experiment = es.ID_experiment
         LEFT JOIN nmv__source s ON s.ID_source = es.ID_source
@@ -111,7 +112,8 @@ if ($experiment_id) {
         // query: get hosp data
         $querystring = "
         SELECT es.ID_exp_source ID_exp_source, s.source_title title, s.ID_source ID_source,
-        s.medium medium, s.creation_year year, es.location location
+        s.medium medium, s.creation_year year, es.location location,
+        es.url, CONCAT(IFNULL(es.access_day, '-'), '.', IFNULL(es.access_month, '-'), '.', IFNULL(es.access_year, '-')) as access_date
         FROM nmv__experiment_source es
         LEFT JOIN nmv__experiment e ON e.ID_experiment = es.ID_experiment
         LEFT JOIN nmv__source s ON s.ID_source = es.ID_source
@@ -127,8 +129,8 @@ if ($experiment_id) {
 
 
         $options = '';
-        $row_template = ['<a href="nmv_view_source?ID_source={ID_source}">{title}</a>', '{medium}', '{year}', '{location}'];
-        $header_template = ['Title', 'Medium', 'Year', 'Location'];
+        $row_template = ['<a href="nmv_view_source?ID_source={ID_source}">{title}</a>', '{medium}', '{year}', '{location}', '{url}', '{access_date}'];
+        $header_template = ['Title', 'Medium', 'Year', 'Location', 'URL', 'Access date'];
 
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
         	if ($dbi->checkUserPermission('edit')) {

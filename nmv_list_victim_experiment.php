@@ -59,39 +59,41 @@ if ($victim_id) {
                         ";
 
         //table victim
-        $options = '';
-        $row_template = ['{title}', '{institution}', '{classification}', '{duration}', '{age}'];
-        $header_template = ['Title', 'Institution', 'Classification', 'Duration', 'Age'];
+        if($victim->role != 'prisoner assistant only') {
+          $options = '';
+          $row_template = ['{title}', '{institution}', '{classification}', '{duration}', '{age}'];
+          $header_template = ['Title', 'Institution', 'Classification', 'Duration', 'Age'];
 
-        $options .= createSmallButton('View Victim-Experiment-Link','nmv_view_victim_experiment?ID_vict_exp={ID_vict_exp}','icon view');
-        if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
-        	if ($dbi->checkUserPermission('edit')) {
-        			$options .= createSmallButton(L_EDIT,'nmv_edit_victim_experiment?ID_vict_exp={ID_vict_exp}','icon edit');
-        	}
-        	if ($dbi->checkUserPermission('admin')) {
-        			$options .= createSmallButton(L_DELETE,'nmv_remove_victim_experiment?ID_vict_exp={ID_vict_exp}','icon delete');
-        	}
+          $options .= createSmallButton('View Victim-Experiment-Link','nmv_view_victim_experiment?ID_vict_exp={ID_vict_exp}','icon view');
+          if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
+          	if ($dbi->checkUserPermission('edit')) {
+          			$options .= createSmallButton(L_EDIT,'nmv_edit_victim_experiment?ID_vict_exp={ID_vict_exp}','icon edit');
+          	}
+          	if ($dbi->checkUserPermission('admin')) {
+          			$options .= createSmallButton(L_DELETE,'nmv_remove_victim_experiment?ID_vict_exp={ID_vict_exp}','icon delete');
+          	}
+          }
+          $options .= '<br>' . createSmallButton('View Experiment','nmv_view_experiment?ID_experiment={ID_experiment}','icon view');
+
+      	$row_template[] = $options;
+      	$header_template[] = L_OPTIONS;
+        $content .= '<br><hr><br><h3>' . $victim_name . ' was victim of: </h3>';
+        $content .= '<p>Number of experiments: '.$experiment_count_v.'</p>';
+
+        // table view
+        $content .= buildTableFromQuery(
+            $querystring_v,
+            $row_template,
+            $header_template,
+            'grid');
+
+        // new entry - button
+        if ($dbi->checkUserPermission('edit')) {
+          $content .= '<div class="buttons">';
+          $content .= createButton ('New <strong>Victim</strong> of Biomedical Research Entry',
+              'nmv_edit_victim_experiment?ID_victim='.$victim_id,'icon add');
+          $content .= '</div>';
         }
-        $options .= '<br>' . createSmallButton('View Experiment','nmv_view_experiment?ID_experiment={ID_experiment}','icon view');
-
-    	$row_template[] = $options;
-    	$header_template[] = L_OPTIONS;
-      $content .= '<br><hr><br><h3>' . $victim_name . ' was victim of: </h3>';
-      $content .= '<p>Number of experiments: '.$experiment_count_v.'</p>';
-
-      // table view
-      $content .= buildTableFromQuery(
-          $querystring_v,
-          $row_template,
-          $header_template,
-          'grid');
-
-      // new entry - button
-      if ($dbi->checkUserPermission('edit')) {
-        $content .= '<div class="buttons">';
-        $content .= createButton ('New <strong>Victim</strong> of Biomedical Research Entry',
-            'nmv_edit_victim_experiment?ID_victim='.$victim_id,'icon add');
-        $content .= '</div>';
       }
 
       //-----------------------------------------------------------------------------------------------------------------------------
