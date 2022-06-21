@@ -15,6 +15,8 @@ $tag_array = array();
 $tagged = $dbi->connection->query("SELECT dh.ID_diagnosis
                                    FROM nmv__diagnosis_hosp dh
                                    WHERE dh.ID_med_history_hosp = $ID_hosp");
+$diagnosis = $dbi->connection->query("SELECT diagnosis FROM nmv__med_history_hosp WHERE ID_med_history_hosp = $ID_hosp")->fetch_object()->diagnosis;
+
 while ($tag = $tagged->fetch_row()) {
 	$tag_array[] = $tag[0];
 }
@@ -44,5 +46,6 @@ $dbi->addBreadcrumb(L_CONTENTS, 'z_menu_contents');
 
 $layout
 	->set('title', 'Tags (Diagnosis) for Hospitalisation ID ' . $ID_hosp)
-	->set('content', '<div>please select all diagnoses for the hospitalisation, <br>then click button "Update Tags" at the bottom of the page</div>' . $form->run() . '<div class="message">' . $form->success_message . '</div>' . $form->debuglog->Show())
+	->set('content', '<div>please select all diagnoses for the hospitalisation, <br>then click button "Update Tags" at the bottom of the page</div>
+                    <div>Freetext Diagnosis: '. $diagnosis . '</div>' . $form->run() . '<div class="message">' . $form->success_message . '</div>' . $form->debuglog->Show())
 	->cast();

@@ -8,19 +8,21 @@ $form = new Form ('nmv_edit_diagnosis_brain_tag');
 
 // query: get experiment data
 $ID_brain = (int) getUrlParameter('ID_med_history_brain', 0);
-
+$diagnosis = '';
 
 // query: get array of diagnoses of this brain report
 $tag_array = array();
 $tagged = $dbi->connection->query("SELECT db.ID_diagnosis
                                    FROM nmv__diagnosis_brain db
+                                   LEFT JOIN nmv__med_history_brain b ON b.ID_med_history_brain = db.ID_med_history_brain
                                    WHERE db.ID_med_history_brain = $ID_brain");
+ $diagnosis = $dbi->connection->query("SELECT diagnosis FROM nmv__med_history_brain WHERE ID_med_history_brain = $ID_brain")->fetch_object()->diagnosis;
+
 while ($tag = $tagged->fetch_row()) {
 	$tag_array[] = $tag[0];
 }
 
-
-//create create form
+//create form
 $form
 	->addConnection(MYSQL_DB, $db_host, $db_user, $db_pass, $db_name)
 	->setPrimaryKeyName('ID_brain_diagnosis');
@@ -44,5 +46,6 @@ $dbi->addBreadcrumb(L_CONTENTS, 'z_menu_contents');
 
 $layout
 	->set('title', 'Tags (Diagnosis) for Brain report ID ' . $ID_brain)
-	->set('content','<div>please select all diagnoses for the brain report, <br>then click button "Update Tags" at the bottom of the page</div>' . $form->run() . '<div class="message">' . $form->success_message . '</div>' . $form->debuglog->Show())
+	->set('content','<div>please select all diagnoses for the brain report, <br>then click button "Update Tags" at the bottom of the page</div>
+                   <div>Freetext Diagnosis: '. $diagnosis . '</div>' . $form->run() . '<div class="message">' . $form->success_message . '</div>' . $form->debuglog->Show())
 	->cast();
