@@ -111,7 +111,7 @@ foreach ($special_contain_fields as $field) {
 $dbi->setUserVar('querystring',implode('&',$query));
 
 // make select-clauses part one
-if ($_GET['ID_experiment'] || $_GET['exp_institution']): // query for experiment-related filters: shows and links victim-experiment data
+if (isset($_GET['ID_experiment']) || isset($_GET['exp_institution'])): // query for experiment-related filters: shows and links victim-experiment data
 	$querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
 																					v.birth_year, bc.english AS birth_country, v.birth_place,
 																					n.english AS nationality_1938, et.english AS ethnic_group,
@@ -354,7 +354,7 @@ if (isset($_GET['photo']) && $_GET['photo']) $suche_nach[] = 'photo contained';
 $dbi->addBreadcrumb (L_SEARCH,'search.php');
 
 // layout
-if ($_GET['ID_experiment'] || $_GET['exp_institution']): // special table for experiment-related filters: shows and links victim-experiment data
+if (isset($_GET['ID_experiment']) || isset($_GET['exp_institution'])): // special table for experiment-related filters: shows and links victim-experiment data
 
 	$layout
 		->set('title',L_RESULTS)
