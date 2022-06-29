@@ -115,7 +115,7 @@ if ($source_id) {
           LEFT JOIN nmv__source s ON s.ID_source = vs.ID_source
           LEFT JOIN nmv__victim v ON v.ID_victim = vs.ID_victim
           WHERE vs.ID_source = $source_id";
-          $querystring_count = "SELECT COUNT(vs.ID_victim) AS total
+          $querystring_count = "SELECT COUNT(DISTINCT v.ID_victim) AS total
                                 FROM nmv__victim_source vs
                                 LEFT JOIN nmv__victim v ON v.ID_victim = vs.ID_victim
                                 WHERE vs.ID_source = $source_id";
@@ -143,7 +143,7 @@ if ($source_id) {
         // query ausführen
         $query_items = $dbi->connection->query($querystring.$querystring_orderby);
 
-        $content .= 'Number of results: '. $total_results->total. '</p>';
+        $content .= 'Number of victims: '. $total_results->total. '</p>';
 
         $options = '';
         $row_template = ['{ID_victim}', '{surname}', '{birth_place}', '{birth_date}', '{location}', '{source_has_photo}'];
