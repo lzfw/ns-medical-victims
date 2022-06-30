@@ -12,10 +12,8 @@ $form
 	->setPrimaryKeyName('ID_diagnosis');
 $form->addfield ('ID_diagnosis', PROTECTED_TEXT)
     ->setLabel ('diagnosis ID');
-$form->addField ('english',TEXT,250)
-    ->setLabel ('english');
-$form->addField ('deutsch',TEXT,250)
-    ->setLabel ('deutsch');
+$form->addField ('diagnosis',TEXT,250)
+    ->setLabel ('diagnosis');
 
 
 
@@ -24,7 +22,7 @@ $form
 	->addButton (APPLY);
 
 $form
-	->addAction (DATABASE,'nmv__diagnosis')
+	->addAction (DATABASE,'nmv__diagnosis_tag')
 	->addAction (REDIRECT,'nmv_list_diagnosis');
 
 $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');

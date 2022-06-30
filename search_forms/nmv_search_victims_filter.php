@@ -121,6 +121,7 @@ if (!($dbi->checkUserPermission('mpg'))) :
                             'EXISTS (SELECT *
                                       FROM nmv__experiment
                                       WHERE nmv__experiment.ID_institution = nmv__institution.ID_institution)');
+
   $victimsVariableForm->addField('ID_foi', SELECT)
       ->setLabel('experiment - fields of interest')
       ->addOption(NO_VALUE, 'all fields of interest')
