@@ -25,12 +25,13 @@ $querystring_items = '	SELECT A.nationality as nationality, A.gender as gender, 
 												FROM	(SELECT n.english as nationality, v.gender as gender, COUNT(v.ID_victim) as number
 												        FROM nmv__victim v
 												        LEFT JOIN nmv__nationality n on v.nationality_1938 = n.ID_nationality
+																WHERE was_prisoner_assistant != "prisoner assistant only"
 												        GROUP BY n.english, v.gender) A
 												      LEFT JOIN
 												      	(SELECT n.english as nationality, v.gender as gender, COUNT(v.ID_victim) as number
 												        FROM nmv__victim v
 												        LEFT JOIN nmv__nationality n on v.nationality_1938 = n.ID_nationality
-												        WHERE v.mpg_project = -1
+												        WHERE v.mpg_project = -1 AND was_prisoner_assistant != "prisoner assistant only"
 												        GROUP BY n.english, v.gender) B
 												      ON A.nationality = B.nationality AND A.gender = B.gender
 															OR ((A.gender IS NULL AND B.gender IS NULL) AND (A.nationality IS NULL AND B.nationality IS NULL))

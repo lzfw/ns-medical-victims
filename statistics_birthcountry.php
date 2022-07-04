@@ -25,12 +25,13 @@ $querystring_items = 'SELECT A.birthcountry as birthcountry, A.number as anumber
                       FROM	(SELECT c.english as birthcountry, COUNT(v.ID_victim) as number
                               FROM nmv__victim v
                               LEFT JOIN nmv__country c on v.ID_birth_country = c.ID_country
+                              WHERE v.was_prisoner_assistant != "prisoner assistant only"
                               GROUP BY c.english) A
                             LEFT JOIN
                             	(SELECT c.english as birthcountry, COUNT(v.ID_victim) as number
                               FROM nmv__victim v
                               LEFT JOIN nmv__country c on v.ID_birth_country = c.ID_country
-                              WHERE v.mpg_project = -1
+                              WHERE v.mpg_project = -1 AND v.was_prisoner_assistant != "prisoner assistant only"
                               GROUP BY c.english) B
                             ON A.birthcountry = B.birthcountry OR (A.birthcountry IS NULL AND B.birthcountry IS NULL)';
 $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
