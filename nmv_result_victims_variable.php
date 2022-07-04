@@ -165,6 +165,7 @@ else:  // default query
 												'; // für Ergebnisliste}
 endif;
 $querystring_where = array(); // for where-part of select clause
+$querystring_where[] = "was_prisoner_assistant != 'prisoner assistant only'"; 
 
 //complete db d
 if ($dbi->checkUserPermission('mpg')) :

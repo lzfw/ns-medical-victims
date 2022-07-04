@@ -287,7 +287,8 @@ $content .= createBackLink ("List of Persons",'nmv_list_victims');
 $title = 'Victim: ' . $victim_name;
 if($victim->was_prisoner_assistant =='prisoner assistant only'){
   $title = '<span class="red">Prisoner Assistant:</span> ' . $victim_name;
-  $content = 'Prisoner Assistants were forced to participate in the conduction of unethical biomedical research' . $content;
+  $content = 'Prisoner Assistants were forced to participate in the conduction of unethical biomedical research
+              <br>Please find information about involvement in experiments in '.createButton("Biomedical Research",'nmv_list_victim_experiment?ID_victim='.$victim_id,'icon report-paper') . $content;
 } else if($victim->was_prisoner_assistant == 'prisoner assistant AND victim') {
   $title = 'Victim and <span class="red">Prisoner Assistant: </span>' .$victim_name;
   $content = $victim_name . ' was victim of experiments and was also forced to participate in the conduction of unethical biomedical research' . $content;
