@@ -50,6 +50,10 @@ $form->addField ('names_mentioned',TEXT,6)
 $form->addField ('location',TEXT,250)
     ->setClass ('keyboardInput')
     ->setLabel ('Location');
+$form->addField('ID_institution', SELECT)
+			->setLabel('Institution')
+			->addOption(NO_VALUE, 'please choose')
+			->addOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name', 'type LIKE 18');
 $form->addField ('url',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('URL');

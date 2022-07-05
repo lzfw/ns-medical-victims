@@ -11,13 +11,14 @@ $dbi->addBreadcrumb ('Source','nmv_list_sources');
 
 // query: get source data
 $querystring = "
-    SELECT source_title, signature, creation_year, pages, type,
-    description, medium, published_source, notes,
-    data_entry_status, names_mentioned, location, person_in_charge,
-    english as language, url,
-    IF((access_day IS NULL AND access_month IS NULL AND access_year IS NULL), ' ', CONCAT(IFNULL(access_day, '-'), '.', IFNULL(access_month, '-'), '.', IFNULL(access_year, '-'))) as access_date
+    SELECT s.source_title, s.signature, s.creation_year, s.pages, s.type,
+    s.description, s.medium, s.published_source, s.notes, i.institution_name,
+    s.data_entry_status, s.names_mentioned, s.location, s.person_in_charge,
+    l.english as language, s.url,
+    IF((s.access_day IS NULL AND s.access_month IS NULL AND s.access_year IS NULL), ' ', CONCAT(IFNULL(s.access_day, '-'), '.', IFNULL(s.access_month, '-'), '.', IFNULL(s.access_year, '-'))) as access_date
     FROM nmv__source s
     LEFT JOIN nmv__language l ON (l.ID_language = s.ID_language)
+    LEFT JOIN nmv__institution i ON (i.ID_institution = s.ID_institution)
     WHERE ID_source = ?";
 
 $result = null;
@@ -57,6 +58,7 @@ if ($source = $result->fetch_object()) {
         buildDataSheetRow('Medium',               $source->medium).
         buildDataSheetRow('Published source',     $source->published_source ? 'Yes' : 'No').
         buildDataSheetRow('Location',             $source->location).
+        buildDataSheetRow('Institution',          $source->institution_name).
         buildDataSheetRow('Notes',                $source->notes).
         buildDataSheetRow('URL',                  $source->url).
         buildDataSheetRow('Access date (dmy)',    $source->access_date)
