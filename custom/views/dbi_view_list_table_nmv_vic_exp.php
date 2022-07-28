@@ -28,7 +28,6 @@ class View_List_Table_NMV_Vic_Exp extends View_List {
 		$this->addSortOption ('End Year','exp_end_year','ASC','DESC');
 		$this->addSortOption ('Title of Experiment','experiment_title','ASC','DESC');
 		$this->addSortOption ('Institution','institution_name','ASC','DESC');
-		$this->addSortOption ('Location (Inst)','location','ASC','DESC');
 		$this->addSortOption ('Location Deatails (Exp)','location_details','ASC','DESC');
 
 		$html = '';
@@ -39,7 +38,7 @@ class View_List_Table_NMV_Vic_Exp extends View_List {
 		if ($results->num_rows>0) {
 		    $html .= '<table class="grid">';
 		    $html .= '<th>ID</th><th>Surname</th><th>First Names</th><th>Born</th><th>Birth Country</th>
-									<th>Gender</th><th>Ethnic Group</th><th>Start Year</th><th>Duration</th><th>End Year</th><th>Title of Experiment</th><th>Institution</th><th>Location (Institution)</th><th>Location Details (Experiment)</th><th>Options</th>';
+									<th>Gender</th><th>Ethnic Group</th><th>Start Year</th><th>Duration</th><th>End Year</th><th>Title of Experiment</th><th>Institution</th><th>Location Details (Experiment)</th><th>Options</th>';
 			// buttons view, edit, delete connection victim-experiment
 			while ($item = $results->fetch_object()) {
 					$options = '';
@@ -62,8 +61,7 @@ class View_List_Table_NMV_Vic_Exp extends View_List {
 							<td>' . htmlentities($item->experiment_duration, ENT_HTML5) . '</td>
 							<td>' . htmlentities($item->exp_end_year, ENT_HTML5) . '</td>
 							<td>' . htmlentities($item->experiment_title, ENT_HTML5) . '</td>
-							<td>' . htmlentities($item->institution_name, ENT_HTML5) . '</td>
-							<td>' . htmlentities($item->location, ENT_HTML5) . '</td>
+							<td class="prewrap">' . htmlentities($item->institution_name, ENT_HTML5) . '</td>
 							<td>' . htmlentities($item->location_details, ENT_HTML5) . '</td>
 			        <td class="nowrap">' . str_replace('{ID_victim}', $item->ID_victim, $options) . '</td>
 			    </tr>';

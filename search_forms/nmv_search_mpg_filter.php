@@ -43,8 +43,8 @@ $MPGfilterForm->addField('ID_institution', SELECT)
 				OR EXISTS (SELECT * FROM nmv__med_history_hosp
 				WHERE nmv__institution.ID_institution = nmv__med_history_hosp.ID_institution)
 				OR EXISTS (SELECT * FROM nmv__victim_experiment ve
-				LEFT JOIN nmv__experiment e ON e.ID_experiment = ve.ID_experiment
-				WHERE nmv__institution.ID_institution = e.ID_institution)');
+				LEFT JOIN nmv__experiment_institution ei ON ei.ID_experiment = ve.ID_experiment
+				WHERE nmv__institution.ID_institution = ei.ID_institution)');
 
 $MPGfilterForm->addField('ID_tissue_institution', SELECT)
 		->setLabel('Institution (Tissue)')

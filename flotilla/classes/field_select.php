@@ -84,7 +84,7 @@ class Field_Select extends Field {
 		$options_querystring = "
 			SELECT {$args[1]} AS value, {$args[2]} AS title
 			FROM {$args[0]}
-			WHERE EXISTS (	SELECT * FROM {$args[3]} 
+			WHERE EXISTS (	SELECT * FROM {$args[3]}
 									WHERE {$args[0]}.{$args[1]} = {$args[3]}.{$args[1]})
 			ORDER BY {$args[2]}
 		";

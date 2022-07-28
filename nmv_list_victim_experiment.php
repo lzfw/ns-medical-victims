@@ -47,14 +47,16 @@ if ($victim_id) {
 
         // query: get experiment data (victim)
         $querystring_v = "SELECT ve.ID_vict_exp AS ID_vict_exp, ve.experiment_duration AS duration, ve.age_experiment_start AS age,
-                            COALESCE(e.experiment_title, 'unspecified') AS title, c.english AS classification, i.institution_name AS institution,
+                            COALESCE(e.experiment_title, 'unspecified') AS title, c.english AS classification, REPLACE(GROUP_CONCAT(i.institution_name SEPARATOR '<br>'), ' ', '&nbsp;') AS institution,
                             ve.ID_experiment AS ID_experiment
                         FROM nmv__victim_experiment ve
                         LEFT JOIN nmv__experiment e                 ON e.ID_experiment = ve.ID_experiment
-                        LEFT JOIN nmv__institution i                ON i.ID_institution = e.ID_institution
+                        LEFT JOIN nmv__experiment_institution ei    ON ei.ID_experiment = e.ID_experiment
+                        LEFT JOIN nmv__institution i                ON i.ID_institution = ei.ID_institution
                         LEFT JOIN nmv__victim v                     ON v.ID_victim = ve.ID_victim
                         LEFT JOIN nmv__experiment_classification c  ON c.ID_exp_classification = e.classification
                         WHERE ve.ID_victim = $victim_id
+                        GROUP BY ve.ID_vict_exp
                         ORDER BY exp_start_year, exp_start_month, exp_start_day, exp_end_year, exp_end_month, exp_end_day
                         ";
 
@@ -111,14 +113,16 @@ if ($victim_id) {
 
       // query: get experiment data (prisoner assistant)
       $querystring_pa = "SELECT pae.ID_pa_exp AS ID_pa_exp, pae.experiment_duration AS duration, pae.age_experiment_start AS age,
-                          COALESCE(e.experiment_title, 'unspecified') AS title, c.english AS classification, i.institution_name AS institution,
+                          COALESCE(e.experiment_title, 'unspecified') AS title, c.english AS classification, REPLACE(GROUP_CONCAT(i.institution_name SEPARATOR '<br>'), ' ', '&nbsp;') AS institution,
                           pae.ID_experiment AS ID_experiment, pa.was_prisoner_assistant AS role
                       FROM nmv__prisoner_assistant_experiment pae
                       LEFT JOIN nmv__experiment e                 ON e.ID_experiment = pae.ID_experiment
-                      LEFT JOIN nmv__institution i                ON i.ID_institution = e.ID_institution
+                      LEFT JOIN nmv__experiment_institution ei    ON ei.ID_experiment = e.ID_experiment
+                      LEFT JOIN nmv__institution i                ON i.ID_institution = ei.ID_institution
                       LEFT JOIN nmv__victim pa                    ON pa.ID_victim = pae.ID_victim
                       LEFT JOIN nmv__experiment_classification c  ON c.ID_exp_classification = e.classification
                       WHERE pae.ID_victim = $victim_id
+                      GROUP BY pae.ID_pa_exp
                       ORDER BY exp_start_year, exp_start_month, exp_start_day, exp_end_year, exp_end_month, exp_end_day
                       ";
 

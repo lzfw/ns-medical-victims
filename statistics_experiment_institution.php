@@ -61,8 +61,8 @@ if($nationality_id):
                       FROM 	(SELECT i.institution_name as institution, i.ID_institution as ID_institution, COUNT(v.ID_victim) as number
                       		  FROM nmv__victim v
                       		  INNER JOIN nmv__victim_experiment ve ON v.ID_victim = ve.ID_victim
-                            INNER JOIN nmv__experiment e ON ve.ID_experiment = e.ID_experiment
-                            LEFT JOIN nmv__institution i ON e.ID_institution = i.ID_institution
+                            INNER JOIN nmv__experiment_institution ei ON ve.ID_experiment = ei.ID_experiment
+                            LEFT JOIN nmv__institution i ON ei.ID_institution = i.ID_institution
                             WHERE $where_clause
                             GROUP BY i.ID_institution) A
 
@@ -71,8 +71,8 @@ if($nationality_id):
                            	(SELECT i.institution_name as institution, i.ID_institution as ID_institution, COUNT(v.ID_victim) as number
                       		  FROM nmv__victim v
                       		  INNER JOIN nmv__victim_experiment ve ON v.ID_victim = ve.ID_victim
-                            INNER JOIN nmv__experiment e ON ve.ID_experiment = e.ID_experiment
-                            LEFT JOIN nmv__institution i ON e.ID_institution = i.ID_institution
+                            INNER JOIN nmv__experiment_institution ei ON ve.ID_experiment = ei.ID_experiment
+                            LEFT JOIN nmv__institution i ON ei.ID_institution = i.ID_institution
                             WHERE $where_clause AND v.mpg_project = -1
                             GROUP BY i.ID_institution) B
 
@@ -82,8 +82,8 @@ else:
                         FROM 	(SELECT i.institution_name as institution, i.ID_institution as ID_institution, COUNT(v.ID_victim) as number
                         		  FROM nmv__victim v
                         		  INNER JOIN nmv__victim_experiment ve ON v.ID_victim = ve.ID_victim
-                              INNER JOIN nmv__experiment e ON ve.ID_experiment = e.ID_experiment
-                              LEFT JOIN nmv__institution i ON e.ID_institution = i.ID_institution
+                              INNER JOIN nmv__experiment_institution ei ON ve.ID_experiment = ei.ID_experiment
+                              LEFT JOIN nmv__institution i ON ei.ID_institution = i.ID_institution
                               GROUP BY i.ID_institution) A
 
                              LEFT JOIN
@@ -91,8 +91,8 @@ else:
                              	(SELECT i.institution_name as institution, i.ID_institution as ID_institution, COUNT(v.ID_victim) as number
                         		  FROM nmv__victim v
                         		  INNER JOIN nmv__victim_experiment ve ON v.ID_victim = ve.ID_victim
-                              INNER JOIN nmv__experiment e ON ve.ID_experiment = e.ID_experiment
-                              LEFT JOIN nmv__institution i ON e.ID_institution = i.ID_institution
+                              INNER JOIN nmv__experiment_institution ei ON ve.ID_experiment = ei.ID_experiment
+                              LEFT JOIN nmv__institution i ON ei.ID_institution = i.ID_institution
                               WHERE v.mpg_project = -1
                               GROUP BY i.ID_institution) B
 

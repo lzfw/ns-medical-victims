@@ -7,13 +7,8 @@
 */
 
 //query: get experiment-institutions for experiment SELECT
-$querystring_experiment = "  SELECT e.ID_experiment AS value, CONCAT(IFNULL(e.experiment_title, 'no entry'), ' &ensp; - &ensp; ID ', e.ID_experiment, ' &ensp; - &ensp; ', IFNULL(i.institution_name, 'no entry')) AS title
+$querystring_experiment = "  SELECT e.ID_experiment AS value, CONCAT(IFNULL(e.experiment_title, 'no entry'), ' &ensp; - &ensp; ID ', e.ID_experiment) AS title
                               FROM nmv__experiment e
-                              LEFT JOIN nmv__institution i
-                              ON e.ID_institution = i.ID_institution
-                              WHERE EXISTS (  SELECT *
-                                              FROM nmv__victim_experiment
-                                              WHERE e.ID_experiment = nmv__victim_experiment.ID_experiment)
                               ORDER BY title";
 
 // create form
@@ -119,8 +114,8 @@ if (!($dbi->checkUserPermission('mpg'))) :
       ->addOption(NO_VALUE, 'all experiment-institutions')
       ->addOptionsFromTable('nmv__institution', 'ID_institution', "CONCAT(IFNULL(institution_name, '-/-'), '&emsp;---&emsp;', LEFT(IFNULL(location, '-/-'), 50))",
                             'EXISTS (SELECT *
-                                      FROM nmv__experiment
-                                      WHERE nmv__experiment.ID_institution = nmv__institution.ID_institution)');
+                                      FROM nmv__experiment_institution
+                                      WHERE nmv__experiment_institution.ID_institution = nmv__institution.ID_institution)');
 
   $victimsVariableForm->addField('ID_foi', SELECT)
       ->setLabel('experiment - fields of interest')

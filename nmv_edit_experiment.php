@@ -74,7 +74,7 @@ $form->addField('confirmed_experiment', CHECKBOX, 1)
 $form->addField('notes', TEXTAREA)
     ->setClass('keyboardInput')
     ->setLabel('Notes');
-		$form->addField('foi', STATIC_TEXT, '<hr>	<strong>Fields of Interest</strong> can be edited in the Experiment View.<br>
+		$form->addField('foi', STATIC_TEXT, '<hr>	<strong>Fields of Interest and Institutions</strong> can be edited in the Experiment View.<br>
 				 									Click OK-Button in order to save your changes and switch to View.<hr>');
 
 $form

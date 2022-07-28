@@ -6,6 +6,9 @@ require_once 'zefiro/ini.php';
 
 $dbi->requireUserPermission ('view');
 
+$institution_name = '';
+
+
 // fallback, if no parameters have been transmitted
 if (implode('',$_GET) == '') {
 	header("Location: search.php");
@@ -23,7 +26,7 @@ $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 // zu durchsuchende felder und suchsystematik definieren:
 
 // felder, die immer exakt gematcht werden (Trunkierung nicht möglich, Diakritika distinkt, Basiszeichen distinkt)
-$exact_fields = array ('ID_source');
+$exact_fields = array ('ID_source', 'ID_institution');
 
 // felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
 // --> If no diacritics are applied, it finds covers any combination: η would also return ἠ, ἦ or ἥ, while ἠ would find only ἠ.
@@ -55,7 +58,9 @@ $dbi->setUserVar('querystring',implode('&',$query));
 // Select-Klauseln erstellen
 $querystring_count = 'SELECT COUNT(s.ID_source) AS total FROM nmv__source s'; // für Treffer gesamt
 $querystring_items = 'SELECT s.ID_source, s.source_title, s.signature, s.location,
-                        s.description FROM nmv__source s'; // für Ergebnisliste
+                        s.description, s.ID_institution, i.institution_name as institution_name
+											FROM nmv__source s
+											LEFT JOIN nmv__institution i ON i.ID_institution = s.ID_institution'; // für Ergebnisliste
 $querystring_where = array(); // für Filter
 
 // MySQL-Zeichenfilter definieren (Trunkierungszeichen werden zu MySQL-Zeichen)
@@ -102,10 +107,12 @@ $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 
 // query ausführen
 $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
+$institution_name = $dbi->connection->query($querystring_items.$querystring_orderby)->fetch_object()->institution_name;
 
 // ausgabe der suchtermini
 $suche_nach = array();
 if (isset($_GET['ID_source']) && $_GET['ID_source']) $suche_nach[] = 'ID = '.$_GET['ID_source'];
+if (isset($_GET['ID_institution']) && $_GET['ID_institution']) $suche_nach[] = 'institution = '. $institution_name;
 if (isset($_GET['source_title']) && $_GET['source_title']) $suche_nach[] = 'title = '.$_GET['source_title'];
 if (isset($_GET['signature']) && $_GET['signature']) $suche_nach[] = 'signature = '.$_GET['signature'];
 if (isset($_GET['description']) && $_GET['description']) $suche_nach[] = 'description = '.$_GET['description'];

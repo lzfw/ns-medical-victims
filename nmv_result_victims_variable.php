@@ -61,7 +61,7 @@ $ticked_fields = array ();
 //fields involving data from tables other than nmv__victim
 //key defines table and column
 $special_fields = array('e.ID_experiment'			=> 'ID_experiment',
-												'e.ID_institution'    => 'exp_institution',
+												'ei.ID_institution'   => 'exp_institution',
  												'i.ID_classification' => 'ID_classification',
 												'i.location' 					=> 'location',
 												't.ID_tissue_state' 	=> 'ID_tissue_state',
@@ -111,32 +111,33 @@ foreach ($special_contain_fields as $field) {
 $dbi->setUserVar('querystring',implode('&',$query));
 
 // make select-clauses part one
-if (isset($_GET['ID_experiment']) || isset($_GET['exp_institution'])): // query for experiment-related filters: shows and links victim-experiment data
+if ((isset($_GET['ID_experiment']) && ($_GET['ID_experiment'])) || (isset($_GET['exp_institution']) && ($_GET['exp_institution']))): // query for experiment-related filters: shows and links victim-experiment data
 	$querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
 																					v.birth_year, bc.english AS birth_country, v.birth_place,
 																					n.english AS nationality_1938, et.english AS ethnic_group,
 																					ve.exp_start_day, ve.exp_start_month, ve.exp_start_year,
 																					s.english AS survival, ve.ID_vict_exp
 													FROM nmv__victim v
-													LEFT JOIN nmv__country bc 						ON bc.ID_country = v.ID_birth_country
-													LEFT JOIN nmv__victim_experiment ve		ON v.ID_victim = ve.ID_victim
-													LEFT JOIN nmv__survival s 						ON s.ID_survival = ve.ID_survival
-													LEFT JOIN nmv__experiment e 					ON ve.ID_experiment = e.ID_experiment
-													LEFT JOIN nmv__experiment_foi ef			ON ef.ID_experiment = e.ID_experiment
-													LEFT JOIN nmv__field_of_interest foi	ON foi.ID_foi = ef.ID_foi
-													LEFT JOIN nmv__imprisoniation i				ON v.ID_victim = i.ID_victim
-													LEFT JOIN nmv__nationality n        	ON n.ID_nationality = v.nationality_1938
-													LEFT JOIN nmv__ethnicgroup et       	ON et.ID_ethnicgroup = v.ethnic_group
-													LEFT JOIN nmv__med_history_brain b		ON v.ID_victim = b.ID_victim
-													LEFT JOIN nmv__diagnosis_brain db 		ON db.ID_med_history_brain = b.ID_med_history_brain
-													LEFT JOIN nmv__diagnosis_tag dtb			ON dtb.ID_diagnosis = db.ID_diagnosis
-													LEFT JOIN nmv__med_history_tissue t		ON v.ID_victim = t.ID_victim
-													LEFT JOIN nmv__med_history_hosp h			ON v.ID_victim = h.ID_victim
-													LEFT JOIN nmv__diagnosis_hosp dh			ON dh.ID_med_history_hosp = h.ID_med_history_hosp
-													LEFT JOIN nmv__diagnosis_tag dth			ON dth.ID_diagnosis = dh.ID_diagnosis
-													LEFT JOIN nmv__evaluation ev					ON v.ID_victim = ev.ID_victim
-													LEFT JOIN nmv__victim_source vs 			ON vs.ID_victim = v.ID_victim
-													LEFT JOIN nmv__victim_literature vl 	ON vl.ID_victim = v.ID_victim
+													LEFT JOIN nmv__country bc 								ON bc.ID_country = v.ID_birth_country
+													LEFT JOIN nmv__victim_experiment ve				ON v.ID_victim = ve.ID_victim
+													LEFT JOIN nmv__survival s 								ON s.ID_survival = ve.ID_survival
+													LEFT JOIN nmv__experiment e 							ON ve.ID_experiment = e.ID_experiment
+													LEFT JOIN nmv__experiment_institution ei 	ON ei.ID_experiment = e.ID_experiment
+													LEFT JOIN nmv__experiment_foi ef					ON ef.ID_experiment = e.ID_experiment
+													LEFT JOIN nmv__field_of_interest foi			ON foi.ID_foi = ef.ID_foi
+													LEFT JOIN nmv__imprisoniation i						ON v.ID_victim = i.ID_victim
+													LEFT JOIN nmv__nationality n        			ON n.ID_nationality = v.nationality_1938
+													LEFT JOIN nmv__ethnicgroup et       			ON et.ID_ethnicgroup = v.ethnic_group
+													LEFT JOIN nmv__med_history_brain b				ON v.ID_victim = b.ID_victim
+													LEFT JOIN nmv__diagnosis_brain db 				ON db.ID_med_history_brain = b.ID_med_history_brain
+													LEFT JOIN nmv__diagnosis_tag dtb					ON dtb.ID_diagnosis = db.ID_diagnosis
+													LEFT JOIN nmv__med_history_tissue t				ON v.ID_victim = t.ID_victim
+													LEFT JOIN nmv__med_history_hosp h					ON v.ID_victim = h.ID_victim
+													LEFT JOIN nmv__diagnosis_hosp dh					ON dh.ID_med_history_hosp = h.ID_med_history_hosp
+													LEFT JOIN nmv__diagnosis_tag dth					ON dth.ID_diagnosis = dh.ID_diagnosis
+													LEFT JOIN nmv__evaluation ev							ON v.ID_victim = ev.ID_victim
+													LEFT JOIN nmv__victim_source vs 					ON vs.ID_victim = v.ID_victim
+													LEFT JOIN nmv__victim_literature vl 			ON vl.ID_victim = v.ID_victim
 												'; // für Ergebnisliste
 else:  // default query
 		$querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
@@ -165,7 +166,7 @@ else:  // default query
 												'; // für Ergebnisliste}
 endif;
 $querystring_where = array(); // for where-part of select clause
-$querystring_where[] = "was_prisoner_assistant != 'prisoner assistant only'"; 
+$querystring_where[] = "was_prisoner_assistant != 'prisoner assistant only'";  
 
 //complete db d
 if ($dbi->checkUserPermission('mpg')) :
@@ -355,7 +356,7 @@ if (isset($_GET['photo']) && $_GET['photo']) $suche_nach[] = 'photo contained';
 $dbi->addBreadcrumb (L_SEARCH,'search.php');
 
 // layout
-if (isset($_GET['ID_experiment']) || isset($_GET['exp_institution'])): // special table for experiment-related filters: shows and links victim-experiment data
+if((isset($_GET['ID_experiment']) && $_GET['ID_experiment']) || (isset($_GET['exp_institution']) && $_GET['exp_institution'])) { // special table for experiment-related filters: shows and links victim-experiment data
 
 	$layout
 		->set('title',L_RESULTS)
@@ -370,7 +371,7 @@ if (isset($_GET['ID_experiment']) || isset($_GET['exp_institution'])): // specia
 		)
 		//->set('sidebar','<h3>'.L_HELP.'</h3>'.$dbi->getTextblock_HTML ('results'))
 		->cast();
-else: // default table
+} else {// default table
 	$layout
 		->set('title',L_RESULTS)
 		->set('content',
@@ -384,6 +385,6 @@ else: // default table
 		)
 		//->set('sidebar','<h3>'.L_HELP.'</h3>'.$dbi->getTextblock_HTML ('results'))
 		->cast();
-endif;
+}
 
 ?>

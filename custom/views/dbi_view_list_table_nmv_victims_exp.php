@@ -32,7 +32,7 @@ class View_List_Table_NMV_Victims_Exp extends View_List {
 
 		if ($results->num_rows>0) {
 		    $html .= '<table class="grid">';
-		    $html .= '<th>Surname</th><th>First Names</th><th>ID</th><th>Born</th><th>Birth Country</th><th>Nationality (1938)</th><th>Ethnic Group</th><th>Start Date Experiment<br>(D.M.Y)</th><th>Survival</th><th>Options</th>';
+		    $html .= '<th>Surname</th><th>First Names</th><th>ID</th><th>Born</th><th>Birth Country</th><th>Nationality (1938)</th><th>Ethnic Group</th><th>Start Date Experiment<br>(D.M.Y)</th><th>Survival (of this experiment)</th><th>Options</th>';
 			// buttons view, edit, delete connection victim-experiment
 			while ($item = $results->fetch_object()) {
 					$options = '';

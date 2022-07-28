@@ -152,8 +152,8 @@ $experimentsForm->addField('ID_institution', SELECT)
 		->addOption(NO_VALUE,'all institutions')
 		->addOptionsFromTable('nmv__institution', 'ID_institution', "CONCAT(IFNULL(institution_name, '-/-'), '&emsp;---&emsp;', LEFT(IFNULL(location, '-/-'), 50))",
 															'EXISTS (	SELECT *
-																				FROM nmv__experiment
-																				WHERE nmv__institution.ID_institution = nmv__experiment.ID_institution)');
+																				FROM nmv__experiment_institution
+																				WHERE nmv__institution.ID_institution = nmv__experiment_institution.ID_institution)');
 
 
 
@@ -184,6 +184,8 @@ $literatureForm
 // source search form
 $sourceForm =
     new Form('search_source','nmv_result_source.php','GET');
+$sourceForm->addConnection(MYSQL_DB,$db_host,$db_user,$db_pass,$db_name);
+
 
 $sourceForm->addField('ID_source',TEXT,5)
 	->setLabel('ID');
@@ -191,6 +193,11 @@ $sourceForm->addField('ID_source',TEXT,5)
 $sourceForm->addField('source_title',TEXT,255)
     ->setClass('keyboardInput')
 	->setLabel('Title');
+
+$sourceForm->addField('ID_institution', SELECT)
+		->setLabel('Institution (Archive, Museum, ...)')
+		->addOption('NO_VALUE', 'all institutions')
+		->addOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name', 'type IN (1, 18, 23, 24)');
 
 $sourceForm->addField('signature',TEXT,50)
     ->setClass('keyboardInput')

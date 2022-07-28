@@ -23,7 +23,7 @@ $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 // zu durchsuchende felder und suchsystematik definieren:
 
 // felder, die immer exakt gematcht werden (Trunkierung nicht möglich, Diakritika distinkt, Basiszeichen distinkt)
-$exact_fields = array ('ID_experiment', 'ID_institution', 'classification');
+$exact_fields = array ('ID_experiment', 'classification');
 
 // felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
 // --> If no diacritics are applied, it finds covers any combination: η would also return ἠ, ἦ or ἥ, while ἠ would find only ἠ.
@@ -38,7 +38,8 @@ $double_fields = array ();
 
 //fields involving data from tables other than nmv__experiment
 //key defines table and column here: unique query
-$special_fields = array('ef.ID_foi'			=> 'ID_foi');
+$special_fields = array('ef.ID_foi'						=> 'ID_foi',
+												'ei.ID_institution'		=> 'ID_institution');
 
 // GET-String rekonstruieren (für Blätterfunktion)
 $query = array();
@@ -62,11 +63,12 @@ $dbi->setUserVar('querystring',implode('&',$query));
 // Select-Klauseln erstellen
 //$querystring_count = 'SELECT COUNT(e.ID_experiment) AS total FROM nmv__experiment e'; // für Treffer gesamt
 $querystring_items = 'SELECT DISTINCT e.ID_experiment, e.experiment_title, e.objective,
-																			i.institution_name, e.start_year, e.end_year, GROUP_CONCAT(DISTINCT f.english ORDER BY f.english ASC SEPARATOR "\n") AS fields_of_interest
+																			GROUP_CONCAT(DISTINCT i.institution_name SEPARATOR "\n") AS institutions, e.start_year, e.end_year, GROUP_CONCAT(DISTINCT f.english ORDER BY f.english ASC SEPARATOR "\n") AS fields_of_interest
 											FROM nmv__experiment e
 											LEFT JOIN nmv__perpetrator_experiment pe		ON e.ID_experiment = pe.ID_experiment
 											LEFT JOIN nmv__perpetrator p								ON pe.ID_perpetrator = p.ID_perpetrator
-											LEFT JOIN nmv__institution i 								ON i.ID_institution = e.ID_institution
+											LEFT JOIN nmv__experiment_institution ei 		ON ei.ID_experiment = e.ID_experiment
+											LEFT JOIN nmv__institution i 								ON i.ID_institution = ei.ID_institution
 											LEFT JOIN nmv__experiment_foi ef						ON ef.ID_experiment = e.ID_experiment
 											LEFT JOIN nmv__field_of_interest f 					ON f.ID_foi = ef.ID_foi
 											'; // für Ergebnisliste
@@ -106,11 +108,16 @@ foreach ($double_fields as $field) {
     }
 }
 foreach ($special_fields as $key=>$field) {
-    if (getUrlParameter($field)) {
+    if (getUrlParameter($field) && $key == 'ef.ID_foi') {
 			$querystring_where[] = "e.ID_experiment IN (
-    SELECT DISTINCT ef.ID_experiment
-    FROM nmv__experiment_foi ef
-		WHERE ef.ID_foi = '".getUrlParameter($field)."')";
+	    SELECT DISTINCT ef.ID_experiment
+	    FROM nmv__experiment_foi ef
+			WHERE ef.ID_foi = '".getUrlParameter($field)."')";
+    } elseif (getUrlParameter($field) && $key == 'ei.ID_institution') {
+			$querystring_where[] = "e.ID_experiment IN (
+	    SELECT DISTINCT ei.ID_experiment
+	    FROM nmv__experiment_institution ei
+			WHERE ei.ID_institution = '".getUrlParameter($field)."')";
     }
 }
 

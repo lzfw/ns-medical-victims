@@ -41,14 +41,16 @@ if ($stmt = $dbi->connection->prepare($querystring)) {
 
 $content = '';
 $institution_name = 'Unknown institution - Maybe deleted?';
+$institution_type = 0;
 
 if ($institution = $result->fetch_object()) {
     $institution_name = $institution->institution_name;
+    $institution_type = $institution->type;
     $content .= buildElement('table','grid',
         buildDataSheetRow('Institution ID',        $institution_id).
         buildDataSheetRow('Name',                  $institution->institution_name).
         buildDataSheetRow('Location',              $institution->location).
-        buildDataSheetRow('Present Country',               $institution->country).
+        buildDataSheetRow('Present Country',       $institution->country).
         buildDataSheetRow('Type',                  $institution->type).
         buildDataSheetRow('Notes',                 $institution->notes)
     );
@@ -56,7 +58,6 @@ if ($institution = $result->fetch_object()) {
     $institution_name = 'Error: Unknown Institution';
     $content = buildElement('p','Error: Institution not found. Maybe it has been deleted from the database?');
 }
-
 $content .= '<div class="buttons">';
 if ($dbi->checkUserPermission('edit'))
     $content .= createButton ('Edit Institution','nmv_edit_institution?ID_institution='.$institution_id,'icon edit');
@@ -64,8 +65,16 @@ if ($dbi->checkUserPermission('admin'))
     $content .= createButton(L_DELETE,'nmv_remove_institution?ID_institution='.$institution_id,'icon delete');
 $content .= '</div>';
 
+$content .= '<div class="buttons"';
+$content .= createButton("Experiments",'nmv_result_experiments?ID_institution='.$institution_id,'icon report-paper');
+$content .= createButton("Victims (Experiment)",'nmv_result_victims_variable?exp_institution='.$institution_id,'icon report-paper');
+$content .= createButton("Victims (Hospitalisation)",'nmv_result_victims_variable?hospitalisation_institution='.$institution_id,'icon report-paper');
+$content .= createButton("Victims (Tissue)",'nmv_result_victims_variable?tissue_institution='.$institution_id,'icon report-paper');
+if(in_array($institution_type, array('Archive', 'Museum', 'Library', 'Academic Institution'))){
+  $content .=createButton("Sources (Archives ...)",'nmv_result_source?ID_institution='.$institution_id,'icon report-paper');
+}
+$content .= '</div>';
 $content .= createBackLink ("List of Institutions",'nmv_list_institutions');
-
 
 $layout
 	->set('title','Institution: '.$institution_name)

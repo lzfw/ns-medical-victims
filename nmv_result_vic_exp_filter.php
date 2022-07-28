@@ -88,21 +88,21 @@ $dbi->setUserVar('querystring',implode('&',$query));
 $querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
 																				v.birth_year, bc.english AS birth_country, v.birth_place, v.gender,
 																				n.english AS nationality_1938, et.english AS ethnic_group,
-                                        ve.exp_start_year, ve.experiment_duration, ve.exp_end_year,
-                                        e.experiment_title, inst.institution_name,
-                                        inst.location, e.location_details
+                                        ve.exp_start_year, ve.experiment_duration, ve.exp_end_year, ve.ID_experiment,
+                                        e.experiment_title, GROUP_CONCAT(DISTINCT inst.institution_name SEPARATOR "\n") AS institution_name, e.location_details
 												FROM nmv__victim v
-												LEFT JOIN nmv__country bc						ON bc.ID_country = v.ID_birth_country
-												LEFT JOIN nmv__victim_experiment ve	ON v.ID_victim = ve.ID_victim
-												LEFT JOIN nmv__experiment e 				ON ve.ID_experiment = e.ID_experiment
-                        LEFT JOIN nmv__institution inst     ON inst.ID_institution = e.ID_institution
-												LEFT JOIN nmv__imprisoniation i			ON v.ID_victim = i.ID_victim
-												LEFT JOIN nmv__nationality n        ON n.ID_nationality = v.nationality_1938
-												LEFT JOIN nmv__ethnicgroup et       ON et.ID_ethnicgroup = v.ethnic_group
-												LEFT JOIN nmv__med_history_brain b	ON v.ID_victim = b.ID_victim
-												LEFT JOIN nmv__med_history_tissue t	ON v.ID_victim = t.ID_victim
-												LEFT JOIN nmv__med_history_hosp h		ON v.ID_victim = h.ID_victim
-												LEFT JOIN nmv__evaluation ev				ON v.ID_victim = ev.ID_victim
+												LEFT JOIN nmv__country bc									ON bc.ID_country = v.ID_birth_country
+												LEFT JOIN nmv__victim_experiment ve				ON v.ID_victim = ve.ID_victim
+												LEFT JOIN nmv__experiment e 							ON ve.ID_experiment = e.ID_experiment
+												LEFT JOIN nmv__experiment_institution ei 	ON ei.ID_experiment = ve.ID_experiment
+                        LEFT JOIN nmv__institution inst    				ON inst.ID_institution = ei.ID_institution
+												LEFT JOIN nmv__imprisoniation i						ON v.ID_victim = i.ID_victim
+												LEFT JOIN nmv__nationality n        			ON n.ID_nationality = v.nationality_1938
+												LEFT JOIN nmv__ethnicgroup et       			ON et.ID_ethnicgroup = v.ethnic_group
+												LEFT JOIN nmv__med_history_brain b				ON v.ID_victim = b.ID_victim
+												LEFT JOIN nmv__med_history_tissue t				ON v.ID_victim = t.ID_victim
+												LEFT JOIN nmv__med_history_hosp h					ON v.ID_victim = h.ID_victim
+												LEFT JOIN nmv__evaluation ev							ON v.ID_victim = ev.ID_victim
 											'; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
 
@@ -157,6 +157,7 @@ foreach ($special_contain_fields as $key=>$field) {
 //WHERE-CLAUSE zusammenführen
 if (count($querystring_where) > 0) {
     $querystring_items .= ' WHERE '.implode(' AND ',$querystring_where);
+		$querystring_items .= ' GROUP BY ve.ID_vict_exp, v.ID_victim';
 }
 
 //Gesamtanzahl der Suchergebnisse feststellen

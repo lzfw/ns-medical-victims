@@ -57,7 +57,7 @@ function buildDataSheetRow (string $thContent, ?string $tdContent, $entityConver
         );
 }
 
-function buildDataSheetRowTag (string $thContent, array $tdContent, string $tag_button, $entityConversionFlags = ENT_HTML5) {
+function buildDataSheetRowTag (string $thContent, array $tdContent, string $tag_button, string $class = 'tag', $entityConversionFlags = ENT_HTML5) {
 	$tdContent_converted = array();
 	foreach($tdContent as $tag){
 		$tag = $entityConversionFlags === FALSE
@@ -66,8 +66,13 @@ function buildDataSheetRowTag (string $thContent, array $tdContent, string $tag_
 		$tdContent_converted[] = $tag;
 	}
 
-	$tags = "<div class='flex_wrap'><span class='tag'>" . implode("</span><span class='tag'>", $tdContent_converted) . "</span></div>";
-    return
+	if($class == 'list') {
+		$tags = "<ul><li class='list'>" . implode(",</li><li class='list'>", $tdContent_converted) . "</li></ul>";
+	} else {
+		$tags = "<div class='flex_wrap'><span class='tag'>" . implode("</span><span class='tag'>", $tdContent_converted) . "</span></div>";
+	}
+
+		return
         buildElement('tr',
             buildElement('th', $thContent).
 						buildElement('td', $tags . $tag_button)

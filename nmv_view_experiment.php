@@ -7,6 +7,9 @@ $dbi->setUserVar ('ID_experiment',getUrlParameter('ID_experiment'),NULL);
 $experiment_id = (int) getUrlParameter('ID_experiment',0);
 $tag_array = array();
 $tag_button = '';
+$institutions = '';
+$institution_array = array();
+$institution_button = '';
 
 $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 $dbi->addBreadcrumb ('Biomedical Research','nmv_list_experiments');
@@ -21,13 +24,11 @@ $querystring = "SELECT e.ID_experiment, e.experiment_title AS experiment_title, 
                     e. location_details AS location_details,
                     CONCAT(IFNULL(e.start_day, '-'), '.', IFNULL(e.start_month, '-'), '.', IFNULL(e.start_year, '-')) AS start,
                     CONCAT(IFNULL(e.end_day, '-'), '.', IFNULL(e.end_month, '-'), '.', IFNULL(e.end_year, '-')) AS end,
-                    e.notes_location AS notes_location,
-                LEFT(concat(IFNULL(LEFT(i.institution_name, 60), '#'),' - ',IFNULL(LEFT(i.location,40), '#'),' - ',IFNULL(co.english, '#')),100) institution
+                    e.notes_location AS notes_location
                 FROM nmv__experiment e
                 LEFT JOIN nmv__experiment_classification c ON c.ID_exp_classification = e.classification
-                LEFT JOIN nmv__institution i ON i.ID_institution = e.ID_institution
-                LEFT JOIN nmv__country co ON co.ID_country = i.ID_country
-                WHERE ID_experiment = ?";
+                WHERE e.ID_experiment = ?
+                GROUP BY e.ID_experiment";
 
 $result = null;
 if ($stmt = $dbi->connection->prepare($querystring)) {
@@ -51,7 +52,7 @@ if ($stmt = $dbi->connection->prepare($querystring)) {
         ' / #' . $dbi->connection->errno . ' / ' . $dbi->connection->error);
 }
 
-//query get tags
+//query get field-of-interest-tags
 $tagged = $dbi->connection->query("SELECT foi.english
                                    FROM nmv__experiment_foi ef
                                    LEFT JOIN nmv__field_of_interest foi ON foi.ID_foi = ef.ID_foi
@@ -62,7 +63,19 @@ while ($tag = $tagged->fetch_row()) {
 if($dbi->checkUserPermission('edit')): $tag_button = '<br>' . createButton('Click to edit field-of-interest-tags', 'nmv_edit_experiment_foi.php?ID_experiment=' . $experiment_id, 'icon edit');
 endif;
 
+//query get institutions
+$institutions = $dbi->connection->query("SELECT CONCAT(i.institution_name, ' in ', IFNULL(i.location, '-'))
+                                          FROM nmv__experiment_institution ei
+                                          LEFT JOIN nmv__institution i ON i.ID_institution = ei.ID_institution
+                                          WHERE ei.ID_experiment = $experiment_id");
+while($institution = $institutions->fetch_row()) {
+  $institution_array[] = $institution[0];
+}
+if($dbi->checkUserPermission('edit')): $institution_button = '<br>' . createButton('Click to edit institutions', 'nmv_edit_experiment_institution.php?ID_experiment=' . $experiment_id, 'icon edit');
+endif;
 
+
+//build Table
 if ($experiment = $result->fetch_object()) {
     $confirmed = $experiment->confirmed_experiment ? ' (confirmed biomedical research)' : '';
     $experiment_name = $experiment->experiment_title . $confirmed;
@@ -71,12 +84,12 @@ if ($experiment = $result->fetch_object()) {
         buildDataSheetRow('ID experiment',            $experiment->ID_experiment).
         buildDataSheetRow('Title',                    $experiment->experiment_title . $confirmed).
         buildDataSheetRow('Classification',           $experiment->classification).
-        buildDataSheetRow('Institution',              $experiment->institution).
+        buildDataSheetRowTag('Institution(s)',        $institution_array, $institution_button, 'list').
         buildDataSheetRow('Location Details',         $experiment->location_details).
         buildDataSheetRow('Notes on location',        $experiment->notes_location).
         buildDataSheetRow('Funding',                  $experiment->funding).
         buildDataSheetRow('Duration DMY - DMY',                 'from ' . $experiment->start . ' until ' . $experiment->end).
-        buildDataSheetRowTag('Fields of interest',    $tag_array, $tag_button).
+        buildDataSheetRowTag('Fields of interest',    $tag_array, $tag_button, 'tag').
         buildDataSheetRow('Objective',                $experiment->objective).
         buildDataSheetRow('Number of victims (estimate)',    $experiment->number_victims_estimate).
         buildDataSheetRow('Number of fatalities (estimate)', $experiment->number_fatalities_estimate).
