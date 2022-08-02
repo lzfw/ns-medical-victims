@@ -65,7 +65,7 @@ if ($dbi->checkUserPermission('admin'))
     $content .= createButton(L_DELETE,'nmv_remove_institution?ID_institution='.$institution_id,'icon delete');
 $content .= '</div>';
 
-$content .= '<div class="buttons"';
+$content .= '<div class="buttons">';
 $content .= createButton("Experiments",'nmv_result_experiments?ID_institution='.$institution_id,'icon report-paper');
 $content .= createButton("Victims (Experiment)",'nmv_result_victims_variable?exp_institution='.$institution_id,'icon report-paper');
 $content .= createButton("Victims (Hospitalisation)",'nmv_result_victims_variable?hospitalisation_institution='.$institution_id,'icon report-paper');
