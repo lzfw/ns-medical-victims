@@ -196,7 +196,7 @@ $sourceForm->addField('source_title',TEXT,255)
 
 $sourceForm->addField('ID_institution', SELECT)
 		->setLabel('Location (Archive, Museum, <br> Library, Academic Institution)')
-		->addOption('NO_VALUE', 'all institutions')
+		->addOption(NO_VALUE, 'all institutions')
 		->addOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name', 'type IN (1, 18, 23, 24)');
 
 $sourceForm->addField('signature',TEXT,50)
