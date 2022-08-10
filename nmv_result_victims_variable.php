@@ -49,7 +49,7 @@ $like_fields = array ();
 
 //felder, die mit LIKE %xy% gematcht werden
 $contain_fields = array('residence_after_1945_country', 'occupation_after_1945',
-												'notes', 'notes_after_1945', 'notes_photo');
+												'notes', 'notes_after_1945', 'notes_photo', 'birth_place', 'death_place');
 
 // felder, die mit like ODER exakt gematcht werden (Trunkierung möglich, Diakritika indistinkt)
 // --> Arabic vowel signs are treated indistinctively: سبب would also return سَبَبٌ, and vice versa.
@@ -166,7 +166,7 @@ else:  // default query
 												'; // für Ergebnisliste}
 endif;
 $querystring_where = array(); // for where-part of select clause
-$querystring_where[] = "was_prisoner_assistant != 'prisoner assistant only'";  
+$querystring_where[] = "was_prisoner_assistant != 'prisoner assistant only'";
 
 //complete db d
 if ($dbi->checkUserPermission('mpg')) :
@@ -226,7 +226,8 @@ foreach ($special_contain_fields as $key=>$field) {
 
 //WHERE-CLAUSE zusammenführen
 if (count($querystring_where) > 0) {
-    $querystring_items .= ' WHERE '.implode(' AND ',$querystring_where);
+	  $where_clause =  ' WHERE '.implode(' AND ',$querystring_where);
+    $querystring_items .= $where_clause;
 }
 //Gesamtanzahl der Suchergebnisse feststellen
 $querystring_count = "SELECT COUNT(*) AS total FROM ($querystring_items) AS xyz";
@@ -245,12 +246,14 @@ if (isset($_GET['ID_birth_country']) && $_GET['ID_birth_country']) {
 	$search_term = $dbi->connection->query('SELECT english FROM nmv__country WHERE ID_country = '.$_GET['ID_birth_country'])->fetch_row();
 	$suche_nach[] = 'country of birth = '.$search_term[0];
 }
+if (isset($_GET['birth_place']) && $_GET['birth_place']) $suche_nach[] = 'place of birth contains:  '.$_GET['birth_place'];
 if (isset($_GET['birth_year']) && $_GET['birth_year']) $suche_nach[] = 'year of birth = '.$_GET['birth_year'];
 if (isset($_GET['twin']) && $_GET['twin']) $suche_nach[] = 'twins only';
 if (isset($_GET['ID_death_country']) && $_GET['ID_death_country'])  {
 	$search_term = $dbi->connection->query('SELECT english FROM nmv__country WHERE ID_country = '.$_GET['ID_death_country'])->fetch_row();
 	$suche_nach[] = 'country of death = '.$search_term[0];
 }
+if (isset($_GET['death_place']) && $_GET['death_place']) $suche_nach[] = 'place of death contains:  '.$_GET['death_place'];
 if (isset($_GET['death_year']) && $_GET['death_year']) $suche_nach[] = 'year of death = '.$_GET['death_year'];
 if (isset($_GET['gender']) && $_GET['gender']) $suche_nach[] = 'gender = '.$_GET['gender'];
 if (isset($_GET['religion']) && $_GET['religion']) {

@@ -26,6 +26,9 @@ $victimsVariableForm->addField('ID_birth_country', SELECT)
                                   FROM nmv__victim
                                   WHERE nmv__country.ID_country = nmv__victim.ID_birth_country)');
 
+$victimsVariableForm->addField('birth_place', TEXT, 120)
+                                    ->setLabel('place of birth <small>contains</small>');
+
 $victimsVariableForm->addField('birth_year', TEXT, 4)
   ->setLabel('year of birth (yyyy)');
 
@@ -41,6 +44,9 @@ $victimsVariableForm->addField('ID_death_country', SELECT)
                         'EXISTS (	SELECT *
                                   FROM nmv__victim
                                   WHERE nmv__country.ID_country = nmv__victim.ID_death_country)');
+
+$victimsVariableForm->addField('death_place', TEXT, 120)
+  ->setLabel('place of death <small>contains</small>');
 
 $victimsVariableForm->addField('death_year', TEXT, 4)
   ->setLabel('year of death (yyyy)');
