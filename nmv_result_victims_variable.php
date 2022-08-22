@@ -60,7 +60,7 @@ $ticked_fields = array ();
 
 //fields involving data from tables other than nmv__victim
 //key defines table and column
-$special_fields = array('e.ID_experiment'			=> 'ID_experiment',
+$special_fields = array('ex.ID_experiment'			=> 'ID_experiment',
 												'ei.ID_institution'   => 'exp_institution',
  												'i.ID_classification' => 'ID_classification',
 												'i.location' 					=> 'location',
@@ -77,8 +77,8 @@ $special_fields = array('e.ID_experiment'			=> 'ID_experiment',
 												'ef.ID_foi'						=> 'ID_foi'
 												);
 
-$special_contain_fields = array('CONCAT(IFNULL(b.diagnosis, ""), IFNULL(dtb.diagnosis, ""))'	=> 'brain_report_diagnosis',
-																'CONCAT(IFNULL(h.diagnosis, ""), IFNULL(dth.diagnosis, ""))'	=> 'hospitalisation_diagnosis',
+$special_contain_fields = array("CONCAT(IFNULL(b.diagnosis, ''), IFNULL(dtb.diagnosis, ''))"	=> 'brain_report_diagnosis',
+																"CONCAT(IFNULL(h.diagnosis, ''), IFNULL(dth.diagnosis, ''))"	=> 'hospitalisation_diagnosis',
 																'b.ref_no'            => 'ref_no_brain',
 																't.ref_no'						=> 'ref_no_tissue',
 																'h.autopsy_ref_no'		=> 'autopsy_ref_no',
@@ -121,9 +121,9 @@ if ((isset($_GET['ID_experiment']) && ($_GET['ID_experiment'])) || (isset($_GET[
 													LEFT JOIN nmv__country bc 								ON bc.ID_country = v.ID_birth_country
 													LEFT JOIN nmv__victim_experiment ve				ON v.ID_victim = ve.ID_victim
 													LEFT JOIN nmv__survival s 								ON s.ID_survival = ve.ID_survival
-													LEFT JOIN nmv__experiment e 							ON ve.ID_experiment = e.ID_experiment
-													LEFT JOIN nmv__experiment_institution ei 	ON ei.ID_experiment = e.ID_experiment
-													LEFT JOIN nmv__experiment_foi ef					ON ef.ID_experiment = e.ID_experiment
+													LEFT JOIN nmv__experiment ex 							ON ve.ID_experiment = ex.ID_experiment
+													LEFT JOIN nmv__experiment_institution ei 	ON ei.ID_experiment = ex.ID_experiment
+													LEFT JOIN nmv__experiment_foi ef					ON ef.ID_experiment = ex.ID_experiment
 													LEFT JOIN nmv__field_of_interest foi			ON foi.ID_foi = ef.ID_foi
 													LEFT JOIN nmv__imprisoniation i						ON v.ID_victim = i.ID_victim
 													LEFT JOIN nmv__nationality n        			ON n.ID_nationality = v.nationality_1938
@@ -147,8 +147,8 @@ else:  // default query
 													LEFT JOIN nmv__country bc 						ON bc.ID_country = v.ID_birth_country
 													LEFT JOIN nmv__victim_experiment ve		ON v.ID_victim = ve.ID_victim
 													LEFT JOIN nmv__survival s 						ON s.ID_survival = ve.ID_survival
-													LEFT JOIN nmv__experiment e 					ON ve.ID_experiment = e.ID_experiment
-													LEFT JOIN nmv__experiment_foi ef			ON ef.ID_experiment = e.ID_experiment
+													LEFT JOIN nmv__experiment ex 					ON ve.ID_experiment = ex.ID_experiment
+													LEFT JOIN nmv__experiment_foi ef			ON ef.ID_experiment = ex.ID_experiment
 													LEFT JOIN nmv__field_of_interest foi	ON foi.ID_foi = ef.ID_foi
 													LEFT JOIN nmv__imprisoniation i				ON v.ID_victim = i.ID_victim
 													LEFT JOIN nmv__nationality n        	ON n.ID_nationality = v.nationality_1938
@@ -224,11 +224,15 @@ foreach ($special_contain_fields as $key=>$field) {
     }
 }
 
-//WHERE-CLAUSE zusammenführen
+// Add WHERE-clause and GROUP BY
+$where_clause = '';
 if (count($querystring_where) > 0) {
-	  $where_clause =  ' WHERE '.implode(' AND ',$querystring_where);
+    $where_clause = ' WHERE '.implode(' AND ',$querystring_where);
+		$where_clause_encoded = urlencode(utf8_encode($where_clause)); //encode for url-transfer to export
     $querystring_items .= $where_clause;
 }
+$querystring_items .= " GROUP BY v.ID_victim, ve.ID_vict_exp";
+// echo $querystring_items;
 //Gesamtanzahl der Suchergebnisse feststellen
 $querystring_count = "SELECT COUNT(*) AS total FROM ($querystring_items) AS xyz";
 $query_count = $dbi->connection->query($querystring_count);
@@ -366,6 +370,9 @@ if((isset($_GET['ID_experiment']) && $_GET['ID_experiment']) || (isset($_GET['ex
 		->set('content',
 	        '<p>Search for: <em>'.implode(' AND ', $suche_nach).'</em><br>
 					Number of results: '. $total_results->total. '</p>'
+					. '<div class="buttons">'.createButton ('Export Table to .csv',"nmv_export.php?type=csv&entity=victim&where-clause=$where_clause_encoded",'icon download')
+																	 .createButton ('Export Table to .xls',"nmv_export.php?type=xls&entity=victim&where-clause=$where_clause_encoded",'icon download')
+					. '</div>'
 	        . $dbi->getListView('table_nmv_victims_exp',$query_items)
 	        .'<div class="buttons">'
 					.createButton (L_MODIFY_SEARCH,'javascript:history.back()','icon search')
@@ -380,6 +387,9 @@ if((isset($_GET['ID_experiment']) && $_GET['ID_experiment']) || (isset($_GET['ex
 		->set('content',
 	        '<p>Search for: <em>'.implode(', AND ',$suche_nach).'</em><br>
 					Number of results: '. $total_results->total. '</p>'
+					. '<div class="buttons">'.createButton ('Export Table to .csv',"nmv_export.php?type=csv&entity=victim&where-clause=$where_clause_encoded",'icon download')
+																	 .createButton ('Export Table to .xls',"nmv_export.php?type=xls&entity=victim&where-clause=$where_clause_encoded",'icon download')
+					. '</div>'
 	        . $dbi->getListView('table_nmv_victims_details',$query_items)
 	        .'<div class="buttons">'
 					.createButton (L_MODIFY_SEARCH,'javascript:history.back()','icon search')

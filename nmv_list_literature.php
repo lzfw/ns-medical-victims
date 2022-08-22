@@ -41,11 +41,14 @@ $layout
 			'<p>Number of literature entries: ' . $total_results->total . '</p>' .
 			($dbi->checkUserPermission('edit')
 	        ? '<div class="buttons">'.createButton ('New Literature','nmv_edit_literature','icon add').'</div>'
-	        : '') . 
-	    $dbi->getListView('nmv_literature_table',$query_items)
-	    .($dbi->checkUserPermission('edit')
+	        : '')
+			. '<div class="buttons">'.createButton ('Export Table to .csv','nmv_export.php?type=csv&entity=literature&where-clause=','icon download')
+																.createButton ('Export Table to .xls','nmv_export.php?type=xls&entity=literature&where-clause=','icon download')
+			. '</div>'
+	    . $dbi->getListView('nmv_literature_table',$query_items)
+	    . ($dbi->checkUserPermission('edit')
 	        ? '<div class="buttons">'.createButton ('New Literature','nmv_edit_literature','icon add').'</div>'
 	        : '')
-	    .createBackLink (L_CONTENTS,'z_menu_contents')
+	    . createBackLink (L_CONTENTS,'z_menu_contents')
 	)
 	->cast();

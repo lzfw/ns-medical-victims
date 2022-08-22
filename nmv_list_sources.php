@@ -41,11 +41,14 @@ $layout
 			'<p>Number of source entries: ' . $total_results->total . '</p>' .
 			($dbi->checkUserPermission('edit')
 	        ? '<div class="buttons">'.createButton ('New Source','nmv_edit_source','icon add').'</div>'
-	        : '') .
-	    $dbi->getListView('nmv_sources_table',$query_items)
-	    .($dbi->checkUserPermission('edit')
+	        : '')
+			. '<div class="buttons">'.createButton ('Export Table to .csv','nmv_export.php?type=csv&entity=source&where-clause=','icon download')
+															 .createButton ('Export Table to .xls (Excel)','nmv_export.php?type=xls&entity=source&where-clause=','icon download')
+			. '</div>'
+	    . $dbi->getListView('nmv_sources_table',$query_items)
+	    . ($dbi->checkUserPermission('edit')
 	        ? '<div class="buttons">'.createButton ('New Source','nmv_edit_source','icon add').'</div>'
 	        : '')
-	    .createBackLink (L_CONTENTS,'z_menu_contents')
+	    . createBackLink (L_CONTENTS,'z_menu_contents')
 	)
 	->cast();

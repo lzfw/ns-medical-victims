@@ -173,14 +173,20 @@ if (getUrlParameter('freetext-fields')) {
 }
 if (getUrlParameter('died_before_end_of_war')) {
 	$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter('died_before_end_of_war'));
-	$querystring_where[] = "(death_year < 1946 AND death_month < 6)";
+	$querystring_where[] = "(p.death_year BETWEEN 1933 AND 1945 AND p.death_month BETWEEN 1 AND 5)";
+	// $querystring_where[] = "(p.death_year = 1956 AND p.death_month = 6)";
 }
 
 
-//WHERE-CLAUSES zusammenführen
+// Add WHERE-clause and GROUP BY
+$where_clause = '';
 if (count($querystring_where) > 0) {
-    $querystring_items .= ' WHERE '.implode(' AND ',$querystring_where);
+    $where_clause = ' WHERE '.implode(' AND ',$querystring_where);
+		$where_clause_encoded = urlencode(utf8_encode($where_clause)); //encode for url-transfer to export
+    $querystring_items .= $where_clause;
 }
+$querystring_items .= " GROUP BY p.ID_perpetrator";
+// echo $querystring_items;
 
 //Gesamtanzahl der Suchergebnisse feststellen
 $querystring_count = "SELECT COUNT(*) AS total FROM ($querystring_items) AS xyz";
@@ -249,6 +255,9 @@ $layout
 	->set('content',
         '<p>Search for: <em>'.implode(', ',$suche_nach).'</em><br>
 				Number of results: ' . $total_results->total . '</p>'
+				. '<div class="buttons">'.createButton ('Export Table to .csv',"nmv_export.php?type=csv&entity=perpetrator&where-clause=$where_clause_encoded",'icon download')
+																 .createButton ('Export Table to .xls',"nmv_export.php?type=xls&entity=perpetrator&where-clause=$where_clause_encoded",'icon download')
+				. '</div>'
         .$dbi->getListView('table_nmv_perpetrators',$query_items)
         .'<div class="buttons">'
 				.createButton (L_MODIFY_SEARCH,'javascript:history.back()','icon search')

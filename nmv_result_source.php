@@ -30,10 +30,10 @@ $exact_fields = array ('ID_source', 'ID_institution');
 
 // felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
 // --> If no diacritics are applied, it finds covers any combination: η would also return ἠ, ἦ or ἥ, while ἠ would find only ἠ.
-$like_fields = array ('signature');
+$like_fields = array ();
 
 //felder, die mit LIKE %xy% gematcht werden
-$contain_fields = array('source_title', 'description');
+$contain_fields = array('source_title', 'description', 'signature');
 
 // felder, die mit like ODER exakt gematcht werden (Trunkierung möglich, Diakritika indistinkt)
 // --> Arabic vowel signs are treated indistinctively: سبب would also return سَبَبٌ, and vice versa.
@@ -92,9 +92,13 @@ foreach ($double_fields as $field) {
     }
 }
 
+// Add WHERE-clause and GROUP BY
+$where_clause = '';
 if (count($querystring_where) > 0) {
+    $where_clause = ' WHERE '.implode(' AND ',$querystring_where);
+		$where_clause_encoded = urlencode(utf8_encode($where_clause)); //encode for url-transfer to export
+    $querystring_items .= $where_clause;
     $querystring_count .= ' WHERE '.implode(' AND ',$querystring_where);
-    $querystring_items .= ' WHERE '.implode(' AND ',$querystring_where);
 }
 
 // Gesamtanzahl der Suchergebnisse feststellen
@@ -126,6 +130,9 @@ $layout
 	->set('content',
         '<p>Search for: <em>'.implode(', ',$suche_nach).'</em><br>
 				Number of results: ' . $total_results->total . '</p>'
+				. '<div class="buttons">'.createButton ('Export Table to .csv',"nmv_export.php?type=csv&entity=source&where-clause=$where_clause_encoded",'icon download')
+																 .createButton ('Export Table to .xls',"nmv_export.php?type=xls&entity=source&where-clause=$where_clause_encoded",'icon download')
+				. '</div>'
         .$dbi->getListView('nmv_sources_table',$query_items)
         .'<div class="buttons">'
 				.createButton (L_MODIFY_SEARCH,'javascript:history.back()','icon search')

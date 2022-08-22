@@ -43,11 +43,14 @@ $layout
 			'<p>Number of perpetrator entries: ' . $total_results->total . '</p>' .
 			($dbi->checkUserPermission('edit')
 	        ? '<div class="buttons">'.createButton ('New Perpetrator','nmv_edit_perpetrator','icon addUser').'</div>'
-	        : '') .
-	    $dbi->getListView('table_nmv_perpetrators',$query_items)
-	    .($dbi->checkUserPermission('edit')
+	        : '')
+			. '<div class="buttons">'.createButton ('Export Table to .csv','nmv_export.php?type=csv&entity=perpetrator&where-clause=','icon download')
+																.createButton ('Export Table to .xls','nmv_export.php?type=xls&entity=perpetrator&where-clause=','icon download')
+			. '</div>'
+	    . $dbi->getListView('table_nmv_perpetrators',$query_items)
+	    . ($dbi->checkUserPermission('edit')
 	        ? '<div class="buttons">'.createButton ('New Perpetrator','nmv_edit_perpetrator','icon addUser').'</div>'
 	        : '')
-	    .createBackLink (L_CONTENTS,'z_menu_contents')
+	    . createBackLink (L_CONTENTS,'z_menu_contents')
 	)
 	->cast();

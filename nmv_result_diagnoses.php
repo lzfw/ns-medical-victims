@@ -54,7 +54,7 @@ $ticked_fields = array ();
 
 //fields involving data from tables other than nmv__victim
 //key defines table and column
-$special_fields = array('dt.ID_diagnosis'			=> 'diagnosis_tag');
+$special_fields = array('dth.ID_diagnosis'			=> 'diagnosis_tag');
 
 $special_contain_fields = array();
 
@@ -97,7 +97,7 @@ $querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names, v.
 												LEFT JOIN nmv__med_history_hosp h					ON v.ID_victim = h.ID_victim
 												LEFT JOIN nmv__diagnosis_brain db 				ON db.ID_med_history_brain = b.ID_med_history_brain
 												LEFT JOIN nmv__diagnosis_hosp dh 					ON dh.ID_med_history_hosp = h.ID_med_history_hosp
-                        LEFT JOIN nmv__diagnosis_tag dt           ON dt.ID_diagnosis = db.ID_diagnosis OR dt.ID_diagnosis = dh.ID_diagnosis
+                        LEFT JOIN nmv__diagnosis_tag dth          ON dth.ID_diagnosis = db.ID_diagnosis OR dth.ID_diagnosis = dh.ID_diagnosis
                         '; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
 
@@ -130,7 +130,7 @@ foreach ($contain_fields as $field) {
 			$querystring_where[] = "v.cause_of_death LIKE '%".$filtered_field."%' OR
                               b.diagnosis LIKE '%".$filtered_field."%' OR
                               h.diagnosis LIKE '%".$filtered_field."%' OR
-                              dt.diagnosis LIKE '%".$filtered_field."%'
+                              dth.diagnosis LIKE '%".$filtered_field."%'
                              ";
     }
 }
@@ -151,9 +151,15 @@ foreach ($special_contain_fields as $key=>$field) {
 			$querystring_where[] = "$key LIKE '%".$filtered_field."%'";
     }
 }
+
+// Add WHERE-clause and GROUP BY
+$where_clause = '';
 if (count($querystring_where) > 0) {
-    $querystring_items .= ' WHERE '.implode(' AND ',$querystring_where);
+    $where_clause = ' WHERE '.implode(' AND ',$querystring_where);
+		$where_clause_encoded = urlencode(utf8_encode($where_clause)); //encode for url-transfer to export
+    $querystring_items .= $where_clause;
 }
+$querystring_items .= " GROUP BY v.ID_victim";
 
 //Gesamtanzahl der Suchergebnisse feststellen
 $querystring_count = "SELECT COUNT(*) AS total FROM ($querystring_items) AS xyz";
@@ -186,6 +192,9 @@ $layout
 	->set('content',
         '<p>Search for: <em>'.implode(', AND ',$suche_nach).'</em><br>
 				Number of results: '. $total_results->total. '</p>'
+				. '<div class="buttons">'.createButton ('Export Table to .csv',"nmv_export.php?type=csv&entity=victim&where-clause=$where_clause_encoded",'icon download')
+																 .createButton ('Export Table to .xls',"nmv_export.php?type=xls&entity=victim&where-clause=$where_clause_encoded",'icon download')
+				. '</div>'
         .$dbi->getListView('table_nmv_victims_details',$query_items)
         .'<div class="buttons">'
 				.createButton (L_MODIFY_SEARCH,'javascript:history.back()','icon search')

@@ -53,10 +53,10 @@ foreach ($double_fields as $field) {
 $dbi->setUserVar('querystring',implode('&',$query));
 
 // Select-Klauseln erstellen
-$querystring_count = 'SELECT COUNT(v.ID_perpetrator) AS total FROM nmv__perpetrator v'; // für Treffer gesamt
-$querystring_items = 'SELECT v.ID_perpetrator, v.surname, v.first_names, v.birth_year, bc.english AS birth_country, v.birth_place, v.occupation
-											FROM nmv__perpetrator v
-											LEFT JOIN nmv__country bc ON bc.ID_country = v.ID_birth_country'; // für Ergebnisliste
+$querystring_count = 'SELECT COUNT(p.ID_perpetrator) AS total FROM nmv__perpetrator p'; // für Treffer gesamt
+$querystring_items = 'SELECT p.ID_perpetrator, p.surname, p.first_names, p.birth_year, bc.english AS birth_country, p.birth_place, p.occupation
+											FROM nmv__perpetrator p
+											LEFT JOIN nmv__country bc ON bc.ID_country = p.ID_birth_country'; // für Ergebnisliste
 $querystring_where = array(); // für Filter
 
 // MySQL-Zeichenfilter definieren (Trunkierungszeichen werden zu MySQL-Zeichen)
@@ -66,31 +66,36 @@ $replace_chars = array('', ' ', ' ', '%', '%');
 // Strings zusammenbauen
 foreach ($exact_fields as $field) {
     if (getUrlParameter($field)) {
-        $querystring_where[] = "v.$field = '".getUrlParameter($field)."'";
+        $querystring_where[] = "p.$field = '".getUrlParameter($field)."'";
     }
 }
 foreach ($like_fields as $field) {
     if (getUrlParameter($field)) {
 		$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
-		$querystring_where[] = "TRIM(v.$field) LIKE TRIM('".$filtered_field."')";
+		$querystring_where[] = "TRIM(p.$field) LIKE TRIM('".$filtered_field."')";
     }
 }
 foreach ($contain_fields as $field) {
     if (getUrlParameter($field)) {
 		$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
-		$querystring_where[] = "v.$field LIKE '%".$filtered_field."%'";
+		$querystring_where[] = "p.$field LIKE '%".$filtered_field."%'";
     }
 }
 foreach ($double_fields as $field) {
     if (getUrlParameter($field)) {
 		$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
-		$querystring_where[] = "(v.$field LIKE '".$filtered_field."' OR v.$field = '".getUrlParameter($field)."')";
+		$querystring_where[] = "(p.$field LIKE '".$filtered_field."' OR p.$field = '".getUrlParameter($field)."')";
     }
 }
 
+
+// Add WHERE-clause and GROUP BY
+$where_clause = '';
 if (count($querystring_where) > 0) {
+		$where_clause = ' WHERE '.implode(' AND ',$querystring_where);
+		$where_clause_encoded = urlencode(utf8_encode($where_clause)); //encode for url-transfer to export
     $querystring_count .= ' WHERE '.implode(' AND ',$querystring_where);
-    $querystring_items .= ' WHERE '.implode(' AND ',$querystring_where);
+    $querystring_items .= $where_clause;
 }
 
 // Gesamtanzahl der Suchergebnisse feststellen
@@ -120,6 +125,9 @@ $layout
 	->set('content',
         '<p>Search for: <em>'.implode(', ',$suche_nach).'</em><br>
 				Number of results: ' . $total_results->total . '</p>'
+				. '<div class="buttons">'.createButton ('Export Table to .csv',"nmv_export.php?type=csv&entity=perpetrator&where-clause=$where_clause_encoded",'icon download')
+																 .createButton ('Export Table to .xls',"nmv_export.php?type=xls&entity=perpetrator&where-clause=$where_clause_encoded",'icon download')
+				. '</div>'
         .$dbi->getListView('table_nmv_perpetrators',$query_items)
         .'<div class="buttons">'
 				.createButton (L_MODIFY_SEARCH,'javascript:history.back()','icon search')

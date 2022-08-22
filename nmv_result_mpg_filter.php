@@ -142,10 +142,14 @@ if (getUrlParameter($ticked_fields[6])) {
 													OR t.ref_no LIKE 'M-%')";
 }
 
+// Add WHERE-clause and GROUP BY
+$where_clause = '';
 if (count($querystring_where) > 0) {
-    $querystring_items .= ' WHERE '.implode(' AND ',$querystring_where);
+    $where_clause = ' WHERE '.implode(' AND ',$querystring_where);
+		$where_clause_encoded = urlencode(utf8_encode($where_clause)); //encode for url-transfer to export
+    $querystring_items .= $where_clause;
 }
-
+$querystring_items .= " GROUP BY v.ID_victim";
 
 // Gesamtanzahl der Suchergebnisse feststellen
 $querystring_count = "SELECT COUNT(*) AS total FROM ($querystring_items) AS xyz";
@@ -190,6 +194,9 @@ $layout
 	->set('content',
 				'<p>Search for: <em>'.implode(', AND',$suche_nach).'</em><br>
 				Number of results: '. $total_results->total. '</p>'
+				. '<div class="buttons">'.createButton ('Export Table to .csv',"nmv_export.php?type=csv&entity=victim&where-clause=$where_clause_encoded",'icon download')
+																 .createButton ('Export Table to .xls',"nmv_export.php?type=xls&entity=victim&where-clause=$where_clause_encoded",'icon download')
+				. '</div>'
         .$dbi->getListView('table_nmv_victims_details',$query_items)
         .'<div class="buttons">'
 				.createButton (L_MODIFY_SEARCH,'javascript:history.back()','icon search')

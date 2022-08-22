@@ -121,9 +121,12 @@ foreach ($special_fields as $key=>$field) {
     }
 }
 
+// Add WHERE-clause and GROUP BY
+$where_clause = '';
 if (count($querystring_where) > 0) {
-    //$querystring_count .= ' WHERE '.implode(' AND ',$querystring_where);
-    $querystring_items .= ' WHERE '.implode(' AND ',$querystring_where);
+    $where_clause = ' WHERE '.implode(' AND ',$querystring_where);
+		$where_clause_encoded = urlencode(utf8_encode($where_clause)); //encode for url-transfer to export
+    $querystring_items .= $where_clause;
 }
 $querystring_items .= ' GROUP BY e.ID_experiment';
 
@@ -169,6 +172,9 @@ $layout
 	->set('content',
         '<p>Search for: <em>'.implode(', ',$suche_nach).'</em><br>
 				Number of results: '. $total_results->total. '</p>'
+				. '<div class="buttons">'.createButton ('Export Table to .csv',"nmv_export.php?type=csv&entity=experiment&where-clause=$where_clause_encoded",'icon download')
+																 .createButton ('Export Table to .xls',"nmv_export.php?type=xls&entity=experiment&where-clause=$where_clause_encoded",'icon download')
+				. '</div>'
         .$dbi->getListView('nmv_experiments_table',$query_items)
         .'<div class="buttons">'
 				.createButton (L_MODIFY_SEARCH,'javascript:history.back()','icon search')

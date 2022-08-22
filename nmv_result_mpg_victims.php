@@ -79,8 +79,7 @@ $querystring_items = 'SELECT DISTINCT v.ID_victim, v.surname, v.first_names, v.b
 											LEFT JOIN nmv__country bc							ON bc.ID_country = v.ID_birth_country
 											LEFT JOIN nmv__nationality n 					ON n.ID_nationality = v.nationality_1938
 											LEFT JOIN nmv__ethnicgroup et					ON et.ID_ethnicgroup = v.ethnic_group
-											LEFT JOIN nmv__victim_name o					ON v.ID_victim = o.ID_victim
-											LEFT JOIN nmv__victim_name o1					ON o.ID_victim = o1.ID_victim
+											LEFT JOIN nmv__victim_name vn					ON v.ID_victim = vn.ID_victim
 											'; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
 $querystring_where[] = "was_prisoner_assistant != 'prisoner assistant only'";
@@ -120,19 +119,24 @@ foreach ($diy_fields as $field) {
 	if (getUrlParameter($field)) {
 		if ($field == 'surname') {
 			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
-			$querystring_where[] = "(TRIM(v.$field) LIKE '%".$filtered_field."%' OR TRIM(o.victim_name) LIKE '%".$filtered_field."%' OR TRIM(o1.victim_name) LIKE '%".$filtered_field."%')";
+			$querystring_where[] = "(vn.victim_name LIKE '%".$filtered_field."%' OR v.$field LIKE '%".$filtered_field."%')";
 		}
 		if ($field == 'first_names') {
 			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
-			$querystring_where[] = "(TRIM(v.$field) LIKE '%".$filtered_field."%' OR TRIM(o.victim_first_names) LIKE '%".$filtered_field."%' OR TRIM(o1.victim_first_names) LIKE '%".$filtered_field."%')";
+			$querystring_where[] = "(vn.victim_first_names LIKE '%".$filtered_field."%' OR v.$field LIKE '%".$filtered_field."%')";
 		}
 	}
 }
 
 
+// Add WHERE-clause and GROUP BY
+$where_clause = '';
 if (count($querystring_where) > 0) {
-    $querystring_items .= ' WHERE '.implode(' AND ',$querystring_where);
+    $where_clause = ' WHERE '.implode(' AND ',$querystring_where);
+		$where_clause_encoded = urlencode(utf8_encode($where_clause)); //encode for url-transfer to export
+    $querystring_items .= $where_clause;
 }
+$querystring_items .= "GROUP BY v.ID_victim";
 
 
 // Gesamtanzahl der Suchergebnisse feststellen
@@ -166,6 +170,9 @@ $layout
 	->set('content',
         '<p>Search for: <em>'.implode(', ',$suche_nach).'</em><br>
 				Number of results: '. $total_results->total. '</p>'
+				. '<div class="buttons">'.createButton ('Export Table to .csv',"nmv_export.php?type=csv&entity=victim&where-clause=$where_clause_encoded",'icon download')
+																 .createButton ('Export Table to .xls',"nmv_export.php?type=xls&entity=victim&where-clause=$where_clause_encoded",'icon download')
+				. '</div>'
         .$dbi->getListView('table_nmv_victims_details',$query_items)
         .'<div class="buttons">'
 				.createButton (L_MODIFY_SEARCH,'javascript:history.back()','icon search')

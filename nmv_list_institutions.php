@@ -20,11 +20,11 @@ if ($dbi->checkUserPermission('admin')) {
 
 // Select-Klauseln erstellen
 $querystring_count = 'SELECT COUNT(*) AS total FROM nmv__institution i'; // für Treffer gesamt
-$querystring_items = 'SELECT ID_institution, IFNULL(institution_name, \'unavailable\') institution_name,
+$querystring_items = "SELECT ID_institution, IFNULL(institution_name, 'unavailable') institution_name,
  location, c.english AS country, it.english AS itype, notes
 FROM nmv__institution i
 LEFT JOIN nmv__institution_type it ON i.type = it.ID_institution_type
-LEFT JOIN nmv__country c ON c.ID_country = i.ID_country'; // für Ergebnisliste
+LEFT JOIN nmv__country c ON c.ID_country = i.ID_country"; // für Ergebnisliste
 $querystring_where = array(); // für Filter
 
 // Gesamtanzahl der Suchergebnisse feststellen
@@ -41,14 +41,17 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $layout
 	->set('title','Institutions')
 	->set('content',
-			'<p>Number of institution entries: ' . $total_results->total . ' </p>' .
-			($dbi->checkUserPermission('edit')
-	        ? '<div class="buttons">'.createButton ('New Institution','nmv_edit_institution','icon addUser').'</div>'
-	        : '') .
-	    $dbi->getListView('nmv_institutions_table',$query_items)
-	    .($dbi->checkUserPermission('edit')
+			'<p>Number of institution entries: ' . $total_results->total . ' </p>'
+			. ($dbi->checkUserPermission('edit')
 	        ? '<div class="buttons">'.createButton ('New Institution','nmv_edit_institution','icon addUser').'</div>'
 	        : '')
-	    .createBackLink (L_CONTENTS,'z_menu_contents')
+			. '<div class="buttons">'.createButton ('Export Table to .csv','nmv_export.php?type=csv&entity=institution&where-clause=','icon download')
+																.createButton ('Export Table to .xls','nmv_export.php?type=xls&entity=institution&where-clause=','icon download')
+			.'</div>'
+	    . $dbi->getListView('nmv_institutions_table',$query_items)
+	    . ($dbi->checkUserPermission('edit')
+	        ? '<div class="buttons">'.createButton ('New Institution','nmv_edit_institution','icon addUser').'</div>'
+	        : '')
+	    . createBackLink (L_CONTENTS,'z_menu_contents')
 	)
 	->cast();

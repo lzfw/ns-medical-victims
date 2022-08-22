@@ -64,6 +64,9 @@ $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']} LIM
 //version with all victims on one page:
 //$querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 
+// WHERE CLAUSE for data exports
+$where_clause_encoded = urlencode(utf8_encode("WHERE v.was_prisoner_assistant != 'victim only'"));
+
 
 // query ausführen
 $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
@@ -73,11 +76,14 @@ $layout
 	->set('content',
 			($dbi->checkUserPermission('edit')
 	        ? '<div class="buttons">'.createButton ('New Prisoner Assistant','nmv_edit_victim?type=prisoner_assistant','icon addUser').'</div>'
-	        : '') .
-	    $dbi->getListView('nmv_victims_table',$query_items)
-	    .($dbi->checkUserPermission('edit')
+	        : '')
+			. '<div class="buttons">'.createButton ('Export Table to .csv',"nmv_export.php?type=csv&entity=prisoner_assistant&where-clause=$where_clause_encoded",'icon download')
+															 .createButton ('Export Table to .xls',"nmv_export.php?type=xls&entity=prisoner_assistant&where-clause=$where_clause_encoded",'icon download')
+			. '</div>'
+	    . $dbi->getListView('nmv_victims_table',$query_items)
+	    . ($dbi->checkUserPermission('edit')
 	        ? '<div class="buttons">'.createButton ('New Prisoner Assistant','nmv_edit_victim?type=prisoner_assistant','icon addUser').'</div>'
 	        : '')
-	    .createBackLink (L_CONTENTS,'z_menu_contents')
+	    . createBackLink (L_CONTENTS,'z_menu_contents')
 	)
 	->cast();

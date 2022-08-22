@@ -45,12 +45,15 @@ $layout
 	->set('content',
 			($dbi->checkUserPermission('edit')
 			? '<div class="buttons">'.createButton ('New Biomedical Research','nmv_edit_experiment','icon add').'</div>'
-			: '') .
-			'<p>Number of experiments: '. $total_results->total. ' </p>'.
-	    $dbi->getListView('nmv_experiments_table',$query_items)
-	    .($dbi->checkUserPermission('edit')
+			: '')
+			. '<div class="buttons">'.createButton ('Export Table to .csv','nmv_export.php?type=csv&entity=experiment&where-clause=','icon download')
+															.createButton ('Export Table to .xls (Excel)','nmv_export.php?type=xls&entity=experiment&where-clause=','icon download')
+			. '</div>'
+			. '<p>Number of experiments: '. $total_results->total. ' </p>'
+			. $dbi->getListView('nmv_experiments_table',$query_items)
+	    . ($dbi->checkUserPermission('edit')
 	        ? '<div class="buttons">'.createButton ('New Biomedical Research','nmv_edit_experiment','icon add').'</div>'
 	        : '')
-	    .createBackLink (L_CONTENTS,'z_menu_contents')
+	    . createBackLink (L_CONTENTS,'z_menu_contents')
 	)
 	->cast();
