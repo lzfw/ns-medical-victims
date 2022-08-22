@@ -8,7 +8,7 @@
 function filterData(&$str){
     $str = preg_replace("/\t/", "\\t", $str);
     $str = preg_replace("/\r?\n/", "\\n", $str);
-    // $str = str_replace("\\n", "&#10;", $str);
+    $str = str_replace("\\n", "---------------", $str);
     if(strstr($str, '"')) $str = '"' . str_replace('"', '""', $str) . '"';
 }
 
