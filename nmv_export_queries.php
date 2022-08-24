@@ -184,7 +184,7 @@ GROUP_CONCAT(DISTINCT
                 IF(b.brain_report_day IS NULL AND b.brain_report_month IS NULL AND b.brain_report_year IS NULL, '',
                   CONCAT('DATE of brain report: --', IFNULL(b.brain_report_day, '-'), '.', IFNULL(b.brain_report_month, '-'), '.', IFNULL(b.brain_report_year, '-'), '--, ')),
                 IF(b.ref_no IS NULL, '', CONCAT('brain report REF NO: --', b.ref_no, '--, ')),
-                IF(b.notes, '', CONCAT('brain report NOTES: --', b.notes, '--, ')),
+                IF(b.notes IS NULL, '', CONCAT('brain report NOTES: --', b.notes, '--, ')),
                 IF(b.brain_report_has_photo = -1, 'brain report has photo', '')
                  SEPARATOR ' \n') AS 'Victim - Brain Report',
 GROUP_CONCAT(DISTINCT
@@ -341,7 +341,7 @@ GROUP_CONCAT(DISTINCT
                 IF(ditab.brain_diagnoses IS NULL, '', CONCAT('DIAGNOSIS TAGS: --', ditab.brain_diagnoses, '--, ')),
                 IF(b.brain_report_day IS NULL AND b.brain_report_month IS NULL AND b.brain_report_year IS NULL, '', CONCAT('DATE of brain report: --', IFNULL(b.brain_report_day, '-'), '.', IFNULL(b.brain_report_month, '-'), '.', IFNULL(b.brain_report_year, '-'), '--, ')),
                 IF(b.ref_no IS NULL, '', CONCAT('brain report REF NO: --', b.ref_no, '--, ')),
-                IF(b.notes, '', CONCAT('brain report NOTES: --', b.notes, '--, ')),
+                IF(b.notes IS NULL, '', CONCAT('brain report NOTES: --', b.notes, '--, ')),
                 IF(b.brain_report_has_photo = -1, 'brain report has photo', '')
                  SEPARATOR ' \n') AS 'Victim - Brain Report',
 GROUP_CONCAT(DISTINCT
