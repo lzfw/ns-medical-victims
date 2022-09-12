@@ -150,6 +150,7 @@ if(!($dbi->checkUserPermission('mpg')))	{
 	    ->setLabel('Compensation')
 			->addRadioButton('yes', ' yes')
 			->addRadioButton('no', ' no')
+			->addRadioButton('not applicable', ' not applicable')
 			->addRadioButton('not specified', ' not specified');
 
 	$form->addField('compensation_details', TEXTAREA)
