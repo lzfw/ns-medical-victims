@@ -5,9 +5,12 @@ require_once 'flotilla/ini.php';
 $dbi->requireUserPermission ('edit');
 
 $form = new Form ('nmv_edit_victim_imprisoniation');
-
+$tag_array = array();
+$tag_button = '';
 // query: get victim data
 $victim_id = (int) getUrlParameter('ID_victim', 0);
+$imprisonment_id = (int) getUrlParameter('ID_imprisoniation', 0);
+
 $victim_name = 'Error: Unknown.';
 if ($victim_id) {
     $querystring = "
@@ -30,23 +33,28 @@ if ($victim_id) {
     $victim_id = $victim->victim_id;
     $victim_name = $victim->victim_name;
 }
-
+// query: get array of classification for this imprisonment
+$tagged = $dbi->connection->query("SELECT ic.ID_classification, vc.english
+                                   FROM nmv__imprisonment_classification ic
+                                   LEFT JOIN nmv__victim_classification vc ON vc.ID_classification = ic.ID_classification
+                                   WHERE ic.ID_imprisonment = $imprisonment_id");
+while ($tag = $tagged->fetch_row()) {
+	$tag_array[] = $tag[1];
+}
 
 $form
 	->setLabel('Imprisonment: ' . $victim_name);
-
 $form
 	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
 	->setPrimaryKeyName('ID_imprisoniation');
-
 $form->addField ('ID_victim',PROTECTED_TEXT)
     ->setLabel ('ID person');
-$form->addField ('ID_classification',SELECT)
-    ->setLabel ('Classification')
-    ->addOption (NO_VALUE,'please choose')
-    ->addOptionsFromTable ( 'nmv__victim_classification', 'ID_classification', "english");
 $form->addField ('number',TEXT,50)
     ->setLabel ('(Prison) Number');
+$form->addField('ID_institution', SELECT)
+    ->setLabel('Institution')
+    ->addOption (NO_VALUE, 'please choose')
+    ->addOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name', 'type NOT IN (23,24, 18, 19, 1)');
 $form->addField ('location',TEXT,50)
     ->setClass ('keyboardInput')
     ->setLabel ('Location');
@@ -62,6 +70,10 @@ $form->addField ('start_year',TEXT,4)
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,1950)
     ->appendTo('start_day');
+// $form->addField('classification', STATIC_TEXT, "<strong>Classification(s):</strong><br> &emsp;&emsp;" . implode(', <br> &emsp;&emsp;', $tag_array));
+$form->addField('classification', STATIC_TEXT, "<strong>Classification(s):</strong><br><ul class='inside'><li>" . implode('</li><li>', $tag_array) . '</li></ul>');
+$form->addField('classification_button', STATIC_TEXT, $tag_button = createButton('Click to edit classification', 'nmv_edit_imprisonment_classification.php?ID_imprisonment=' . $imprisonment_id . '&ID_victim=' . $victim_id, 'icon edit'))
+    ->setLabel('Classification(s)');
 
 $form
 	->addButton (SUBMIT)
@@ -73,7 +85,7 @@ $form
 
 $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 $dbi->addBreadcrumb ('Victims','nmv_list_victims');
-$dbi->addBreadcrumb ('Victim Classification: '.$victim_name,'nmv_view_victim?ID_victim='.$victim_id);
+$dbi->addBreadcrumb ($victim_name,'nmv_view_victim?ID_victim='.$victim_id);
 
 $layout
 	->set('title',getUrlParameter('ID_imprisoniation') ? 'Edit Imprisonment' : 'New Imprisonment')

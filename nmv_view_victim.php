@@ -165,20 +165,23 @@ if ($victim = $result->fetch_object()) {
     $content .= '<br>'.buildElement('h3', 'Imprisonment');
     // query: get prison numbers
     $querystring = "
-    SELECT ID_imprisoniation, ID_victim, number, location,
-        pc.english classification, CONCAT(IFNULL(start_day, '-'), '.', IFNULL(start_month, '-'), '.', IFNULL(start_year, '-')) AS start_date
+    SELECT i.ID_imprisoniation, i.ID_victim, i.number, ins.institution_name AS institution, i.location,
+        GROUP_CONCAT(c.english SEPARATOR ', <br>') AS classification, CONCAT(IFNULL(i.start_day, '-'), '.', IFNULL(i.start_month, '-'), '.', IFNULL(i.start_year, '-')) AS start_date
     FROM nmv__imprisoniation i
-    LEFT JOIN nmv__victim_classification pc ON pc.ID_classification = i.ID_classification
+    LEFT JOIN nmv__imprisonment_classification ic    ON ic.ID_imprisonment = i.ID_imprisoniation
+    LEFT JOIN nmv__victim_classification c           ON c.ID_classification = ic.ID_classification
+    LEFT JOIN nmv__institution ins ON ins.ID_institution = i.ID_institution
     WHERE ID_victim = $victim_id
+    GROUP BY i.ID_imprisoniation
     ORDER BY start_year, start_month, start_day";
 
     $options = '';
-    $row_template = ['{number}', '{location}', '{classification}', '{start_date}'];
-    $header_template = ['Number', 'Location', 'Classification', 'Date (DMY)'];
+    $row_template = ['{number}', '{institution}', '{location}', '{classification}', '{start_date}'];
+    $header_template = ['(Prisoner) Number', 'Institution', 'Location', 'Classifications', 'Date (DMY)'];
 
     if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
     	if ($dbi->checkUserPermission('edit')) {
-    			$options .= createSmallButton(L_EDIT,'nmv_edit_victim_imprisoniation?ID_imprisoniation={ID_imprisoniation}','icon edit');
+    			$options .= createSmallButton(L_EDIT,'nmv_edit_victim_imprisoniation?ID_imprisoniation={ID_imprisoniation}&ID_victim={ID_victim}','icon edit');
     	}
     	if ($dbi->checkUserPermission('admin')) {
     			$options .= createSmallButton(L_DELETE,'nmv_remove_victim_imprisoniation?ID_imprisoniation={ID_imprisoniation}','icon delete');
