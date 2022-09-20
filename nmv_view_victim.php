@@ -14,7 +14,7 @@ $dbi->addBreadcrumb ('Victims','nmv_list_victims');
 $querystring = "
     SELECT v.first_names, v.surname,
            CONCAT(IFNULL(v.birth_day , '-'), '.', IFNULL(v.birth_month , '-'), '.', IFNULL(v.birth_year, '-')) birth, v.twin,
-           v.birth_place, bc.english as birth_country, v.death_place, dc.english as death_country,
+           v.birth_place, bc.english as birth_country, v.death_place, dc.english as death_country, di.institution_name AS death_institution,
            CONCAT(IFNULL(v.death_day , '-'), '.', IFNULL(v.death_month , '-'), '.', IFNULL(v.death_year, '-')) death,
            v.cause_of_death, gender, m.english as marital_family_status,
            ed.english as education, r.english as religion,
@@ -36,6 +36,7 @@ $querystring = "
     LEFT JOIN nmv__country bc ON (bc.ID_country = v.ID_birth_country)
     LEFT JOIN nmv__country dc ON (dc.ID_country = v.ID_death_country)
     LEFT JOIN nmv__country ac ON (ac.ID_country = v.ID_arrest_country)
+    LEFT JOIN nmv__institution di ON (di.ID_institution = v.ID_death_institution)
     LEFT JOIN nmv__victim_source vs ON vs.ID_victim = v.ID_victim
     LEFT JOIN nmv__victim_literature vl ON vl.ID_victim = v.ID_victim
     LEFT JOIN nmv__med_history_hosp h ON h.ID_victim = v.ID_victim
@@ -82,6 +83,7 @@ if ($victim = $result->fetch_object()) {
         buildDataSheetRow('Gender',                 $victim->gender).
         buildDataSheetRow('Birth DMY',                  $victim_birth).
         buildDataSheetRow('Death DMY',                  $victim_death).
+        buildDataSheetRow('Death Institution',     $victim->death_institution).
         buildDataSheetRow('Marital familiy status',
             $victim->marital_family_status).
         buildDataSheetRow('Highest education level',$victim->education).

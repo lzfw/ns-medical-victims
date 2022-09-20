@@ -37,6 +37,14 @@ $victimsVariableForm->addField('twin', CHECKBOX, -1)
 
 $victimsVariableForm->addField('br-birth', STATIC_TEXT, '<br>');
 
+$victimsVariableForm->addField('ID_death_institution', SELECT)
+  ->setLabel('institution of death')
+  ->addOption(NO_VALUE,'all instiutions')
+  ->addOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name',
+                        'EXISTS (	SELECT *
+                                  FROM nmv__victim
+                                  WHERE nmv__institution.ID_institution = nmv__victim.ID_death_institution)');
+
 $victimsVariableForm->addField('ID_death_country', SELECT)
   ->setLabel('country of death')
   ->addOption(NO_VALUE,'all countries')

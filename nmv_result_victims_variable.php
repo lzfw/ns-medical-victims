@@ -36,12 +36,12 @@ $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 // zu durchsuchende felder und suchsystematik definieren:
 
 // felder, die immer exakt gematcht werden (Trunkierung nicht möglich, Diakritika distinkt, Basiszeichen distinkt)
-$exact_fields = array (	'twin', 					'mpg_project', 				'ID_birth_country',
-												'birth_year',			'ID_dataset_origin', 	'ID_death_country',
-												'death_year', 		'gender',							'religion',
-												'ethnic_group', 	'nationality_1938', 	'ID_education',
-												'occupation', 		'ID_arrest_country', 	'ID_perpetrator',
-												'photo',					'nationality_after_1945');
+$exact_fields = array (	'twin', 					'mpg_project', 						'ID_birth_country',
+												'birth_year',			'ID_dataset_origin', 			'ID_death_country',
+												'death_year', 		'gender',									'religion',
+												'ethnic_group', 	'nationality_1938', 			'ID_education',
+												'occupation', 		'ID_arrest_country', 			'ID_perpetrator',
+												'photo',					'nationality_after_1945',	'ID_death_institution');
 
 // felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
 // --> If no diacritics are applied, it finds covers any combination: η would also return ἠ, ἦ or ἥ, while ἠ would find only ἠ.
@@ -138,6 +138,7 @@ if ((isset($_GET['ID_experiment']) && ($_GET['ID_experiment'])) || (isset($_GET[
 													LEFT JOIN nmv__evaluation ev							ON v.ID_victim = ev.ID_victim
 													LEFT JOIN nmv__victim_source vs 					ON vs.ID_victim = v.ID_victim
 													LEFT JOIN nmv__victim_literature vl 			ON vl.ID_victim = v.ID_victim
+													LEFT JOIN nmv__institution di							ON di.ID_institution = v.ID_death_institution
 												'; // für Ergebnisliste
 else:  // default query
 		$querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
@@ -163,6 +164,8 @@ else:  // default query
 													LEFT JOIN nmv__evaluation ev					ON v.ID_victim = ev.ID_victim
 													LEFT JOIN nmv__victim_source vs 			ON vs.ID_victim = v.ID_victim
 													LEFT JOIN nmv__victim_literature vl 	ON vl.ID_victim = v.ID_victim
+													LEFT JOIN nmv__institution di					ON di.ID_institution = v.ID_death_institution
+
 												'; // für Ergebnisliste}
 endif;
 $querystring_where = array(); // for where-part of select clause
@@ -253,6 +256,10 @@ if (isset($_GET['ID_birth_country']) && $_GET['ID_birth_country']) {
 if (isset($_GET['birth_place']) && $_GET['birth_place']) $suche_nach[] = 'place of birth contains:  '.$_GET['birth_place'];
 if (isset($_GET['birth_year']) && $_GET['birth_year']) $suche_nach[] = 'year of birth = '.$_GET['birth_year'];
 if (isset($_GET['twin']) && $_GET['twin']) $suche_nach[] = 'twins only';
+if (isset($_GET['ID_death_institution']) && $_GET['ID_death_institution'])  {
+	$search_term = $dbi->connection->query('SELECT institution_name FROM nmv__institution WHERE ID_institution = '.$_GET['ID_death_institution'])->fetch_row();
+	$suche_nach[] = 'institution of death = '.$search_term[0];
+}
 if (isset($_GET['ID_death_country']) && $_GET['ID_death_country'])  {
 	$search_term = $dbi->connection->query('SELECT english FROM nmv__country WHERE ID_country = '.$_GET['ID_death_country'])->fetch_row();
 	$suche_nach[] = 'country of death = '.$search_term[0];
