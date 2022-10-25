@@ -8,6 +8,7 @@ $form = new Form ('nmv_imprisonment_classification');
 
 $ID_imprisonment = (int) getUrlParameter('ID_imprisonment', 0);
 $ID_victim = (int) getUrlParameter('ID_victim', 0);
+$tag_array = array();
 
 // query: get array of classification for this imprisonment
 $tagged = $dbi->connection->query("SELECT ic.ID_classification

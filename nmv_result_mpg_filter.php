@@ -67,16 +67,17 @@ $querystring_items = 'SELECT DISTINCT v.ID_victim, v.surname, v.first_names, v.b
 															bc.english AS birth_country, v.birth_place, et.english AS ethnic_group,
 															n.english AS nationality_1938
 											FROM nmv__victim v
-											LEFT JOIN nmv__country bc									ON v.ID_birth_country = bc.ID_country
-											LEFT JOIN nmv__nationality n 							ON v.nationality_1938 = n.ID_nationality
-											LEFT JOIN nmv__ethnicgroup et 						ON v.ethnic_group = et.ID_ethnicgroup
-											LEFT JOIN nmv__med_history_brain b 				ON v.ID_victim = b.ID_victim
-											LEFT JOIN nmv__med_history_hosp h   			ON v.ID_victim = h.ID_victim
-											LEFT JOIN nmv__victim_experiment ve 			ON v.ID_victim = ve.ID_victim
-											LEFT JOIN nmv__experiment_institution ei 	ON ei.ID_experiment = ve.ID_experiment
-											LEFT JOIN nmv__med_history_tissue t 			ON v.ID_victim = t.ID_victim
-											LEFT JOIN nmv__imprisoniation i    				ON v.ID_victim = i.ID_victim
-											LEFT JOIN nmv__victim_source vs 	 				ON v.ID_victim = vs.ID_victim'; // für Ergebnisliste
+											LEFT JOIN nmv__country bc											ON v.ID_birth_country = bc.ID_country
+											LEFT JOIN nmv__nationality n 									ON v.nationality_1938 = n.ID_nationality
+											LEFT JOIN nmv__ethnicgroup et 								ON v.ethnic_group = et.ID_ethnicgroup
+											LEFT JOIN nmv__med_history_brain b 						ON v.ID_victim = b.ID_victim
+											LEFT JOIN nmv__med_history_hosp h   					ON v.ID_victim = h.ID_victim
+											LEFT JOIN nmv__victim_experiment ve 					ON v.ID_victim = ve.ID_victim
+											LEFT JOIN nmv__experiment_institution ei 			ON ei.ID_experiment = ve.ID_experiment
+											LEFT JOIN nmv__med_history_tissue t 					ON v.ID_victim = t.ID_victim
+											LEFT JOIN nmv__imprisoniation i    						ON v.ID_victim = i.ID_victim
+											LEFT JOIN nmv__imprisonment_classification ic	ON ic.ID_imprisonment = i.ID_imprisoniation
+											LEFT JOIN nmv__victim_source vs 	 						ON v.ID_victim = vs.ID_victim'; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
 $querystring_where[] = "was_prisoner_assistant != 'prisoner assistant only'";
 
@@ -123,10 +124,10 @@ if (getUrlParameter($ticked_fields[0])) {
                               OR v.cause_of_death LIKE '%exekution%')";
 }
 if (getUrlParameter($ticked_fields[1])) {
-  $querystring_where[] = "i.ID_classification = 7";
+  $querystring_where[] = "ic.ID_classification = 7";
 }
 if (getUrlParameter($ticked_fields[2])) {
-  $querystring_where[] = "i.ID_classification = 5";
+  $querystring_where[] = "ic.ID_classification = 5";
 }
 if (getUrlParameter($ticked_fields[3])) {
   $querystring_where[] = "vs.ID_source = 207";

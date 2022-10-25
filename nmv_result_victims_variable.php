@@ -62,7 +62,7 @@ $ticked_fields = array ();
 //key defines table and column
 $special_fields = array('ex.ID_experiment'			=> 'ID_experiment',
 												'ei.ID_institution'   => 'exp_institution',
- 												'i.ID_classification' => 'ID_classification',
+ 												'ic.ID_classification' => 'ID_classification',
 												'i.location' 					=> 'location',
 												't.ID_tissue_state' 	=> 'ID_tissue_state',
 												't.ID_tissue_form' 		=> 'ID_tissue_form',
@@ -74,7 +74,8 @@ $special_fields = array('ex.ID_experiment'			=> 'ID_experiment',
 												'dh.ID_diagnosis'			=> 'hospitalisation_ID_diagnosis',
 												'ev.evaluation_status'=> 'evaluation_status',
 												't.ID_institution'   	=> 'tissue_institution',
-												'ef.ID_foi'						=> 'ID_foi'
+												'ef.ID_foi'						=> 'ID_foi',
+												'i.ID_institution'    => 'ID_imprisonment_institution'
 												);
 
 $special_contain_fields = array("CONCAT(IFNULL(b.diagnosis, ''), IFNULL(dtb.diagnosis, ''))"	=> 'brain_report_diagnosis',
@@ -118,54 +119,55 @@ if ((isset($_GET['ID_experiment']) && ($_GET['ID_experiment'])) || (isset($_GET[
 																					ve.exp_start_day, ve.exp_start_month, ve.exp_start_year,
 																					s.english AS survival, ve.ID_vict_exp
 													FROM nmv__victim v
-													LEFT JOIN nmv__country bc 								ON bc.ID_country = v.ID_birth_country
-													LEFT JOIN nmv__victim_experiment ve				ON v.ID_victim = ve.ID_victim
-													LEFT JOIN nmv__survival s 								ON s.ID_survival = ve.ID_survival
-													LEFT JOIN nmv__experiment ex 							ON ve.ID_experiment = ex.ID_experiment
-													LEFT JOIN nmv__experiment_institution ei 	ON ei.ID_experiment = ex.ID_experiment
-													LEFT JOIN nmv__experiment_foi ef					ON ef.ID_experiment = ex.ID_experiment
-													LEFT JOIN nmv__field_of_interest foi			ON foi.ID_foi = ef.ID_foi
-													LEFT JOIN nmv__imprisoniation i						ON v.ID_victim = i.ID_victim
-													LEFT JOIN nmv__nationality n        			ON n.ID_nationality = v.nationality_1938
-													LEFT JOIN nmv__ethnicgroup et       			ON et.ID_ethnicgroup = v.ethnic_group
-													LEFT JOIN nmv__med_history_brain b				ON v.ID_victim = b.ID_victim
-													LEFT JOIN nmv__diagnosis_brain db 				ON db.ID_med_history_brain = b.ID_med_history_brain
-													LEFT JOIN nmv__diagnosis_tag dtb					ON dtb.ID_diagnosis = db.ID_diagnosis
-													LEFT JOIN nmv__med_history_tissue t				ON v.ID_victim = t.ID_victim
-													LEFT JOIN nmv__med_history_hosp h					ON v.ID_victim = h.ID_victim
-													LEFT JOIN nmv__diagnosis_hosp dh					ON dh.ID_med_history_hosp = h.ID_med_history_hosp
-													LEFT JOIN nmv__diagnosis_tag dth					ON dth.ID_diagnosis = dh.ID_diagnosis
-													LEFT JOIN nmv__evaluation ev							ON v.ID_victim = ev.ID_victim
-													LEFT JOIN nmv__victim_source vs 					ON vs.ID_victim = v.ID_victim
-													LEFT JOIN nmv__victim_literature vl 			ON vl.ID_victim = v.ID_victim
-													LEFT JOIN nmv__institution di							ON di.ID_institution = v.ID_death_institution
+													LEFT JOIN nmv__country bc 										ON bc.ID_country = v.ID_birth_country
+													LEFT JOIN nmv__victim_experiment ve						ON v.ID_victim = ve.ID_victim
+													LEFT JOIN nmv__survival s 										ON s.ID_survival = ve.ID_survival
+													LEFT JOIN nmv__experiment ex 									ON ve.ID_experiment = ex.ID_experiment
+													LEFT JOIN nmv__experiment_institution ei 			ON ei.ID_experiment = ex.ID_experiment
+													LEFT JOIN nmv__experiment_foi ef							ON ef.ID_experiment = ex.ID_experiment
+													LEFT JOIN nmv__field_of_interest foi					ON foi.ID_foi = ef.ID_foi
+													LEFT JOIN nmv__imprisoniation i								ON v.ID_victim = i.ID_victim
+													LEFT JOIN nmv__imprisonment_classification ic ON ic.ID_imprisonment = i.ID_imprisoniation
+													LEFT JOIN nmv__nationality n        					ON n.ID_nationality = v.nationality_1938
+													LEFT JOIN nmv__ethnicgroup et       					ON et.ID_ethnicgroup = v.ethnic_group
+													LEFT JOIN nmv__med_history_brain b						ON v.ID_victim = b.ID_victim
+													LEFT JOIN nmv__diagnosis_brain db 						ON db.ID_med_history_brain = b.ID_med_history_brain
+													LEFT JOIN nmv__diagnosis_tag dtb							ON dtb.ID_diagnosis = db.ID_diagnosis
+													LEFT JOIN nmv__med_history_tissue t						ON v.ID_victim = t.ID_victim
+													LEFT JOIN nmv__med_history_hosp h							ON v.ID_victim = h.ID_victim
+													LEFT JOIN nmv__diagnosis_hosp dh							ON dh.ID_med_history_hosp = h.ID_med_history_hosp
+													LEFT JOIN nmv__diagnosis_tag dth							ON dth.ID_diagnosis = dh.ID_diagnosis
+													LEFT JOIN nmv__evaluation ev									ON v.ID_victim = ev.ID_victim
+													LEFT JOIN nmv__victim_source vs 							ON vs.ID_victim = v.ID_victim
+													LEFT JOIN nmv__victim_literature vl 					ON vl.ID_victim = v.ID_victim
+													LEFT JOIN nmv__institution di									ON di.ID_institution = v.ID_death_institution
 												'; // für Ergebnisliste
 else:  // default query
 		$querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
 																					v.birth_year, bc.english AS birth_country, v.birth_place,
 																					n.english AS nationality_1938, et.english AS ethnic_group
 													FROM nmv__victim v
-													LEFT JOIN nmv__country bc 						ON bc.ID_country = v.ID_birth_country
-													LEFT JOIN nmv__victim_experiment ve		ON v.ID_victim = ve.ID_victim
-													LEFT JOIN nmv__survival s 						ON s.ID_survival = ve.ID_survival
-													LEFT JOIN nmv__experiment ex 					ON ve.ID_experiment = ex.ID_experiment
-													LEFT JOIN nmv__experiment_foi ef			ON ef.ID_experiment = ex.ID_experiment
-													LEFT JOIN nmv__field_of_interest foi	ON foi.ID_foi = ef.ID_foi
-													LEFT JOIN nmv__imprisoniation i				ON v.ID_victim = i.ID_victim
-													LEFT JOIN nmv__nationality n        	ON n.ID_nationality = v.nationality_1938
-													LEFT JOIN nmv__ethnicgroup et       	ON et.ID_ethnicgroup = v.ethnic_group
-													LEFT JOIN nmv__med_history_brain b		ON v.ID_victim = b.ID_victim
-													LEFT JOIN nmv__diagnosis_brain db 		ON db.ID_med_history_brain = b.ID_med_history_brain
-													LEFT JOIN nmv__diagnosis_tag dtb			ON dtb.ID_diagnosis = db.ID_diagnosis
-													LEFT JOIN nmv__med_history_tissue t		ON v.ID_victim = t.ID_victim
-													LEFT JOIN nmv__med_history_hosp h			ON v.ID_victim = h.ID_victim
-													LEFT JOIN nmv__diagnosis_hosp dh			ON dh.ID_med_history_hosp = h.ID_med_history_hosp
-													LEFT JOIN nmv__diagnosis_tag dth			ON dth.ID_diagnosis = dh.ID_diagnosis
-													LEFT JOIN nmv__evaluation ev					ON v.ID_victim = ev.ID_victim
-													LEFT JOIN nmv__victim_source vs 			ON vs.ID_victim = v.ID_victim
-													LEFT JOIN nmv__victim_literature vl 	ON vl.ID_victim = v.ID_victim
-													LEFT JOIN nmv__institution di					ON di.ID_institution = v.ID_death_institution
-
+													LEFT JOIN nmv__country bc 										ON bc.ID_country = v.ID_birth_country
+													LEFT JOIN nmv__victim_experiment ve						ON v.ID_victim = ve.ID_victim
+													LEFT JOIN nmv__survival s 										ON s.ID_survival = ve.ID_survival
+													LEFT JOIN nmv__experiment ex 									ON ve.ID_experiment = ex.ID_experiment
+													LEFT JOIN nmv__experiment_foi ef							ON ef.ID_experiment = ex.ID_experiment
+													LEFT JOIN nmv__field_of_interest foi					ON foi.ID_foi = ef.ID_foi
+													LEFT JOIN nmv__imprisoniation i								ON v.ID_victim = i.ID_victim
+													LEFT JOIN nmv__imprisonment_classification ic ON ic.ID_imprisonment = i.ID_imprisoniation
+													LEFT JOIN nmv__nationality n        					ON n.ID_nationality = v.nationality_1938
+													LEFT JOIN nmv__ethnicgroup et       					ON et.ID_ethnicgroup = v.ethnic_group
+													LEFT JOIN nmv__med_history_brain b						ON v.ID_victim = b.ID_victim
+													LEFT JOIN nmv__diagnosis_brain db 						ON db.ID_med_history_brain = b.ID_med_history_brain
+													LEFT JOIN nmv__diagnosis_tag dtb							ON dtb.ID_diagnosis = db.ID_diagnosis
+													LEFT JOIN nmv__med_history_tissue t						ON v.ID_victim = t.ID_victim
+													LEFT JOIN nmv__med_history_hosp h							ON v.ID_victim = h.ID_victim
+													LEFT JOIN nmv__diagnosis_hosp dh							ON dh.ID_med_history_hosp = h.ID_med_history_hosp
+													LEFT JOIN nmv__diagnosis_tag dth							ON dth.ID_diagnosis = dh.ID_diagnosis
+													LEFT JOIN nmv__evaluation ev									ON v.ID_victim = ev.ID_victim
+													LEFT JOIN nmv__victim_source vs 							ON vs.ID_victim = v.ID_victim
+													LEFT JOIN nmv__victim_literature vl 					ON vl.ID_victim = v.ID_victim
+													LEFT JOIN nmv__institution di									ON di.ID_institution = v.ID_death_institution
 												'; // für Ergebnisliste}
 endif;
 $querystring_where = array(); // for where-part of select clause
@@ -308,7 +310,10 @@ if (isset($_GET['ID_classification']) && $_GET['ID_classification']) {
 	$suche_nach[] = 'imprisonment classification = '.$search_term[0];
 }
 if (isset($_GET['location']) && $_GET['location']) $suche_nach[] = 'imprisonment location = '.$_GET['location'];
-
+if (isset($_GET['ID_imprisonment_institution']) && $_GET['ID_imprisonment_institution']) {
+	$search_term = $dbi->connection->query('SELECT institution_name FROM nmv__institution WHERE ID_institution = '.$_GET['ID_imprisonment_institution'])->fetch_row();
+	$suche_nach[] = 'institution of imprisonment = '.$search_term[0];
+}
 if (isset($_GET['mpg_project']) && $_GET['mpg_project']) $suche_nach[] = 'mpg_project only';
 if (isset($_GET['ID_dataset_origin']) && $_GET['ID_dataset_origin']) {
 	$search_term = $dbi->connection->query('SELECT work_group FROM nmv__dataset_origin WHERE ID_dataset_origin = '.$_GET['ID_dataset_origin'])->fetch_row();

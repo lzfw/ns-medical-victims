@@ -24,7 +24,7 @@ $form->addField('ID_country',SELECT)
     ->setLabel('Present Country')
 		->addOption(NO_VALUE, 'please choose')
 		->addOptionsFromTable('nmv__country', 'ID_country', 'english');
-$form->addField('type',SELECT)
+$form->addField('type',SELECT, REQUIRED)
     ->setLabel('Type')
     ->addOption(NO_VALUE,'please choose')
     ->addOptionsFromTable('nmv__institution_type', 'ID_institution_type', 'english');

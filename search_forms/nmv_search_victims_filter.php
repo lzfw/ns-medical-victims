@@ -141,10 +141,15 @@ endif;
 $victimsVariableForm->addField('ID_classification', SELECT)
   ->setLabel('imprisonment classification')
   ->addOption(NO_VALUE,'all classifications')
-  ->addOptionsFromTable('nmv__victim_classification', 'ID_classification', 'english',
+  ->addOptionsFromTable('nmv__victim_classification', 'ID_classification', 'english');
+
+$victimsVariableForm->addField('ID_imprisonment_institution', SELECT)
+  ->setLabel('imprisonment institution')
+  ->addOption(NO_VALUE,'all institutions')
+  ->addOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name',
                         'EXISTS (	SELECT *
                                   FROM nmv__imprisoniation
-                                  WHERE nmv__imprisoniation.ID_classification = nmv__victim_classification.ID_classification)');
+                                  WHERE nmv__institution.ID_institution = nmv__imprisoniation.ID_institution)');
 
 $victimsVariableForm->addField('location', SELECT)
   ->setLabel('imprisonment location')

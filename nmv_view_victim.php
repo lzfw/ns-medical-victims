@@ -14,7 +14,8 @@ $dbi->addBreadcrumb ('Victims','nmv_list_victims');
 $querystring = "
     SELECT v.first_names, v.surname,
            CONCAT(IFNULL(v.birth_day , '-'), '.', IFNULL(v.birth_month , '-'), '.', IFNULL(v.birth_year, '-')) birth, v.twin,
-           v.birth_place, bc.english as birth_country, v.death_place, dc.english as death_country, di.institution_name AS death_institution,
+           v.birth_place, bc.english as birth_country, v.death_place, dc.english as death_country,
+           CONCAT(IFNULL(di.institution_name, ''), ' - ', IFNULL(di.location, ''), ' - ', IFNULL(v.death_institution, '')) AS death_institution,
            CONCAT(IFNULL(v.death_day , '-'), '.', IFNULL(v.death_month , '-'), '.', IFNULL(v.death_year, '-')) death,
            v.cause_of_death, gender, m.english as marital_family_status,
            ed.english as education, r.english as religion,
