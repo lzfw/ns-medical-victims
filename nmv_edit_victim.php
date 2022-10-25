@@ -72,7 +72,8 @@ $form->addField('ID_death_institution', SELECT)
 		->setLabel('Death Institution (camp, clinic...)')
 		->addOption(NO_VALUE, 'please choose')
 		->addOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name', 'type NOT IN (23, 24, 18, 19, 1)');
-$form->addField('death_institution', TEXT, 255);
+$form->addField('death_institution', TEXT, 255)
+		->setLabel('');
 $form->addField('ID_death_country', SELECT)
 		->setLabel('Death Country')
 		->addOption(NO_VALUE, 'please choose')
