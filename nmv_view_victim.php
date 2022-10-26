@@ -17,7 +17,7 @@ $querystring = "
            v.birth_place, bc.english as birth_country, v.death_place, dc.english as death_country,
            CONCAT(IFNULL(di.institution_name, ''), ' - ', IFNULL(di.location, ''), ' - ', IFNULL(v.death_institution, '')) AS death_institution,
            CONCAT(IFNULL(v.death_day , '-'), '.', IFNULL(v.death_month , '-'), '.', IFNULL(v.death_year, '-')) death,
-           v.cause_of_death, gender, m.english as marital_family_status,
+           v.death_year, v.cause_of_death, gender, m.english as marital_family_status,
            ed.english as education, r.english as religion,
            n.english as nationality, e.english as ethnic_group,
            p.english as occupation, v.occupation_details, v.notes,
@@ -111,18 +111,22 @@ if ($victim = $result->fetch_object()) {
         endif;
     //complete db d 1
     if (!($dbi->checkUserPermission('mpg'))) :
-      $content .= '<br>'.buildElement('h3', 'Life after 1945');
-      $content .= buildElement('table','grid',
-          buildDataSheetRow('Country and place',
-              $victim->residence_after_1945_country . ' / ' .
-              $victim->residence_after_1945_place).
-          buildDataSheetRow('Occupation',             $victim->occupation_after_1945).
-          buildDataSheetRow('Nationality',            $victim->nationality_after_1945).
-          buildDataSheetRow('Consequential injuries', $victim->consequential_injuries).
-          buildDataSheetRow('Compensation',           $victim->compensation).
-          buildDataSheetRow('Compensation details',   $victim->compensation_details).
-          buildDataSheetRow('Notes on life after 1945', $victim->notes_after_1945)
-      );
+      $content .= '<br>'.buildElement('h3', 'Post 1945');
+      if(!($victim->mpg_project == -1) && !($victim->death_year < 1946) && ($victim->cause_of_death != 'T4 euthanasia' )):
+        $content .= buildElement('table','grid',
+            buildDataSheetRow('Country and place',
+                $victim->residence_after_1945_country . ' / ' .
+                $victim->residence_after_1945_place).
+            buildDataSheetRow('Occupation',             $victim->occupation_after_1945).
+            buildDataSheetRow('Nationality',            $victim->nationality_after_1945).
+            buildDataSheetRow('Consequential injuries', $victim->consequential_injuries).
+            buildDataSheetRow('Notes on life after 1945', $victim->notes_after_1945)
+        );
+      endif;
+      $content .= buildElement('table', 'grid',
+            buildDataSheetRow('Compensation',           $victim->compensation).
+            buildDataSheetRow('Compensation details',   $victim->compensation_details)
+          );
     endif;
 
     $content .= '<div class="indent">';

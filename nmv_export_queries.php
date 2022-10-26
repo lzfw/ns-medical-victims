@@ -123,8 +123,10 @@ $experiment_query_end = "GROUP BY e.ID_experiment";
 
 
 $victim_query_start =
-"SELECT v.ID_victim, v.surname, GROUP_CONCAT(DISTINCT vn.victim_name SEPARATOR ', ') AS alternative_surnames,
-v.first_names, GROUP_CONCAT(DISTINCT vn.victim_first_names SEPARATOR ', ') AS alternative_firstnames, IF(v.twin=-1, 'yes', NULL) AS twin,
+"SELECT v.ID_victim, v.surname,
+GROUP_CONCAT(DISTINCT vn.victim_name, IF(nt.english IS NULL, 'null', CONCAT(' (', nt.english, ')') ) SEPARATOR ', ') AS alternative_surnames,
+v.first_names,
+GROUP_CONCAT(DISTINCT vn.victim_first_names, IF(nt.english IS NULL, 'null', CONCAT(' (', nt.english, ')') ) SEPARATOR ', ') AS alternative_firstnames, IF(v.twin=-1, 'yes', NULL) AS twin,
 IF(v.birth_day IS NULL AND v.birth_month IS NULL AND v.birth_year IS NULL, NULL,
 CONCAT(IFNULL(v.birth_day, '-'), '.', IFNULL(v.birth_month, '-'), '.', IFNULL(v.birth_year, '-'))) AS birth_date_DMY,
 v.birth_place, bc.english AS birth_country, n1938.english AS nationality_1938,
@@ -136,11 +138,11 @@ dc.english AS death_country, v.cause_of_death, v.gender, f.english AS family_sta
 eg.english AS ethnic_group, ed.english AS highest_education, o.english AS occupation, v.occupation_details,
 v.arrest_prehistory, v.arrest_location, ac.english AS arrest_country, v.arrest_history,
 GROUP_CONCAT(DISTINCT
-	       'ID imprisonment: --', ID_imprisoniation, '--',
+	       'ID imprisonment: --', i.ID_imprisoniation, '--',
 		IF(i.location IS NULL, '', CONCAT(', imprisonment location: --', i.location, '--')),
     IF(i.ID_institution IS NULL, '', CONCAT(', institution of imprisonment: --', ii.institution_name, '--')),
 		IF(i.number IS NULL, '', CONCAT(', prisoner_number: --', i.number, '--')),
-		IF(ic.english IS NULL, '', CONCAT(', prisoner classification: --', ic.english, '--')),
+    IF(vicla.classifications IS NULL, '', CONCAT(', prisoner classification(s): --', vicla.classifications, '--')),
 		IF(i.start_day IS NULL AND i.start_month IS NULL AND i.start_year IS NULL, '',
       CONCAT(', date of imprisonment DMY: --', IFNULL(i.start_day, '-'), '.', IFNULL(i.start_month, '-'), '.', IFNULL(i.start_year, '-'), '--'))
                  SEPARATOR ' \n') AS  imprisonments,
@@ -222,6 +224,7 @@ GROUP_CONCAT(DISTINCT
                  SEPARATOR ' \n') AS literature
 FROM nmv__victim v
         LEFT JOIN nmv__victim_name vn ON vn.ID_victim = v.ID_victim
+        LEFT JOIN nmv__victim_nametype nt ON nt.ID_nametype = vn.nametype
         LEFT JOIN nmv__country bc ON bc.ID_country = v.ID_birth_country
         LEFT JOIN nmv__nationality n1938 ON n1938.ID_nationality = v.nationality_1938
         LEFT JOIN nmv__country dc ON dc.ID_country = v.ID_death_country
@@ -240,7 +243,12 @@ FROM nmv__victim v
         LEFT JOIN nmv__experiment_foi ef ON ef.ID_experiment = ex.ID_experiment
         LEFT JOIN nmv__imprisoniation i ON i.ID_victim = v.ID_victim
         LEFT JOIN nmv__institution ii ON ii.ID_institution = i.ID_institution
-        LEFT JOIN nmv__victim_classification ic ON ic.ID_classification = i.ID_classification
+        LEFT JOIN (
+                SELECT i1.ID_imprisoniation, GROUP_CONCAT(vc.english SEPARATOR ', ') AS classifications
+                FROM nmv__imprisoniation i1
+                LEFT JOIN nmv__imprisonment_classification ic ON ic.ID_imprisonment = i1.ID_imprisoniation
+                LEFT JOIN nmv__victim_classification vc ON vc.ID_classification = ic.ID_classification
+                GROUP BY i1.ID_imprisoniation) AS vicla ON vicla.ID_imprisoniation = i.ID_imprisoniation
         LEFT JOIN nmv__evaluation ev ON ev.ID_victim = v.ID_victim
         LEFT JOIN nmv__victim_evaluation_status evs ON evs.ID_status = ev.evaluation_status
         LEFT JOIN nmv__victim_source vs ON vs.ID_victim = v.ID_victim
@@ -280,8 +288,8 @@ $victim_query_end =  " GROUP BY v.ID_victim ORDER BY v.ID_victim ASC";
 
 
 $was_prisoner_assistant_query_start =
-"SELECT v.ID_victim, v.surname, IF(v.was_prisoner_assistant != 'victim only', 'yes', ' - ') AS was_prisoner_assistant, GROUP_CONCAT(DISTINCT vn.victim_name SEPARATOR ', ') AS alternative_surnames,
-v.first_names, GROUP_CONCAT(DISTINCT vn.victim_first_names SEPARATOR ', ') AS alternative_firstnames, IF(v.twin=-1, 'yes', NULL) AS twin,
+"SELECT v.ID_victim, v.surname, IF(v.was_prisoner_assistant != 'victim only', 'yes', ' - ') AS was_prisoner_assistant, GROUP_CONCAT(DISTINCT vn.victim_name, IF(nt.english IS NULL, 'null', CONCAT(' (', nt.english, ')') ) SEPARATOR ', ') AS alternative_surnames,
+v.first_names, GROUP_CONCAT(DISTINCT vn.victim_first_names, IF(nt.english IS NULL, 'null', CONCAT(' (', nt.english, ')') ) SEPARATOR ', ') AS alternative_firstnames, IF(v.twin=-1, 'yes', NULL) AS twin,
 IF(v.birth_day IS NULL AND v.birth_month IS NULL AND v.birth_year IS NULL, NULL, CONCAT(IFNULL(v.birth_day, '-'), '.', IFNULL(v.birth_month, '-'), '.', IFNULL(v.birth_year, '-'))) AS birth_date_DMY,
 v.birth_place, bc.english AS birth_country, n1938.english AS nationality_1938,
 IF(v.death_day IS NULL AND v.death_month IS NULL AND v.death_year IS NULL, NULL, CONCAT(IFNULL(v.death_day, '-'), '.', IFNULL(v.death_month, '-'), '.', IFNULL(v.death_year, '-'))) AS death_date_DMY,
@@ -291,11 +299,11 @@ dc.english AS death_country, v.cause_of_death, v.gender, f.english AS family_sta
 eg.english AS ethnic_group, ed.english AS highest_education, o.english AS occupation, v.occupation_details,
 v.arrest_prehistory, v.arrest_location, ac.english AS arrest_country, v.arrest_history,
 GROUP_CONCAT(DISTINCT
-               'ID imprisonment: --', ID_imprisoniation, '--',
+               'ID imprisonment: --', i.ID_imprisoniation, '--',
                 IF(i.location IS NULL, '', CONCAT(', imprisonment location: --', i.location, '--')),
                 IF(i.ID_institution IS NULL, '', CONCAT(', institution of imprisonment: --', ii.institution_name, '--')),
                 IF(i.number IS NULL, '', CONCAT(', prisoner_number: --', i.number, '--')),
-                IF(ic.english IS NULL, '', CONCAT(', prisoner classification: --', ic.english, '--')),
+                IF(vicla.classifications IS NULL, '', CONCAT(', prisoner classification(s): --', vicla.classifications, '--')),
                 IF(i.start_day IS NULL AND i.start_month IS NULL AND i.start_year IS NULL, '', CONCAT(', date of imprisonment DMY: --', IFNULL(i.start_day, '-'), '.', IFNULL(i.start_month, '-'), '.', IFNULL(i.start_year, '-'), '--'))
                  SEPARATOR ' \n') AS  imprisonments,
 GROUP_CONCAT(DISTINCT
@@ -381,6 +389,7 @@ GROUP_CONCAT(DISTINCT
                  SEPARATOR ' \n') AS literature
 FROM nmv__victim v
         LEFT JOIN nmv__victim_name vn ON vn.ID_victim = v.ID_victim
+        LEFT JOIN nmv__victim_nametype nt ON nt.ID_nametype = vn.nametype
         LEFT JOIN nmv__country bc ON bc.ID_country = v.ID_birth_country
         LEFT JOIN nmv__nationality n1938 ON n1938.ID_nationality = v.nationality_1938
         LEFT JOIN nmv__country dc ON dc.ID_country = v.ID_death_country
@@ -400,7 +409,12 @@ FROM nmv__victim v
         LEFT JOIN nmv__role ro ON ro.ID_role = pae.ID_role
         LEFT JOIN nmv__imprisoniation i ON i.ID_victim = v.ID_victim
         LEFT JOIN nmv__institution ii ON ii.ID_institution = i.ID_institution
-        LEFT JOIN nmv__victim_classification ic ON ic.ID_classification = i.ID_classification
+        LEFT JOIN (
+                SELECT i1.ID_imprisoniation, GROUP_CONCAT(vc.english SEPARATOR ', ') AS classifications
+                FROM nmv__imprisoniation i1
+                LEFT JOIN nmv__imprisonment_classification ic ON ic.ID_imprisonment = i1.ID_imprisoniation
+                LEFT JOIN nmv__victim_classification vc ON vc.ID_classification = ic.ID_classification
+                GROUP BY i1.ID_imprisoniation) AS vicla ON vicla.ID_imprisoniation = i.ID_imprisoniation
         LEFT JOIN nmv__evaluation ev ON ev.ID_victim = v.ID_victim
         LEFT JOIN nmv__victim_evaluation_status evs ON evs.ID_status = ev.evaluation_status
         LEFT JOIN nmv__victim_source vs ON vs.ID_victim = v.ID_victim

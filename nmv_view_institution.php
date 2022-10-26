@@ -70,6 +70,8 @@ $content .= createButton("Experiments",'nmv_result_experiments?ID_institution='.
 $content .= createButton("Victims (Experiment)",'nmv_result_victims_variable?exp_institution='.$institution_id,'icon report-paper');
 $content .= createButton("Victims (Hospitalisation)",'nmv_result_victims_variable?hospitalisation_institution='.$institution_id,'icon report-paper');
 $content .= createButton("Victims (Tissue)",'nmv_result_victims_variable?tissue_institution='.$institution_id,'icon report-paper');
+$content .= createButton("Victims (Death Institution)",'nmv_result_victims_variable?ID_death_institution='.$institution_id,'icon report-paper');
+$content .= createButton("Victims (Imprisonment Institution)",'nmv_result_victims_variable?ID_imprisonment_institution='.$institution_id,'icon report-paper');
 if(in_array($institution_type, array('Archive', 'Museum', 'Library', 'Academic Institution'))){
   $content .=createButton("Sources (Archives ...)",'nmv_result_source?ID_institution='.$institution_id,'icon report-paper');
 }
