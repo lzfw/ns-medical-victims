@@ -28,8 +28,10 @@ $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 																FROM nmv__victim v
 																INNER JOIN nmv__imprisoniation i
 															      ON v.ID_victim = i.ID_victim
+																LEFT JOIN nmv__imprisonment_classification ic
+																		ON ic.ID_imprisonment = i.ID_imprisoniation
 																LEFT JOIN nmv__victim_classification c
-															      ON i.ID_classification = c.ID_classification
+															      ON ic.ID_classification = c.ID_classification
 																WHERE was_prisoner_assistant != "prisoner assistant only"
 																GROUP BY c.english) A
 														  LEFT JOIN
@@ -37,8 +39,10 @@ $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 																FROM nmv__victim v
 																INNER JOIN nmv__imprisoniation i
 															      ON v.ID_victim = i.ID_victim
+																LEFT JOIN nmv__imprisonment_classification ic
+																		ON ic.ID_imprisonment = i.ID_imprisoniation
 																LEFT JOIN nmv__victim_classification c
-															      ON i.ID_classification = c.ID_classification
+															      ON ic.ID_classification = c.ID_classification
 																WHERE v.mpg_project = -1 AND was_prisoner_assistant != "prisoner assistant only"
 																GROUP BY c.english) B
 														  ON A.classification = B.classification OR (A.classification IS NULL AND B.classification IS NULL)';

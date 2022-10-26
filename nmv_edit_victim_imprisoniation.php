@@ -70,10 +70,10 @@ $form->addField ('start_year',TEXT,4)
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,1950)
     ->appendTo('start_day');
-// $form->addField('classification', STATIC_TEXT, "<strong>Classification(s):</strong><br> &emsp;&emsp;" . implode(', <br> &emsp;&emsp;', $tag_array));
 $form->addField('classification', STATIC_TEXT, "<strong>Classification(s):</strong><br><ul class='inside'><li>" . implode('</li><li>', $tag_array) . '</li></ul>');
-$form->addField('classification_button', STATIC_TEXT, $tag_button = createButton('Click to edit classification', 'nmv_edit_imprisonment_classification.php?ID_imprisonment=' . $imprisonment_id . '&ID_victim=' . $victim_id, 'icon edit'))
-    ->setLabel('Classification(s)');
+$form->addField('classification_info', STATIC_TEXT, "Classifications can be edited in the Imprisonment table in the Victim View.
+Click OK-Button in order to save your changes and switch to View.");
+
 
 $form
 	->addButton (SUBMIT)

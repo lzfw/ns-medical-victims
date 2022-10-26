@@ -186,10 +186,13 @@ if ($victim = $result->fetch_object()) {
     	if ($dbi->checkUserPermission('edit')) {
     			$options .= createSmallButton(L_EDIT,'nmv_edit_victim_imprisoniation?ID_imprisoniation={ID_imprisoniation}&ID_victim={ID_victim}','icon edit');
     	}
-    	if ($dbi->checkUserPermission('admin')) {
-    			$options .= createSmallButton(L_DELETE,'nmv_remove_victim_imprisoniation?ID_imprisoniation={ID_imprisoniation}','icon delete');
+      if ($dbi->checkUserPermission('admin')) {
+      			$options .= createSmallButton(L_DELETE,'nmv_remove_victim_imprisoniation?ID_imprisoniation={ID_imprisoniation}','icon delete');
+      }
+    	if ($dbi->checkUserPermission('edit classifications')) {
+    			$options .= createSmallButton('edit classifications','nmv_edit_imprisonment_classification?ID_imprisonment={ID_imprisoniation}&ID_victim={ID_victim}','icon edit');
     	}
-    	$row_template[] = $options;
+        	$row_template[] = $options;
     	$header_template[] = L_OPTIONS;
     }
 
