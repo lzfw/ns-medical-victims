@@ -241,7 +241,8 @@ FROM nmv__victim v
         LEFT JOIN nmv__experiment ex ON ex.ID_experiment = ve.ID_experiment
         LEFT JOIN nmv__experiment_institution ei ON ei.ID_experiment = ex.ID_experiment
         LEFT JOIN nmv__experiment_foi ef ON ef.ID_experiment = ex.ID_experiment
-        LEFT JOIN nmv__imprisoniation i ON i.ID_victim = v.ID_victim
+        LEFT JOIN nmv__imprisoniation i	ON v.ID_victim = i.ID_victim
+        LEFT JOIN nmv__imprisonment_classification ic ON ic.ID_imprisonment = i.ID_imprisoniation
         LEFT JOIN nmv__institution ii ON ii.ID_institution = i.ID_institution
         LEFT JOIN (
                 SELECT i1.ID_imprisoniation, GROUP_CONCAT(vc.english SEPARATOR ', ') AS classifications
@@ -407,7 +408,8 @@ FROM nmv__victim v
         LEFT JOIN nmv__prisoner_assistant_experiment pae ON pae.ID_victim = v.ID_victim
         LEFT JOIN nmv__experiment ex2 ON ex2.ID_experiment = pae.ID_experiment
         LEFT JOIN nmv__role ro ON ro.ID_role = pae.ID_role
-        LEFT JOIN nmv__imprisoniation i ON i.ID_victim = v.ID_victim
+        LEFT JOIN nmv__imprisoniation i	ON v.ID_victim = i.ID_victim
+        LEFT JOIN nmv__imprisonment_classification ic ON ic.ID_imprisonment = i.ID_imprisoniation
         LEFT JOIN nmv__institution ii ON ii.ID_institution = i.ID_institution
         LEFT JOIN (
                 SELECT i1.ID_imprisoniation, GROUP_CONCAT(vc.english SEPARATOR ', ') AS classifications
