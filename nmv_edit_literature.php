@@ -73,6 +73,10 @@ $form->addField ('access_year',TEXT,4)
 		->appendTo('access_day');
 $form->addField ('isbn',TEXT,25)
     ->setLabel ('ISBN');
+$form->addField ('issn',TEXT,25)
+    ->setLabel ('ISSN');
+$form->addField ('doi',TEXT,25)
+    ->setLabel ('DOI');
 
 $form
 	->addButton (SUBMIT)
