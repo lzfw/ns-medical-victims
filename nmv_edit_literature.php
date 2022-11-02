@@ -71,10 +71,8 @@ $form->addField ('access_month',TEXT,2)
 		->appendTo('access_day');
 $form->addField ('access_year',TEXT,4)
 		->appendTo('access_day');
-$form->addField ('isbn_10',TEXT,25)
-    ->setLabel ('ISBN-10');
-$form->addField ('isbn_13',TEXT,25)
-    ->setLabel ('ISBN-13');
+$form->addField ('isbn',TEXT,25)
+    ->setLabel ('ISBN');
 
 $form
 	->addButton (SUBMIT)
