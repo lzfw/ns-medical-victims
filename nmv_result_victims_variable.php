@@ -195,37 +195,61 @@ foreach ($exact_fields as $field) {
 																 h.hosp_has_photo = -1 OR
 																 v.photo_exists = -1)";
 			} else {
-        $querystring_where[] = "v.$field = '".getUrlParameter($field)."'";
+				if (getUrlParameter($field) == 'NULL') {
+					$querystring_where[] = "v.$field IS NULL";
+				} else {
+        	$querystring_where[] = "v.$field = '".getUrlParameter($field)."'";
+				}
 			}
     }
 }
 foreach ($like_fields as $field) {
     if (getUrlParameter($field)) {
 			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
-			$querystring_where[] = "TRIM(v.$field) LIKE TRIM('".$filtered_field."')";
+			if (getUrlParameter($field) == 'NULL') {
+				$querystring_where[] = "v.$field IS NULL";
+			} else {
+				$querystring_where[] = "v.$field LIKE TRIM('".$filtered_field."')";
+			}
     }
 }
 foreach ($contain_fields as $field) {
     if (getUrlParameter($field)) {
 			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
-			$querystring_where[] = "v.$field LIKE '%".$filtered_field."%'";
+			if (getUrlParameter($field) == 'NULL') {
+				$querystring_where[] = "v.$field IS NULL";
+			} else {
+				$querystring_where[] = "v.$field LIKE '%".$filtered_field."%'";
+			}
     }
 }
 foreach ($double_fields as $field) {
     if (getUrlParameter($field)) {
 			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
-			$querystring_where[] = "(v.$field LIKE '".$filtered_field."' OR v.$field = '".getUrlParameter($field)."')";
-    }
+			if (getUrlParameter($field) == 'NULL') {
+				$querystring_where[] = "v.$field IS NULL";
+			} else {
+				$querystring_where[] = "(v.$field LIKE '".$filtered_field."' OR v.$field = '".getUrlParameter($field)."')";
+			}
+		}
 }
 foreach ($special_fields as $key=>$field) {
     if (getUrlParameter($field)) {
-			$querystring_where[] = "$key = '".getUrlParameter($field)."'";
+			if (getUrlParameter($field) == 'NULL') {
+				$querystring_where[] = "$key IS NULL";
+			} else {
+				$querystring_where[] = "$key = '".getUrlParameter($field)."'";
+			}
     }
 }
 foreach ($special_contain_fields as $key=>$field) {
     if (getUrlParameter($field)) {
 			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
-			$querystring_where[] = "$key LIKE '%".$filtered_field."%'";
+			if (getUrlParameter($field) == 'NULL') {
+				$querystring_where[] = "$openssl_get_publickey IS NULL";
+			} else {
+				$querystring_where[] = "$key LIKE '%".$filtered_field."%'";
+			}
     }
 }
 
@@ -243,7 +267,6 @@ $querystring_count = "SELECT COUNT(*) AS total FROM ($querystring_items) AS xyz"
 $query_count = $dbi->connection->query($querystring_count);
 $total_results = $query_count->fetch_object();
 $dbi->setUserVar('total_results',$total_results->total);
-
 // order-klausel
 $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 // query ausführen
@@ -253,49 +276,89 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $suche_nach = array();
 if (isset($_GET['ID_birth_country']) && $_GET['ID_birth_country']) {
 	$search_term = $dbi->connection->query('SELECT english FROM nmv__country WHERE ID_country = '.$_GET['ID_birth_country'])->fetch_row();
-	$suche_nach[] = 'country of birth = '.$search_term[0];
+	if(empty($search_term)){
+		$suche_nach[] = 'country of birth has no entry';
+	}	else {
+		$suche_nach[] = 'country of birth = '.$search_term[0];
+	}
 }
 if (isset($_GET['birth_place']) && $_GET['birth_place']) $suche_nach[] = 'place of birth contains:  '.$_GET['birth_place'];
 if (isset($_GET['birth_year']) && $_GET['birth_year']) $suche_nach[] = 'year of birth = '.$_GET['birth_year'];
 if (isset($_GET['twin']) && $_GET['twin']) $suche_nach[] = 'twins only';
 if (isset($_GET['ID_death_institution']) && $_GET['ID_death_institution'])  {
 	$search_term = $dbi->connection->query('SELECT institution_name FROM nmv__institution WHERE ID_institution = '.$_GET['ID_death_institution'])->fetch_row();
-	$suche_nach[] = 'institution of death = '.$search_term[0];
+	if(empty($search_term)){
+		$suche_nach[] = 'institution of death = NULL';
+	} else {
+		$suche_nach[] = 'institution of death = '.$search_term[0];
+	}
 }
 if (isset($_GET['ID_death_country']) && $_GET['ID_death_country'])  {
 	$search_term = $dbi->connection->query('SELECT english FROM nmv__country WHERE ID_country = '.$_GET['ID_death_country'])->fetch_row();
-	$suche_nach[] = 'country of death = '.$search_term[0];
+	if(empty($search_term)){
+		$suche_nach[] = 'country of death = NULL';
+	}	else {
+		$suche_nach[] = 'country of death = '.$search_term[0];
+	}
 }
 if (isset($_GET['death_place']) && $_GET['death_place']) $suche_nach[] = 'place of death contains:  '.$_GET['death_place'];
 if (isset($_GET['death_year']) && $_GET['death_year']) $suche_nach[] = 'year of death = '.$_GET['death_year'];
 if (isset($_GET['gender']) && $_GET['gender']) $suche_nach[] = 'gender = '.$_GET['gender'];
 if (isset($_GET['religion']) && $_GET['religion']) {
 	$search_term = $dbi->connection->query('SELECT english FROM nmv__religion WHERE ID_religion = '.$_GET['religion'])->fetch_row();
-	$suche_nach[] = 'religion = '.$search_term[0];
+	if(empty($search_term)){
+		$suche_nach[] = 'religion = NULL';
+	} else {
+		$suche_nach[] = 'religion = '.$search_term[0];
+	}
 }
 if (isset($_GET['ethnic_group']) && $_GET['ethnic_group']) {
 	$search_term = $dbi->connection->query('SELECT english FROM nmv__ethnicgroup WHERE ID_ethnicgroup = '.$_GET['ethnic_group'])->fetch_row();
-	$suche_nach[] = 'ethnic group = '.$search_term[0];
+	if(empty($search_term)){
+ 		$suche_nach[] = 'ethnic group = NULL';
+ 	} else {
+		$suche_nach[] = 'ethnic group = '.$search_term[0];
+	}
 }
 if (isset($_GET['nationality_1938']) && $_GET['nationality_1938']) {
 	$search_term = $dbi->connection->query('SELECT english  FROM nmv__nationality WHERE ID_nationality = '.$_GET['nationality_1938'])->fetch_row();
-	$suche_nach[] = 'nationality in 1938 = '.$search_term[0];
+	if(empty($search_term)){
+		$suche_nach[] = 'nationality in 1938 = NULL';
+	}	else {
+		$suche_nach[] = 'nationality in 1938 = '.$search_term[0];
+	}
 }
 if (isset($_GET['ID_education']) && $_GET['ID_education']) {
 	$search_term = $dbi->connection->query('SELECT english FROM nmv__education WHERE ID_education = '.$_GET['ID_education'])->fetch_row();
-	$suche_nach[] = 'education = '.$search_term[0];
+	if(empty($search_term)){
+		$suche_nach[] = 'education = NULL';
+	}	else {
+		$suche_nach[] = 'education = '.$search_term[0];
+	}
 }
 if (isset($_GET['occupation']) && $_GET['occupation']) {
 	$search_term = $dbi->connection->query('SELECT english FROM nmv__occupation WHERE ID_occupation = '.$_GET['occupation'])->fetch_row();
-	$suche_nach[] = 'occupation = '.$search_term[0];
+	if(empty($search_term)){
+		$suche_nach[] = 'occupation = NULL';
+	}	else {
+		$suche_nach[] = 'occupation = '.$search_term[0];
+	}
 }
 if (isset($_GET['ID_arrest_country']) && $_GET['ID_arrest_country']) {
 	$search_term = $dbi->connection->query('SELECT english FROM nmv__country WHERE ID_country = '.$_GET['ID_arrest_country'])->fetch_row();
-	$suche_nach[] = 'country of arrest = '.$search_term[0];
+	if(empty($search_term)){
+		$suche_nach[] = 'country of arrest = NULL';
+	}	else {
+		$suche_nach[] = 'country of arrest = '.$search_term[0];
+	}
 }
 if (isset($_GET['ID_experiment']) && $_GET['ID_experiment']) {
 	$search_term = $dbi->connection->query('SELECT experiment_title FROM nmv__experiment WHERE ID_experiment = '.$_GET['ID_experiment'])->fetch_row();
-	$suche_nach[] = 'title of experiment = '.$search_term[0];
+	if(empty($search_term)){
+		$suche_nach[] = 'no experiment linked';
+	}	else {
+		$suche_nach[] = 'title of experiment = '.$search_term[0];
+	}
 }
 if (isset($_GET['ID_foi']) && $_GET['ID_foi']) {
 	$search_term = $dbi->connection->query('SELECT english FROM nmv__field_of_interest WHERE ID_foi = '.$_GET['ID_foi'])->fetch_row();
@@ -313,6 +376,14 @@ if (isset($_GET['location']) && $_GET['location']) $suche_nach[] = 'imprisonment
 if (isset($_GET['ID_imprisonment_institution']) && $_GET['ID_imprisonment_institution']) {
 	$search_term = $dbi->connection->query('SELECT institution_name FROM nmv__institution WHERE ID_institution = '.$_GET['ID_imprisonment_institution'])->fetch_row();
 	$suche_nach[] = 'institution of imprisonment = '.$search_term[0];
+}
+if (isset($_GET['evaluation_status']) && $_GET['evaluation_status']) {
+	$search_term = $dbi->connection->query('SELECT english FROM nmv__victim_evaluation_status WHERE ID_status = '.$_GET['evaluation_status'])->fetch_row();
+	if(empty($search_term)){
+		$suche_nach[] = 'evaluation status = NULL';
+	}	else {
+		$suche_nach[] = 'evaluation status = '.$search_term[0];
+	}
 }
 if (isset($_GET['mpg_project']) && $_GET['mpg_project']) $suche_nach[] = 'mpg_project only';
 if (isset($_GET['ID_dataset_origin']) && $_GET['ID_dataset_origin']) {
@@ -354,10 +425,6 @@ if (isset($_GET['hospitalisation_institution']) && $_GET['hospitalisation_instit
 	$suche_nach[] = 'institution of hospitalisation = '.$search_term[0];
 }
 if (isset($_GET['hospitalisation_diagnosis']) && $_GET['hospitalisation_diagnosis']) $suche_nach[] = 'hospitalisation diagnosis contains: '.$_GET['hospitalisation_diagnosis'];
-if (isset($_GET['evaluation_status']) && $_GET['evaluation_status']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__victim_evaluation_status WHERE ID_status = '.$_GET['evaluation_status'])->fetch_row();
-	$suche_nach[] = 'evaluation status = '.$search_term[0];
-}
 if (isset($_GET['autopsy_ref_no']) && $_GET['autopsy_ref_no']) $suche_nach[] = 'AutopsyRefNo Hospitalisation contains:  '.$_GET['autopsy_ref_no'];
 
 if (isset($_GET['residence_after_1945_country']) && $_GET['residence_after_1945_country']) $suche_nach[] = 'residence after 1945 (country) = '.$_GET['residence_after_1945_country'];

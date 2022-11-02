@@ -21,6 +21,7 @@ $victimsVariableForm->addConnection(MYSQL_DB,$db_host,$db_user,$db_pass,$db_name
 $victimsVariableForm->addField('ID_birth_country', SELECT)
   ->setLabel('country of birth')
   ->addOption(NO_VALUE,'all countries')
+  ->addOption('NULL')
   ->addOptionsFromTable('nmv__country', 'ID_country', 'english',
                         'EXISTS (	SELECT *
                                   FROM nmv__victim
@@ -40,6 +41,7 @@ $victimsVariableForm->addField('br-birth', STATIC_TEXT, '<br>');
 $victimsVariableForm->addField('ID_death_institution', SELECT)
   ->setLabel('institution of death')
   ->addOption(NO_VALUE,'all instiutions')
+  ->addOption('NULL')
   ->addOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name',
                         'EXISTS (	SELECT *
                                   FROM nmv__victim
@@ -48,6 +50,7 @@ $victimsVariableForm->addField('ID_death_institution', SELECT)
 $victimsVariableForm->addField('ID_death_country', SELECT)
   ->setLabel('country of death')
   ->addOption(NO_VALUE,'all countries')
+  ->addOption('NULL')
   ->addOptionsFromTable('nmv__country', 'ID_country', 'english',
                         'EXISTS (	SELECT *
                                   FROM nmv__victim
@@ -64,11 +67,13 @@ $victimsVariableForm->addField('br-death', STATIC_TEXT, '<br>');
 $victimsVariableForm->addField('gender', SELECT)
   ->setLabel('gender')
   ->addOption(NO_VALUE,'all gender')
+  ->addOption('NULL')
   ->addOptionsFromArray(['male'=>'male', 'female'=>'female']);
 
 $victimsVariableForm->addField('religion', SELECT)
   ->setLabel('religion')
   ->addOption(NO_VALUE,'all religions')
+  ->addOption('NULL')
   ->addOptionsFromTable('nmv__religion', 'ID_religion', 'english',
                         'EXISTS (	SELECT *
                                   FROM nmv__victim
@@ -77,6 +82,7 @@ $victimsVariableForm->addField('religion', SELECT)
 $victimsVariableForm->addField('ethnic_group', SELECT)
   ->setLabel('ethnic group')
   ->addOption(NO_VALUE,'all ethnic groups')
+  ->addOption('NULL')
   ->addOptionsFromTable('nmv__ethnicgroup', 'ID_ethnicgroup', 'english',
                         'EXISTS (	SELECT *
                                   FROM nmv__victim
@@ -85,6 +91,7 @@ $victimsVariableForm->addField('ethnic_group', SELECT)
 $victimsVariableForm->addField('nationality_1938', SELECT)
   ->setLabel('nationality in 1938')
   ->addOption(NO_VALUE,'all nationalities')
+  ->addOption('NULL')
   ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'english',
                         'EXISTS (	SELECT *
                                   FROM nmv__victim
@@ -93,6 +100,7 @@ $victimsVariableForm->addField('nationality_1938', SELECT)
 $victimsVariableForm->addField('ID_education', SELECT)
   ->setLabel('education')
   ->addOption(NO_VALUE,'all education status')
+  ->addOption('NULL')
   ->addOptionsFromTable('nmv__education', 'ID_education', 'english',
                         'EXISTS (	SELECT *
                                   FROM nmv__victim
@@ -101,6 +109,7 @@ $victimsVariableForm->addField('ID_education', SELECT)
 $victimsVariableForm->addField('occupation', SELECT)
   ->setLabel('occupation')
   ->addOption(NO_VALUE,'all occupations')
+  ->addOption('NULL')
   ->addOptionsFromTable('nmv__occupation', 'ID_occupation', 'english',
                         'EXISTS (	SELECT *
                                   FROM nmv__victim
@@ -111,6 +120,7 @@ $victimsVariableForm->addField('ns-text', STATIC_TEXT, '<br><br>');
 $victimsVariableForm->addField('ID_arrest_country', SELECT)
   ->setLabel('country of arrest')
   ->addOption(NO_VALUE,'all countries')
+  ->addOption('NULL')
   ->addOptionsFromTable('nmv__country', 'ID_country', 'english',
                         'EXISTS (	SELECT *
                                   FROM nmv__victim
@@ -121,6 +131,7 @@ if (!($dbi->checkUserPermission('mpg'))) :
   $victimsVariableForm->addField('ID_experiment', SELECT)
     ->setLabel('experiment')
     ->addOption(NO_VALUE,'all experiments')
+    ->addOption('NULL', 'NO EXPERIMENT LINKED')
     ->addOptionsFromQuery( "$querystring_experiment");
 
   $victimsVariableForm->addField('exp_institution', SELECT)
@@ -141,6 +152,7 @@ endif;
 $victimsVariableForm->addField('ID_classification', SELECT)
   ->setLabel('imprisonment classification')
   ->addOption(NO_VALUE,'all classifications')
+  ->addOption('NULL', 'imprisonments without classification entry')
   ->addOptionsFromTable('nmv__victim_classification', 'ID_classification', 'english');
 
 $victimsVariableForm->addField('ID_imprisonment_institution', SELECT)
@@ -159,6 +171,7 @@ $victimsVariableForm->addField('location', SELECT)
 $victimsVariableForm->addField('evaluation_status', SELECT)
   ->setLabel('evaluation status')
   ->addOption(NO_VALUE,'all evaluation status')
+  ->addOption('NULL')
   ->addOptionsFromTable('nmv__victim_evaluation_status', 'ID_status', 'english');
 
 $victimsVariableForm->addField('mpg-text', SUBHEADLINE, '<br> &nbsp; MPG-project-related &nbsp; ');
