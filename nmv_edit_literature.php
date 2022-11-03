@@ -75,7 +75,7 @@ $form->addField ('isbn',TEXT,25)
     ->setLabel ('ISBN');
 $form->addField ('issn',TEXT,25)
     ->setLabel ('ISSN');
-$form->addField ('doi',TEXT,25)
+$form->addField ('doi',TEXT,255)
     ->setLabel ('DOI');
 
 $form
