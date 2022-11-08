@@ -6,10 +6,17 @@
 *
 */
 
+
 //query: get experiment-institutions for experiment SELECT
-$querystring_experiment = "  SELECT e.ID_experiment AS value, CONCAT(IFNULL(e.experiment_title, 'no entry'), ' &ensp; - &ensp; ID ', e.ID_experiment) AS title
+$querystring_experiment = "  SELECT e.ID_experiment AS value,
+                                    CONCAT(IFNULL(e.experiment_title, 'no entry'), ' &ensp; - &ensp; ID ',
+                                                  e.ID_experiment, ' &ensp; - &ensp; ',
+                                                  IFNULL(i.institution_name, 'no entry')) AS title
                               FROM nmv__experiment e
+                              LEFT JOIN nmv__institution i
+                              ON e.ID_institution = i.ID_institution
                               ORDER BY title";
+
 
 // create form
 $victimsVariableForm = new Form ('search_victims_variable','nmv_result_victims_variable.php','GET');
