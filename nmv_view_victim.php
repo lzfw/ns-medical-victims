@@ -112,7 +112,7 @@ if ($victim = $result->fetch_object()) {
     //complete db d 1
     if (!($dbi->checkUserPermission('mpg'))) :
       $content .= '<br>'.buildElement('h3', 'Post 1945');
-      if(!($victim->mpg_project == -1) && !($victim->death_year < 1946) && ($victim->cause_of_death != 'T4 euthanasia' )):
+      if(!($victim->mpg_project == -1) && ($victim->death_year == NULL || !($victim->death_year < 1946)) && ($victim->cause_of_death != 'T4 euthanasia' )):
         $content .= buildElement('table','grid',
             buildDataSheetRow('Country and place',
                 $victim->residence_after_1945_country . ' / ' .
