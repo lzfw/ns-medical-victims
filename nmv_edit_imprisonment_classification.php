@@ -36,7 +36,7 @@ $form
 
 $form
 	->addAction(DATABASE, 'nmv__imprisonment_classification', 'tag')
-  ->addAction(REDIRECT, "nmv_edit_victim_imprisoniation?ID_imprisoniation={ID_imprisonment}&ID_victim=" . $ID_victim);
+  ->addAction(REDIRECT, "nmv_view_victim?ID_victim=" . $ID_victim);
 
 $dbi->addBreadcrumb(L_CONTENTS, 'z_menu_contents');
 $dbi->addBreadcrumb('Imprisonment');
