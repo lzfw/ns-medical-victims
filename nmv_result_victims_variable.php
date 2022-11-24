@@ -49,7 +49,7 @@ $like_fields = array ();
 
 //felder, die mit LIKE %xy% gematcht werden
 $contain_fields = array('residence_after_1945_country', 'occupation_after_1945',
-												'notes', 'notes_after_1945', 'notes_photo', 'birth_place', 'death_place');
+												'notes', 'notes_after_1945', 'notes_photo', 'birth_place', 'death_place', 'arrest_history');
 
 // felder, die mit like ODER exakt gematcht werden (Trunkierung möglich, Diakritika indistinkt)
 // --> Arabic vowel signs are treated indistinctively: سبب would also return سَبَبٌ, and vice versa.
@@ -352,6 +352,7 @@ if (isset($_GET['ID_arrest_country']) && $_GET['ID_arrest_country']) {
 		$suche_nach[] = 'country of arrest = '.$search_term[0];
 	}
 }
+if (isset($_GET['arrest_history']) && $_GET['arrest_history']) $suche_nach[] = 'arrest history contains:  '.$_GET['arrest_history'];
 if (isset($_GET['ID_experiment']) && $_GET['ID_experiment']) {
 	$search_term = $dbi->connection->query('SELECT experiment_title FROM nmv__experiment WHERE ID_experiment = '.$_GET['ID_experiment'])->fetch_row();
 	if(empty($search_term)){

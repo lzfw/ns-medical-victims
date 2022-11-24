@@ -175,6 +175,9 @@ $victimsVariableForm->addField('location', SELECT)
   ->addOption(NO_VALUE,'all locations')
   ->addOptionsFromTable('nmv__imprisoniation', 'DISTINCT location', 'location');
 
+$victimsVariableForm->addField('arrest_history', TEXT, 120)
+  ->setLabel('arrest history <small>contains</small>');
+
 $victimsVariableForm->addField('evaluation_status', SELECT)
   ->setLabel('evaluation status')
   ->addOption(NO_VALUE,'all evaluation status')
