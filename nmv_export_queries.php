@@ -11,13 +11,14 @@ $institution_query_end = "GROUP BY i.ID_institution";
 
 $source_query_start =
 "SELECT DISTINCT s.ID_source, s.source_title, s.signature, s.creation_year,
-                s.pages, s.type, s.language, s.description,
-                s.medium, IF(s.published_source = -1, 'yes', '-') AS published_source,
+                s.pages, s.type, s.language, s.description, s.medium AS medium_old,
+                m.medium, IF(s.published_source = -1, 'yes', '-') AS published_source,
                 s.location, i.institution_name, s.folder, s.url,
                 CONCAT(IFNULL(s.access_day, '-'), '.', IFNULL(s.access_month, '-'), '.', IFNULL(s.access_year, '-')) AS access_date,
                 s.notes
 FROM nmv__source s
-LEFT JOIN nmv__institution i ON i.ID_institution = s.ID_institution";
+LEFT JOIN nmv__institution i ON i.ID_institution = s.ID_institution
+LEFT JOIN nmv__medium m ON m.ID_medium = s.ID_medium";
 $source_query_end = "GROUP BY s.ID_source";
 
 

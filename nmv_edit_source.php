@@ -32,7 +32,11 @@ $form->addField ('description',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Description');
 $form->addField ('medium',TEXT,50)
-    ->setLabel ('Medium');
+    ->setLabel ('Medium (Outdated, will be deleted soon)');
+$form->addField('ID_medium',SELECT)
+		->setLabel ('Medium')
+		->addOption(NO_VALUE, 'please choose')
+		->addOptionsFromTable('nmv__medium', 'ID_medium', 'medium');
 /* Aleks requested so, 2019-05-02
 $form->addField ('person_in_charge',TEXT,50)
     ->setLabel ('Person in charge');
