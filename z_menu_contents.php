@@ -47,7 +47,6 @@ $layout
 				. createListItem('Field of Interest','nmv_list_field_of_interest','')
 				. createListItem('Institution Type','nmv_list_institution_type','')
 				. createListItem('Marital / Family Status','nmv_list_marital_family_status','')
-				. createListItem('Language','nmv_list_language','')
 				. createListItem('Nametype','nmv_list_victim_nametype','')
 				. createListItem('Nationality','nmv_list_nationality','')
 				. createListItem('Occupation (Victim)','nmv_list_occupation','')

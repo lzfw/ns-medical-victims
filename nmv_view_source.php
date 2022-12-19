@@ -14,10 +14,9 @@ $querystring = "
     SELECT s.source_title, s.signature, s.creation_year, s.pages, s.type,
     s.description, s.medium, s.published_source, s.notes, i.institution_name,
     s.data_entry_status, s.names_mentioned, s.location, s.person_in_charge,
-    l.english as language, s.url,
+    s.language, s.url,
     IF((s.access_day IS NULL AND s.access_month IS NULL AND s.access_year IS NULL), ' ', CONCAT(IFNULL(s.access_day, '-'), '.', IFNULL(s.access_month, '-'), '.', IFNULL(s.access_year, '-'))) as access_date
     FROM nmv__source s
-    LEFT JOIN nmv__language l ON (l.ID_language = s.ID_language)
     LEFT JOIN nmv__institution i ON (i.ID_institution = s.ID_institution)
     WHERE ID_source = ?";
 

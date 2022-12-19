@@ -26,10 +26,8 @@ $form->addField ('pages',TEXT,50)
     ->setLabel ('Pages');
 $form->addField ('type',TEXT,50)
     ->setLabel ('Type');
-$form->addField ('ID_language',SELECT)
-    ->setLabel ('Language')
-    ->addOption (NO_VALUE,'please choose')
-    ->addOptionsFromTable ( 'nmv__language', 'ID_language', 'english');
+$form->addField ('language',TEXT,255)
+    ->setLabel ('Language');
 $form->addField ('description',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Description');
