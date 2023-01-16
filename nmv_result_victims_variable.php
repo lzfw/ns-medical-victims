@@ -126,8 +126,8 @@ if ((isset($_GET['ID_experiment']) && ($_GET['ID_experiment'])) || (isset($_GET[
 													LEFT JOIN nmv__experiment_institution ei 			ON ei.ID_experiment = ex.ID_experiment
 													LEFT JOIN nmv__experiment_foi ef							ON ef.ID_experiment = ex.ID_experiment
 													LEFT JOIN nmv__field_of_interest foi					ON foi.ID_foi = ef.ID_foi
-													LEFT JOIN nmv__imprisoniation i								ON v.ID_victim = i.ID_victim
-													LEFT JOIN nmv__imprisonment_classification ic ON ic.ID_imprisonment = i.ID_imprisoniation
+													LEFT JOIN nmv__imprisonment i								ON v.ID_victim = i.ID_victim
+													LEFT JOIN nmv__imprisonment_classification ic ON ic.ID_imprisonment = i.ID_imprisonment
 													LEFT JOIN nmv__nationality n        					ON n.ID_nationality = v.nationality_1938
 													LEFT JOIN nmv__ethnicgroup et       					ON et.ID_ethnicgroup = v.ethnic_group
 													LEFT JOIN nmv__med_history_brain b						ON v.ID_victim = b.ID_victim
@@ -153,8 +153,8 @@ else:  // default query
 													LEFT JOIN nmv__experiment ex 									ON ve.ID_experiment = ex.ID_experiment
 													LEFT JOIN nmv__experiment_foi ef							ON ef.ID_experiment = ex.ID_experiment
 													LEFT JOIN nmv__field_of_interest foi					ON foi.ID_foi = ef.ID_foi
-													LEFT JOIN nmv__imprisoniation i								ON v.ID_victim = i.ID_victim
-													LEFT JOIN nmv__imprisonment_classification ic ON ic.ID_imprisonment = i.ID_imprisoniation
+													LEFT JOIN nmv__imprisonment i								ON v.ID_victim = i.ID_victim
+													LEFT JOIN nmv__imprisonment_classification ic ON ic.ID_imprisonment = i.ID_imprisonment
 													LEFT JOIN nmv__nationality n        					ON n.ID_nationality = v.nationality_1938
 													LEFT JOIN nmv__ethnicgroup et       					ON et.ID_ethnicgroup = v.ethnic_group
 													LEFT JOIN nmv__med_history_brain b						ON v.ID_victim = b.ID_victim

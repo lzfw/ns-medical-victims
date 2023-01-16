@@ -172,14 +172,14 @@ if ($victim = $result->fetch_object()) {
     $content .= '<br>'.buildElement('h3', 'Imprisonment');
     // query: get prison numbers
     $querystring = "
-    SELECT i.ID_imprisoniation, i.ID_victim, i.number, ins.institution_name AS institution, i.location,
+    SELECT i.ID_imprisonment, i.ID_victim, i.number, ins.institution_name AS institution, i.location,
         GROUP_CONCAT(c.english SEPARATOR ', <br>') AS classification, CONCAT(IFNULL(i.start_day, '-'), '.', IFNULL(i.start_month, '-'), '.', IFNULL(i.start_year, '-')) AS start_date
-    FROM nmv__imprisoniation i
-    LEFT JOIN nmv__imprisonment_classification ic    ON ic.ID_imprisonment = i.ID_imprisoniation
+    FROM nmv__imprisonment i
+    LEFT JOIN nmv__imprisonment_classification ic    ON ic.ID_imprisonment = i.ID_imprisonment
     LEFT JOIN nmv__victim_classification c           ON c.ID_classification = ic.ID_classification
     LEFT JOIN nmv__institution ins ON ins.ID_institution = i.ID_institution
     WHERE ID_victim = $victim_id
-    GROUP BY i.ID_imprisoniation
+    GROUP BY i.ID_imprisonment
     ORDER BY start_year, start_month, start_day";
 
     $options = '';
@@ -188,13 +188,13 @@ if ($victim = $result->fetch_object()) {
 
     if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
     	if ($dbi->checkUserPermission('edit')) {
-    			$options .= createSmallButton(L_EDIT,'nmv_edit_victim_imprisoniation?ID_imprisoniation={ID_imprisoniation}&ID_victim={ID_victim}','icon edit');
+    			$options .= createSmallButton(L_EDIT,'nmv_edit_victim_imprisonment?ID_imprisonment={ID_imprisonment}&ID_victim={ID_victim}','icon edit');
     	}
       if ($dbi->checkUserPermission('admin')) {
-      			$options .= createSmallButton(L_DELETE,'nmv_remove_victim_imprisoniation?ID_imprisoniation={ID_imprisoniation}','icon delete');
+      			$options .= createSmallButton(L_DELETE,'nmv_remove_victim_imprisonment?ID_imprisonment={ID_imprisonment}','icon delete');
       }
     	if ($dbi->checkUserPermission('edit')) {
-    			$options .= createSmallButton('edit classifications','nmv_edit_imprisonment_classification?ID_imprisonment={ID_imprisoniation}&ID_victim={ID_victim}','icon edit');
+    			$options .= createSmallButton('edit classifications','nmv_edit_imprisonment_classification?ID_imprisonment={ID_imprisonment}&ID_victim={ID_victim}','icon edit');
     	}
         	$row_template[] = $options;
     	$header_template[] = L_OPTIONS;
@@ -209,7 +209,7 @@ if ($victim = $result->fetch_object()) {
     if ($dbi->checkUserPermission('edit')) {
     	$content .= '<div class="buttons">';
     	$content .= createButton ('New imprisonment (prison number)',
-    	    'nmv_edit_victim_imprisoniation?ID_victim='.$victim_id,'icon add');
+    	    'nmv_edit_victim_imprisonment?ID_victim='.$victim_id,'icon add');
     	$content .= '</div>';
     }
 

@@ -40,10 +40,10 @@ function get_victim($dbi, $id) {
     return $victim;
 }
 
-function get_imprisoniation($dbi, $id) {
+function get_imprisonment($dbi, $id) {
     $sql = "SELECT *
-        FROM nmv__imprisoniation
-        WHERE ID_imprisoniation = ?";
+        FROM nmv__imprisonment
+        WHERE ID_imprisonment = ?";
 
     if ($stmt = $dbi->connection->prepare($sql)) {
         if ( $stmt->bind_param('i', $id) ) {
@@ -66,13 +66,13 @@ function get_imprisoniation($dbi, $id) {
             ' / #' . $dbi->connection->errno . ' / ' . $dbi->connection->error);
     }
 
-    $imprisoniation = $result->fetch_object();
-    return $imprisoniation;
+    $imprisonment = $result->fetch_object();
+    return $imprisonment;
 }
 
 function breadcrumb($dbi, $item, $record_id) {
     $victim = get_victim($dbi, $item->ID_victim);
-    $imprisoniation = get_imprisoniation($dbi, $item->ID_imprisoniation);
+    $imprisonment = get_imprisonment($dbi, $item->ID_imprisonment);
     $vict_name = $victim->first_names . ' ' . $victim->surname;
     $vict_name = strlen($vict_name) > 1 ? $vict_name : 'unknown';
     $dbi->addBreadcrumb ($vict_name,'nmv_view_victim?ID_victim='.$item->ID_victim);
@@ -80,11 +80,11 @@ function breadcrumb($dbi, $item, $record_id) {
 
 function prompt($dbi, $item) {
     $victim = get_victim($dbi, $item->ID_victim);
-    $imprisoniation = get_imprisoniation($dbi, $item->ID_imprisoniation);
+    $imprisonment = get_imprisonment($dbi, $item->ID_imprisonment);
 
     $victim_source =
-        htmlspecialchars($imprisoniation->location, ENT_HTML5).', ' .
-        htmlspecialchars($imprisoniation->number, ENT_HTML5).' - ' .
+        htmlspecialchars($imprisonment->location, ENT_HTML5).', ' .
+        htmlspecialchars($imprisonment->number, ENT_HTML5).' - ' .
         htmlspecialchars($victim->first_names, ENT_HTML5).' '.
         htmlspecialchars($victim->surname, ENT_HTML5);
     return 'Remove Victim Classification (prison number) '.': "<em>'.$victim_source.'</em>".';
@@ -95,7 +95,7 @@ function redir($dbi, $type, $location, $item) {
     return "$location?ID_victim={$victim->ID_victim}";
 }
 
-remove_record('ID_imprisoniation', 'ID_imprisoniation', 'nmv__imprisoniation',
+remove_record('ID_imprisonment', 'ID_imprisonment', 'nmv__imprisonment',
     'Victim Classification', 'nmv_view_victim', 'nmv_view_victim',
     'prompt', 'breadcrumb', 'redir');
 

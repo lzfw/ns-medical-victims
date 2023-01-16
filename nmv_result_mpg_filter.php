@@ -75,8 +75,8 @@ $querystring_items = 'SELECT DISTINCT v.ID_victim, v.surname, v.first_names, v.b
 											LEFT JOIN nmv__victim_experiment ve 					ON v.ID_victim = ve.ID_victim
 											LEFT JOIN nmv__experiment_institution ei 			ON ei.ID_experiment = ve.ID_experiment
 											LEFT JOIN nmv__med_history_tissue t 					ON v.ID_victim = t.ID_victim
-											LEFT JOIN nmv__imprisoniation i    						ON v.ID_victim = i.ID_victim
-											LEFT JOIN nmv__imprisonment_classification ic	ON ic.ID_imprisonment = i.ID_imprisoniation
+											LEFT JOIN nmv__imprisonment i    						ON v.ID_victim = i.ID_victim
+											LEFT JOIN nmv__imprisonment_classification ic	ON ic.ID_imprisonment = i.ID_imprisonment
 											LEFT JOIN nmv__victim_source vs 	 						ON v.ID_victim = vs.ID_victim'; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
 $querystring_where[] = "was_prisoner_assistant != 'prisoner assistant only'";

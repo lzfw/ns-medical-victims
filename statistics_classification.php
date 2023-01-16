@@ -26,10 +26,10 @@ $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 		$querystring_items = ' 	SELECT A.classification, A.number as anumber, B.number as bnumber
 														FROM (SELECT c.english as classification, COUNT(v.ID_victim) as number
 																FROM nmv__victim v
-																INNER JOIN nmv__imprisoniation i
+																INNER JOIN nmv__imprisonment i
 															      ON v.ID_victim = i.ID_victim
 																LEFT JOIN nmv__imprisonment_classification ic
-																		ON ic.ID_imprisonment = i.ID_imprisoniation
+																		ON ic.ID_imprisonment = i.ID_imprisonment
 																LEFT JOIN nmv__victim_classification c
 															      ON ic.ID_classification = c.ID_classification
 																WHERE was_prisoner_assistant != "prisoner assistant only"
@@ -37,10 +37,10 @@ $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 														  LEFT JOIN
 															    (SELECT c.english as classification, COUNT(v.ID_victim) as number
 																FROM nmv__victim v
-																INNER JOIN nmv__imprisoniation i
+																INNER JOIN nmv__imprisonment i
 															      ON v.ID_victim = i.ID_victim
 																LEFT JOIN nmv__imprisonment_classification ic
-																		ON ic.ID_imprisonment = i.ID_imprisoniation
+																		ON ic.ID_imprisonment = i.ID_imprisonment
 																LEFT JOIN nmv__victim_classification c
 															      ON ic.ID_classification = c.ID_classification
 																WHERE v.mpg_project = -1 AND was_prisoner_assistant != "prisoner assistant only"

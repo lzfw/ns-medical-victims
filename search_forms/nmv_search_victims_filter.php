@@ -167,13 +167,13 @@ $victimsVariableForm->addField('ID_imprisonment_institution', SELECT)
   ->addOption(NO_VALUE,'all institutions')
   ->addOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name',
                         'EXISTS (	SELECT *
-                                  FROM nmv__imprisoniation
-                                  WHERE nmv__institution.ID_institution = nmv__imprisoniation.ID_institution)');
+                                  FROM nmv__imprisonment
+                                  WHERE nmv__institution.ID_institution = nmv__imprisonment.ID_institution)');
 
 $victimsVariableForm->addField('location', SELECT)
   ->setLabel('imprisonment location')
   ->addOption(NO_VALUE,'all locations')
-  ->addOptionsFromTable('nmv__imprisoniation', 'DISTINCT location', 'location');
+  ->addOptionsFromTable('nmv__imprisonment', 'DISTINCT location', 'location');
 
 $victimsVariableForm->addField('arrest_history', TEXT, 120)
   ->setLabel('arrest history <small>contains</small>');
