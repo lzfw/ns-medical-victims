@@ -13,7 +13,7 @@ $dbi->addBreadcrumb ('Literature','nmv_list_literature');
 $querystring = "
     SELECT authors, lit_year, lit_title, article, journal_or_series,
            editor, volume, location, pages, publisher, scientific_exploitation, written_by_perpetrator,
-           notes, url, isbn, issn, doi,
+           notes, url, isbn, doi,
            IF((access_day IS NULL AND access_month IS NULL AND access_year IS NULL), ' ', CONCAT(IFNULL(access_day, '-'), '.', IFNULL(access_month, '-'), '.', IFNULL(access_year, '-'))) as access_date
     FROM nmv__literature v
     WHERE ID_literature = ?";
@@ -62,7 +62,6 @@ if ($literature = $result->fetch_object()) {
         buildDataSheetRow('URL',                          $literature->url).
         buildDataSheetRow('Access Data (dmy)',            $literature->access_date).
         buildDataSheetRow('ISBN',                      $literature->isbn).
-        buildDataSheetRow('ISSN',                      $literature->issn).
         buildDataSheetRow('DOI',                      $literature->doi)
     );
 } else {

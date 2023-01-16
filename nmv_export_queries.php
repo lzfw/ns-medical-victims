@@ -28,7 +28,7 @@ $literature_query_start =
                 l.volume, l.pages, IF(l.scientific_exploitation = 1, 'yes', ' - ') AS scientific_exploitation,
                 IF(l.written_by_perpetrator = -1, 'yes', ' - ') AS written_by_perpetrator, l.url,
                 CONCAT(IFNULL(l.access_day, '-'), '.', IFNULL(l.access_month, '-'), '.', IFNULL(l.access_year, '-')) AS access_date_url,
-                l.isbn, l.issn, l.doi, l.notes
+                l.isbn, l.doi, l.notes
 FROM nmv__literature l";
 $literature_query_end = "GROUP BY l.ID_literature";
 
