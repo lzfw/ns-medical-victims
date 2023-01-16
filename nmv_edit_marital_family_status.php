@@ -13,8 +13,6 @@ $form->addfield ('ID_marital_family_status', PROTECTED_TEXT)
     ->setLabel ('status ID');
 $form->addField ('english',TEXT,250)
     ->setLabel ('english');
-$form->addField ('deutsch',TEXT,250)
-    ->setLabel ('deutsch');
 
 
 $form

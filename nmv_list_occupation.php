@@ -12,7 +12,7 @@ $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 
 // Select-Klauseln erstellen
 $querystring_count = 'SELECT COUNT(*) AS total FROM nmv__occupation b'; // für Treffer gesamt
-$querystring_items = 'SELECT ID_occupation, english, deutsch
+$querystring_items = 'SELECT ID_occupation, english
                       FROM nmv__occupation b';
 
 // Gesamtanzahl der Suchergebnisse feststellen

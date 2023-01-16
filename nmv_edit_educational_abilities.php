@@ -13,9 +13,6 @@ $form->addfield ('ID_educational_abilities', PROTECTED_TEXT)
     ->setLabel ('educational abilities ID');
 $form->addField ('english',TEXT,250)
     ->setLabel ('english');
-$form->addField ('deutsch',TEXT,250)
-    ->setLabel ('deutsch');
-
 
 $form
 	->addButton (SUBMIT)

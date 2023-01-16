@@ -13,8 +13,6 @@ $form->addfield ('ID_behaviour', PROTECTED_TEXT)
     ->setLabel ('behaviour ID');
 $form->addField ('english',TEXT,250)
     ->setLabel ('english');
-$form->addField ('deutsch',TEXT,250)
-    ->setLabel ('deutsch');
 
 
 $form

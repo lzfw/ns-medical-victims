@@ -13,9 +13,6 @@ $form->addfield ('ID_ethnicgroup', PROTECTED_TEXT)
     ->setLabel ('ethnicgroup ID');
 $form->addField ('english',TEXT,250)
     ->setLabel ('english');
-$form->addField ('deutsch',TEXT,250)
-    ->setLabel ('deutsch');
-
 
 $form
 	->addButton (SUBMIT)

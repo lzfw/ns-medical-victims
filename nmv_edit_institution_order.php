@@ -13,8 +13,6 @@ $form->addfield ('ID_institution_order', PROTECTED_TEXT)
     ->setLabel ('institution order ID');
 $form->addField ('english',TEXT,250)
     ->setLabel ('english');
-$form->addField ('deutsch',TEXT,250)
-    ->setLabel ('deutsch');
 
 
 $form
