@@ -132,7 +132,7 @@ if ($victim = $result->fetch_object()) {
     endif;
     $content .= '<br>'.buildElement('h3', 'Evaluation');
     $content .= buildElement('table', 'grid',
-          buildDataSheetRow('Evaluation Status',              $victim->ID_evaluation_status).
+          buildDataSheetRow('Evaluation Status',              $victim->evaluation_status).
           buildDataSheetRow('Status due to',                  $victim->status_due_to).
           buildDataSheetRow('Status notes',                   $victim->status_notes).
           buildDataSheetRow('Evaluation List',                $victim->evaluation_list)
