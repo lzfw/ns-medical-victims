@@ -44,7 +44,7 @@ $form->addField ('ID_victim',PROTECTED_TEXT)
 $form->addField ('evaluation_status',SELECT)
     ->setLabel ('Status')
     ->addOption (NO_VALUE,'please choose')
-    ->addOptionsFromTable ( 'nmv__victim_evaluation_status', 'ID_status', 'english');
+    ->addOptionsFromTable ( 'nmv__victim_evaluation_status', 'ID_evaluation_status', 'english');
 $form->addField ('status_due_to',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Status due to');

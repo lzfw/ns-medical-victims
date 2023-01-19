@@ -17,7 +17,7 @@ class View_List_NMV_Victim_Evaluation_Status_Table extends View_List {
 	public function get_HTML ($results) {
 	    global $dbi;
 		$this->addSortOption ('english','english','ASC','DESC');
-		$this->addSortOption ('ID', 'ID_status', 'ASC', 'DESC');
+		$this->addSortOption ('ID', 'ID_evaluation_status', 'ASC', 'DESC');
 
 
 		$html = '';
@@ -25,7 +25,7 @@ class View_List_NMV_Victim_Evaluation_Status_Table extends View_List {
 
         $options = '';
         if ($dbi->checkUserPermission('admin')) {
-        		$options .= createSmallButton(L_EDIT,'nmv_edit_victim_evaluation_status?ID_status={ID_status}','icon edit');
+        		$options .= createSmallButton(L_EDIT,'nmv_edit_victim_evaluation_status?ID_evaluation_status={ID_evaluation_status}','icon edit');
         }
 
 		if ($results->num_rows>0) {
@@ -34,8 +34,8 @@ class View_List_NMV_Victim_Evaluation_Status_Table extends View_List {
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
 			        <td>' . htmlentities($item->english, ENT_HTML5) . '</td>
-              <td>' . htmlentities($item->ID_status, ENT_HTML5) . '</td>
-			        <td>' . str_replace('{ID_status}', $item->ID_status, $options) . '</td>
+              <td>' . htmlentities($item->ID_evaluation_status, ENT_HTML5) . '</td>
+			        <td>' . str_replace('{ID_evaluation_status}', $item->ID_evaluation_status, $options) . '</td>
 			    </tr>';
 			}
 			$html .= '</table>';

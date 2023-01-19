@@ -132,7 +132,7 @@ if ($victim = $result->fetch_object()) {
     endif;
     $content .= '<br>'.buildElement('h3', 'Evaluation');
     $content .= buildElement('table', 'grid',
-          buildDataSheetRow('Evaluation Status',              $victim->evaluation_status).
+          buildDataSheetRow('Evaluation Status',              $victim->ID_evaluation_status).
           buildDataSheetRow('Status due to',                  $victim->status_due_to).
           buildDataSheetRow('Status notes',                   $victim->status_notes).
           buildDataSheetRow('Evaluation List',                $victim->evaluation_list)
@@ -260,7 +260,7 @@ if ($victim = $result->fetch_object()) {
     //
     // if ($evaluation = $result->fetch_object()) {
     //     $content .= buildElement('table','grid',
-    //         buildDataSheetRow('Status', $evaluation->evaluation_status).
+    //         buildDataSheetRow('Status', $evaluation->ID_evaluation_status).
     //         buildDataSheetRow('Status due to',       $evaluation->status_due_to).
     //         buildDataSheetRow('Status Notes',  $evaluation->status_notes).
     //         ($evaluation->pending_due_to ? buildDataSheetRow('Pending due to',  $evaluation->pending_due_to) : '').
