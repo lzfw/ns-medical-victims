@@ -139,6 +139,8 @@ $form->addField('arrest_history', TEXTAREA)
 //complete db d
 // After '45 group
 if(!($dbi->checkUserPermission('mpg')))	{
+	$form->addField('consequential_injuries', TEXTAREA)
+			->setLabel('Consequential injuries');
 	$form->addField('residence_after_1945_place', TEXT, 250)
 	    ->setClass('keyboardInput')
 	    ->setLabel('Residence after \'45 (Place)');
@@ -150,22 +152,32 @@ if(!($dbi->checkUserPermission('mpg')))	{
 	    ->setLabel('Nationality after 1945')
 	    ->addOption(NO_VALUE, 'please choose')
 	    ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'english');
-	$form->addField('consequential_injuries', TEXTAREA)
-	    ->setLabel('Consequential injuries');
+	$form->addField('notes_after_1945', TEXTAREA)
+	    ->setClass('keyboardInput')
+	    ->setLabel('Notes on life after 1945');
 	$form->addField('compensation', RADIO, '', 'not specified')
 	    ->setLabel('Compensation')
 			->addRadioButton('yes', ' yes')
 			->addRadioButton('no', ' no')
 			->addRadioButton('not applicable', ' not applicable')
 			->addRadioButton('not specified', ' not specified');
-
 	$form->addField('compensation_details', TEXTAREA)
 	    ->setClass('keyboardInput')
 	    ->setLabel('Compensation details');
-	$form->addField('notes_after_1945', TEXTAREA)
-	    ->setClass('keyboardInput')
-	    ->setLabel('Notes on life after 1945');
 }
+
+$form->addField('evaluation_status', SELECT)
+		->setLabel('Evaluation status')
+		->addOption(NO_VALUE, 'please choose')
+		->addOptionsFromTable('nmv__victim_evaluation_status', 'ID_status', 'english');
+$form->addField('status_due_to', TEXTAREA)
+		->setClass('keyboardInput')
+		->setLabel('Status due to');
+$form->addField('status_notes', TEXTAREA)
+		->setClass('keyboardInput')
+		->setLabel('Status notes');
+
+
 
 
 $form

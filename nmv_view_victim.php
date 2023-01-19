@@ -25,7 +25,8 @@ $querystring = "
            v.occupation_after_1945, n45.english nationality_after_1945,
            v.consequential_injuries, IFNULL(v.compensation, 'not specified') AS compensation, v.compensation_details,
            v.notes_after_1945, v.mpg_project, v.arrest_prehistory, v.arrest_location, ac.english as arrest_country, v.arrest_history,
-           IF(v.photo_exists, 'Yes', '-') AS photo_exists, v.notes_photo, v.was_prisoner_assistant
+           IF(v.photo_exists, 'Yes', '-') AS photo_exists, v.notes_photo, v.was_prisoner_assistant,
+           v.evaluation_list, evs.english AS evaluation_status, v.status_due_to, v.status_notes
     FROM nmv__victim v
     LEFT JOIN nmv__marital_family_status m ON (m.ID_marital_family_status = v.ID_marital_family_status )
     LEFT JOIN nmv__education ed ON (ed.ID_education = v.ID_education)
@@ -42,6 +43,7 @@ $querystring = "
     LEFT JOIN nmv__victim_literature vl ON vl.ID_victim = v.ID_victim
     LEFT JOIN nmv__med_history_hosp h ON h.ID_victim = v.ID_victim
     LEFT JOIN nmv__med_history_brain b ON b.ID_victim = v.ID_victim
+    LEFT JOIN nmv__victim_evaluation_status evs ON evs.ID_evaluation_status = v.ID_evaluation_status
     WHERE v.ID_victim = ?";
 
 $result = null;
@@ -100,7 +102,7 @@ if ($victim = $result->fetch_object()) {
         $content .= buildElement('table','grid',
         buildDataSheetRow('Photo exists',           $victim->photo_exists).
         buildDataSheetRow('Notes about photo',      $victim->notes_photo));
-      }
+        }
         //complete db
         if(!($dbi->checkUserPermission('mpg'))):
           $content .= '<br>'.buildElement('table','grid',
@@ -128,6 +130,13 @@ if ($victim = $result->fetch_object()) {
             buildDataSheetRow('Compensation details',   $victim->compensation_details)
           );
     endif;
+    $content .= '<br>'.buildElement('h3', 'Evaluation');
+    $content .= buildElement('table', 'grid',
+          buildDataSheetRow('Evaluation Status',              $victim->evaluation_status).
+          buildDataSheetRow('Status due to',                  $victim->status_due_to).
+          buildDataSheetRow('Status notes',                   $victim->status_notes).
+          buildDataSheetRow('Evaluation List',                $victim->evaluation_list)
+        );
 
     $content .= '<div class="indent">';
     $content .= '<br>'.buildElement('h3', 'Other Names');
@@ -213,69 +222,69 @@ if ($victim = $result->fetch_object()) {
     	$content .= '</div>';
     }
 
-    $content .= '<br>'.buildElement('h3', 'Evaluation');
-
-    //query: get evaluation data
-    $querystring = '
-    SELECT ID_evaluation, ID_victim, confirmed_victim, confirmed_due_to,
-           es.english "evaluation_status", status_due_to, status_notes,
-           pending_notes, pending_due_to, evaluation_list
-        FROM nmv__evaluation e
-        LEFT JOIN nmv__victim_evaluation_status es
-            ON (e.evaluation_status = es.ID_status)
-        WHERE ID_victim = ?
-        ORDER BY ID_evaluation
-        LIMIT 5';
-
-    $result = null;
-    if ($stmt = $dbi->connection->prepare($querystring)) {
-        if ( $stmt->bind_param('i', $victim_id) ) {
-            if ( $stmt->execute() ) {
-                $result = $stmt->get_result();
-            } else {
-                throw new RuntimeException("Can not execute query: " .
-                    implode(': ', $stmt->error_list) .
-                    ' / #' . $stmt->errno . ' / ' . $stmt->error);
-            }
-        } else {
-            throw new RuntimeException("Can not bind ID parameter: " .
-                implode(': ', $stmt->error_list) .
-                ' / #' . $stmt->errno . ' / ' . $stmt->error);
-        }
-    } else {
-        var_dump($dbi->connection->error);
-        throw new RuntimeException("Can not prepare query: " .
-            implode(': ', $dbi->connection->error_list) .
-            ' / #' . $dbi->connection->errno . ' / ' . $dbi->connection->error);
-    }
-
-    if ($evaluation = $result->fetch_object()) {
-        $content .= buildElement('table','grid',
-            buildDataSheetRow('Status', $evaluation->evaluation_status).
-            buildDataSheetRow('Status due to',       $evaluation->status_due_to).
-            buildDataSheetRow('Status Notes',  $evaluation->status_notes).
-            ($evaluation->pending_due_to ? buildDataSheetRow('Pending due to',  $evaluation->pending_due_to) : '').
-            ($evaluation->pending_notes ? buildDataSheetRow('Pending Notes',  $evaluation->pending_notes) : '').
-            buildDataSheetRow('Evaluation List',        $evaluation->evaluation_list)
-        );
-        if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
-            $content .= '<div class="buttons">';
-        	if ($dbi->checkUserPermission('edit')) {
-        			$content .= createSmallButton('Edit evaluation','nmv_edit_victim_evaluation?ID_evaluation=' . $evaluation->ID_evaluation,'icon edit');
-        	}
-        	if ($dbi->checkUserPermission('admin')) {
-        			$content .= createSmallButton('Delete evaluation','nmv_remove_victim_evaluation?ID_evaluation=' . $evaluation->ID_evaluation,'icon delete');
-        	}
-        	$content .= '</div>';
-        }
-    } else {
-        if ($dbi->checkUserPermission('edit')) {
-        	$content .= '<div class="buttons">';
-        	$content .= createButton ('Add evaluation',
-        	    'nmv_edit_victim_evaluation?ID_victim='.$victim_id,'icon add');
-        	$content .= '</div>';
-        }
-    }
+    // $content .= '<br>'.buildElement('h3', 'Evaluation');
+    //
+    // //query: get evaluation data
+    // $querystring = '
+    // SELECT ID_evaluation, ID_victim, confirmed_victim, confirmed_due_to,
+    //        es.english "evaluation_status", status_due_to, status_notes,
+    //        pending_notes, pending_due_to, evaluation_list
+    //     FROM nmv__evaluation e
+    //     LEFT JOIN nmv__victim_evaluation_status es
+    //         ON (e.ID_evaluation_status = es.ID_evaluation_status)
+    //     WHERE ID_victim = ?
+    //     ORDER BY ID_evaluation
+    //     LIMIT 5';
+    //
+    // $result = null;
+    // if ($stmt = $dbi->connection->prepare($querystring)) {
+    //     if ( $stmt->bind_param('i', $victim_id) ) {
+    //         if ( $stmt->execute() ) {
+    //             $result = $stmt->get_result();
+    //         } else {
+    //             throw new RuntimeException("Can not execute query: " .
+    //                 implode(': ', $stmt->error_list) .
+    //                 ' / #' . $stmt->errno . ' / ' . $stmt->error);
+    //         }
+    //     } else {
+    //         throw new RuntimeException("Can not bind ID parameter: " .
+    //             implode(': ', $stmt->error_list) .
+    //             ' / #' . $stmt->errno . ' / ' . $stmt->error);
+    //     }
+    // } else {
+    //     var_dump($dbi->connection->error);
+    //     throw new RuntimeException("Can not prepare query: " .
+    //         implode(': ', $dbi->connection->error_list) .
+    //         ' / #' . $dbi->connection->errno . ' / ' . $dbi->connection->error);
+    // }
+    //
+    // if ($evaluation = $result->fetch_object()) {
+    //     $content .= buildElement('table','grid',
+    //         buildDataSheetRow('Status', $evaluation->evaluation_status).
+    //         buildDataSheetRow('Status due to',       $evaluation->status_due_to).
+    //         buildDataSheetRow('Status Notes',  $evaluation->status_notes).
+    //         ($evaluation->pending_due_to ? buildDataSheetRow('Pending due to',  $evaluation->pending_due_to) : '').
+    //         ($evaluation->pending_notes ? buildDataSheetRow('Pending Notes',  $evaluation->pending_notes) : '').
+    //         buildDataSheetRow('Evaluation List',        $evaluation->evaluation_list)
+    //     );
+    //     if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
+    //         $content .= '<div class="buttons">';
+    //     	if ($dbi->checkUserPermission('edit')) {
+    //     			$content .= createSmallButton('Edit evaluation','nmv_edit_victim_evaluation?ID_evaluation=' . $evaluation->ID_evaluation,'icon edit');
+    //     	}
+    //     	if ($dbi->checkUserPermission('admin')) {
+    //     			$content .= createSmallButton('Delete evaluation','nmv_remove_victim_evaluation?ID_evaluation=' . $evaluation->ID_evaluation,'icon delete');
+    //     	}
+    //     	$content .= '</div>';
+    //     }
+    // } else {
+    //     if ($dbi->checkUserPermission('edit')) {
+    //     	$content .= '<div class="buttons">';
+    //     	$content .= createButton ('Add evaluation',
+    //     	    'nmv_edit_victim_evaluation?ID_victim='.$victim_id,'icon add');
+    //     	$content .= '</div>';
+    //     }
+    // }
 } else {
     $victim_name = 'Error: unknown victim';
     $content = buildElement('p','Error: Victim not found. Maybe it has been deleted from the database?');

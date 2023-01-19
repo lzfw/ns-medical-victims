@@ -42,8 +42,7 @@ $querystring_items = "	SELECT v.ID_victim, v.surname, v.first_names, v.birth_pla
 	LEFT JOIN nmv__ethnicgroup et ON et.ID_ethnicgroup = v.ethnic_group
 	LEFT JOIN nmv__occupation o ON o.ID_occupation = v.occupation
 	LEFT JOIN nmv__dataset_origin da ON da.ID_dataset_origin = v.ID_dataset_origin
-	LEFT JOIN nmv__evaluation ev ON ev.ID_victim = v.ID_victim
-  LEFT JOIN nmv__victim_evaluation_status es ON es.ID_status = ev.evaluation_status
+  LEFT JOIN nmv__victim_evaluation_status es ON es.ID_evaluation_status = v.ID_evaluation_status
   WHERE v.was_prisoner_assistant != 'victim only'"; // für Ergebnisliste
 
 //complete db d

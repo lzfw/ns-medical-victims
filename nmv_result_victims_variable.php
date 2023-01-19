@@ -41,7 +41,8 @@ $exact_fields = array (	'twin', 					'mpg_project', 						'ID_birth_country',
 												'death_year', 		'gender',									'religion',
 												'ethnic_group', 	'nationality_1938', 			'ID_education',
 												'occupation', 		'ID_arrest_country', 			'ID_perpetrator',
-												'photo',					'nationality_after_1945',	'ID_death_institution');
+												'photo',					'nationality_after_1945',	'ID_death_institution',
+											  'ID_evaluation_status');
 
 // felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
 // --> If no diacritics are applied, it finds covers any combination: η would also return ἠ, ἦ or ἥ, while ἠ would find only ἠ.
@@ -72,7 +73,6 @@ $special_fields = array('ex.ID_experiment'			=> 'ID_experiment',
 												'h.date_entry_year' 	=> 'hospitalisation_year',
 												'h.ID_institution'		=> 'hospitalisation_institution',
 												'dh.ID_diagnosis'			=> 'hospitalisation_ID_diagnosis',
-												'ev.evaluation_status'=> 'evaluation_status',
 												't.ID_institution'   	=> 'tissue_institution',
 												'ef.ID_foi'						=> 'ID_foi',
 												'i.ID_institution'    => 'ID_imprisonment_institution'
@@ -137,7 +137,6 @@ if ((isset($_GET['ID_experiment']) && ($_GET['ID_experiment'])) || (isset($_GET[
 													LEFT JOIN nmv__med_history_hosp h							ON v.ID_victim = h.ID_victim
 													LEFT JOIN nmv__diagnosis_hosp dh							ON dh.ID_med_history_hosp = h.ID_med_history_hosp
 													LEFT JOIN nmv__diagnosis_tag dth							ON dth.ID_diagnosis = dh.ID_diagnosis
-													LEFT JOIN nmv__evaluation ev									ON v.ID_victim = ev.ID_victim
 													LEFT JOIN nmv__victim_source vs 							ON vs.ID_victim = v.ID_victim
 													LEFT JOIN nmv__victim_literature vl 					ON vl.ID_victim = v.ID_victim
 													LEFT JOIN nmv__institution di									ON di.ID_institution = v.ID_death_institution
@@ -164,7 +163,6 @@ else:  // default query
 													LEFT JOIN nmv__med_history_hosp h							ON v.ID_victim = h.ID_victim
 													LEFT JOIN nmv__diagnosis_hosp dh							ON dh.ID_med_history_hosp = h.ID_med_history_hosp
 													LEFT JOIN nmv__diagnosis_tag dth							ON dth.ID_diagnosis = dh.ID_diagnosis
-													LEFT JOIN nmv__evaluation ev									ON v.ID_victim = ev.ID_victim
 													LEFT JOIN nmv__victim_source vs 							ON vs.ID_victim = v.ID_victim
 													LEFT JOIN nmv__victim_literature vl 					ON vl.ID_victim = v.ID_victim
 													LEFT JOIN nmv__institution di									ON di.ID_institution = v.ID_death_institution
@@ -378,12 +376,12 @@ if (isset($_GET['ID_imprisonment_institution']) && $_GET['ID_imprisonment_instit
 	$search_term = $dbi->connection->query('SELECT institution_name FROM nmv__institution WHERE ID_institution = '.$_GET['ID_imprisonment_institution'])->fetch_row();
 	$suche_nach[] = 'institution of imprisonment = '.$search_term[0];
 }
-if (isset($_GET['evaluation_status']) && $_GET['evaluation_status']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__victim_evaluation_status WHERE ID_status = '.$_GET['evaluation_status'])->fetch_row();
+if (isset($_GET['ID_evaluation_status']) && $_GET['ID_evaluation_status']) {
+	$search_term = $dbi->connection->query('SELECT english FROM nmv__victim_evaluation_status WHERE ID_evaluation_status = '.$_GET['ID_evaluation_status'])->fetch_row();
 	if(empty($search_term)){
-		$suche_nach[] = 'evaluation status = NULL';
+		$suche_nach[] = 'ID_evaluation status = NULL';
 	}	else {
-		$suche_nach[] = 'evaluation status = '.$search_term[0];
+		$suche_nach[] = 'ID_evaluation status = '.$search_term[0];
 	}
 }
 if (isset($_GET['mpg_project']) && $_GET['mpg_project']) $suche_nach[] = 'mpg_project only';

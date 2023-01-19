@@ -202,7 +202,7 @@ GROUP_CONCAT(DISTINCT
                 IF(t.ref_no IS NULL, '', CONCAT('tissue REF NO: --', t.ref_no, '--, ')),
                 IF(t.notes IS NULL, '', CONCAT('tissue NOTES: --', t.notes, '--, '))
                  SEPARATOR ' \n') AS 'Victim - Tissue',
-v.notes, v.consequential_injuries, v.compensation, v.compensation_details, evs.english AS evaluation_status,
+v.notes, v.consequential_injuries, v.compensation, v.compensation_details, evs.english AS evaluation_status, v.status_due_to, v.status_notes,
 v.residence_after_1945_place, v.residence_after_1945_country, n1945.english AS nationality_after_1945, v.occupation_after_1945, v.notes_after_1945,
 GROUP_CONCAT(DISTINCT
 		'ID source: --', so.ID_source, '--, ',
@@ -250,8 +250,7 @@ FROM nmv__victim v
                 LEFT JOIN nmv__imprisonment_classification ic ON ic.ID_imprisonment = i1.ID_imprisonment
                 LEFT JOIN nmv__victim_classification vc ON vc.ID_classification = ic.ID_classification
                 GROUP BY i1.ID_imprisonment) AS vicla ON vicla.ID_imprisonment = i.ID_imprisonment
-        LEFT JOIN nmv__evaluation ev ON ev.ID_victim = v.ID_victim
-        LEFT JOIN nmv__victim_evaluation_status evs ON evs.ID_status = ev.evaluation_status
+        LEFT JOIN nmv__victim_evaluation_status evs ON evs.ID_evaluation_status = v.ID_evaluation_status
         LEFT JOIN nmv__victim_source vs ON vs.ID_victim = v.ID_victim
         LEFT JOIN nmv__source so ON so.ID_source = vs.ID_source
         LEFT JOIN nmv__victim_literature vl ON vl.ID_victim = v.ID_victim
@@ -370,7 +369,7 @@ GROUP_CONCAT(DISTINCT
                 IF(t.ref_no IS NULL, '', CONCAT('tissue REF NO: --', t.ref_no, '--, ')),
                 IF(t.notes IS NULL, '', CONCAT('tissue NOTES: --', t.notes, '--, '))
                  SEPARATOR ' \n') AS 'Victim - Tissue',
-v.notes, v.consequential_injuries, v.compensation, v.compensation_details, evs.english AS evaluation_status,
+v.notes, v.consequential_injuries, v.compensation, v.compensation_details, evs.english AS evaluation_status, v.status_due_to, v.status_notes,
 v.residence_after_1945_place, v.residence_after_1945_country, n1945.english AS nationality_after_1945, v.occupation_after_1945, v.notes_after_1945,
 GROUP_CONCAT(DISTINCT
                 'ID source: --', so.ID_source, '--, ',
@@ -417,8 +416,7 @@ FROM nmv__victim v
                 LEFT JOIN nmv__imprisonment_classification ic ON ic.ID_imprisonment = i1.ID_imprisonment
                 LEFT JOIN nmv__victim_classification vc ON vc.ID_classification = ic.ID_classification
                 GROUP BY i1.ID_imprisonment) AS vicla ON vicla.ID_imprisonment = i.ID_imprisonment
-        LEFT JOIN nmv__evaluation ev ON ev.ID_victim = v.ID_victim
-        LEFT JOIN nmv__victim_evaluation_status evs ON evs.ID_status = ev.evaluation_status
+        LEFT JOIN nmv__victim_evaluation_status evs ON evs.ID_evaluation_status = v.ID_evaluation_status
         LEFT JOIN nmv__victim_source vs ON vs.ID_victim = v.ID_victim
         LEFT JOIN nmv__source so ON so.ID_source = vs.ID_source
         LEFT JOIN nmv__victim_literature vl ON vl.ID_victim = v.ID_victim

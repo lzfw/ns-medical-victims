@@ -178,11 +178,11 @@ $victimsVariableForm->addField('location', SELECT)
 $victimsVariableForm->addField('arrest_history', TEXT, 120)
   ->setLabel('arrest history <small>contains</small>');
 
-$victimsVariableForm->addField('evaluation_status', SELECT)
+$victimsVariableForm->addField('ID_evaluation_status', SELECT)
   ->setLabel('evaluation status')
   ->addOption(NO_VALUE,'all evaluation status')
   ->addOption('NULL')
-  ->addOptionsFromTable('nmv__victim_evaluation_status', 'ID_status', 'english');
+  ->addOptionsFromTable('nmv__victim_evaluation_status', 'ID_evaluation_status', 'english');
 
 $victimsVariableForm->addField('mpg-text', SUBHEADLINE, '<br> &nbsp; MPG-project-related &nbsp; ');
 
