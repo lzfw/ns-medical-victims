@@ -16,9 +16,7 @@ $querystring = "SELECT first_names, surname, titles, mpg_project,
                  CONCAT(IFNULL(death_day , '-'), '.', IFNULL(death_month , '-'), '.', IFNULL(death_year, '-')) death,
                  gender, r.english as religion,
                  n.english as nationality, c.english as classification, occupation,
-                 career_history, place_of_qualification_1, year_of_qualification_1, type_of_qualification_1,
-                 title_of_dissertation_1, place_of_qualification_2, year_of_qualification_2, type_of_qualification_2,
-                 title_of_dissertation_2, leopoldina_member, leopoldina_since_when, nsdap_member, nsdap_since_when,
+                 career_history, leopoldina_member, leopoldina_since_when, nsdap_member, nsdap_since_when,
                  ss_member, ss_since_when, sa_member, sa_since_when,
                  other_nsdap_organisations_member, details_all_memberships,
                  career_after_1945, prosecution, prison_time, notes
@@ -85,20 +83,6 @@ if ($perpetrator = $result->fetch_object()) {
         buildDataSheetRow('Occupation',             $perpetrator->occupation).
         buildDataSheetRow('Classification',         $perpetrator->classification).
         buildDataSheetRow('Career history',         $perpetrator->career_history).
-        buildDataSheetRow('Type of qualification 1',
-            $perpetrator->type_of_qualification_1).
-        buildDataSheetRow('Place and year of qualification 1',
-            $perpetrator->place_of_qualification_1 . ' ' .
-            $perpetrator->year_of_qualification_1).
-        buildDataSheetRow('Title of dissertation 1',
-            $perpetrator->title_of_dissertation_1).
-        buildDataSheetRow('Type of qualification 2',
-            $perpetrator->type_of_qualification_2).
-        buildDataSheetRow('Place and year of qualification 2',
-            $perpetrator->place_of_qualification_2 . ' ' .
-            $perpetrator->year_of_qualification_2).
-        buildDataSheetRow('Title of dissertation 2',
-            $perpetrator->title_of_dissertation_2).
         buildDataSheetRow('Leopoldina member',      $leopoldina_member) .
         buildDataSheetRow('NSDAP member',           $nsdap_member).
         buildDataSheetRow('SS member',              $ss_member).
@@ -112,6 +96,45 @@ if ($perpetrator = $result->fetch_object()) {
         buildDataSheetRow('Prison time',            $perpetrator->prison_time).
         buildDataSheetRow('Notes',                  $perpetrator->notes)
     );
+
+
+    $content .= '<br>'.buildElement('h3', 'Qualification');
+    // query: get prison numbers
+    $querystring = "
+    SELECT q.ID_perpetrator, q.ID_qualification, q.qualification_year, q.qualification_place, q.qualification_type, q.thesis_title
+    FROM nmv__qualification q
+    WHERE q.ID_perpetrator = $perpetrator_id
+    GROUP BY q.ID_qualification
+    ORDER BY qualification_year";
+
+    $options = '';
+    $row_template = ['{qualification_year}', '{qualification_place}', '{qualification_type}', '{thesis_title}'];
+    $header_template = ['Year of Qualification', 'Place of Qualification', 'Type of Qualification', 'Title of Thesis'];
+
+    if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
+      if ($dbi->checkUserPermission('edit')) {
+          $options .= createSmallButton(L_EDIT,'nmv_edit_perpetrator_qualification?ID_qualification={ID_qualification}&ID_perpetrator={ID_perpetrator}','icon edit');
+      }
+      if ($dbi->checkUserPermission('admin')) {
+            $options .= createSmallButton(L_DELETE,'nmv_remove_perpetrator_qualification?ID_qualification={ID_qualification}','icon delete');
+      }
+      $row_template[] = $options;
+      $header_template[] = L_OPTIONS;
+    }
+
+    $content .= buildTableFromQuery(
+        $querystring,
+        $row_template,
+        $header_template,
+        'grid');
+
+    if ($dbi->checkUserPermission('edit')) {
+      $content .= '<div class="buttons">';
+      $content .= createButton ('New Qualification',
+          'nmv_edit_perpetrator_qualification?ID_perpetrator='.$perpetrator_id,'icon add');
+      $content .= '</div><br><br>';
+    }
+
 } else {
     $perpetrator_name = 'Error: unknown perpetrator';
     $content = buildElement('p','Error: Perpetrator not found. Maybe it has been deleted from the database?');

@@ -41,8 +41,13 @@ CONCAT(IFNULL(p.death_day, '-'), '.', IFNULL(p.death_month, '-'), '.', IFNULL(p.
 p.death_place, dc.english AS death_country,
 p.gender, r.english AS religion, n.english AS nationality_1938, p.occupation, pc.english AS perp_classification,
 p.career_history,
-p.year_of_qualification_1, p.place_of_qualification_1, p.type_of_qualification_1, p.title_of_dissertation_1,
-p.year_of_qualification_2, p.place_of_qualification_2, p.type_of_qualification_2, p.title_of_dissertation_2,
+GROUP_CONCAT(DISTINCT
+     'ID qualification: ', q.ID_qualification, '  --  ',
+     IF(q.qualification_year IS NULL, '', CONCAT('Year of Qualification: ', q.qualification_year, '  --  ')),
+     IF(q.qualification_place IS NULL, '', CONCAT('Place of Qualification: ', q.qualification_place, '  --  ')),
+     IF(q.qualification_type IS NULL, '', CONCAT('Type of Qualification: ', q.qualification_type, '   --  ')),
+     IF(q.thesis_title IS NULL, '', CONCAT('Title of Thesis: ', q.thesis_title))
+     SEPARATOR ' \n') AS 'Qualification(s)',
 IF(p.leopoldina_member = -1, 'yes', '-') AS leopoldina_member, p.leopoldina_since_when AS leopoldina_since,
 IF(p.nsdap_member = -1, 'yes', '-') AS nsdap_member, p.nsdap_since_when AS nsdap_since,
 IF(p.ss_member = -1, 'yes', '-') AS ss_member, p.ss_since_when AS ss_since,
@@ -52,7 +57,7 @@ p.details_all_memberships, p.career_after_1945, p.prosecution, p.prison_time, p.
 GROUP_CONCAT(DISTINCT
                 'ID experiment: --', pe.ID_experiment, '--, ',
                 IF(e.experiment_title IS NULL, '', CONCAT('TITLE experiment: --', e.experiment_title, '--'))
-                 SEPARATOR ' \n') AS 'Victim - Experiment',
+                 SEPARATOR ' \n') AS 'Perpetrator - Experiment',
 GROUP_CONCAT(DISTINCT
         'ID source: --', s.ID_source, '--, ',
         IF(s.source_title IS NULL, '', CONCAT('TITLE source: --', s.source_title, '--, ')),
@@ -75,6 +80,7 @@ LEFT JOIN nmv__country dc ON dc.ID_country = p.ID_death_country
 LEFT JOIN nmv__religion r ON r.ID_religion = p.religion
 LEFT JOIN nmv__nationality n ON n.ID_nationality = p.nationality_1938
 LEFT JOIN nmv__perpetrator_classification pc ON pc.ID_perp_class = p.ID_perp_class
+LEFT JOIN nmv__qualification q ON q.ID_perpetrator = p.ID_perpetrator
 LEFT JOIN nmv__perpetrator_literature pl ON pl.ID_perpetrator = p.ID_perpetrator
 LEFT JOIN nmv__literature l ON l.ID_literature = pl.ID_literature
 LEFT JOIN nmv__perpetrator_source ps ON ps.ID_perpetrator = p.ID_perpetrator
@@ -82,6 +88,7 @@ LEFT JOIN nmv__source s ON s.ID_source = ps.ID_source
 LEFT JOIN nmv__perpetrator_experiment pe ON pe.ID_perpetrator = p.ID_perpetrator
 LEFT JOIN nmv__experiment e ON e.ID_experiment = pe.ID_experiment";
 $perpetrator_query_end = "GROUP BY p.ID_perpetrator";
+
 
 
 $experiment_query_start =
