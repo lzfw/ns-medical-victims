@@ -60,23 +60,6 @@ $nationality_query = "SELECT n.english AS nationality, COUNT(ve.ID_victim) AS co
                       LEFT JOIN nmv__nationality n ON n.ID_nationality = v.nationality_1938
                       WHERE ve.ID_experiment = $experiment_id
                       GROUP BY v.nationality_1938";
-// $compensation_query = "SELECT evc.english as compensation, COUNT(ve.ID_victim) AS count_compensation
-//                       FROM nmv__victim_experiment ve
-//                       LEFT JOIN nmv__victim v ON v.ID_victim = ve.ID_victim
-//                       LEFT JOIN nmv__evaluation ev ON ev.ID_victim = v.ID_victim
-//                       LEFT JOIN nmv__victim_evaluation_compensation evc ON evc.ID_compensation = ev.compensation
-//                       WHERE ve.ID_experiment = $experiment_id
-//                       GROUP BY ev.compensation";
-// // get number of victims with compensation=-1 in nmv__victim -- This is old information that should be transferred to nmv__evaluation.
-// // Aleksandra and Paul are doing it
-// //TODO: delete, when datatransfer to nmv__evaluation is complete (Paul and Aleksandra)
-// $compensation_outdated_query = "SELECT COUNT(v.compensation)
-//                                 FROM nmv__victim_experiment ve
-//                                 LEFT JOIN nmv__victim v ON v.ID_victim = ve.ID_victim
-//                                 WHERE ve.ID_experiment = $experiment_id AND v.compensation = -1
-//                                 GROUP BY v.compensation";
-// $compensation_outdated_data = $dbi->connection->query($compensation_outdated_query)->fetch_array();
-// $compensation_outdated_count = $compensation_outdated_data[0];
 
 
 //show the data: build tables

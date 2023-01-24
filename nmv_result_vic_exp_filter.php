@@ -102,7 +102,6 @@ $querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
 												LEFT JOIN nmv__med_history_brain b				ON v.ID_victim = b.ID_victim
 												LEFT JOIN nmv__med_history_tissue t				ON v.ID_victim = t.ID_victim
 												LEFT JOIN nmv__med_history_hosp h					ON v.ID_victim = h.ID_victim
-												LEFT JOIN nmv__evaluation ev							ON v.ID_victim = ev.ID_victim
 											'; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
 
