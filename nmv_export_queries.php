@@ -5,7 +5,7 @@ $institution_query_start =
                 c.english AS country, t.english AS institution_type, i.notes
 FROM nmv__institution i
 LEFT JOIN nmv__country c ON c.ID_country = i.ID_country
-LEFT JOIN nmv__institution_type t ON t.ID_institution_type = i.type";
+LEFT JOIN nmv__institution_type t ON t.ID_institution_type = i.ID_institution_type";
 $institution_query_end = "GROUP BY i.ID_institution";
 
 

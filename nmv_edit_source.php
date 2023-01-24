@@ -55,7 +55,7 @@ $form->addField ('location',TEXT,250)
 $form->addField('ID_institution', SELECT)
 			->setLabel('Institution')
 			->addOption(NO_VALUE, 'please choose')
-			->addOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name', 'type IN (1, 18, 23, 24)');
+			->addOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name', 'ID_institution_type IN (1, 18, 23, 24)');
 $form->addField ('url',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('URL');

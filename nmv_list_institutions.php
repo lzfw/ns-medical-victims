@@ -23,7 +23,7 @@ $querystring_count = 'SELECT COUNT(*) AS total FROM nmv__institution i'; // für
 $querystring_items = "SELECT ID_institution, IFNULL(institution_name, 'unavailable') institution_name,
  location, c.english AS country, it.english AS itype, notes
 FROM nmv__institution i
-LEFT JOIN nmv__institution_type it ON i.type = it.ID_institution_type
+LEFT JOIN nmv__institution_type it ON i.ID_institution_type = it.ID_institution_type
 LEFT JOIN nmv__country c ON c.ID_country = i.ID_country"; // für Ergebnisliste
 $querystring_where = array(); // für Filter
 

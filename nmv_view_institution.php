@@ -11,9 +11,9 @@ $dbi->addBreadcrumb ('Institutions','nmv_list_institutions');
 
 // query: get institution data
 $querystring = '
-    SELECT ID_institution, institution_name, location, c.english AS country, t.english "type", notes
+    SELECT ID_institution, institution_name, location, c.english AS country, t.english AS type, notes
     FROM nmv__institution i
-    LEFT JOIN nmv__institution_type t ON (t.ID_institution_type = i.`type`)
+    LEFT JOIN nmv__institution_type t ON (t.ID_institution_type = i.ID_institution_type)
     LEFT JOIN nmv__country c ON c.ID_country = i.ID_country
     WHERE ID_institution = ?';
 
