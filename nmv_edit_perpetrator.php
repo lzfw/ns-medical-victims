@@ -68,11 +68,11 @@ $form->addField('gender',SELECT)
     ->addOption(NO_VALUE,'please choose')
     ->addOption('female')
     ->addOption('male');
-$form->addField('religion',SELECT)
+$form->addField('ID_religion',SELECT)
     ->setLabel('Religion')
     ->addOption(NO_VALUE,'please choose')
     ->addOptionsFromTable('nmv__religion', 'ID_religion', 'english');
-$form->addField('nationality_1938',SELECT)
+$form->addField('ID_nationality_1938',SELECT)
     ->setLabel('Nationality (1938)')
     ->addOption(NO_VALUE,'please choose')
     ->addOptionsFromTable( 'nmv__nationality', 'ID_nationality', 'english');

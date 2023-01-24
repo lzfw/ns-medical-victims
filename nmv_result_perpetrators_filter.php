@@ -37,7 +37,7 @@ $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 
 // felder, die immer exakt gematcht werden (Trunkierung nicht möglich, Diakritika distinkt, Basiszeichen distinkt)
 $exact_fields = array (	'birth_year',				'death_year',					'gender',
-												'religion', 				'nationality_1938',
+												'ID_religion', 				'ID_nationality_1938',
 												'ID_perp_class',		'nsdap_member', 			'ss_member',
 												'sa_member', 				'other_nsdap_organisations_member',
 												'ID_birth_country', 'ID_death_country',		'leopoldina_member',
@@ -145,7 +145,7 @@ foreach ($special_contain_fields as $key=>$field) {
 			$querystring_where[] = "$key LIKE '%".$filtered_field."%'";
     }
 }
-//customized queries
+//customized queries TODO adapt new qualification table
 if (getUrlParameter('place_of_qualification')) {
 	$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter('place_of_qualification'));
 	$querystring_where[] = "(p.place_of_qualification_1 LIKE '%".$filtered_field."%' OR p.place_of_qualification_2 LIKE '%".$filtered_field."%')";
@@ -211,12 +211,12 @@ if (isset($_GET['ID_death_country']) && $_GET['ID_death_country'])  {
 	$suche_nach[] = 'country of death = '.$search_term[0];
 }if (isset($_GET['death_year']) && $_GET['death_year']) $suche_nach[] = 'year of death = '.$_GET['death_year'];
 if (isset($_GET['gender']) && $_GET['gender']) $suche_nach[] = 'gender = '.$_GET['gender'];
-if (isset($_GET['religion']) && $_GET['religion']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__religion WHERE ID_religion = '.$_GET['religion'])->fetch_row();
+if (isset($_GET['ID_religion']) && $_GET['ID_religion']) {
+	$search_term = $dbi->connection->query('SELECT english FROM nmv__religion WHERE ID_religion = '.$_GET['ID_religion'])->fetch_row();
 	$suche_nach[] = 'religion = '.$search_term[0];
 }
-if (isset($_GET['nationality_1938']) && $_GET['nationality_1938']) {
-	$search_term = $dbi->connection->query('SELECT english  FROM nmv__nationality WHERE ID_nationality = '.$_GET['nationality_1938'])->fetch_row();
+if (isset($_GET['ID_nationality_1938']) && $_GET['ID_nationality_1938']) {
+	$search_term = $dbi->connection->query('SELECT english  FROM nmv__nationality WHERE ID_nationality = '.$_GET['ID_nationality_1938'])->fetch_row();
 	$suche_nach[] = 'nationality in 1938 = '.$search_term[0];
 }
 if (isset($_GET['titles']) && $_GET['titles']) $suche_nach[] = 'titles = '.$_GET['titles'];

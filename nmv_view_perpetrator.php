@@ -21,8 +21,8 @@ $querystring = "SELECT first_names, surname, titles, mpg_project,
                  other_nsdap_organisations_member, details_all_memberships,
                  career_after_1945, prosecution, prison_time, notes
     FROM nmv__perpetrator p
-    LEFT JOIN nmv__religion r ON (r.ID_religion = p.religion)
-    LEFT JOIN nmv__nationality n ON (n.ID_nationality = p.nationality_1938)
+    LEFT JOIN nmv__religion r ON (r.ID_religion = p.ID_religion)
+    LEFT JOIN nmv__nationality n ON (n.ID_nationality = p.ID_nationality_1938)
     LEFT JOIN nmv__perpetrator_classification c ON (c.ID_perp_class = p.ID_perp_class)
     LEFT JOIN nmv__country bc ON (bc.ID_country = p.ID_birth_country)
     LEFT JOIN nmv__country dc ON (dc.ID_country = p.ID_death_country)

@@ -77,8 +77,8 @@ GROUP_CONCAT(DISTINCT
 FROM nmv__perpetrator p
 LEFT JOIN nmv__country bc ON bc.ID_country = p.ID_birth_country
 LEFT JOIN nmv__country dc ON dc.ID_country = p.ID_death_country
-LEFT JOIN nmv__religion r ON r.ID_religion = p.religion
-LEFT JOIN nmv__nationality n ON n.ID_nationality = p.nationality_1938
+LEFT JOIN nmv__religion r ON r.ID_religion = p.ID_religion
+LEFT JOIN nmv__nationality n ON n.ID_nationality = p.ID_nationality_1938
 LEFT JOIN nmv__perpetrator_classification pc ON pc.ID_perp_class = p.ID_perp_class
 LEFT JOIN nmv__qualification q ON q.ID_perpetrator = p.ID_perpetrator
 LEFT JOIN nmv__perpetrator_literature pl ON pl.ID_perpetrator = p.ID_perpetrator

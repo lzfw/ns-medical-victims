@@ -52,18 +52,18 @@ $perpetratorsFilterForm->addField('gender', SELECT)
   ->addOption(NO_VALUE, 'all gender')
   ->addOptionsFromArray(['male' => 'male', 'female' => 'female']);
 
-$perpetratorsFilterForm->addField('religion', SELECT)
+$perpetratorsFilterForm->addField('ID_religion', SELECT)
   ->setLabel('Religion')
   ->addOption(NO_VALUE,'all religions')
 //  ->addOption ('NULL', 'no entry')
   ->addOptionsFromTable('nmv__religion', 'ID_religion', 'english', 'EXISTS (SELECT * FROM nmv__perpetrator
-              WHERE nmv__religion.ID_religion = nmv__perpetrator.religion)');
+              WHERE nmv__religion.ID_religion = nmv__perpetrator.ID_religion)');
 
-$perpetratorsFilterForm->addField('nationality_1938', SELECT)
+$perpetratorsFilterForm->addField('ID_nationality_1938', SELECT)
   ->setLabel('Nationality in 1938')
   ->addOption(NO_VALUE,'all nationalities')
   ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'english', 'EXISTS (SELECT * FROM nmv__perpetrator
-              WHERE nmv__nationality.ID_nationality = nmv__perpetrator.nationality_1938)');
+              WHERE nmv__nationality.ID_nationality = nmv__perpetrator.ID_nationality_1938)');
 
 $perpetratorsFilterForm->addField('separator-qualification', STATIC_TEXT, '<br><hr>');
 $perpetratorsFilterForm->addField('text-qualification', STATIC_TEXT, '<h3>Qualification and Career</h3><br>');
