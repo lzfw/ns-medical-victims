@@ -14,7 +14,7 @@ $form
 $form->addField('experiment_title', TEXT, 255, REQUIRED)
     ->setClass('keyboardInput')
     ->setLabel('Title');
-$form->addField('classification' ,SELECT)
+$form->addField('ID_exp_classification' ,SELECT)
     ->setLabel('Classification')
     ->addOption(NO_VALUE, 'please choose')
     ->addOptionsFromTable( 'nmv__experiment_classification', 'ID_exp_classification', 'english');

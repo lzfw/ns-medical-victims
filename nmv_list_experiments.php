@@ -22,7 +22,7 @@ $querystring_count = 'SELECT COUNT(ID_experiment) AS total FROM nmv__experiment 
 $querystring_items = "SELECT e.ID_experiment, GROUP_CONCAT(DISTINCT i.institution_name SEPARATOR '\n') AS institutions , e.experiment_title, e.objective, c.english AS classification,
 															e.start_year, e.end_year, GROUP_CONCAT(DISTINCT f.english ORDER BY f.english ASC SEPARATOR '\n') AS fields_of_interest
 							        FROM nmv__experiment e
-							        LEFT JOIN nmv__experiment_classification c 	ON c.ID_exp_classification = e.classification
+							        LEFT JOIN nmv__experiment_classification c 	ON c.ID_exp_classification = e.ID_exp_classification
 											LEFT JOIN nmv__experiment_institution ei 		ON ei.ID_experiment = e.ID_experiment
 											LEFT JOIN nmv__institution i 								ON i.ID_institution = ei.ID_institution
 											LEFT JOIN nmv__experiment_foi ef						ON ef.ID_experiment = e.ID_experiment

@@ -35,7 +35,7 @@ if ($literature_id) {
         FROM nmv__experiment_literature el
         LEFT JOIN nmv__experiment e ON e.ID_experiment = el.ID_experiment
         LEFT JOIN nmv__literature l ON l.ID_literature = el.ID_literature
-        LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.classification
+        LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.ID_exp_classification
         WHERE el.ID_literature = $literature_id
         ORDER BY title";
 
@@ -114,7 +114,7 @@ if ($experiment_id) {
         FROM nmv__experiment_literature el
         LEFT JOIN nmv__experiment e ON e.ID_experiment = el.ID_experiment
         LEFT JOIN nmv__literature l ON l.ID_literature = el.ID_literature
-        LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.classification
+        LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.ID_exp_classification
         WHERE el.ID_experiment = $experiment_id
         ORDER BY title";
 

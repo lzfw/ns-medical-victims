@@ -26,7 +26,7 @@ $querystring = "SELECT e.ID_experiment, e.experiment_title AS experiment_title, 
                     CONCAT(IFNULL(e.end_day, '-'), '.', IFNULL(e.end_month, '-'), '.', IFNULL(e.end_year, '-')) AS end,
                     e.notes_location AS notes_location
                 FROM nmv__experiment e
-                LEFT JOIN nmv__experiment_classification c ON c.ID_exp_classification = e.classification
+                LEFT JOIN nmv__experiment_classification c ON c.ID_exp_classification = e.ID_exp_classification
                 WHERE e.ID_experiment = ?
                 GROUP BY e.ID_experiment";
 

@@ -39,7 +39,7 @@ if ($victim_id) {
                               FROM nmv__victim_experiment ve
                               LEFT JOIN nmv__experiment e ON e.ID_experiment = ve.ID_experiment
                               LEFT JOIN nmv__victim v ON v.ID_victim = ve.ID_victim
-                              LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.classification
+                              LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.ID_exp_classification
                               WHERE ve.ID_victim = $victim_id";
         $query_count_v = $dbi->connection->query($querystring_count_v);
         $total_results_v = $query_count_v->fetch_object();
@@ -54,7 +54,7 @@ if ($victim_id) {
                         LEFT JOIN nmv__experiment_institution ei    ON ei.ID_experiment = e.ID_experiment
                         LEFT JOIN nmv__institution i                ON i.ID_institution = ei.ID_institution
                         LEFT JOIN nmv__victim v                     ON v.ID_victim = ve.ID_victim
-                        LEFT JOIN nmv__experiment_classification c  ON c.ID_exp_classification = e.classification
+                        LEFT JOIN nmv__experiment_classification c  ON c.ID_exp_classification = e.ID_exp_classification
                         WHERE ve.ID_victim = $victim_id
                         GROUP BY ve.ID_vict_exp
                         ORDER BY exp_start_year, exp_start_month, exp_start_day, exp_end_year, exp_end_month, exp_end_day
@@ -105,7 +105,7 @@ if ($victim_id) {
                             FROM nmv__prisoner_assistant_experiment pae
                             LEFT JOIN nmv__experiment e ON e.ID_experiment = pae.ID_experiment
                             LEFT JOIN nmv__victim v ON v.ID_victim = pae.ID_victim
-                            LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.classification
+                            LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.ID_exp_classification
                             WHERE pae.ID_victim = $victim_id";
       $query_count_pa = $dbi->connection->query($querystring_count_pa);
       $total_results_pa = $query_count_pa->fetch_object();
@@ -120,7 +120,7 @@ if ($victim_id) {
                       LEFT JOIN nmv__experiment_institution ei    ON ei.ID_experiment = e.ID_experiment
                       LEFT JOIN nmv__institution i                ON i.ID_institution = ei.ID_institution
                       LEFT JOIN nmv__victim pa                    ON pa.ID_victim = pae.ID_victim
-                      LEFT JOIN nmv__experiment_classification c  ON c.ID_exp_classification = e.classification
+                      LEFT JOIN nmv__experiment_classification c  ON c.ID_exp_classification = e.ID_exp_classification
                       WHERE pae.ID_victim = $victim_id
                       GROUP BY pae.ID_pa_exp
                       ORDER BY exp_start_year, exp_start_month, exp_start_day, exp_end_year, exp_end_month, exp_end_day

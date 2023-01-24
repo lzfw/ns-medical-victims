@@ -36,7 +36,7 @@ if ($perpetrator_id) {
           FROM nmv__perpetrator_experiment pe
           LEFT JOIN nmv__experiment e ON e.ID_experiment = pe.ID_experiment
           LEFT JOIN nmv__perpetrator p ON p.ID_perpetrator = pe.ID_perpetrator
-          LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.classification
+          LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.ID_exp_classification
           WHERE pe.ID_perpetrator = $perpetrator_id";
         $query_count = $dbi->connection->query($querystring_count);
         $total_results = $query_count->fetch_object();
@@ -51,7 +51,7 @@ if ($perpetrator_id) {
         FROM nmv__perpetrator_experiment pe
         LEFT JOIN nmv__experiment e ON e.ID_experiment = pe.ID_experiment
         LEFT JOIN nmv__perpetrator p ON p.ID_perpetrator = pe.ID_perpetrator
-        LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.classification
+        LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.ID_exp_classification
         WHERE pe.ID_perpetrator = $perpetrator_id
         ORDER BY title";
 
@@ -122,7 +122,7 @@ if ($experiment_id) {
           FROM nmv__perpetrator_experiment pe
           LEFT JOIN nmv__experiment e ON e.ID_experiment = pe.ID_experiment
           LEFT JOIN nmv__perpetrator p ON p.ID_perpetrator = pe.ID_perpetrator
-          LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.classification
+          LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.ID_exp_classification
           WHERE pe.ID_experiment = $experiment_id";
         $query_count = $dbi->connection->query($querystring_count);
         $total_results = $query_count->fetch_object();
@@ -138,7 +138,7 @@ if ($experiment_id) {
         FROM nmv__perpetrator_experiment pe
         LEFT JOIN nmv__experiment e ON e.ID_experiment = pe.ID_experiment
         LEFT JOIN nmv__perpetrator p ON p.ID_perpetrator = pe.ID_perpetrator
-        LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.classification
+        LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.ID_exp_classification
         WHERE pe.ID_experiment = $experiment_id
         ORDER BY perpetrator_name";
 

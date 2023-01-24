@@ -23,7 +23,7 @@ $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 // zu durchsuchende felder und suchsystematik definieren:
 
 // felder, die immer exakt gematcht werden (Trunkierung nicht möglich, Diakritika distinkt, Basiszeichen distinkt)
-$exact_fields = array ('ID_experiment', 'classification');
+$exact_fields = array ('ID_experiment', 'ID_exp_classification');
 
 // felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
 // --> If no diacritics are applied, it finds covers any combination: η would also return ἠ, ἦ or ἥ, while ἠ would find only ἠ.
@@ -154,8 +154,8 @@ if (isset($_GET['ID_foi']) && $_GET['ID_foi']) {
 }
 if (isset($_GET['objective']) && $_GET['objective']) $suche_nach[] = 'objective = '.$_GET['objective'];
 if (isset($_GET['surname']) && $_GET['surname']) $suche_nach[] = 'surname perpetrator = '.$_GET['surname'];
-if (isset($_GET['classification']) && $_GET['classification']) {
-	$classification = $dbi->connection->query('SELECT english FROM nmv__experiment_classification WHERE ID_exp_classification = '.$_GET['classification'])->fetch_row();
+if (isset($_GET['ID_exp_classification']) && $_GET['ID_exp_classification']) {
+	$classification = $dbi->connection->query('SELECT english FROM nmv__experiment_classification WHERE ID_exp_classification = '.$_GET['ID_exp_classification'])->fetch_row();
 	$suche_nach[] = 'classification = '.$classification[0];
 }
 if (isset($_GET['ID_institution']) && $_GET['ID_institution']) {

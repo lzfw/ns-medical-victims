@@ -36,7 +36,7 @@ if ($source_id) {
         FROM nmv__experiment_source es
         LEFT JOIN nmv__experiment e                 ON e.ID_experiment = es.ID_experiment
         LEFT JOIN nmv__source s                     ON s.ID_source = es.ID_source
-        LEFT JOIN nmv__experiment_classification c  ON c.ID_exp_classification = e.classification
+        LEFT JOIN nmv__experiment_classification c  ON c.ID_exp_classification = e.ID_exp_classification
         LEFT JOIN nmv__experiment_institution ei    ON ei.ID_experiment = es.ID_experiment
         LEFT JOIN nmv__institution i                ON i.ID_institution = ei.ID_institution
         WHERE es.ID_source = $source_id
@@ -119,7 +119,7 @@ if ($experiment_id) {
         FROM nmv__experiment_source es
         LEFT JOIN nmv__experiment e ON e.ID_experiment = es.ID_experiment
         LEFT JOIN nmv__source s ON s.ID_source = es.ID_source
-        LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.classification
+        LEFT JOIN nmv__experiment_classification c on c.ID_exp_classification = e.ID_exp_classification
         WHERE es.ID_experiment = $experiment_id
         ORDER BY title";
 

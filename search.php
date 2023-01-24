@@ -142,7 +142,7 @@ $experimentsForm->addField('surname', TEXT, 50)
 		->setClass('keyboardInput')
 	->setLabel('Surname Perpetrator');
 
-$experimentsForm->addField('classification', SELECT)
+$experimentsForm->addField('ID_exp_classification', SELECT)
 		->setLabel('Classification')
 		->addOption(NO_VALUE, 'all classifications')
 		->addOptionsFromTable('nmv__experiment_classification', 'ID_exp_classification', 'english');

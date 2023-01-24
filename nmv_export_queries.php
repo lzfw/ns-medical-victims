@@ -115,7 +115,7 @@ GROUP_CONCAT(DISTINCT
 FROM nmv__experiment e
 LEFT JOIN nmv__experiment_institution ei ON ei.ID_experiment = e.ID_experiment
 LEFT JOIN nmv__institution i ON i.ID_institution = ei.ID_institution
-LEFT JOIN nmv__experiment_classification ec ON ec.ID_exp_classification = e.classification
+LEFT JOIN nmv__experiment_classification ec ON ec.ID_exp_classification = e.ID_exp_classification
 LEFT JOIN nmv__experiment_foi ef ON ef.ID_experiment = e.ID_experiment
 LEFT JOIN nmv__field_of_interest f ON f.ID_foi = ef.ID_foi
 LEFT JOIN nmv__experiment_literature el ON el.ID_experiment = e.ID_experiment
