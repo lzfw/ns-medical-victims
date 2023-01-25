@@ -231,7 +231,7 @@ GROUP_CONCAT(DISTINCT
                  SEPARATOR ' \n') AS literature
 FROM nmv__victim v
         LEFT JOIN nmv__victim_name vn ON vn.ID_victim = v.ID_victim
-        LEFT JOIN nmv__victim_nametype nt ON nt.ID_nametype = vn.nametype
+        LEFT JOIN nmv__victim_nametype nt ON nt.ID_nametype = vn.ID_nametype
         LEFT JOIN nmv__country bc ON bc.ID_country = v.ID_birth_country
         LEFT JOIN nmv__nationality n1938 ON n1938.ID_nationality = v.nationality_1938
         LEFT JOIN nmv__country dc ON dc.ID_country = v.ID_death_country
@@ -396,7 +396,7 @@ GROUP_CONCAT(DISTINCT
                  SEPARATOR ' \n') AS literature
 FROM nmv__victim v
         LEFT JOIN nmv__victim_name vn ON vn.ID_victim = v.ID_victim
-        LEFT JOIN nmv__victim_nametype nt ON nt.ID_nametype = vn.nametype
+        LEFT JOIN nmv__victim_nametype nt ON nt.ID_nametype = vn.ID_nametype
         LEFT JOIN nmv__country bc ON bc.ID_country = v.ID_birth_country
         LEFT JOIN nmv__nationality n1938 ON n1938.ID_nationality = v.nationality_1938
         LEFT JOIN nmv__country dc ON dc.ID_country = v.ID_death_country

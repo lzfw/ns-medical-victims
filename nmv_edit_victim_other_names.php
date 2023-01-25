@@ -41,7 +41,7 @@ $form
 
 $form->addField ('ID_victim',PROTECTED_TEXT)
     ->setLabel ('ID person');
-$form->addField ('nametype',SELECT)
+$form->addField ('ID_nametype',SELECT)
     ->setLabel ('name type')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__victim_nametype', 'ID_nametype', "english");

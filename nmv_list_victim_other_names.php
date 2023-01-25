@@ -32,7 +32,7 @@ if ($victim_id) {
             vn.victim_name victim_name, vn.victim_first_names victim_first_names,
             vnt.english nametype
         FROM nmv__victim_name vn
-        LEFT JOIN nmv__victim_nametype vnt ON vnt.ID_nametype = vn.nametype
+        LEFT JOIN nmv__victim_nametype vnt ON vnt.ID_nametype = vn.ID_nametype
         LEFT JOIN nmv__victim v ON v.ID_victim = vn.ID_victim
         WHERE vn.ID_victim = $victim_id
         ORDER BY nametype, victim_name, victim_first_names";
