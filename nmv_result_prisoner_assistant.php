@@ -72,8 +72,8 @@ $querystring_items = 'SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
 											FROM nmv__victim v
 											LEFT JOIN nmv__country bc				ON bc.ID_country = v.ID_birth_country
 											LEFT JOIN nmv__victim_name vn		ON v.ID_victim = vn.ID_victim
-											LEFT JOIN nmv__nationality n 		ON n.ID_nationality = v.nationality_1938
-											LEFT JOIN nmv__ethnicgroup et 	ON et.ID_ethnicgroup = v.ethnic_group
+											LEFT JOIN nmv__nationality n 		ON n.ID_nationality = v.ID_nationality_1938
+											LEFT JOIN nmv__ethnicgroup et 	ON et.ID_ethnic_group = v.ID_ethnic_group
 											'; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
 $querystring_where[] = "was_prisoner_assistant != 'victim only'";
