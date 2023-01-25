@@ -54,7 +54,7 @@ $form->addField ('number',TEXT,50)
 $form->addField('ID_institution', SELECT)
     ->setLabel('Institution')
     ->addOption (NO_VALUE, 'please choose')
-    ->addOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name', 'type NOT IN (23,24, 18, 19, 1)');
+    ->addOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name', 'ID_institution_type NOT IN (23,24, 18, 19, 1)');
 $form->addField ('location',TEXT,255)
     ->setClass ('keyboardInput')
     ->setLabel ('Location');
