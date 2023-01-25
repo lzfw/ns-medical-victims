@@ -24,7 +24,7 @@ $nationality_select->addField ('ID_nationality',SELECT)
                           FROM nmv__nationality n
                           WHERE EXISTS (SELECT v.ID_victim
                                         FROM nmv__victim v
-                                        WHERE v.nationality_1938 = n.ID_nationality)
+                                        WHERE v.ID_nationality_1938 = n.ID_nationality)
                           ORDER BY english");
 
 $nationality_select
@@ -39,9 +39,9 @@ $query_item = $dbi->connection->query($nationality_query)->fetch_array();
 $nationality_english = $query_item['english'];
 
 if(is_int($nationality_id) && $nationality_id != 999):
-  $where_clause = "v.nationality_1938 = $nationality_id";
+  $where_clause = "v.ID_nationality_1938 = $nationality_id";
 elseif($nationality_id == 999):
-  $where_clause = "v.nationality_1938 IS NULL";
+  $where_clause = "v.ID_nationality_1938 IS NULL";
 else:
   $where_clause = "1";
 endif;

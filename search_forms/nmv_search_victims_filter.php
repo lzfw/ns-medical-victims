@@ -13,8 +13,7 @@ $querystring_experiment = "  SELECT e.ID_experiment AS value,
                                                   e.ID_experiment, ' &ensp; - &ensp; ',
                                                   IFNULL(i.institution_name, 'no entry')) AS title
                               FROM nmv__experiment e
-                              LEFT JOIN nmv__institution i
-                              ON e.ID_institution = i.ID_institution
+                              LEFT JOIN nmv__institution i ON e.ID_institution = i.ID_institution
                               ORDER BY title";
 
 
@@ -77,32 +76,32 @@ $victimsVariableForm->addField('gender', SELECT)
   ->addOption('NULL')
   ->addOptionsFromArray(['male'=>'male', 'female'=>'female']);
 
-$victimsVariableForm->addField('religion', SELECT)
+$victimsVariableForm->addField('ID_religion', SELECT)
   ->setLabel('religion')
   ->addOption(NO_VALUE,'all religions')
   ->addOption('NULL')
   ->addOptionsFromTable('nmv__religion', 'ID_religion', 'english',
                         'EXISTS (	SELECT *
                                   FROM nmv__victim
-                                  WHERE nmv__religion.ID_religion = nmv__victim.religion)');
+                                  WHERE nmv__religion.ID_religion = nmv__victim.ID_religion)');
 
-$victimsVariableForm->addField('ethnic_group', SELECT)
+$victimsVariableForm->addField('ID_ethnic_group', SELECT)
   ->setLabel('ethnic group')
   ->addOption(NO_VALUE,'all ethnic groups')
   ->addOption('NULL')
-  ->addOptionsFromTable('nmv__ethnicgroup', 'ID_ethnicgroup', 'english',
+  ->addOptionsFromTable('nmv__ethnicgroup', 'ID_ethnic_group', 'english',
                         'EXISTS (	SELECT *
                                   FROM nmv__victim
-                                  WHERE nmv__ethnicgroup.ID_ethnicgroup = nmv__victim.ethnic_group)');
+                                  WHERE nmv__ethnicgroup.ID_ethnic_group = nmv__victim.ID_ethnic_group)');
 
-$victimsVariableForm->addField('nationality_1938', SELECT)
+$victimsVariableForm->addField('ID_nationality_1938', SELECT)
   ->setLabel('nationality in 1938')
   ->addOption(NO_VALUE,'all nationalities')
   ->addOption('NULL')
   ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'english',
                         'EXISTS (	SELECT *
                                   FROM nmv__victim
-                                  WHERE nmv__nationality.ID_nationality = nmv__victim.nationality_1938)');
+                                  WHERE nmv__nationality.ID_nationality = nmv__victim.ID_nationality_1938)');
 
 $victimsVariableForm->addField('ID_education', SELECT)
   ->setLabel('education')
@@ -113,14 +112,14 @@ $victimsVariableForm->addField('ID_education', SELECT)
                                   FROM nmv__victim
                                   WHERE nmv__education.ID_education = nmv__victim.ID_education)');
 
-$victimsVariableForm->addField('occupation', SELECT)
+$victimsVariableForm->addField('ID_occupation', SELECT)
   ->setLabel('occupation')
   ->addOption(NO_VALUE,'all occupations')
   ->addOption('NULL')
   ->addOptionsFromTable('nmv__occupation', 'ID_occupation', 'english',
                         'EXISTS (	SELECT *
                                   FROM nmv__victim
-                                  WHERE nmv__occupation.ID_occupation = nmv__victim.occupation)');
+                                  WHERE nmv__occupation.ID_occupation = nmv__victim.ID_occupation)');
 
 $victimsVariableForm->addField('ns-text', STATIC_TEXT, '<br><br>');
 
@@ -278,13 +277,13 @@ if (!($dbi->checkUserPermission('mpg'))) :
   $victimsVariableForm->addField('occupation_after_1945', TEXT, 120)
   	->setLabel('after 1945 - occupation');
 
-  $victimsVariableForm->addField('nationality_after_1945', SELECT)
+  $victimsVariableForm->addField('ID_nationality_after_1945', SELECT)
     ->setLabel('after 1945 - nationality')
     ->addOption(NO_VALUE,'all nationalities')
     ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'english',
                           'EXISTS (SELECT *
                                     FROM nmv__victim
-                                    WHERE nmv__nationality.ID_nationality = nmv__victim.nationality_after_1945)');
+                                    WHERE nmv__nationality.ID_nationality = nmv__victim.ID_nationality_after_1945)');
 endif;
 
 $victimsVariableForm->addField('notes-text', SUBHEADLINE, '<br> &nbsp; keyword search in notes &nbsp;');

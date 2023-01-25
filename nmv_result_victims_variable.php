@@ -38,10 +38,10 @@ $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 // felder, die immer exakt gematcht werden (Trunkierung nicht möglich, Diakritika distinkt, Basiszeichen distinkt)
 $exact_fields = array (	'twin', 					'mpg_project', 						'ID_birth_country',
 												'birth_year',			'ID_dataset_origin', 			'ID_death_country',
-												'death_year', 		'gender',									'religion',
-												'ethnic_group', 	'nationality_1938', 			'ID_education',
-												'occupation', 		'ID_arrest_country', 			'ID_perpetrator',
-												'photo',					'nationality_after_1945',	'ID_death_institution',
+												'death_year', 		'gender',									'ID_religion',
+												'ID_ethnic_group', 	'ID_nationality_1938', 			'ID_education',
+												'ID_occupation', 		'ID_arrest_country', 			'ID_perpetrator',
+												'photo',					'ID_nationality_after_1945',	'ID_death_institution',
 											  'ID_evaluation_status');
 
 // felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
@@ -126,10 +126,10 @@ if ((isset($_GET['ID_experiment']) && ($_GET['ID_experiment'])) || (isset($_GET[
 													LEFT JOIN nmv__experiment_institution ei 			ON ei.ID_experiment = ex.ID_experiment
 													LEFT JOIN nmv__experiment_foi ef							ON ef.ID_experiment = ex.ID_experiment
 													LEFT JOIN nmv__field_of_interest foi					ON foi.ID_foi = ef.ID_foi
-													LEFT JOIN nmv__imprisonment i								ON v.ID_victim = i.ID_victim
+													LEFT JOIN nmv__imprisonment i									ON v.ID_victim = i.ID_victim
 													LEFT JOIN nmv__imprisonment_classification ic ON ic.ID_imprisonment = i.ID_imprisonment
-													LEFT JOIN nmv__nationality n        					ON n.ID_nationality = v.nationality_1938
-													LEFT JOIN nmv__ethnicgroup et       					ON et.ID_ethnicgroup = v.ethnic_group
+													LEFT JOIN nmv__nationality n        					ON n.ID_nationality = v.ID_nationality_1938
+													LEFT JOIN nmv__ethnicgroup et       					ON et.ID_ethnic_group = v.ID_ethnic_group
 													LEFT JOIN nmv__med_history_brain b						ON v.ID_victim = b.ID_victim
 													LEFT JOIN nmv__diagnosis_brain db 						ON db.ID_med_history_brain = b.ID_med_history_brain
 													LEFT JOIN nmv__diagnosis_tag dtb							ON dtb.ID_diagnosis = db.ID_diagnosis
@@ -154,8 +154,8 @@ else:  // default query
 													LEFT JOIN nmv__field_of_interest foi					ON foi.ID_foi = ef.ID_foi
 													LEFT JOIN nmv__imprisonment i								ON v.ID_victim = i.ID_victim
 													LEFT JOIN nmv__imprisonment_classification ic ON ic.ID_imprisonment = i.ID_imprisonment
-													LEFT JOIN nmv__nationality n        					ON n.ID_nationality = v.nationality_1938
-													LEFT JOIN nmv__ethnicgroup et       					ON et.ID_ethnicgroup = v.ethnic_group
+													LEFT JOIN nmv__nationality n        					ON n.ID_nationality = v.ID_nationality_1938
+													LEFT JOIN nmv__ethnicgroup et       					ON et.ID_ethnic_group = v.ID_ethnic_group
 													LEFT JOIN nmv__med_history_brain b						ON v.ID_victim = b.ID_victim
 													LEFT JOIN nmv__diagnosis_brain db 						ON db.ID_med_history_brain = b.ID_med_history_brain
 													LEFT JOIN nmv__diagnosis_tag dtb							ON dtb.ID_diagnosis = db.ID_diagnosis
@@ -302,24 +302,24 @@ if (isset($_GET['ID_death_country']) && $_GET['ID_death_country'])  {
 if (isset($_GET['death_place']) && $_GET['death_place']) $suche_nach[] = 'place of death contains:  '.$_GET['death_place'];
 if (isset($_GET['death_year']) && $_GET['death_year']) $suche_nach[] = 'year of death = '.$_GET['death_year'];
 if (isset($_GET['gender']) && $_GET['gender']) $suche_nach[] = 'gender = '.$_GET['gender'];
-if (isset($_GET['religion']) && $_GET['religion']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__religion WHERE ID_religion = '.$_GET['religion'])->fetch_row();
+if (isset($_GET['ID_religion']) && $_GET['ID_religion']) {
+	$search_term = $dbi->connection->query('SELECT english FROM nmv__religion WHERE ID_religion = '.$_GET['ID_religion'])->fetch_row();
 	if(empty($search_term)){
 		$suche_nach[] = 'religion = NULL';
 	} else {
 		$suche_nach[] = 'religion = '.$search_term[0];
 	}
 }
-if (isset($_GET['ethnic_group']) && $_GET['ethnic_group']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__ethnicgroup WHERE ID_ethnicgroup = '.$_GET['ethnic_group'])->fetch_row();
+if (isset($_GET['ID_ethnic_group']) && $_GET['ID_ethnic_group']) {
+	$search_term = $dbi->connection->query('SELECT english FROM nmv__ethnicgroup WHERE ID_ethnic_group = '.$_GET['ID_ethnic_group'])->fetch_row();
 	if(empty($search_term)){
  		$suche_nach[] = 'ethnic group = NULL';
  	} else {
 		$suche_nach[] = 'ethnic group = '.$search_term[0];
 	}
 }
-if (isset($_GET['nationality_1938']) && $_GET['nationality_1938']) {
-	$search_term = $dbi->connection->query('SELECT english  FROM nmv__nationality WHERE ID_nationality = '.$_GET['nationality_1938'])->fetch_row();
+if (isset($_GET['ID_nationality_1938']) && $_GET['ID_nationality_1938']) {
+	$search_term = $dbi->connection->query('SELECT english  FROM nmv__nationality WHERE ID_nationality = '.$_GET['ID_nationality_1938'])->fetch_row();
 	if(empty($search_term)){
 		$suche_nach[] = 'nationality in 1938 = NULL';
 	}	else {
@@ -334,8 +334,8 @@ if (isset($_GET['ID_education']) && $_GET['ID_education']) {
 		$suche_nach[] = 'education = '.$search_term[0];
 	}
 }
-if (isset($_GET['occupation']) && $_GET['occupation']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__occupation WHERE ID_occupation = '.$_GET['occupation'])->fetch_row();
+if (isset($_GET['ID_occupation']) && $_GET['ID_occupation']) {
+	$search_term = $dbi->connection->query('SELECT english FROM nmv__occupation WHERE ID_occupation = '.$_GET['ID_occupation'])->fetch_row();
 	if(empty($search_term)){
 		$suche_nach[] = 'occupation = NULL';
 	}	else {
@@ -428,8 +428,8 @@ if (isset($_GET['autopsy_ref_no']) && $_GET['autopsy_ref_no']) $suche_nach[] = '
 
 if (isset($_GET['residence_after_1945_country']) && $_GET['residence_after_1945_country']) $suche_nach[] = 'residence after 1945 (country) = '.$_GET['residence_after_1945_country'];
 if (isset($_GET['occupation_after_1945']) && $_GET['occupation_after_1945']) $suche_nach[] = 'occupation after 1945 = '.$_GET['occupation_after_1945'];
-if (isset($_GET['nationality_after_1945']) && $_GET['nationality_after_1945']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__nationality WHERE ID_nationality = '.$_GET['nationality_after_1945'])->fetch_row();
+if (isset($_GET['ID_nationality_after_1945']) && $_GET['ID_nationality_after_1945']) {
+	$search_term = $dbi->connection->query('SELECT english FROM nmv__nationality WHERE ID_nationality = '.$_GET['ID_nationality_after_1945'])->fetch_row();
 	$suche_nach[] = 'nationality after 1945 = '.$search_term[0];
 }
 if (isset($_GET['notes']) && $_GET['notes']) $suche_nach[] = 'notes = ... '.$_GET['notes'] . ' ...';

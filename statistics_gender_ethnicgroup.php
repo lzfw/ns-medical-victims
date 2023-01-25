@@ -24,13 +24,13 @@ $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 $querystring_items = '	SELECT A.ethnicgroup as ethnicgroup, A.gender as gender, A.number as anumber, B.number as bnumber
 												FROM	(SELECT e.english as ethnicgroup, v.gender as gender, COUNT(v.ID_victim) as number
 												        FROM nmv__victim v
-												        LEFT JOIN nmv__ethnicgroup e on e.ID_ethnicgroup = v.ethnic_group
+												        LEFT JOIN nmv__ethnicgroup e on e.ID_ethnic_group = v.ID_ethnic_group
 																WHERE was_prisoner_assistant != "prisoner assistant only"
 																GROUP BY e.english, v.gender) A
 												      LEFT JOIN
 												      	(SELECT e.english as ethnicgroup, v.gender as gender, COUNT(v.ID_victim) as number
 												        FROM nmv__victim v
-												        LEFT JOIN nmv__ethnicgroup e on e.ID_ethnicgroup = v.ethnic_group
+												        LEFT JOIN nmv__ethnicgroup e on e.ID_ethnic_group = v.ID_ethnic_group
 												        WHERE v.mpg_project = -1 AND was_prisoner_assistant != "prisoner assistant only"
 												        GROUP BY e.english, v.gender) B
 												      ON A.ethnicgroup = B.ethnicgroup AND A.gender = B.gender

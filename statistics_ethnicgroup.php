@@ -26,15 +26,15 @@ $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 		$querystring_items = ' 	SELECT A.ethnicgroup as ethnicgroup, A.number as anumber, B.number as bnumber
 														FROM    (SELECT COUNT(v.ID_victim) as number, e.english as ethnicgroup
 														        FROM nmv__victim v
-														        LEFT JOIN nmv__ethnicgroup e ON v.ethnic_group = e.ID_ethnicgroup
+														        LEFT JOIN nmv__ethnicgroup e ON v.ID_ethnic_group = e.ID_ethnic_group
 																		WHERE v.was_prisoner_assistant != "prisoner assistant only"
-														        GROUP BY v.ethnic_group) A
+														        GROUP BY v.ID_ethnic_group) A
 														      LEFT JOIN
 														        (SELECT COUNT(v.ID_victim) as number, e.english as ethnicgroup
 														        FROM nmv__victim v
-														        LEFT JOIN nmv__ethnicgroup e ON v.ethnic_group = e.ID_ethnicgroup
+														        LEFT JOIN nmv__ethnicgroup e ON v.ID_ethnic_group = e.ID_ethnic_group
 														        WHERE v.mpg_project = -1 AND v.was_prisoner_assistant != "prisoner assistant only"
-														        GROUP BY v.ethnic_group) B
+														        GROUP BY v.ID_ethnic_group) B
 														      ON A.ethnicgroup = B.ethnicgroup OR (A.ethnicgroup IS NULL AND B.ethnicgroup IS NULL)';
     $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 

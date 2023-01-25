@@ -93,19 +93,19 @@ $form->addField('ID_education', SELECT)
     ->setLabel('Highest Education Level')
     ->addOption(NO_VALUE, 'please choose')
     ->addOptionsFromTable('nmv__education', 'ID_education', 'english');
-$form->addField('religion', SELECT)
+$form->addField('ID_religion', SELECT)
     ->setLabel('Religion')
     ->addOption(NO_VALUE, 'please choose')
     ->addOptionsFromTable('nmv__religion', 'ID_religion', 'english');
-$form->addField('nationality_1938', SELECT)
+$form->addField('ID_nationality_1938', SELECT)
     ->setLabel('Nationality (1938)')
     ->addOption(NO_VALUE, 'please choose')
     ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'english');
-$form->addField('ethnic_group', SELECT)
+$form->addField('ID_ethnic_group', SELECT)
     ->setLabel('Ethnic Group')
     ->addOption(NO_VALUE, 'please choose')
-    ->addOptionsFromTable('nmv__ethnicgroup', 'ID_ethnicgroup', 'english');
-$form->addField('occupation', SELECT)
+    ->addOptionsFromTable('nmv__ethnicgroup', 'ID_ethnic_group', 'english');
+$form->addField('ID_occupation', SELECT)
     ->setLabel('Occupation')
     ->addOption(NO_VALUE, 'please choose')
     ->addOptionsFromTable('nmv__occupation', 'ID_occupation', 'english');
@@ -148,7 +148,7 @@ if(!($dbi->checkUserPermission('mpg')))	{
 	    ->setLabel('Residence after \'45 (Country)');
 	$form->addField('occupation_after_1945', TEXT, 50)
 	    ->setLabel('Occupation after \'45');
-	$form->addField('nationality_after_1945', SELECT)
+	$form->addField('ID_nationality_after_1945', SELECT)
 	    ->setLabel('Nationality after 1945')
 	    ->addOption(NO_VALUE, 'please choose')
 	    ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'english');

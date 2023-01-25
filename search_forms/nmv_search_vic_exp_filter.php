@@ -22,13 +22,13 @@ $victimExperimentForm->addField('ID_birth_country', SELECT)
                                   WHERE nmv__country.ID_country = nmv__victim.ID_birth_country)');
 
 
-$victimExperimentForm->addField('nationality_1938', SELECT)
+$victimExperimentForm->addField('ID_nationality_1938', SELECT)
   ->setLabel ('nationality in 1938')
   ->addOption (NO_VALUE,'all nationalities')
   ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'english',
                         'EXISTS (	SELECT *
                                   FROM nmv__victim
-                                  WHERE nmv__nationality.ID_nationality = nmv__victim.nationality_1938)');
+                                  WHERE nmv__nationality.ID_nationality = nmv__victim.ID_nationality_1938)');
 
 // add buttons
 $victimExperimentForm

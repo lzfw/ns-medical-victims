@@ -36,7 +36,7 @@ $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 // zu durchsuchende felder und suchsystematik definieren:
 
 // felder, die immer exakt gematcht werden (Trunkierung nicht möglich, Diakritika distinkt, Basiszeichen distinkt)
-$exact_fields = array (	'ID_birth_country', 'nationality_1938');
+$exact_fields = array (	'ID_birth_country', 'ID_nationality_1938');
 
 // felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
 // --> If no diacritics are applied, it finds covers any combination: η would also return ἠ, ἦ or ἥ, while ἠ would find only ἠ.
@@ -97,8 +97,8 @@ $querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
 												LEFT JOIN nmv__experiment_institution ei 	ON ei.ID_experiment = ve.ID_experiment
                         LEFT JOIN nmv__institution inst    				ON inst.ID_institution = ei.ID_institution
 												LEFT JOIN nmv__imprisonment i						ON v.ID_victim = i.ID_victim
-												LEFT JOIN nmv__nationality n        			ON n.ID_nationality = v.nationality_1938
-												LEFT JOIN nmv__ethnicgroup et       			ON et.ID_ethnicgroup = v.ethnic_group
+												LEFT JOIN nmv__nationality n        			ON n.ID_nationality = v.ID_nationality_1938
+												LEFT JOIN nmv__ethnicgroup et       			ON et.ID_ethnic_group = v.ID_ethnic_group
 												LEFT JOIN nmv__med_history_brain b				ON v.ID_victim = b.ID_victim
 												LEFT JOIN nmv__med_history_tissue t				ON v.ID_victim = t.ID_victim
 												LEFT JOIN nmv__med_history_hosp h					ON v.ID_victim = h.ID_victim
@@ -180,8 +180,8 @@ if (isset($_GET['ID_birth_country']) && $_GET['ID_birth_country']) {
 	$search_term = $dbi->connection->query('SELECT english FROM nmv__country WHERE ID_country = '.$_GET['ID_birth_country'])->fetch_row();
 	$suche_nach[] = 'country of birth = '.$search_term[0];
 }
-if (isset($_GET['nationality_1938']) && $_GET['nationality_1938']) {
-	$search_term = $dbi->connection->query('SELECT english  FROM nmv__nationality WHERE ID_nationality = '.$_GET['nationality_1938'])->fetch_row();
+if (isset($_GET['ID_nationality_1938']) && $_GET['ID_nationality_1938']) {
+	$search_term = $dbi->connection->query('SELECT english  FROM nmv__nationality WHERE ID_nationality = '.$_GET['ID_nationality_1938'])->fetch_row();
 	$suche_nach[] = 'nationality in 1938 = '.$search_term[0];
 }
 
