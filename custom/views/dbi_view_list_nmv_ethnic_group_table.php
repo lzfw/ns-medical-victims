@@ -1,6 +1,6 @@
 <?php
 
-class View_List_NMV_Ethnicgroup_Table extends View_List {
+class View_List_NMV_Ethnic_Group_Table extends View_List {
 
 	// CONSTRUCTOR ---------------------------------------------------------------
 
@@ -8,7 +8,7 @@ class View_List_NMV_Ethnicgroup_Table extends View_List {
 		// create ( Creator )
 		$args = func_get_args();
 		switch (func_num_args()) {
-			case 1: return new View_List_NMV_Ethnicgroup_Table ($args[0]);
+			case 1: return new View_List_NMV_Ethnic_Group_Table ($args[0]);
 		}
 	}
 
@@ -17,7 +17,7 @@ class View_List_NMV_Ethnicgroup_Table extends View_List {
 	public function get_HTML ($results) {
 	    global $dbi;
 		$this->addSortOption ('english','english','ASC','DESC');
-		$this->addSortOption ('ID', 'ID_ethnicgroup', 'ASC', 'DESC');
+		$this->addSortOption ('ID', 'ID_ethnic_group', 'ASC', 'DESC');
 
 
 		$html = '';
@@ -25,7 +25,7 @@ class View_List_NMV_Ethnicgroup_Table extends View_List {
 
         $options = '';
         if ($dbi->checkUserPermission('admin')) {
-        		$options .= createSmallButton(L_EDIT,'nmv_edit_ethnicgroup?ID_ethnicgroup={ID_ethnicgroup}','icon edit');
+        		$options .= createSmallButton(L_EDIT,'nmv_edit_ethnic_group?ID_ethnic_group={ID_ethnic_group}','icon edit');
         }
 
 		if ($results->num_rows>0) {
@@ -34,8 +34,8 @@ class View_List_NMV_Ethnicgroup_Table extends View_List {
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
 			        <td>' . htmlentities($item->english, ENT_HTML5) . '</td>
-              <td>' . htmlentities($item->ID_ethnicgroup, ENT_HTML5) . '</td>
-			        <td>' . str_replace('{ID_ethnicgroup}', $item->ID_ethnicgroup, $options) . '</td>
+              <td>' . htmlentities($item->ID_ethnic_group, ENT_HTML5) . '</td>
+			        <td>' . str_replace('{ID_ethnic_group}', $item->ID_ethnic_group, $options) . '</td>
 			    </tr>';
 			}
 			$html .= '</table>';

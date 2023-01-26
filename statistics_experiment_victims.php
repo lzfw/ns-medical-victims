@@ -51,7 +51,7 @@ $survival_query =  "SELECT s.english AS survival, COUNT(ve.ID_victim) AS count_s
 $ethnicity_query = "SELECT et.english AS ethnic_group, COUNT(ve.ID_victim) AS count_ethnic_group
                     FROM nmv__victim_experiment ve
                     LEFT JOIN nmv__victim v ON v.ID_victim = ve.ID_victim
-                    LEFT JOIN nmv__ethnicgroup et ON et.ID_ethnicgroup = v.ethnic_group
+                    LEFT JOIN nmv__ethnic_group et ON et.ID_ethnic_group = v.ethnic_group
                     WHERE ve.ID_experiment = $experiment_id
                     GROUP BY v.ethnic_group";
 $nationality_query = "SELECT n.english AS nationality, COUNT(ve.ID_victim) AS count_nationality

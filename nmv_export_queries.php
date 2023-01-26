@@ -238,7 +238,7 @@ FROM nmv__victim v
         LEFT JOIN nmv__institution di ON di.ID_institution = v.ID_death_institution
         LEFT JOIN nmv__marital_family_status f ON f.ID_marital_family_status = v.ID_marital_family_status
         LEFT JOIN nmv__religion r ON r.ID_religion = v.ID_religion
-        LEFT JOIN nmv__ethnicgroup eg ON eg.ID_ethnic_group = v.ID_ethnic_group
+        LEFT JOIN nmv__ethnic_group eg ON eg.ID_ethnic_group = v.ID_ethnic_group
         LEFT JOIN nmv__education ed ON ed.ID_education = v.ID_education
         LEFT JOIN nmv__occupation o ON o.ID_occupation = v.ID_occupation
         LEFT JOIN nmv__country ac ON ac.ID_country = v.ID_arrest_country
@@ -403,7 +403,7 @@ FROM nmv__victim v
         LEFT JOIN nmv__institution di ON di.ID_institution = v.ID_death_institution
         LEFT JOIN nmv__marital_family_status f ON f.ID_marital_family_status = v.ID_marital_family_status
         LEFT JOIN nmv__religion r ON r.ID_religion = v.ID_religion
-        LEFT JOIN nmv__ethnicgroup eg ON eg.ID_ethnic_group = v.ID_ethnic_group
+        LEFT JOIN nmv__ethnic_group eg ON eg.ID_ethnic_group = v.ID_ethnic_group
         LEFT JOIN nmv__education ed ON ed.ID_education = v.ID_education
         LEFT JOIN nmv__occupation o ON o.ID_occupation = v.ID_occupation
         LEFT JOIN nmv__country ac ON ac.ID_country = v.ID_arrest_country

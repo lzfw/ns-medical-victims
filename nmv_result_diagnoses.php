@@ -90,7 +90,7 @@ $querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names, v.
 												FROM nmv__victim v
 												LEFT JOIN nmv__country bc									ON v.ID_birth_country = bc.ID_country
 												LEFT JOIN nmv__nationality n 							ON v.nationality_1938 = n.ID_nationality
-												LEFT JOIN nmv__ethnicgroup et							ON v.ethnic_group = et.ID_ethnicgroup
+												LEFT JOIN nmv__ethnic_group et							ON v.ethnic_group = et.ID_ethnic_group
 												LEFT JOIN nmv__victim_experiment ve				ON v.ID_victim = ve.ID_victim
 												LEFT JOIN nmv__experiment e								ON ve.ID_experiment = e.ID_experiment
 												LEFT JOIN nmv__med_history_brain b				ON v.ID_victim = b.ID_victim

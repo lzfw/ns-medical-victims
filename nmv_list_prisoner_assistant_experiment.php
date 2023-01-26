@@ -51,7 +51,7 @@ $querystring_items = "SELECT
                       LEFT JOIN nmv__victim pa                    ON pa.ID_victim = pae.ID_victim
                     	LEFT JOIN nmv__country bc                  ON bc.ID_country = pa.ID_birth_country
                     	LEFT JOIN nmv__nationality n               ON n.ID_nationality = pa.nationality_1938
-                    	LEFT JOIN nmv__ethnicgroup et              ON et.ID_ethnicgroup = pa.ethnic_group
+                    	LEFT JOIN nmv__ethnic_group et              ON et.ID_ethnic_group = pa.ethnic_group
                       WHERE pae.ID_experiment = $experiment_id";
 
 // Gesamtzahl der Suchergebnisse feststellen

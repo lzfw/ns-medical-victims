@@ -216,7 +216,7 @@ if ($experiment_id) {
                               LEFT JOIN nmv__survival s                  ON s.ID_survival = ve.ID_survival
                             	LEFT JOIN nmv__country bc                  ON bc.ID_country = v.ID_birth_country
                             	LEFT JOIN nmv__nationality n               ON n.ID_nationality = v.nationality_1938
-                            	LEFT JOIN nmv__ethnicgroup et              ON et.ID_ethnicgroup = v.ethnic_group
+                            	LEFT JOIN nmv__ethnic_group et              ON et.ID_ethnic_group = v.ethnic_group
                               WHERE ve.ID_experiment = $experiment_id";
 
         // Gesamtzahl der Suchergebnisse feststellen

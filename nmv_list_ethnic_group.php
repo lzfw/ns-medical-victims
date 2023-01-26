@@ -11,9 +11,9 @@ $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 
 // Select-Klauseln erstellen
-$querystring_count = 'SELECT COUNT(*) AS total FROM nmv__ethnicgroup'; // für Treffer gesamt
-$querystring_items = 'SELECT ID_ethnicgroup, english
-                      FROM nmv__ethnicgroup';
+$querystring_count = 'SELECT COUNT(*) AS total FROM nmv__ethnic_group'; // für Treffer gesamt
+$querystring_items = 'SELECT ID_ethnic_group, english
+                      FROM nmv__ethnic_group';
 
 // Gesamtanzahl der Suchergebnisse feststellen
 $query_count = $dbi->connection->query($querystring_count);
@@ -27,15 +27,15 @@ $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 
 $layout
-	->set('title','Ethnicgroup')
+	->set('title','Ethnic Group')
 	->set('content',
       '<p>Number of ethnic group entries: ' . $total_results->total . ' </p>' .
       ($dbi->checkUserPermission('admin')
-      ? '<div class="buttons">'.createButton ('New Ethnicgroup','nmv_edit_ethnicgroup','icon addUser').'</div>'
+      ? '<div class="buttons">'.createButton ('New Ethnic Group','nmv_edit_ethnic_group','icon addUser').'</div>'
       : '') .
-	    $dbi->getListView('nmv_ethnicgroup_table',$query_items)
+	    $dbi->getListView('nmv_ethnic_group_table',$query_items)
 	    .($dbi->checkUserPermission('admin')
-	        ? '<div class="buttons">'.createButton ('New Ethnicgroup','nmv_edit_ethnicgroup','icon addUser').'</div>'
+	        ? '<div class="buttons">'.createButton ('New Ethnic Group','nmv_edit_ethnic_group','icon addUser').'</div>'
 	        : '')
 	    .createBackLink (L_CONTENTS,'z_menu_contents')
 	)

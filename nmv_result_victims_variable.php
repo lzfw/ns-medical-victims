@@ -129,7 +129,7 @@ if ((isset($_GET['ID_experiment']) && ($_GET['ID_experiment'])) || (isset($_GET[
 													LEFT JOIN nmv__imprisonment i									ON v.ID_victim = i.ID_victim
 													LEFT JOIN nmv__imprisonment_classification ic ON ic.ID_imprisonment = i.ID_imprisonment
 													LEFT JOIN nmv__nationality n        					ON n.ID_nationality = v.ID_nationality_1938
-													LEFT JOIN nmv__ethnicgroup et       					ON et.ID_ethnic_group = v.ID_ethnic_group
+													LEFT JOIN nmv__ethnic_group et       					ON et.ID_ethnic_group = v.ID_ethnic_group
 													LEFT JOIN nmv__med_history_brain b						ON v.ID_victim = b.ID_victim
 													LEFT JOIN nmv__diagnosis_brain db 						ON db.ID_med_history_brain = b.ID_med_history_brain
 													LEFT JOIN nmv__diagnosis_tag dtb							ON dtb.ID_diagnosis = db.ID_diagnosis
@@ -155,7 +155,7 @@ else:  // default query
 													LEFT JOIN nmv__imprisonment i								ON v.ID_victim = i.ID_victim
 													LEFT JOIN nmv__imprisonment_classification ic ON ic.ID_imprisonment = i.ID_imprisonment
 													LEFT JOIN nmv__nationality n        					ON n.ID_nationality = v.ID_nationality_1938
-													LEFT JOIN nmv__ethnicgroup et       					ON et.ID_ethnic_group = v.ID_ethnic_group
+													LEFT JOIN nmv__ethnic_group et       					ON et.ID_ethnic_group = v.ID_ethnic_group
 													LEFT JOIN nmv__med_history_brain b						ON v.ID_victim = b.ID_victim
 													LEFT JOIN nmv__diagnosis_brain db 						ON db.ID_med_history_brain = b.ID_med_history_brain
 													LEFT JOIN nmv__diagnosis_tag dtb							ON dtb.ID_diagnosis = db.ID_diagnosis
@@ -311,7 +311,7 @@ if (isset($_GET['ID_religion']) && $_GET['ID_religion']) {
 	}
 }
 if (isset($_GET['ID_ethnic_group']) && $_GET['ID_ethnic_group']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__ethnicgroup WHERE ID_ethnic_group = '.$_GET['ID_ethnic_group'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT english FROM nmv__ethnic_group WHERE ID_ethnic_group = '.$_GET['ID_ethnic_group'])->fetch_row();
 	if(empty($search_term)){
  		$suche_nach[] = 'ethnic group = NULL';
  	} else {

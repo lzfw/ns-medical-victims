@@ -21,7 +21,7 @@ $dbi->setUserVar ('sort',getUrlParameter('sort'),'classification');
 $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 
 
-//Query ethnicgroup
+
 		//query
 		$querystring_items = ' 	SELECT A.classification, A.number as anumber, B.number as bnumber
 														FROM (SELECT c.english as classification, COUNT(v.ID_victim) as number

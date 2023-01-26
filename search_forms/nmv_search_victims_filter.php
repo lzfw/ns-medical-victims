@@ -89,10 +89,10 @@ $victimsVariableForm->addField('ID_ethnic_group', SELECT)
   ->setLabel('ethnic group')
   ->addOption(NO_VALUE,'all ethnic groups')
   ->addOption('NULL')
-  ->addOptionsFromTable('nmv__ethnicgroup', 'ID_ethnic_group', 'english',
+  ->addOptionsFromTable('nmv__ethnic_group', 'ID_ethnic_group', 'english',
                         'EXISTS (	SELECT *
                                   FROM nmv__victim
-                                  WHERE nmv__ethnicgroup.ID_ethnic_group = nmv__victim.ID_ethnic_group)');
+                                  WHERE nmv__ethnic_group.ID_ethnic_group = nmv__victim.ID_ethnic_group)');
 
 $victimsVariableForm->addField('ID_nationality_1938', SELECT)
   ->setLabel('nationality in 1938')

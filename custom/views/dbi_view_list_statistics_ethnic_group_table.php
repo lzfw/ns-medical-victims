@@ -1,6 +1,6 @@
 <?php
 
-class View_List_Statistics_ethnicgroup_Table extends View_List {
+class View_List_Statistics_Ethnic_Group_Table extends View_List {
 
 	// CONSTRUCTOR ---------------------------------------------------------------
 
@@ -8,8 +8,8 @@ class View_List_Statistics_ethnicgroup_Table extends View_List {
 		// create ( Creator )
 		$args = func_get_args();
 		switch (func_num_args()) {
-			case 1: return new View_List_Statistics_ethnicgroup_Table ($args[0]);
-			case 2: return new View_List_Statistics_ethnicgroup_Table ($args[0], $args[1]);
+			case 1: return new View_List_Statistics_Ethnic_Group_Table ($args[0]);
+			case 2: return new View_List_Statistics_Ethnic_Group_Table ($args[0], $args[1]);
 		}
 	}
 
@@ -17,7 +17,7 @@ class View_List_Statistics_ethnicgroup_Table extends View_List {
 
 	public function get_HTML ($results) {
 	  global $dbi;
-		$this->addSortOption ('Ethnicgroup','ethnicgroup','ASC', 'DESC');
+		$this->addSortOption ('Ethnic Group','ethnic_group','ASC', 'DESC');
 		$this->addSortOption ('Number','anumber','ASC','DESC');
 		$this->addSortOption ('Number','bnumber','ASC','DESC');
 		$html = '';
@@ -27,11 +27,11 @@ class View_List_Statistics_ethnicgroup_Table extends View_List {
 
 		if ($results->num_rows>0) {
 		    $html .= '<table class="grid">';
-		    $html .= '<th>Ethnicgroup</th><th>all victims</th><th>mpg only</th>';
+		    $html .= '<th>Ethnic Group</th><th>all victims</th><th>mpg only</th>';
 				$asum = 0;
 				$bsum = 0;
 			while ($item = $results->fetch_object()) {
-          $name = $item->ethnicgroup == '' ? 'No Entry' : htmlentities($item->ethnicgroup, ENT_HTML5);
+          $name = $item->ethnic_group == '' ? 'No Entry' : htmlentities($item->ethnic_group, ENT_HTML5);
 			    $html .= '<tr>
 			        <td>' . $name  . '</td>
 			        <td>' . htmlentities($item->anumber, ENT_HTML5) . '</td>
