@@ -71,13 +71,13 @@ $perpetratorsFilterForm->addField('text-qualification', STATIC_TEXT, '<h3>Qualif
 $perpetratorsFilterForm->addField('titles', TEXT, 100)
   ->setLabel('Titles (keyword)');
 
-$perpetratorsFilterForm->addField('place_of_qualification', TEXT, 100)
+$perpetratorsFilterForm->addField('qualification_place', TEXT, 100)
  ->setLabel('Place of qualification (keyword)');
 
-$perpetratorsFilterForm->addField('year_of_qualification', TEXT, 4)
+$perpetratorsFilterForm->addField('qualification_year', TEXT, 4)
  ->setLabel('Year of qualification (yyyy)');
 
-$perpetratorsFilterForm->addField('title_of_dissertation', TEXTAREA, 2)
+$perpetratorsFilterForm->addField('thesis_title', TEXTAREA, 2)
   ->setLabel('Title of dissertation (keyword)');
 
 $perpetratorsFilterForm->addField('occupation', TEXT, 100)

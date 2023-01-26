@@ -37,7 +37,7 @@ $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 
 // felder, die immer exakt gematcht werden (Trunkierung nicht möglich, Diakritika distinkt, Basiszeichen distinkt)
 $exact_fields = array (	'birth_year',				'death_year',					'gender',
-												'ID_religion', 				'ID_nationality_1938',
+												'ID_religion', 			'ID_nationality_1938',
 												'ID_perp_class',		'nsdap_member', 			'ss_member',
 												'sa_member', 				'other_nsdap_organisations_member',
 												'ID_birth_country', 'ID_death_country',		'leopoldina_member',
@@ -63,9 +63,10 @@ $ticked_fields = array ();
 
 //fields involving data from tables other than nmv__victim
 //key defines table and column
-$special_fields = array();
+$special_fields = array( 	'q.qualification_year'		=> 'qualification_year');
 
-$special_contain_fields = array();
+$special_contain_fields = array(	'q.qualification_place'		=>	'qualification_place',
+																	'q.thesis_title'					=>	'thesis_title');
 
 
 // reconstruct GET-String (for scroll-function)
@@ -97,7 +98,8 @@ $dbi->setUserVar('querystring',implode('&',$query));
 // make select-clauses part one
 $querystring_items = '	SELECT p.ID_perpetrator, p.surname, p.first_names, p.birth_year, bc.english AS birth_country, p.birth_place, p.occupation
 												FROM nmv__perpetrator p
-												LEFT JOIN nmv__country bc ON bc.ID_country = p.ID_birth_country'; // für Ergebnisliste
+												LEFT JOIN nmv__country bc ON bc.ID_country = p.ID_birth_country
+												LEFT JOIN nmv__qualification q ON q.ID_perpetrator = p.ID_perpetrator'; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
 
 
@@ -145,18 +147,7 @@ foreach ($special_contain_fields as $key=>$field) {
 			$querystring_where[] = "$key LIKE '%".$filtered_field."%'";
     }
 }
-//customized queries TODO adapt new qualification table
-if (getUrlParameter('place_of_qualification')) {
-	$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter('place_of_qualification'));
-	$querystring_where[] = "(p.place_of_qualification_1 LIKE '%".$filtered_field."%' OR p.place_of_qualification_2 LIKE '%".$filtered_field."%')";
-}
-if (getUrlParameter('year_of_qualification')) {
-	$querystring_where[] = "(p.year_of_qualification_1 = '".getUrlParameter('year_of_qualification')."' OR p.year_of_qualification_2 LIKE '".getUrlParameter('year_of_qualification')."')";
-}
-if (getUrlParameter('title_of_dissertation')) {
-	$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter('title_of_dissertation'));
-	$querystring_where[] = "(p.title_of_dissertation_1 LIKE '%".$filtered_field."%' OR p.title_of_dissertation_2 LIKE '%".$filtered_field."%')";
-}
+//customized queries
 if (getUrlParameter('prison_time-info')) {
 	$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter('prison_time-info'));
 	$querystring_where[] = "(p.prison_time IS NOT NULL)";
@@ -220,9 +211,9 @@ if (isset($_GET['ID_nationality_1938']) && $_GET['ID_nationality_1938']) {
 	$suche_nach[] = 'nationality in 1938 = '.$search_term[0];
 }
 if (isset($_GET['titles']) && $_GET['titles']) $suche_nach[] = 'titles = '.$_GET['titles'];
-if (isset($_GET['place_of_qualification']) && $_GET['place_of_qualification']) $suche_nach[] = 'place of qualification = '.$_GET['place_of_qualification'];
-if (isset($_GET['year_of_qualification']) && $_GET['year_of_qualification']) $suche_nach[] = 'year of qualification = '.$_GET['year_of_qualification'];
-if (isset($_GET['title_of_dissertation']) && $_GET['title_of_dissertation']) $suche_nach[] = 'title of dissertation = '.$_GET['title_of_dissertation'];
+if (isset($_GET['qualification_place']) && $_GET['qualification_place']) $suche_nach[] = 'place of qualification = '.$_GET['qualification_place'];
+if (isset($_GET['qualification_year']) && $_GET['qualification_year']) $suche_nach[] = 'year of qualification = '.$_GET['qualification_year'];
+if (isset($_GET['thesis_title']) && $_GET['thesis_title']) $suche_nach[] = 'thesis title = '.$_GET['thesis_title'];
 if (isset($_GET['occupation']) && $_GET['occupation']) $suche_nach[] = 'occupation = '.$_GET['occupation'];
 if (isset($_GET['ID_perp_class']) && $_GET['ID_perp_class']) {
 	$search_term = $dbi->connection->query('SELECT english FROM nmv__perpetrator_classification WHERE ID_perp_class = '.$_GET['ID_perp_class'])->fetch_row();
