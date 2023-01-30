@@ -16,7 +16,7 @@ class View_List_NMV_Disability_Table extends View_List {
 
 	public function get_HTML ($results) {
 	    global $dbi;
-		$this->addSortOption ('english','english','ASC','DESC');
+		$this->addSortOption ('disability','disability','ASC','DESC');
 		$this->addSortOption ('ID', 'ID_disability', 'ASC', 'DESC');
 
 
@@ -30,10 +30,10 @@ class View_List_NMV_Disability_Table extends View_List {
 
 		if ($results->num_rows>0) {
 		    $html .= '<table class="grid">';
-		    $html .= '<th>english</th><th>ID</th><th>Options</th>';
+		    $html .= '<th>disability</th><th>ID</th><th>Options</th>';
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
-			        <td>' . htmlentities($item->english, ENT_HTML5) . '</td>
+			        <td>' . htmlentities($item->disability, ENT_HTML5) . '</td>
               <td>' . htmlentities($item->ID_disability, ENT_HTML5) . '</td>
 			        <td>' . str_replace('{ID_disability}', $item->ID_disability, $options) . '</td>
 			    </tr>';

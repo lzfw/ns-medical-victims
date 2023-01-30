@@ -10,9 +10,9 @@ $form
 	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
 	->setPrimaryKeyName('ID_tissue_state');
 $form->addfield ('ID_tissue_state', PROTECTED_TEXT)
-    ->setLabel ('tissue state ID');
-$form->addField ('english',TEXT,250)
-    ->setLabel ('english');
+    ->setLabel ('ID tissue state');
+$form->addField ('tissue_state',TEXT,250)
+    ->setLabel ('tissue state');
 
 $form
 	->addButton (SUBMIT)

@@ -30,7 +30,7 @@ if ($victim_id) {
         $querystring = "
         SELECT vn.ID_name ID_name,
             vn.victim_name victim_name, vn.victim_first_names victim_first_names,
-            vnt.english nametype
+            vnt.nametype
         FROM nmv__victim_name vn
         LEFT JOIN nmv__victim_nametype vnt ON vnt.ID_nametype = vn.ID_nametype
         LEFT JOIN nmv__victim v ON v.ID_victim = vn.ID_victim

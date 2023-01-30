@@ -23,13 +23,13 @@ $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 // Select-Klauseln erstellen
 $querystring_count = "SELECT COUNT(v.ID_victim) AS total FROM nmv__victim v WHERE v.was_prisoner_assistant != 'victim only'"; // für Treffer gesamt
 $querystring_items = "	SELECT v.ID_victim, v.surname, v.first_names, v.birth_place, v.birth_year, v.birth_month, v.birth_day,
-	m.english AS marital_family_status, e.english AS education, bc.english AS birth_country,
-	v.death_year, v.death_month, v.death_day, v.death_place, dc.english AS death_country, v.cause_of_death,
-	v.gender, r.english AS religion, n.english AS nationality_1938, et.english AS ethnic_group,
-	o.english AS occupation, v.occupation_details, v.twin, v.arrest_location,
-	ac.english AS arrest_country, v.residence_after_1945_place, v.residence_after_1945_country,
-	v.occupation_after_1945, na.english AS nationality_after_1945, v.mpg_project,
-	da.work_group  AS dataset_origin, es.english as evaluation_status
+	m.marital_family_status AS marital_family_status, e.education AS education, bc.country AS birth_country,
+	v.death_year, v.death_month, v.death_day, v.death_place, dc.country AS death_country, v.cause_of_death,
+	v.gender, r.religion, n.nationality AS nationality_1938, et.ethnic_group,
+	o.occupation, v.occupation_details, v.twin, v.arrest_location,
+	ac.country AS arrest_country, v.residence_after_1945_place, v.residence_after_1945_country,
+	v.occupation_after_1945, na.nationality AS nationality_after_1945, v.mpg_project,
+	da.work_group  AS dataset_origin, es.status as evaluation_status
 	FROM nmv__victim v
 	LEFT JOIN nmv__marital_family_status m ON m.ID_marital_family_status = v.ID_marital_family_status
 	LEFT JOIN nmv__education e ON e.ID_education = v.ID_education

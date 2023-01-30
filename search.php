@@ -132,7 +132,7 @@ $experimentsForm->addField('funding',TEXT,255)
 $experimentsForm->addField('ID_foi',SELECT)
 	->setLabel('Field of Interest')
 	->addOption(NO_VALUE, 'all fields of interest')
-	->addOptionsFromTable('nmv__field_of_interest', 'ID_foi', 'english');
+	->addOptionsFromTable('nmv__field_of_interest', 'ID_foi', 'field_of_interest');
 
 $experimentsForm->addField('objective',TEXT,50)
     ->setClass('keyboardInput')
@@ -145,7 +145,7 @@ $experimentsForm->addField('surname', TEXT, 50)
 $experimentsForm->addField('ID_exp_classification', SELECT)
 		->setLabel('Classification')
 		->addOption(NO_VALUE, 'all classifications')
-		->addOptionsFromTable('nmv__experiment_classification', 'ID_exp_classification', 'english');
+		->addOptionsFromTable('nmv__experiment_classification', 'ID_exp_classification', 'classification');
 
 $experimentsForm->addField('ID_institution', SELECT)
 		->setLabel('Institution')

@@ -16,7 +16,7 @@ class View_List_NMV_Country_Table extends View_List {
 
 	public function get_HTML ($results) {
 	    global $dbi;
-		$this->addSortOption ('english','english','ASC','DESC');
+		$this->addSortOption ('country','country','ASC','DESC');
 		$this->addSortOption ('local name','local_name','ASC','DESC');
 		$this->addSortOption ('ID', 'ID_country', 'ASC', 'DESC');
 
@@ -31,10 +31,10 @@ class View_List_NMV_Country_Table extends View_List {
 
 		if ($results->num_rows>0) {
 		    $html .= '<table class="grid">';
-		    $html .= '<th>english</th><th>local name</th><th>ID</th><th>Options</th>';
+		    $html .= '<th>country</th><th>local name</th><th>ID</th><th>Options</th>';
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
-			        <td>' . htmlentities($item->english, ENT_HTML5) . '</td>
+			        <td>' . htmlentities($item->country, ENT_HTML5) . '</td>
 			        <td>' . htmlentities($item->local_name, ENT_HTML5) . '</td>
               <td>' . htmlentities($item->ID_country, ENT_HTML5) . '</td>
 			        <td>' . str_replace('{ID_country}', $item->ID_country, $options) . '</td>

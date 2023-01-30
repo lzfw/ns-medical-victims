@@ -10,9 +10,9 @@ $form
 	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
 	->setPrimaryKeyName('ID_nametype');
 $form->addfield ('ID_nametype', PROTECTED_TEXT)
-    ->setLabel ('nametype ID');
-$form->addField ('english',TEXT,250)
-    ->setLabel ('english');
+    ->setLabel ('ID nametype');
+$form->addField ('nametype',TEXT,250)
+    ->setLabel ('nametype');
 
 
 $form

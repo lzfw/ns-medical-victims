@@ -10,9 +10,9 @@ $form
 	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
 	->setPrimaryKeyName('ID_evalation_status');
 $form->addfield ('ID_evaluation_status', PROTECTED_TEXT)
-    ->setLabel ('status ID');
-$form->addField ('english',TEXT,250)
-    ->setLabel ('english');
+    ->setLabel ('ID status');
+$form->addField ('status',TEXT,250)
+    ->setLabel ('status');
 
 
 $form

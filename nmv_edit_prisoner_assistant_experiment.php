@@ -90,7 +90,7 @@ $form->addField('age_experiment_start',TEXT,3)
 $form->addField('ID_role',SELECT)
     ->setLabel('role in experiment')
     ->addOption(NO_VALUE,'please choose')
-    ->addOptionsFromTable('nmv__role', 'ID_role', 'english');
+    ->addOptionsFromTable('nmv__role', 'ID_role', 'role');
 $form->addField('role_other',TEXT,50)
     ->setClass('keyboardInput')
     ->setLabel('other role in experiment <br> (if role not found in selection)');

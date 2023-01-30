@@ -44,14 +44,14 @@ $dbi->addBreadcrumb ($experiment_name,'nmv_view_experiment?ID_experiment='.$expe
 
 $querystring_items = "SELECT
                           pa.ID_victim, pae.ID_pa_exp, pa.surname AS surname, pa.first_names,
-                          pa.birth_year, bc.english AS birth_country,
-                          n.english AS nationality_1938,
-                          et.english AS ethnic_group, pae.exp_start_day, pae.exp_start_month, pae.exp_start_year
+                          pa.birth_year, bc.country AS birth_country,
+                          n.nationality AS nationality_1938,
+                          et.ethnic_group, pae.exp_start_day, pae.exp_start_month, pae.exp_start_year
                       FROM nmv__prisoner_assistant_experiment pae
                       LEFT JOIN nmv__victim pa                    ON pa.ID_victim = pae.ID_victim
                     	LEFT JOIN nmv__country bc                  ON bc.ID_country = pa.ID_birth_country
-                    	LEFT JOIN nmv__nationality n               ON n.ID_nationality = pa.nationality_1938
-                    	LEFT JOIN nmv__ethnic_group et              ON et.ID_ethnic_group = pa.ethnic_group
+                    	LEFT JOIN nmv__nationality n               ON n.ID_nationality = pa.ID_nationality_1938
+                    	LEFT JOIN nmv__ethnic_group et              ON et.ID_ethnic_group = pa.ID_ethnic_group
                       WHERE pae.ID_experiment = $experiment_id";
 
 // Gesamtzahl der Suchergebnisse feststellen

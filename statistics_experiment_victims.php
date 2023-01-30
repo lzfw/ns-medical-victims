@@ -43,18 +43,18 @@ $total_number_query = "SELECT COUNT(ve.ID_victim) AS count_total
 $total_number_query_item = $dbi->connection->query($total_number_query)->fetch_array();
 $total_number = $total_number_query_item['count_total'];
 
-$survival_query =  "SELECT s.english AS survival, COUNT(ve.ID_victim) AS count_survival
+$survival_query =  "SELECT s.survival, COUNT(ve.ID_victim) AS count_survival
                     FROM nmv__victim_experiment ve
                     LEFT JOIN nmv__survival s ON s.ID_survival = ve.ID_survival
                     WHERE ve.ID_experiment = $experiment_id
                     GROUP BY ve.ID_survival";
-$ethnicity_query = "SELECT et.english AS ethnic_group, COUNT(ve.ID_victim) AS count_ethnic_group
+$ethnicity_query = "SELECT et.ethnic_group, COUNT(ve.ID_victim) AS count_ethnic_group
                     FROM nmv__victim_experiment ve
                     LEFT JOIN nmv__victim v ON v.ID_victim = ve.ID_victim
                     LEFT JOIN nmv__ethnic_group et ON et.ID_ethnic_group = v.ethnic_group
                     WHERE ve.ID_experiment = $experiment_id
                     GROUP BY v.ethnic_group";
-$nationality_query = "SELECT n.english AS nationality, COUNT(ve.ID_victim) AS count_nationality
+$nationality_query = "SELECT n.nationality, COUNT(ve.ID_victim) AS count_nationality
                       FROM nmv__victim_experiment ve
                       LEFT JOIN nmv__victim v ON v.ID_victim = ve.ID_victim
                       LEFT JOIN nmv__nationality n ON n.ID_nationality = v.nationality_1938

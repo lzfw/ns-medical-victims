@@ -14,19 +14,19 @@ $dbi->addBreadcrumb ('Victims','nmv_list_victims');
 $querystring = "
     SELECT v.first_names, v.surname,
            CONCAT(IFNULL(v.birth_day , '-'), '.', IFNULL(v.birth_month , '-'), '.', IFNULL(v.birth_year, '-')) birth, v.twin,
-           v.birth_place, bc.english as birth_country, v.death_place, dc.english as death_country,
+           v.birth_place, bc.country as birth_country, v.death_place, dc.country as death_country,
            CONCAT(IFNULL(di.institution_name, ''), ' - ', IFNULL(di.location, ''), ' - ', IFNULL(v.death_institution, '')) AS death_institution,
            CONCAT(IFNULL(v.death_day , '-'), '.', IFNULL(v.death_month , '-'), '.', IFNULL(v.death_year, '-')) death,
-           v.death_year, v.cause_of_death, gender, m.english as marital_family_status,
-           ed.english as education, r.english as religion,
-           n.english as nationality, e.english as ethnic_group,
-           p.english as occupation, v.occupation_details, v.notes,
+           v.death_year, v.cause_of_death, gender, m.marital_family_status,
+           ed.education as education, r.religion,
+           n.nationality, e.ethnic_group,
+           p.occupation, v.occupation_details, v.notes,
            v.residence_after_1945_country, v.residence_after_1945_place,
-           v.occupation_after_1945, n45.english nationality_after_1945,
+           v.occupation_after_1945, n45.nationality AS nationality_after_1945,
            v.consequential_injuries, IFNULL(v.compensation, 'not specified') AS compensation, v.compensation_details,
-           v.notes_after_1945, v.mpg_project, v.arrest_prehistory, v.arrest_location, ac.english as arrest_country, v.arrest_history,
+           v.notes_after_1945, v.mpg_project, v.arrest_prehistory, v.arrest_location, ac.country as arrest_country, v.arrest_history,
            IF(v.photo_exists, 'Yes', '-') AS photo_exists, v.notes_photo, v.was_prisoner_assistant,
-           v.evaluation_list, evs.english AS evaluation_status, v.status_due_to, v.status_notes
+           v.evaluation_list, evs.status AS evaluation_status, v.status_due_to, v.status_notes
     FROM nmv__victim v
     LEFT JOIN nmv__marital_family_status m ON (m.ID_marital_family_status = v.ID_marital_family_status )
     LEFT JOIN nmv__education ed ON (ed.ID_education = v.ID_education)
@@ -144,7 +144,7 @@ if ($victim = $result->fetch_object()) {
     $querystring = "
     SELECT vn.ID_name ID_name,
         vn.victim_name victim_name, vn.victim_first_names victim_first_names,
-        vnt.english nametype
+        vnt.nametype
     FROM nmv__victim_name vn
     LEFT JOIN nmv__victim_nametype vnt ON vnt.ID_nametype = vn.ID_nametype
     WHERE vn.ID_victim = $victim_id
@@ -182,7 +182,7 @@ if ($victim = $result->fetch_object()) {
     // query: get prison numbers
     $querystring = "
     SELECT i.ID_imprisonment, i.ID_victim, i.number, ins.institution_name AS institution, i.location,
-        GROUP_CONCAT(c.english SEPARATOR ', <br>') AS classification, CONCAT(IFNULL(i.start_day, '-'), '.', IFNULL(i.start_month, '-'), '.', IFNULL(i.start_year, '-')) AS start_date
+        GROUP_CONCAT(c.classification SEPARATOR ', <br>') AS classification, CONCAT(IFNULL(i.start_day, '-'), '.', IFNULL(i.start_month, '-'), '.', IFNULL(i.start_year, '-')) AS start_date
     FROM nmv__imprisonment i
     LEFT JOIN nmv__imprisonment_classification ic    ON ic.ID_imprisonment = i.ID_imprisonment
     LEFT JOIN nmv__victim_classification c           ON c.ID_classification = ic.ID_classification

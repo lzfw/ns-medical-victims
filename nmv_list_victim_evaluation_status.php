@@ -6,13 +6,13 @@ $dbi->requireUserPermission ('admin');
 $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 
 // browsing options
-$dbi->setUserVar ('sort',getUrlParameter('sort'),'english');
+$dbi->setUserVar ('sort',getUrlParameter('sort'),'status');
 $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 
 // Select-Klauseln erstellen
 $querystring_count = 'SELECT COUNT(*) AS total FROM nmv__victim_evaluation_status'; // für Treffer gesamt
-$querystring_items = 'SELECT ID_evaluation_status, english
+$querystring_items = 'SELECT ID_evaluation_status, status
                       FROM nmv__victim_evaluation_status';
 
 // Gesamtanzahl der Suchergebnisse feststellen

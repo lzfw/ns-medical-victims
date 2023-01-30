@@ -54,7 +54,7 @@ $dbi->setUserVar('querystring',implode('&',$query));
 
 // Select-Klauseln erstellen
 $querystring_count = 'SELECT COUNT(p.ID_perpetrator) AS total FROM nmv__perpetrator p'; // für Treffer gesamt
-$querystring_items = 'SELECT p.ID_perpetrator, p.surname, p.first_names, p.birth_year, bc.english AS birth_country, p.birth_place, p.occupation
+$querystring_items = 'SELECT p.ID_perpetrator, p.surname, p.first_names, p.birth_year, bc.country AS birth_country, p.birth_place, p.occupation
 											FROM nmv__perpetrator p
 											LEFT JOIN nmv__country bc ON bc.ID_country = p.ID_birth_country'; // für Ergebnisliste
 $querystring_where = array(); // für Filter

@@ -10,9 +10,9 @@ $form
 	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
 	->setPrimaryKeyName('ID_marital_family_status');
 $form->addfield ('ID_marital_family_status', PROTECTED_TEXT)
-    ->setLabel ('status ID');
-$form->addField ('english',TEXT,250)
-    ->setLabel ('english');
+    ->setLabel ('ID marital family status');
+$form->addField ('marital_family_status',TEXT,250)
+    ->setLabel ('marital family status');
 
 
 $form

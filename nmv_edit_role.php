@@ -10,9 +10,9 @@ $form
 	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
 	->setPrimaryKeyName('ID_role');
 $form->addfield ('ID_role', PROTECTED_TEXT)
-    ->setLabel ('role ID');
-$form->addField ('english',TEXT,250)
-    ->setLabel ('english');
+    ->setLabel ('ID role');
+$form->addField ('role',TEXT,250)
+    ->setLabel ('role');
 
 
 $form

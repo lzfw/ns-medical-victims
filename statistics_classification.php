@@ -24,7 +24,7 @@ $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 
 		//query
 		$querystring_items = ' 	SELECT A.classification, A.number as anumber, B.number as bnumber
-														FROM (SELECT c.english as classification, COUNT(v.ID_victim) as number
+														FROM (SELECT c.classification, COUNT(v.ID_victim) as number
 																FROM nmv__victim v
 																INNER JOIN nmv__imprisonment i
 															      ON v.ID_victim = i.ID_victim
@@ -33,9 +33,9 @@ $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 																LEFT JOIN nmv__victim_classification c
 															      ON ic.ID_classification = c.ID_classification
 																WHERE was_prisoner_assistant != "prisoner assistant only"
-																GROUP BY c.english) A
+																GROUP BY c.classification) A
 														  LEFT JOIN
-															    (SELECT c.english as classification, COUNT(v.ID_victim) as number
+															    (SELECT c.classification, COUNT(v.ID_victim) as number
 																FROM nmv__victim v
 																INNER JOIN nmv__imprisonment i
 															      ON v.ID_victim = i.ID_victim
@@ -44,7 +44,7 @@ $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 																LEFT JOIN nmv__victim_classification c
 															      ON ic.ID_classification = c.ID_classification
 																WHERE v.mpg_project = -1 AND was_prisoner_assistant != "prisoner assistant only"
-																GROUP BY c.english) B
+																GROUP BY c.classification) B
 														  ON A.classification = B.classification OR (A.classification IS NULL AND B.classification IS NULL)';
     $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 

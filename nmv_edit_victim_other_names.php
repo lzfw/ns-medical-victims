@@ -44,7 +44,7 @@ $form->addField ('ID_victim',PROTECTED_TEXT)
 $form->addField ('ID_nametype',SELECT)
     ->setLabel ('name type')
     ->addOption (NO_VALUE,'please choose')
-    ->addOptionsFromTable ( 'nmv__victim_nametype', 'ID_nametype', "english");
+    ->addOptionsFromTable ( 'nmv__victim_nametype', 'ID_nametype', "nametype");
 $form->addField ('victim_name',TEXT,250)
     ->setClass ('keyboardInput')
     ->setLabel ('name');

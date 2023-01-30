@@ -63,7 +63,8 @@ $dbi->setUserVar('querystring',implode('&',$query));
 // Select-Klauseln erstellen
 //$querystring_count = 'SELECT COUNT(e.ID_experiment) AS total FROM nmv__experiment e'; // für Treffer gesamt
 $querystring_items = 'SELECT DISTINCT e.ID_experiment, e.experiment_title, e.objective,
-																			GROUP_CONCAT(DISTINCT i.institution_name SEPARATOR "\n") AS institutions, e.start_year, e.end_year, GROUP_CONCAT(DISTINCT f.english ORDER BY f.english ASC SEPARATOR "\n") AS fields_of_interest
+																			GROUP_CONCAT(DISTINCT i.institution_name SEPARATOR "\n") AS institutions, e.start_year, e.end_year,
+																			GROUP_CONCAT(DISTINCT f.field_of_interest ORDER BY f.field_of_interest ASC SEPARATOR "\n") AS fields_of_interest
 											FROM nmv__experiment e
 											LEFT JOIN nmv__perpetrator_experiment pe		ON e.ID_experiment = pe.ID_experiment
 											LEFT JOIN nmv__perpetrator p								ON pe.ID_perpetrator = p.ID_perpetrator
@@ -149,13 +150,13 @@ if (isset($_GET['ID_experiment']) && $_GET['ID_experiment']) $suche_nach[] = 'ID
 if (isset($_GET['experiment_title']) && $_GET['experiment_title']) $suche_nach[] = 'title = '.$_GET['experiment_title'];
 if (isset($_GET['funding']) && $_GET['funding']) $suche_nach[] = 'funding = '.$_GET['funding'];
 if (isset($_GET['ID_foi']) && $_GET['ID_foi']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__field_of_interest WHERE ID_foi = '.$_GET['ID_foi'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT field_of_interest FROM nmv__field_of_interest WHERE ID_foi = '.$_GET['ID_foi'])->fetch_row();
 	$suche_nach[] = 'field of interest = '.$search_term[0];
 }
 if (isset($_GET['objective']) && $_GET['objective']) $suche_nach[] = 'objective = '.$_GET['objective'];
 if (isset($_GET['surname']) && $_GET['surname']) $suche_nach[] = 'surname perpetrator = '.$_GET['surname'];
 if (isset($_GET['ID_exp_classification']) && $_GET['ID_exp_classification']) {
-	$classification = $dbi->connection->query('SELECT english FROM nmv__experiment_classification WHERE ID_exp_classification = '.$_GET['ID_exp_classification'])->fetch_row();
+	$classification = $dbi->connection->query('SELECT classification FROM nmv__experiment_classification WHERE ID_exp_classification = '.$_GET['ID_exp_classification'])->fetch_row();
 	$suche_nach[] = 'classification = '.$classification[0];
 }
 if (isset($_GET['ID_institution']) && $_GET['ID_institution']) {

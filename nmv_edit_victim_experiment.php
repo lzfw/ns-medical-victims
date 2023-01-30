@@ -70,7 +70,7 @@ $form->addField ('outcome_injuries',TEXTAREA)
 $form->addField ('ID_survival',SELECT)
     ->setLabel ('Survival')
     ->addOption (NO_VALUE,'please choose')
-    ->addOptionsFromTable ( 'nmv__survival', 'ID_survival', 'english');
+    ->addOptionsFromTable ( 'nmv__survival', 'ID_survival', 'survival');
 $form->addField ('exp_start_day',TEXT,2)
     ->setLabel ('Start Date DMYYYY')
     ->addCondition(VALUE,MIN,0)

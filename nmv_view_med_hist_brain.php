@@ -23,7 +23,7 @@ $querystring = "SELECT v.ID_victim ID_victim,
         CONCAT(
             IFNULL(i.institution_name, '#'),' - ',
             IFNULL(i.location, '#'),' - ',
-            IFNULL(c.english, '#'))institution,
+            IFNULL(c.country, '#'))institution,
         CONCAT(IFNULL(h.brain_report_day, '-'), '.', IFNULL(h.brain_report_month, '-'), '.', IFNULL(h.brain_report_year, '-')) AS brain_report_date,
         h.kwi_researcher kwi_researcher, h.diagnosis diagnosis,
         h.notes notes, h.ref_no ref_no, IF(h.brain_report_has_photo, 'yes', '-') AS photo

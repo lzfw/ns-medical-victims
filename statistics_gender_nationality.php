@@ -22,17 +22,17 @@ $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 
 //Query gender / nationality
 $querystring_items = '	SELECT A.nationality as nationality, A.gender as gender, A.number as anumber, B.number as bnumber
-												FROM	(SELECT n.english as nationality, v.gender as gender, COUNT(v.ID_victim) as number
+												FROM	(SELECT n.nationality, v.gender as gender, COUNT(v.ID_victim) as number
 												        FROM nmv__victim v
 												        LEFT JOIN nmv__nationality n on v.ID_nationality_1938 = n.ID_nationality
 																WHERE was_prisoner_assistant != "prisoner assistant only"
-												        GROUP BY n.english, v.gender) A
+												        GROUP BY n.nationality, v.gender) A
 												      LEFT JOIN
-												      	(SELECT n.english as nationality, v.gender as gender, COUNT(v.ID_victim) as number
+												      	(SELECT n.nationality, v.gender as gender, COUNT(v.ID_victim) as number
 												        FROM nmv__victim v
 												        LEFT JOIN nmv__nationality n on v.ID_nationality_1938 = n.ID_nationality
 												        WHERE v.mpg_project = -1 AND was_prisoner_assistant != "prisoner assistant only"
-												        GROUP BY n.english, v.gender) B
+												        GROUP BY n.nationality, v.gender) B
 												      ON A.nationality = B.nationality AND A.gender = B.gender
 															OR ((A.gender IS NULL AND B.gender IS NULL) AND (A.nationality IS NULL AND B.nationality IS NULL))
 															OR ((A.gender = B.gender) AND (A.nationality IS NULL AND B.nationality IS NULL))

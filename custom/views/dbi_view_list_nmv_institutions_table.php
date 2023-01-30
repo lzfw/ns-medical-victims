@@ -20,7 +20,7 @@ class View_List_NMV_Institutions_Table extends View_List {
 		$this->addSortOption ('ID', 'ID_institution', 'ASC', 'DESC');
 		$this->addSortOption ('Location','location','ASC','DESC');
 		$this->addSortOption ('Country','country','ASC, institution_name ASC','DESC, institution_name DESC');
-		$this->addSortOption ('Type','itype','ASC, institution_name ASC','DESC, institution_name DESC');
+		$this->addSortOption ('Type','institution_type','ASC, institution_name ASC','DESC, institution_name DESC');
 		$html = '';
 		$html .= $this->getSortOptions_HTML ();
 
@@ -42,7 +42,7 @@ class View_List_NMV_Institutions_Table extends View_List {
 			        <td>' . htmlentities($item->ID_institution, ENT_HTML5) . '</td>
 			        <td>' . htmlentities($item->location, ENT_HTML5) . '</td>
 			        <td>' . htmlentities($item->country, ENT_HTML5) . '</td>
-			        <td>' . htmlentities($item->itype, ENT_HTML5) . '</td>
+			        <td>' . htmlentities($item->institution_type, ENT_HTML5) . '</td>
 			        <td>' . htmlentities($item->notes, ENT_HTML5) . '</td>
 			        <td class="nowrap">' . str_replace('{ID_institution}', $item->ID_institution, $options) . '</td>
 			    </tr>';

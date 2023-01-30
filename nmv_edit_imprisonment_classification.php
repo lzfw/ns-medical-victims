@@ -29,7 +29,7 @@ $form
 $form
   ->addField('ID_classification', MULTICHECKBOX)
   ->setLabel('Classification')
-  ->addOptionsFromTable('nmv__victim_classification', 'ID_classification', 'english', $tag_array);
+  ->addOptionsFromTable('nmv__victim_classification', 'ID_classification', 'classification', $tag_array);
 
 $form
   ->addButton(SUBMIT, 'Update Tags');

@@ -11,8 +11,8 @@ $form
 	->setPrimaryKeyName('ID_country');
 $form->addfield ('ID_country', PROTECTED_TEXT)
     ->setLabel ('country ID');
-$form->addField ('english',TEXT,250)
-    ->setLabel ('english');
+$form->addField ('country',TEXT,250)
+    ->setLabel ('country');
 $form->addField ('local_name',TEXT,250)
     ->setLabel ('local name');
 

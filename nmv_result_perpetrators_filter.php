@@ -96,7 +96,8 @@ foreach ($special_contain_fields as $field) {
 $dbi->setUserVar('querystring',implode('&',$query));
 
 // make select-clauses part one
-$querystring_items = '	SELECT p.ID_perpetrator, p.surname, p.first_names, p.birth_year, bc.english AS birth_country, p.birth_place, p.occupation
+$querystring_items = '	SELECT p.ID_perpetrator, p.surname, p.first_names, p.birth_year, bc.country AS birth_country,
+												p.birth_place, p.occupation
 												FROM nmv__perpetrator p
 												LEFT JOIN nmv__country bc ON bc.ID_country = p.ID_birth_country
 												LEFT JOIN nmv__qualification q ON q.ID_perpetrator = p.ID_perpetrator'; // für Ergebnisliste
@@ -194,20 +195,20 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 // output of search expressions
 $suche_nach = array();
 if (isset($_GET['ID_birth_country']) && $_GET['ID_birth_country']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__country WHERE ID_country = '.$_GET['ID_birth_country'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT country FROM nmv__country WHERE ID_country = '.$_GET['ID_birth_country'])->fetch_row();
 	$suche_nach[] = 'country of birth = '.$search_term[0];
 }if (isset($_GET['birth_year']) && $_GET['birth_year']) $suche_nach[] = 'year of birth = '.$_GET['birth_year'];
 if (isset($_GET['ID_death_country']) && $_GET['ID_death_country'])  {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__country WHERE ID_country = '.$_GET['ID_death_country'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT country FROM nmv__country WHERE ID_country = '.$_GET['ID_death_country'])->fetch_row();
 	$suche_nach[] = 'country of death = '.$search_term[0];
 }if (isset($_GET['death_year']) && $_GET['death_year']) $suche_nach[] = 'year of death = '.$_GET['death_year'];
 if (isset($_GET['gender']) && $_GET['gender']) $suche_nach[] = 'gender = '.$_GET['gender'];
 if (isset($_GET['ID_religion']) && $_GET['ID_religion']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__religion WHERE ID_religion = '.$_GET['ID_religion'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT religion FROM nmv__religion WHERE ID_religion = '.$_GET['ID_religion'])->fetch_row();
 	$suche_nach[] = 'religion = '.$search_term[0];
 }
 if (isset($_GET['ID_nationality_1938']) && $_GET['ID_nationality_1938']) {
-	$search_term = $dbi->connection->query('SELECT english  FROM nmv__nationality WHERE ID_nationality = '.$_GET['ID_nationality_1938'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT nationality  FROM nmv__nationality WHERE ID_nationality = '.$_GET['ID_nationality_1938'])->fetch_row();
 	$suche_nach[] = 'nationality in 1938 = '.$search_term[0];
 }
 if (isset($_GET['titles']) && $_GET['titles']) $suche_nach[] = 'titles = '.$_GET['titles'];
@@ -216,7 +217,7 @@ if (isset($_GET['qualification_year']) && $_GET['qualification_year']) $suche_na
 if (isset($_GET['thesis_title']) && $_GET['thesis_title']) $suche_nach[] = 'thesis title = '.$_GET['thesis_title'];
 if (isset($_GET['occupation']) && $_GET['occupation']) $suche_nach[] = 'occupation = '.$_GET['occupation'];
 if (isset($_GET['ID_perp_class']) && $_GET['ID_perp_class']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__perpetrator_classification WHERE ID_perp_class = '.$_GET['ID_perp_class'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT classification FROM nmv__perpetrator_classification WHERE ID_perp_class = '.$_GET['ID_perp_class'])->fetch_row();
 	$suche_nach[] = 'classification = '.$search_term[0];
 }
 if (isset($_GET['career_history']) && $_GET['career_history']) $suche_nach[] = 'career history = '.$_GET['career_history'];

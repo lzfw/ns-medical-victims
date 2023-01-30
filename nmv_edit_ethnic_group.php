@@ -11,8 +11,8 @@ $form
 	->setPrimaryKeyName('ID_ethnic_group');
 $form->addfield ('ID_ethnic_group', PROTECTED_TEXT)
     ->setLabel ('ID Ethnic Group');
-$form->addField ('english',TEXT,250)
-    ->setLabel ('english');
+$form->addField ('ethnic_group',TEXT,250)
+    ->setLabel ('ethnic group');
 
 $form
 	->addButton (SUBMIT)

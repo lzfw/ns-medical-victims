@@ -6,13 +6,13 @@ $dbi->requireUserPermission ('admin');
 $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 
 // browsing options
-$dbi->setUserVar ('sort',getUrlParameter('sort'),'english');
+$dbi->setUserVar ('sort',getUrlParameter('sort'),'education');
 $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 
 // Select-Klauseln erstellen
 $querystring_count = 'SELECT COUNT(*) AS total FROM nmv__education'; // für Treffer gesamt
-$querystring_items = 'SELECT ID_education, english
+$querystring_items = 'SELECT ID_education, education
                       FROM nmv__education';
 
 // Gesamtanzahl der Suchergebnisse feststellen

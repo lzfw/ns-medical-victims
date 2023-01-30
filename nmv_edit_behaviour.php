@@ -11,8 +11,8 @@ $form
 	->setPrimaryKeyName('ID_behaviour');
 $form->addfield ('ID_behaviour', PROTECTED_TEXT)
     ->setLabel ('behaviour ID');
-$form->addField ('english',TEXT,250)
-    ->setLabel ('english');
+$form->addField ('behaviour',TEXT,250)
+    ->setLabel ('behaviour');
 
 
 $form

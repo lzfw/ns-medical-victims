@@ -6,13 +6,13 @@ $dbi->requireUserPermission ('admin');
 $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 
 // browsing options
-$dbi->setUserVar ('sort',getUrlParameter('sort'),'english');
+$dbi->setUserVar ('sort',getUrlParameter('sort'),'ethnic_group');
 $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 
 // Select-Klauseln erstellen
 $querystring_count = 'SELECT COUNT(*) AS total FROM nmv__ethnic_group'; // für Treffer gesamt
-$querystring_items = 'SELECT ID_ethnic_group, english
+$querystring_items = 'SELECT ID_ethnic_group, ethnic_group
                       FROM nmv__ethnic_group';
 
 // Gesamtanzahl der Suchergebnisse feststellen

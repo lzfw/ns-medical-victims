@@ -52,7 +52,7 @@ $form->addField ('birth_place', TEXT, 250)
 $form->addField('ID_birth_country', SELECT)
 		->setLabel('Birth Country')
 		->addOption(NO_VALUE, 'please choose')
-		->addOptionsFromTable('nmv__country', 'ID_country', 'english');
+		->addOptionsFromTable('nmv__country', 'ID_country', 'country');
 $form->addField('death_day', TEXT, 2)
     ->setLabel('Death DMYYYY')
     ->addCondition(VALUE, MIN, 0)
@@ -77,7 +77,7 @@ $form->addField('death_institution', TEXT, 255)
 $form->addField('ID_death_country', SELECT)
 		->setLabel('Death Country')
 		->addOption(NO_VALUE, 'please choose')
-		->addOptionsFromTable('nmv__country', 'ID_country', 'english');
+		->addOptionsFromTable('nmv__country', 'ID_country', 'country');
 $form->addField('cause_of_death', TEXT, 255)
     ->setLabel('Cause of Death');
 $form->addField('gender', SELECT)
@@ -88,27 +88,27 @@ $form->addField('gender', SELECT)
 $form->addField('ID_marital_family_status', SELECT)
     ->setLabel('Marital Familiy Status')
     ->addOption(NO_VALUE, 'please choose')
-    ->addOptionsFromTable('nmv__marital_family_status', 'ID_marital_family_status', 'english');
+    ->addOptionsFromTable('nmv__marital_family_status', 'ID_marital_family_status', 'marital_family_status');
 $form->addField('ID_education', SELECT)
     ->setLabel('Highest Education Level')
     ->addOption(NO_VALUE, 'please choose')
-    ->addOptionsFromTable('nmv__education', 'ID_education', 'english');
+    ->addOptionsFromTable('nmv__education', 'ID_education', 'education');
 $form->addField('ID_religion', SELECT)
     ->setLabel('Religion')
     ->addOption(NO_VALUE, 'please choose')
-    ->addOptionsFromTable('nmv__religion', 'ID_religion', 'english');
+    ->addOptionsFromTable('nmv__religion', 'ID_religion', 'religion');
 $form->addField('ID_nationality_1938', SELECT)
     ->setLabel('Nationality (1938)')
     ->addOption(NO_VALUE, 'please choose')
-    ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'english');
+    ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'nationality');
 $form->addField('ID_ethnic_group', SELECT)
     ->setLabel('Ethnic Group')
     ->addOption(NO_VALUE, 'please choose')
-    ->addOptionsFromTable('nmv__ethnic_group', 'ID_ethnic_group', 'english');
+    ->addOptionsFromTable('nmv__ethnic_group', 'ID_ethnic_group', 'ethnic_group');
 $form->addField('ID_occupation', SELECT)
     ->setLabel('Occupation')
     ->addOption(NO_VALUE, 'please choose')
-    ->addOptionsFromTable('nmv__occupation', 'ID_occupation', 'english');
+    ->addOptionsFromTable('nmv__occupation', 'ID_occupation', 'occupation');
 $form->addField('occupation_details', TEXT, 50)
     ->setClass('keyboardInput')
     ->setLabel('Occupation Details');
@@ -130,7 +130,7 @@ $form->addField('arrest_location', TEXT, 255)
 $form->addField('ID_arrest_country', SELECT)
 		->setLabel('Arrest Country')
 		->addOption(NO_VALUE, 'please choose')
-		->addOptionsFromTable('nmv__country', 'ID_country', 'english');
+		->addOptionsFromTable('nmv__country', 'ID_country', 'country');
 $form->addField('arrest_history', TEXTAREA)
     ->setClass('keyboardInput')
     ->setLabel('Arrest History');
@@ -151,7 +151,7 @@ if(!($dbi->checkUserPermission('mpg')))	{
 	$form->addField('ID_nationality_after_1945', SELECT)
 	    ->setLabel('Nationality after 1945')
 	    ->addOption(NO_VALUE, 'please choose')
-	    ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'english');
+	    ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'nationality');
 	$form->addField('notes_after_1945', TEXTAREA)
 	    ->setClass('keyboardInput')
 	    ->setLabel('Notes on life after 1945');
@@ -169,7 +169,7 @@ if(!($dbi->checkUserPermission('mpg')))	{
 $form->addField('ID_evaluation_status', SELECT)
 		->setLabel('Evaluation status')
 		->addOption(NO_VALUE, 'please choose')
-		->addOptionsFromTable('nmv__victim_evaluation_status', 'ID_evaluation_status', 'english');
+		->addOptionsFromTable('nmv__victim_evaluation_status', 'ID_evaluation_status', 'status');
 $form->addField('status_due_to', TEXTAREA)
 		->setClass('keyboardInput')
 		->setLabel('Status due to');

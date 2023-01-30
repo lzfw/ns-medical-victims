@@ -11,8 +11,8 @@ $form
 	->setPrimaryKeyName('ID_occupation');
 $form->addfield ('ID_occupation', PROTECTED_TEXT)
     ->setLabel ('occupation ID');
-$form->addField ('english',TEXT,250)
-    ->setLabel ('english');
+$form->addField ('occupation',TEXT,250)
+    ->setLabel ('occupation');
 
 
 $form

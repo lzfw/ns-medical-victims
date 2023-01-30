@@ -16,7 +16,7 @@ class View_List_NMV_Religion_Table extends View_List {
 
 	public function get_HTML ($results) {
 	    global $dbi;
-		$this->addSortOption ('english','english','ASC','DESC');
+		$this->addSortOption ('religion','religion','ASC','DESC');
 		$this->addSortOption ('ID', 'ID_religion', 'ASC', 'DESC');
 
 
@@ -30,10 +30,10 @@ class View_List_NMV_Religion_Table extends View_List {
 
 		if ($results->num_rows>0) {
 		    $html .= '<table class="grid">';
-		    $html .= '<th>english</th><th>ID</th><th>Options</th>';
+		    $html .= '<th>religion</th><th>ID</th><th>Options</th>';
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
-			        <td>' . htmlentities($item->english, ENT_HTML5) . '</td>
+			        <td>' . htmlentities($item->religion, ENT_HTML5) . '</td>
               <td>' . htmlentities($item->ID_religion, ENT_HTML5) . '</td>
 			        <td>' . str_replace('{ID_religion}', $item->ID_religion, $options) . '</td>
 			    </tr>';

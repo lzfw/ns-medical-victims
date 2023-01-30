@@ -114,10 +114,10 @@ $dbi->setUserVar('querystring',implode('&',$query));
 // make select-clauses part one
 if ((isset($_GET['ID_experiment']) && ($_GET['ID_experiment'])) || (isset($_GET['exp_institution']) && ($_GET['exp_institution']))): // query for experiment-related filters: shows and links victim-experiment data
 	$querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
-																					v.birth_year, bc.english AS birth_country, v.birth_place,
-																					n.english AS nationality_1938, et.english AS ethnic_group,
+																					v.birth_year, bc.country AS birth_country, v.birth_place,
+																					n.nationality AS nationality_1938, et.ethnic_group,
 																					ve.exp_start_day, ve.exp_start_month, ve.exp_start_year,
-																					s.english AS survival, ve.ID_vict_exp
+																					s.survival, ve.ID_vict_exp
 													FROM nmv__victim v
 													LEFT JOIN nmv__country bc 										ON bc.ID_country = v.ID_birth_country
 													LEFT JOIN nmv__victim_experiment ve						ON v.ID_victim = ve.ID_victim
@@ -143,8 +143,8 @@ if ((isset($_GET['ID_experiment']) && ($_GET['ID_experiment'])) || (isset($_GET[
 												'; // für Ergebnisliste
 else:  // default query
 		$querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
-																					v.birth_year, bc.english AS birth_country, v.birth_place,
-																					n.english AS nationality_1938, et.english AS ethnic_group
+																					v.birth_year, bc.country AS birth_country, v.birth_place,
+																					n.nationality AS nationality_1938, et.ethnic_group
 													FROM nmv__victim v
 													LEFT JOIN nmv__country bc 										ON bc.ID_country = v.ID_birth_country
 													LEFT JOIN nmv__victim_experiment ve						ON v.ID_victim = ve.ID_victim
@@ -273,7 +273,7 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 // ausgabe der suchtermini
 $suche_nach = array();
 if (isset($_GET['ID_birth_country']) && $_GET['ID_birth_country']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__country WHERE ID_country = '.$_GET['ID_birth_country'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT country FROM nmv__country WHERE ID_country = '.$_GET['ID_birth_country'])->fetch_row();
 	if(empty($search_term)){
 		$suche_nach[] = 'country of birth has no entry';
 	}	else {
@@ -292,7 +292,7 @@ if (isset($_GET['ID_death_institution']) && $_GET['ID_death_institution'])  {
 	}
 }
 if (isset($_GET['ID_death_country']) && $_GET['ID_death_country'])  {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__country WHERE ID_country = '.$_GET['ID_death_country'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT country FROM nmv__country WHERE ID_country = '.$_GET['ID_death_country'])->fetch_row();
 	if(empty($search_term)){
 		$suche_nach[] = 'country of death = NULL';
 	}	else {
@@ -303,7 +303,7 @@ if (isset($_GET['death_place']) && $_GET['death_place']) $suche_nach[] = 'place 
 if (isset($_GET['death_year']) && $_GET['death_year']) $suche_nach[] = 'year of death = '.$_GET['death_year'];
 if (isset($_GET['gender']) && $_GET['gender']) $suche_nach[] = 'gender = '.$_GET['gender'];
 if (isset($_GET['ID_religion']) && $_GET['ID_religion']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__religion WHERE ID_religion = '.$_GET['ID_religion'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT religion FROM nmv__religion WHERE ID_religion = '.$_GET['ID_religion'])->fetch_row();
 	if(empty($search_term)){
 		$suche_nach[] = 'religion = NULL';
 	} else {
@@ -311,7 +311,7 @@ if (isset($_GET['ID_religion']) && $_GET['ID_religion']) {
 	}
 }
 if (isset($_GET['ID_ethnic_group']) && $_GET['ID_ethnic_group']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__ethnic_group WHERE ID_ethnic_group = '.$_GET['ID_ethnic_group'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT ethnic_group FROM nmv__ethnic_group WHERE ID_ethnic_group = '.$_GET['ID_ethnic_group'])->fetch_row();
 	if(empty($search_term)){
  		$suche_nach[] = 'ethnic group = NULL';
  	} else {
@@ -319,7 +319,7 @@ if (isset($_GET['ID_ethnic_group']) && $_GET['ID_ethnic_group']) {
 	}
 }
 if (isset($_GET['ID_nationality_1938']) && $_GET['ID_nationality_1938']) {
-	$search_term = $dbi->connection->query('SELECT english  FROM nmv__nationality WHERE ID_nationality = '.$_GET['ID_nationality_1938'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT nationality  FROM nmv__nationality WHERE ID_nationality = '.$_GET['ID_nationality_1938'])->fetch_row();
 	if(empty($search_term)){
 		$suche_nach[] = 'nationality in 1938 = NULL';
 	}	else {
@@ -327,7 +327,7 @@ if (isset($_GET['ID_nationality_1938']) && $_GET['ID_nationality_1938']) {
 	}
 }
 if (isset($_GET['ID_education']) && $_GET['ID_education']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__education WHERE ID_education = '.$_GET['ID_education'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT education FROM nmv__education WHERE ID_education = '.$_GET['ID_education'])->fetch_row();
 	if(empty($search_term)){
 		$suche_nach[] = 'education = NULL';
 	}	else {
@@ -335,7 +335,7 @@ if (isset($_GET['ID_education']) && $_GET['ID_education']) {
 	}
 }
 if (isset($_GET['ID_occupation']) && $_GET['ID_occupation']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__occupation WHERE ID_occupation = '.$_GET['ID_occupation'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT occupation FROM nmv__occupation WHERE ID_occupation = '.$_GET['ID_occupation'])->fetch_row();
 	if(empty($search_term)){
 		$suche_nach[] = 'occupation = NULL';
 	}	else {
@@ -343,7 +343,7 @@ if (isset($_GET['ID_occupation']) && $_GET['ID_occupation']) {
 	}
 }
 if (isset($_GET['ID_arrest_country']) && $_GET['ID_arrest_country']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__country WHERE ID_country = '.$_GET['ID_arrest_country'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT country FROM nmv__country WHERE ID_country = '.$_GET['ID_arrest_country'])->fetch_row();
 	if(empty($search_term)){
 		$suche_nach[] = 'country of arrest = NULL';
 	}	else {
@@ -360,7 +360,7 @@ if (isset($_GET['ID_experiment']) && $_GET['ID_experiment']) {
 	}
 }
 if (isset($_GET['ID_foi']) && $_GET['ID_foi']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__field_of_interest WHERE ID_foi = '.$_GET['ID_foi'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT field_of_interest FROM nmv__field_of_interest WHERE ID_foi = '.$_GET['ID_foi'])->fetch_row();
 	$suche_nach[] = 'field of interest = '.$search_term[0];
 }
 if (isset($_GET['exp_institution']) && $_GET['exp_institution']) {
@@ -368,7 +368,7 @@ if (isset($_GET['exp_institution']) && $_GET['exp_institution']) {
 	$suche_nach[] = 'institution of experiment = '.$search_term[0];
 }
 if (isset($_GET['ID_classification']) && $_GET['ID_classification']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__victim_classification WHERE ID_classification = '.$_GET['ID_classification'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT classification FROM nmv__victim_classification WHERE ID_classification = '.$_GET['ID_classification'])->fetch_row();
 	$suche_nach[] = 'imprisonment classification = '.$search_term[0];
 }
 if (isset($_GET['location']) && $_GET['location']) $suche_nach[] = 'imprisonment location = '.$_GET['location'];
@@ -377,7 +377,7 @@ if (isset($_GET['ID_imprisonment_institution']) && $_GET['ID_imprisonment_instit
 	$suche_nach[] = 'institution of imprisonment = '.$search_term[0];
 }
 if (isset($_GET['ID_evaluation_status']) && $_GET['ID_evaluation_status']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__victim_evaluation_status WHERE ID_evaluation_status = '.$_GET['ID_evaluation_status'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT status FROM nmv__victim_evaluation_status WHERE ID_evaluation_status = '.$_GET['ID_evaluation_status'])->fetch_row();
 	if(empty($search_term)){
 		$suche_nach[] = 'ID_evaluation status = NULL';
 	}	else {
@@ -394,11 +394,11 @@ if (isset($_GET['tissue_institution']) && $_GET['tissue_institution']) {
 	$suche_nach[] = 'location of tissue = '.$search_term[0];
 }
 if (isset($_GET['ID_tissue_form']) && $_GET['ID_tissue_form']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__tissue_form WHERE ID_tissue_form = '.$_GET['ID_tissue_form'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT tissue_form FROM nmv__tissue_form WHERE ID_tissue_form = '.$_GET['ID_tissue_form'])->fetch_row();
 	$suche_nach[] = 'form of tissue = '.$search_term[0];
 }
 if (isset($_GET['ID_tissue_state']) && $_GET['ID_tissue_state']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__tissue_state WHERE ID_tissue_state = '.$_GET['ID_tissue_state'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT tissue_state FROM nmv__tissue_state WHERE ID_tissue_state = '.$_GET['ID_tissue_state'])->fetch_row();
 	$suche_nach[] = 'form of state = '.$search_term[0];
 }
 if (isset($_GET['ref_no_tissue']) && $_GET['ref_no_tissue']) $suche_nach[] = 'RefNo Tissue contains:  '.$_GET['ref_no_tissue'];
@@ -429,7 +429,7 @@ if (isset($_GET['autopsy_ref_no']) && $_GET['autopsy_ref_no']) $suche_nach[] = '
 if (isset($_GET['residence_after_1945_country']) && $_GET['residence_after_1945_country']) $suche_nach[] = 'residence after 1945 (country) = '.$_GET['residence_after_1945_country'];
 if (isset($_GET['occupation_after_1945']) && $_GET['occupation_after_1945']) $suche_nach[] = 'occupation after 1945 = '.$_GET['occupation_after_1945'];
 if (isset($_GET['ID_nationality_after_1945']) && $_GET['ID_nationality_after_1945']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__nationality WHERE ID_nationality = '.$_GET['ID_nationality_after_1945'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT nationality FROM nmv__nationality WHERE ID_nationality = '.$_GET['ID_nationality_after_1945'])->fetch_row();
 	$suche_nach[] = 'nationality after 1945 = '.$search_term[0];
 }
 if (isset($_GET['notes']) && $_GET['notes']) $suche_nach[] = 'notes = ... '.$_GET['notes'] . ' ...';

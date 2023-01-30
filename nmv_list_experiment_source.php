@@ -32,7 +32,7 @@ if ($source_id) {
         $querystring = "
         SELECT es.ID_exp_source ID_exp_source, es.location location, e.ID_experiment ID_experiment,
             CONCAT(COALESCE(e.experiment_title, 'unspecified'), '<br>institution: ',
-            COALESCE(GROUP_CONCAT(i.institution_name SEPARATOR ';\n '), '-')) title, c.english classification
+            COALESCE(GROUP_CONCAT(i.institution_name SEPARATOR ';\n '), '-')) title, c.classification
         FROM nmv__experiment_source es
         LEFT JOIN nmv__experiment e                 ON e.ID_experiment = es.ID_experiment
         LEFT JOIN nmv__source s                     ON s.ID_source = es.ID_source

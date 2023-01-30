@@ -44,11 +44,11 @@ $form->addField ('ID_victim',PROTECTED_TEXT)
 $form->addField ('ID_tissue_form',SELECT,REQUIRED)
     ->setLabel ('Tissue Form')
     ->addOption (NO_VALUE,'please choose')
-    ->addOptionsFromTable ( 'nmv__tissue_form', 'ID_tissue_form', "english");
+    ->addOptionsFromTable ( 'nmv__tissue_form', 'ID_tissue_form', "tissue_form");
 $form->addField ('ID_tissue_state',SELECT,REQUIRED)
     ->setLabel ('Tissue State')
     ->addOption (NO_VALUE,'please choose')
-    ->addOptionsFromTable ( 'nmv__tissue_state', 'ID_tissue_state', "english");
+    ->addOptionsFromTable ( 'nmv__tissue_state', 'ID_tissue_state', "tissue_state");
 $form->addField('ID_institution', SELECT)
     ->setLabel('Institution')
     ->addOption(NO_VALUE, 'please choose')

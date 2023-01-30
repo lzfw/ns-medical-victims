@@ -15,7 +15,7 @@ $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 $dbi->addBreadcrumb ('Biomedical Research','nmv_list_experiments');
 
 // query: get experiment data
-$querystring = "SELECT e.ID_experiment, e.experiment_title AS experiment_title, c.english AS classification, e.funding AS funding,
+$querystring = "SELECT e.ID_experiment, e.experiment_title AS experiment_title, c.classification, e.funding AS funding,
                     e.objective AS objective,
                     e.number_victims_remark AS number_victims_remark, e.notes AS notes,
                     e.number_victims_estimate AS number_victims_estimate,
@@ -53,7 +53,7 @@ if ($stmt = $dbi->connection->prepare($querystring)) {
 }
 
 //query get field-of-interest-tags
-$tagged = $dbi->connection->query("SELECT foi.english
+$tagged = $dbi->connection->query("SELECT foi.field_of_interest
                                    FROM nmv__experiment_foi ef
                                    LEFT JOIN nmv__field_of_interest foi ON foi.ID_foi = ef.ID_foi
                                    WHERE ef.ID_experiment = $experiment_id");

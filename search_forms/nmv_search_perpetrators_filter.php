@@ -20,7 +20,7 @@ $perpetratorsFilterForm->addField('mpg_project', CHECKBOX, -1)
 $perpetratorsFilterForm->addField('ID_birth_country', SELECT)
   ->setLabel('Country of Birth')
   ->addOption(NO_VALUE,'all countries')
-  ->addOptionsFromTable('nmv__country', 'ID_country', 'english',
+  ->addOptionsFromTable('nmv__country', 'ID_country', 'country',
                         'EXISTS (	SELECT *
                                   FROM nmv__perpetrator
                                   WHERE nmv__country.ID_country = nmv__perpetrator.ID_birth_country)');
@@ -33,7 +33,7 @@ $perpetratorsFilterForm->addField('br-birth', STATIC_TEXT, '<br>');
 $perpetratorsFilterForm->addField('ID_death_country', SELECT)
   ->setLabel('Country of Death')
   ->addOption(NO_VALUE,'all countries')
-  ->addOptionsFromTable('nmv__country', 'ID_country', 'english',
+  ->addOptionsFromTable('nmv__country', 'ID_country', 'country',
                         'EXISTS (	SELECT *
                                   FROM nmv__perpetrator
                                   WHERE nmv__country.ID_country = nmv__perpetrator.ID_death_country)')
@@ -56,13 +56,13 @@ $perpetratorsFilterForm->addField('ID_religion', SELECT)
   ->setLabel('Religion')
   ->addOption(NO_VALUE,'all religions')
 //  ->addOption ('NULL', 'no entry')
-  ->addOptionsFromTable('nmv__religion', 'ID_religion', 'english', 'EXISTS (SELECT * FROM nmv__perpetrator
+  ->addOptionsFromTable('nmv__religion', 'ID_religion', 'religion', 'EXISTS (SELECT * FROM nmv__perpetrator
               WHERE nmv__religion.ID_religion = nmv__perpetrator.ID_religion)');
 
 $perpetratorsFilterForm->addField('ID_nationality_1938', SELECT)
   ->setLabel('Nationality in 1938')
   ->addOption(NO_VALUE,'all nationalities')
-  ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'english', 'EXISTS (SELECT * FROM nmv__perpetrator
+  ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'nationality', 'EXISTS (SELECT * FROM nmv__perpetrator
               WHERE nmv__nationality.ID_nationality = nmv__perpetrator.ID_nationality_1938)');
 
 $perpetratorsFilterForm->addField('separator-qualification', STATIC_TEXT, '<br><hr>');
@@ -86,7 +86,7 @@ $perpetratorsFilterForm->addField('occupation', TEXT, 100)
 $perpetratorsFilterForm->addField('ID_perp_class', SELECT)
   ->setLabel('Classification e.g. physician')
   ->addOption(NO_VALUE, 'all classifications')
-  ->addOptionsFromTable('nmv__perpetrator_classification', 'ID_perp_class', 'english');
+  ->addOptionsFromTable('nmv__perpetrator_classification', 'ID_perp_class', 'classification');
 
 $perpetratorsFilterForm->addField('career_history', TEXT, 100)
   ->setLabel('Career history (keyword)');

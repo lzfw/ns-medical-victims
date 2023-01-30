@@ -47,7 +47,7 @@ if ($victim_id) {
 
         // query: get experiment data (victim)
         $querystring_v = "SELECT ve.ID_vict_exp AS ID_vict_exp, ve.experiment_duration AS duration, ve.age_experiment_start AS age,
-                            COALESCE(e.experiment_title, 'unspecified') AS title, c.english AS classification, REPLACE(GROUP_CONCAT(i.institution_name SEPARATOR '<br>'), ' ', '&nbsp;') AS institution,
+                            COALESCE(e.experiment_title, 'unspecified') AS title, c.classification, REPLACE(GROUP_CONCAT(i.institution_name SEPARATOR '<br>'), ' ', '&nbsp;') AS institution,
                             ve.ID_experiment AS ID_experiment
                         FROM nmv__victim_experiment ve
                         LEFT JOIN nmv__experiment e                 ON e.ID_experiment = ve.ID_experiment
@@ -113,7 +113,7 @@ if ($victim_id) {
 
       // query: get experiment data (prisoner assistant)
       $querystring_pa = "SELECT pae.ID_pa_exp AS ID_pa_exp, pae.experiment_duration AS duration, pae.age_experiment_start AS age,
-                          COALESCE(e.experiment_title, 'unspecified') AS title, c.english AS classification, REPLACE(GROUP_CONCAT(i.institution_name SEPARATOR '<br>'), ' ', '&nbsp;') AS institution,
+                          COALESCE(e.experiment_title, 'unspecified') AS title, c.classification, REPLACE(GROUP_CONCAT(i.institution_name SEPARATOR '<br>'), ' ', '&nbsp;') AS institution,
                           pae.ID_experiment AS ID_experiment, pa.was_prisoner_assistant AS role
                       FROM nmv__prisoner_assistant_experiment pae
                       LEFT JOIN nmv__experiment e                 ON e.ID_experiment = pae.ID_experiment
@@ -207,16 +207,16 @@ if ($experiment_id) {
         // query: get data of the victims of the experiment
 
         $querystring_items = "SELECT
-                                  v.ID_victim, ve.ID_vict_exp, s.english AS survival, v.surname AS surname, v.first_names,
-                                  v.birth_year, bc.english AS birth_country,
-                                  n.english AS nationality_1938,
-                                  et.english AS ethnic_group, ve.exp_start_day, ve.exp_start_month, ve.exp_start_year
+                                  v.ID_victim, ve.ID_vict_exp, s.survival, v.surname AS surname, v.first_names,
+                                  v.birth_year, bc.country AS birth_country,
+                                  n.nationality AS nationality_1938,
+                                  et.ethnic_group, ve.exp_start_day, ve.exp_start_month, ve.exp_start_year
                               FROM nmv__victim_experiment ve
                               LEFT JOIN nmv__victim v                    ON v.ID_victim = ve.ID_victim
                               LEFT JOIN nmv__survival s                  ON s.ID_survival = ve.ID_survival
                             	LEFT JOIN nmv__country bc                  ON bc.ID_country = v.ID_birth_country
-                            	LEFT JOIN nmv__nationality n               ON n.ID_nationality = v.nationality_1938
-                            	LEFT JOIN nmv__ethnic_group et              ON et.ID_ethnic_group = v.ethnic_group
+                            	LEFT JOIN nmv__nationality n               ON n.ID_nationality = v.ID_nationality_1938
+                            	LEFT JOIN nmv__ethnic_group et              ON et.ID_ethnic_group = v.ID_ethnic_group
                               WHERE ve.ID_experiment = $experiment_id";
 
         // Gesamtzahl der Suchergebnisse feststellen

@@ -30,7 +30,7 @@ if ($victim_id) {
                 concat(
                   IFNULL(LEFT(i.institution_name, 150), '#'),' - ',
                   IFNULL(LEFT(i.location,40), '#'),' - ',
-                  IFNULL(c.english, '#')) institution,
+                  IFNULL(c.country, '#')) institution,
                 h.institution other_institution, IF(h.hosp_has_photo, 'yes', '-') AS photo,
                 CONCAT_WS('.', IFNULL(h.date_entry_day, '-'), IFNULL(h.date_entry_month, '-'), IFNULL(h.date_entry_year, '-')) date
         FROM nmv__med_history_hosp h
@@ -71,7 +71,7 @@ if ($victim_id) {
 
         // query: get brain research data
         $querystring = "
-        SELECT h.ID_med_history_brain id, concat(IFNULL(i.institution_name, '#'),' - ',IFNULL(i.location, '#'),' - ',IFNULL(c.english, '#')) institution,
+        SELECT h.ID_med_history_brain id, concat(IFNULL(i.institution_name, '#'),' - ',IFNULL(i.location, '#'),' - ',IFNULL(c.country, '#')) institution,
             CONCAT_WS('.', IFNULL(h.brain_report_day, '-'), IFNULL(h.brain_report_month, '-'), IFNULL(h.brain_report_year, '-')) date,
             IF(h.brain_report_has_photo, 'yes', '-') AS photo
         FROM nmv__med_history_brain h
@@ -112,10 +112,10 @@ if ($victim_id) {
 
         // query: get brain tissue data
         $querystring = "
-        SELECT h.ID_med_history_tissue id, f.english tissue_form,
-            s.english tissue_state, h.ref_no ref_no,
+        SELECT h.ID_med_history_tissue id, f.tissue_form,
+            s.tissue_state, h.ref_no ref_no,
             CONCAT_WS('.', IFNULL(h.since_day, '-'), IFNULL(h.since_month, '-'), IFNULL(h.since_year, '-')) date,
-            CONCAT(IFNULL(i.institution_name,'unknown'), ' - ', IFNULL(i.location, '-'), ' - ', IFNULL(c.english, '-')) AS institution
+            CONCAT(IFNULL(i.institution_name,'unknown'), ' - ', IFNULL(i.location, '-'), ' - ', IFNULL(c.country, '-')) AS institution
         FROM nmv__med_history_tissue h
         LEFT JOIN nmv__tissue_form f ON f.ID_tissue_form = h.ID_tissue_form
         LEFT JOIN nmv__tissue_state s ON s.ID_tissue_state = h.ID_tissue_state

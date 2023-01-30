@@ -16,7 +16,7 @@ class View_List_NMV_Survival_Table extends View_List {
 
 	public function get_HTML ($results) {
 	    global $dbi;
-		$this->addSortOption ('english','english','ASC','DESC');
+		$this->addSortOption ('survival','survival','ASC','DESC');
 		$this->addSortOption ('ID', 'ID_survival', 'ASC', 'DESC');
 
 
@@ -30,10 +30,10 @@ class View_List_NMV_Survival_Table extends View_List {
 
 		if ($results->num_rows>0) {
 		    $html .= '<table class="grid">';
-		    $html .= '<th>english</th><th>ID</th><th>Options</th>';
+		    $html .= '<th>survival</th><th>ID</th><th>Options</th>';
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
-			        <td>' . htmlentities($item->english, ENT_HTML5) . '</td>
+			        <td>' . htmlentities($item->survival, ENT_HTML5) . '</td>
               <td>' . htmlentities($item->ID_survival, ENT_HTML5) . '</td>
 			        <td>' . str_replace('{ID_survival}', $item->ID_survival, $options) . '</td>
 			    </tr>';

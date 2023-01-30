@@ -6,13 +6,13 @@ $dbi->requireUserPermission ('admin');
 $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 
 // browsing options
-$dbi->setUserVar ('sort',getUrlParameter('sort'),'english');
+$dbi->setUserVar ('sort',getUrlParameter('sort'),'tissue_form');
 $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 
 // Select-Klauseln erstellen
 $querystring_count = 'SELECT COUNT(*) AS total FROM nmv__tissue_form'; // für Treffer gesamt
-$querystring_items = 'SELECT ID_tissue_form, english
+$querystring_items = 'SELECT ID_tissue_form, tissue_form
                       FROM nmv__tissue_form';
 
 // Gesamtanzahl der Suchergebnisse feststellen

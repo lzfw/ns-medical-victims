@@ -86,8 +86,8 @@ $dbi->setUserVar('querystring',implode('&',$query));
 
 // make select-clauses part one
 $querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
-																				v.birth_year, bc.english AS birth_country, v.birth_place, v.gender,
-																				n.english AS nationality_1938, et.english AS ethnic_group,
+																				v.birth_year, bc.country AS birth_country, v.birth_place, v.gender,
+																				n.nationality AS nationality_1938, et.ethnic_group,
                                         ve.exp_start_year, ve.experiment_duration, ve.exp_end_year, ve.ID_experiment,
                                         e.experiment_title, GROUP_CONCAT(DISTINCT inst.institution_name SEPARATOR "\n") AS institution_name, e.location_details
 												FROM nmv__victim v
@@ -96,7 +96,7 @@ $querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
 												LEFT JOIN nmv__experiment e 							ON ve.ID_experiment = e.ID_experiment
 												LEFT JOIN nmv__experiment_institution ei 	ON ei.ID_experiment = ve.ID_experiment
                         LEFT JOIN nmv__institution inst    				ON inst.ID_institution = ei.ID_institution
-												LEFT JOIN nmv__imprisonment i						ON v.ID_victim = i.ID_victim
+												LEFT JOIN nmv__imprisonment i							ON v.ID_victim = i.ID_victim
 												LEFT JOIN nmv__nationality n        			ON n.ID_nationality = v.ID_nationality_1938
 												LEFT JOIN nmv__ethnic_group et       			ON et.ID_ethnic_group = v.ID_ethnic_group
 												LEFT JOIN nmv__med_history_brain b				ON v.ID_victim = b.ID_victim
@@ -177,11 +177,11 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 // ausgabe der suchtermini
 $suche_nach = array();
 if (isset($_GET['ID_birth_country']) && $_GET['ID_birth_country']) {
-	$search_term = $dbi->connection->query('SELECT english FROM nmv__country WHERE ID_country = '.$_GET['ID_birth_country'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT country FROM nmv__country WHERE ID_country = '.$_GET['ID_birth_country'])->fetch_row();
 	$suche_nach[] = 'country of birth = '.$search_term[0];
 }
 if (isset($_GET['ID_nationality_1938']) && $_GET['ID_nationality_1938']) {
-	$search_term = $dbi->connection->query('SELECT english  FROM nmv__nationality WHERE ID_nationality = '.$_GET['ID_nationality_1938'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT nationality  FROM nmv__nationality WHERE ID_nationality = '.$_GET['ID_nationality_1938'])->fetch_row();
 	$suche_nach[] = 'nationality in 1938 = '.$search_term[0];
 }
 

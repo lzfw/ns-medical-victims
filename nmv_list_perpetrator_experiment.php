@@ -46,7 +46,7 @@ if ($perpetrator_id) {
         // query: get experiment data
         $querystring = "
         SELECT pe.ID_perp_exp ID_perp_exp,
-            COALESCE(e.experiment_title, 'unspecified') title, c.english classification,
+            COALESCE(e.experiment_title, 'unspecified') title, c.classification,
             pe.ID_experiment ID_experiment
         FROM nmv__perpetrator_experiment pe
         LEFT JOIN nmv__experiment e ON e.ID_experiment = pe.ID_experiment

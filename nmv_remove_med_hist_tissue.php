@@ -41,8 +41,8 @@ function get_victim($dbi, $id) {
 }
 
 function get_med_hist_tissue($dbi, $id) {
-    $sql = "SELECT h.ID_med_history_tissue id, f.english tissue_form,
-            s.english tissue_state, i.institution_name AS institution,
+    $sql = "SELECT h.ID_med_history_tissue id, f.tissue_form,
+            s.tissue_state, i.institution_name AS institution,
             CONCAT_WS('-', h.since_year, h.since_month, h.since_day) date
         FROM nmv__med_history_tissue h
         LEFT JOIN nmv__tissue_form f ON f.ID_tissue_form = h.ID_tissue_form

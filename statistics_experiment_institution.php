@@ -20,23 +20,23 @@ $nationality_select->addField ('ID_nationality',SELECT)
   ->setLabel('Nationality (1938)')
   ->addOption(NO_VALUE, 'all victims')
   ->addOption(999, 'no nationality given')
-  ->addOptionsFromQuery(" SELECT n.ID_nationality AS value, n.english AS title
+  ->addOptionsFromQuery(" SELECT n.ID_nationality AS value, n.nationality AS title
                           FROM nmv__nationality n
                           WHERE EXISTS (SELECT v.ID_victim
                                         FROM nmv__victim v
                                         WHERE v.ID_nationality_1938 = n.ID_nationality)
-                          ORDER BY english");
+                          ORDER BY nationality");
 
 $nationality_select
 ->addButton(SUBMIT,'OK');
 
 //get experiment-data
 $nationality_id = (int) getUrlParameter('ID_nationality', 0);
-$nationality_query = "SELECT english
+$nationality_query = "SELECT nationality
           FROM nmv__nationality
           WHERE ID_nationality=$nationality_id";
 $query_item = $dbi->connection->query($nationality_query)->fetch_array();
-$nationality_english = $query_item['english'];
+$nationality = $query_item['nationality'];
 
 if(is_int($nationality_id) && $nationality_id != 999):
   $where_clause = "v.ID_nationality_1938 = $nationality_id";
@@ -118,7 +118,7 @@ $layout
 						<br> The total number in this table therefore does not correspond to the number of victims in the database, but to the number of victims linked to an experiment.
 					</p>
           <br><hr><hr><br>
-          <h2> " . $nationality_english . " Victims </h2>"
+          <h2> " . $nationality . " Victims </h2>"
 					// Tabelle bauen
 					.$dbi->getListView('statistics_experiment_institution',$query_items)
           ."<br><br>"

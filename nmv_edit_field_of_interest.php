@@ -10,9 +10,9 @@ $form
 	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
 	->setPrimaryKeyName('ID_foi');
 $form->addfield ('ID_foi', PROTECTED_TEXT)
-    ->setLabel ('field of interest ID');
-$form->addField ('english',TEXT,250)
-    ->setLabel ('english');
+    ->setLabel ('ID field of interest');
+$form->addField ('field_of_interest',TEXT,250)
+    ->setLabel ('field of interest');
 
 
 

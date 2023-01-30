@@ -11,8 +11,8 @@ $form
 	->setPrimaryKeyName('ID_disability');
 $form->addfield ('ID_disability', PROTECTED_TEXT)
     ->setLabel ('disability ID');
-$form->addField ('english',TEXT,250)
-    ->setLabel ('english');
+$form->addField ('disability',TEXT,250)
+    ->setLabel ('disability');
 
 
 $form

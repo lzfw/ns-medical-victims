@@ -10,9 +10,9 @@ $form
 	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
 	->setPrimaryKeyName('ID_perp_class');
 $form->addfield ('ID_perp_class', PROTECTED_TEXT)
-    ->setLabel ('classification ID');
-$form->addField ('english',TEXT,250)
-    ->setLabel ('english');
+    ->setLabel ('OD classification');
+$form->addField ('classification',TEXT,250)
+    ->setLabel ('classification');
 
 
 $form

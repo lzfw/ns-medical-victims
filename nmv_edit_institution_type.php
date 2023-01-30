@@ -10,9 +10,9 @@ $form
 	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
 	->setPrimaryKeyName('ID_institution_type');
 $form->addfield ('ID_institution_type', PROTECTED_TEXT)
-    ->setLabel ('institution type ID');
-$form->addField ('english',TEXT,250)
-    ->setLabel ('english');
+    ->setLabel ('ID institution type');
+$form->addField ('institution_type',TEXT,250)
+    ->setLabel ('institution type');
 
 
 $form

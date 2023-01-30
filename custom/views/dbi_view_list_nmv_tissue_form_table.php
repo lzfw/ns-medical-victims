@@ -16,7 +16,7 @@ class View_List_NMV_Tissue_Form_Table extends View_List {
 
 	public function get_HTML ($results) {
 	    global $dbi;
-		$this->addSortOption ('english','english','ASC','DESC');
+		$this->addSortOption ('tissue form','tissue_form','ASC','DESC');
 		$this->addSortOption ('ID', 'ID_tissue_form', 'ASC', 'DESC');
 
 
@@ -30,10 +30,10 @@ class View_List_NMV_Tissue_Form_Table extends View_List {
 
 		if ($results->num_rows>0) {
 		    $html .= '<table class="grid">';
-		    $html .= '<th>english</th><th>ID</th><th>Options</th>';
+		    $html .= '<th>tissue form</th><th>ID</th><th>Options</th>';
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
-			        <td>' . htmlentities($item->english, ENT_HTML5) . '</td>
+			        <td>' . htmlentities($item->tissue_form, ENT_HTML5) . '</td>
               <td>' . htmlentities($item->ID_tissue_form, ENT_HTML5) . '</td>
 			        <td>' . str_replace('{ID_tissue_form}', $item->ID_tissue_form, $options) . '</td>
 			    </tr>';

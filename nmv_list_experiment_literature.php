@@ -31,7 +31,7 @@ if ($literature_id) {
         // query: get hosp data
         $querystring = "
         SELECT el.ID_exp_lit ID_exp_lit, el.pages pages, el.ID_experiment ID_experiment,
-            COALESCE(e.experiment_title, 'unspecified') title, c.english classification
+            COALESCE(e.experiment_title, 'unspecified') title, c.classification
         FROM nmv__experiment_literature el
         LEFT JOIN nmv__experiment e ON e.ID_experiment = el.ID_experiment
         LEFT JOIN nmv__literature l ON l.ID_literature = el.ID_literature

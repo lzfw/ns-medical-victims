@@ -36,7 +36,7 @@ $form
 $form
   ->addField('ID_foi', MULTICHECKBOX)
   ->setLabel('Field of Interest')
-  ->addOptionsFromTable('nmv__field_of_interest', 'ID_foi', 'english', $tag_array);
+  ->addOptionsFromTable('nmv__field_of_interest', 'ID_foi', 'field_of_interest', $tag_array);
 
 $form
   ->addButton(SUBMIT, 'Update Tags');

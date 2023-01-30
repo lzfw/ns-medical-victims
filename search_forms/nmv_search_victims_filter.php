@@ -28,7 +28,7 @@ $victimsVariableForm->addField('ID_birth_country', SELECT)
   ->setLabel('country of birth')
   ->addOption(NO_VALUE,'all countries')
   ->addOption('NULL')
-  ->addOptionsFromTable('nmv__country', 'ID_country', 'english',
+  ->addOptionsFromTable('nmv__country', 'ID_country', 'country',
                         'EXISTS (	SELECT *
                                   FROM nmv__victim
                                   WHERE nmv__country.ID_country = nmv__victim.ID_birth_country)');
@@ -57,7 +57,7 @@ $victimsVariableForm->addField('ID_death_country', SELECT)
   ->setLabel('country of death')
   ->addOption(NO_VALUE,'all countries')
   ->addOption('NULL')
-  ->addOptionsFromTable('nmv__country', 'ID_country', 'english',
+  ->addOptionsFromTable('nmv__country', 'ID_country', 'country',
                         'EXISTS (	SELECT *
                                   FROM nmv__victim
                                   WHERE nmv__country.ID_country = nmv__victim.ID_death_country)');
@@ -80,7 +80,7 @@ $victimsVariableForm->addField('ID_religion', SELECT)
   ->setLabel('religion')
   ->addOption(NO_VALUE,'all religions')
   ->addOption('NULL')
-  ->addOptionsFromTable('nmv__religion', 'ID_religion', 'english',
+  ->addOptionsFromTable('nmv__religion', 'ID_religion', 'religion',
                         'EXISTS (	SELECT *
                                   FROM nmv__victim
                                   WHERE nmv__religion.ID_religion = nmv__victim.ID_religion)');
@@ -89,7 +89,7 @@ $victimsVariableForm->addField('ID_ethnic_group', SELECT)
   ->setLabel('ethnic group')
   ->addOption(NO_VALUE,'all ethnic groups')
   ->addOption('NULL')
-  ->addOptionsFromTable('nmv__ethnic_group', 'ID_ethnic_group', 'english',
+  ->addOptionsFromTable('nmv__ethnic_group', 'ID_ethnic_group', 'ethnic_group',
                         'EXISTS (	SELECT *
                                   FROM nmv__victim
                                   WHERE nmv__ethnic_group.ID_ethnic_group = nmv__victim.ID_ethnic_group)');
@@ -98,7 +98,7 @@ $victimsVariableForm->addField('ID_nationality_1938', SELECT)
   ->setLabel('nationality in 1938')
   ->addOption(NO_VALUE,'all nationalities')
   ->addOption('NULL')
-  ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'english',
+  ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'nationality',
                         'EXISTS (	SELECT *
                                   FROM nmv__victim
                                   WHERE nmv__nationality.ID_nationality = nmv__victim.ID_nationality_1938)');
@@ -107,7 +107,7 @@ $victimsVariableForm->addField('ID_education', SELECT)
   ->setLabel('education')
   ->addOption(NO_VALUE,'all education status')
   ->addOption('NULL')
-  ->addOptionsFromTable('nmv__education', 'ID_education', 'english',
+  ->addOptionsFromTable('nmv__education', 'ID_education', 'education',
                         'EXISTS (	SELECT *
                                   FROM nmv__victim
                                   WHERE nmv__education.ID_education = nmv__victim.ID_education)');
@@ -116,7 +116,7 @@ $victimsVariableForm->addField('ID_occupation', SELECT)
   ->setLabel('occupation')
   ->addOption(NO_VALUE,'all occupations')
   ->addOption('NULL')
-  ->addOptionsFromTable('nmv__occupation', 'ID_occupation', 'english',
+  ->addOptionsFromTable('nmv__occupation', 'ID_occupation', 'occupation',
                         'EXISTS (	SELECT *
                                   FROM nmv__victim
                                   WHERE nmv__occupation.ID_occupation = nmv__victim.ID_occupation)');
@@ -127,7 +127,7 @@ $victimsVariableForm->addField('ID_arrest_country', SELECT)
   ->setLabel('country of arrest')
   ->addOption(NO_VALUE,'all countries')
   ->addOption('NULL')
-  ->addOptionsFromTable('nmv__country', 'ID_country', 'english',
+  ->addOptionsFromTable('nmv__country', 'ID_country', 'country',
                         'EXISTS (	SELECT *
                                   FROM nmv__victim
                                   WHERE nmv__country.ID_country = nmv__victim.ID_arrest_country)');
@@ -151,7 +151,7 @@ if (!($dbi->checkUserPermission('mpg'))) :
   $victimsVariableForm->addField('ID_foi', SELECT)
       ->setLabel('experiment - fields of interest')
       ->addOption(NO_VALUE, 'all fields of interest')
-      ->addOptionsFromTable('nmv__field_of_interest', 'ID_foi', 'english');
+      ->addOptionsFromTable('nmv__field_of_interest', 'ID_foi', 'field_of_interest');
 
 endif;
 
@@ -159,7 +159,7 @@ $victimsVariableForm->addField('ID_classification', SELECT)
   ->setLabel('imprisonment classification')
   ->addOption(NO_VALUE,'all classifications')
   ->addOption('NULL', 'imprisonments without classification entry')
-  ->addOptionsFromTable('nmv__victim_classification', 'ID_classification', 'english');
+  ->addOptionsFromTable('nmv__victim_classification', 'ID_classification', 'classification');
 
 $victimsVariableForm->addField('ID_imprisonment_institution', SELECT)
   ->setLabel('imprisonment institution')
@@ -181,7 +181,7 @@ $victimsVariableForm->addField('ID_evaluation_status', SELECT)
   ->setLabel('evaluation status')
   ->addOption(NO_VALUE,'all evaluation status')
   ->addOption('NULL')
-  ->addOptionsFromTable('nmv__victim_evaluation_status', 'ID_evaluation_status', 'english');
+  ->addOptionsFromTable('nmv__victim_evaluation_status', 'ID_evaluation_status', 'status');
 
 $victimsVariableForm->addField('mpg-text', SUBHEADLINE, '<br> &nbsp; MPG-project-related &nbsp; ');
 
@@ -206,12 +206,12 @@ $victimsVariableForm->addField('tissue_institution', SELECT)
 $victimsVariableForm->addField('ID_tissue_form', SELECT)
   ->setLabel('tissue - form')
   ->addOption(NO_VALUE,'all forms')
-  ->addOptionsFromTable('nmv__tissue_form', 'ID_tissue_form', 'english');
+  ->addOptionsFromTable('nmv__tissue_form', 'ID_tissue_form', 'tissue_form');
 
 $victimsVariableForm->addField('ID_tissue_state', SELECT)
   ->setLabel('tissue - state')
   ->addOption(NO_VALUE,'all states')
-  ->addOptionsFromTable('nmv__tissue_state', 'ID_tissue_state', 'english');
+  ->addOptionsFromTable('nmv__tissue_state', 'ID_tissue_state', 'tissue_state');
 
 $victimsVariableForm->addField('ref_no_tissue', TEXT, 120)
   ->setLabel('tissue - Reference Number');
@@ -280,7 +280,7 @@ if (!($dbi->checkUserPermission('mpg'))) :
   $victimsVariableForm->addField('ID_nationality_after_1945', SELECT)
     ->setLabel('after 1945 - nationality')
     ->addOption(NO_VALUE,'all nationalities')
-    ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'english',
+    ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'nationality',
                           'EXISTS (SELECT *
                                     FROM nmv__victim
                                     WHERE nmv__nationality.ID_nationality = nmv__victim.ID_nationality_after_1945)');

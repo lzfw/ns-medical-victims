@@ -12,10 +12,10 @@ $dbi->addBreadcrumb ('Perpetrators','nmv_list_perpetrators');
 // query: get perpetrator data
 $querystring = "SELECT first_names, surname, titles, mpg_project,
                  CONCAT(IFNULL(birth_day , '-'), '.', IFNULL(birth_month , '-'), '.', IFNULL(birth_year, '-')) birth,
-                 birth_place, bc.english as birth_country, death_place, dc.english as death_country,
+                 birth_place, bc.country as birth_country, death_place, dc.country as death_country,
                  CONCAT(IFNULL(death_day , '-'), '.', IFNULL(death_month , '-'), '.', IFNULL(death_year, '-')) death,
-                 gender, r.english as religion,
-                 n.english as nationality, c.english as classification, occupation,
+                 gender, r.religion,
+                 n.nationality as nationality, c.classification, occupation,
                  career_history, leopoldina_member, leopoldina_since_when, nsdap_member, nsdap_since_when,
                  ss_member, ss_since_when, sa_member, sa_since_when,
                  other_nsdap_organisations_member, details_all_memberships,

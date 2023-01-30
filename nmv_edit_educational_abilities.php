@@ -11,8 +11,8 @@ $form
 	->setPrimaryKeyName('ID_educational_abilities');
 $form->addfield ('ID_educational_abilities', PROTECTED_TEXT)
     ->setLabel ('educational abilities ID');
-$form->addField ('english',TEXT,250)
-    ->setLabel ('english');
+$form->addField ('educational_abilities',TEXT,250)
+    ->setLabel ('educational_abilities');
 
 $form
 	->addButton (SUBMIT)

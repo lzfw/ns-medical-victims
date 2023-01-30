@@ -23,11 +23,11 @@ $form->addField('location',TEXT,250)
 $form->addField('ID_country',SELECT)
     ->setLabel('Present Country')
 		->addOption(NO_VALUE, 'please choose')
-		->addOptionsFromTable('nmv__country', 'ID_country', 'english');
+		->addOptionsFromTable('nmv__country', 'ID_country', 'country');
 $form->addField('ID_institution_type',SELECT, REQUIRED)
     ->setLabel('Type')
     ->addOption(NO_VALUE,'please choose')
-    ->addOptionsFromTable('nmv__institution_type', 'ID_institution_type', 'english');
+    ->addOptionsFromTable('nmv__institution_type', 'ID_institution_type', 'institution_type');
 $form->addField('notes',TEXTAREA)
     ->setClass('keyboardInput')
     ->setLabel('Notes');

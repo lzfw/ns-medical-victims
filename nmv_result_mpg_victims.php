@@ -74,7 +74,8 @@ $dbi->setUserVar('querystring',implode('&',$query));
 
 // make select-clauses part one
 $querystring_items = 'SELECT DISTINCT v.ID_victim, v.surname, v.first_names, v.birth_year,
-										 v.birth_place, bc.english AS birth_country, n.english AS nationality_1938, et.english AS ethnic_group
+										 v.birth_place, bc.country AS birth_country, n.nationality AS nationality_1938,
+										 et.ethnic_group
 											FROM nmv__victim v
 											LEFT JOIN nmv__country bc							ON bc.ID_country = v.ID_birth_country
 											LEFT JOIN nmv__nationality n 					ON n.ID_nationality = v.ID_nationality_1938

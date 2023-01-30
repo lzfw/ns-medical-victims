@@ -22,17 +22,17 @@ $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 
 //Query gender / nationality
 $querystring_items = 'SELECT A.nationality as nationality, A.number as anumber, B.number as bnumber
-                      FROM	(SELECT n.english as nationality, COUNT(v.ID_victim) as number
+                      FROM	(SELECT n.nationality, COUNT(v.ID_victim) as number
                               FROM nmv__victim v
                               LEFT JOIN nmv__nationality n on v.ID_nationality_1938 = n.ID_nationality
                               WHERE v.was_prisoner_assistant != "prisoner assistant only"
-                              GROUP BY n.english) A
+                              GROUP BY n.nationality) A
                             LEFT JOIN
-                            	(SELECT n.english as nationality, COUNT(v.ID_victim) as number
+                            	(SELECT n.nationality, COUNT(v.ID_victim) as number
                               FROM nmv__victim v
                               LEFT JOIN nmv__nationality n on v.ID_nationality_1938 = n.ID_nationality
                               WHERE v.mpg_project = -1 AND v.was_prisoner_assistant != "prisoner assistant only"
-                              GROUP BY n.english) B
+                              GROUP BY n.nationality) B
                             ON A.nationality = B.nationality OR (A.nationality IS NULL AND B.nationality IS NULL)';
 $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 

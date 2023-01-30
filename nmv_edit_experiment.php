@@ -17,7 +17,7 @@ $form->addField('experiment_title', TEXT, 255, REQUIRED)
 $form->addField('ID_exp_classification' ,SELECT)
     ->setLabel('Classification')
     ->addOption(NO_VALUE, 'please choose')
-    ->addOptionsFromTable( 'nmv__experiment_classification', 'ID_exp_classification', 'english');
+    ->addOptionsFromTable( 'nmv__experiment_classification', 'ID_exp_classification', 'classification');
 $form->addField('ID_institution', SELECT)
     ->setLabel('Institution')
     ->addOption(NO_VALUE, 'please choose')

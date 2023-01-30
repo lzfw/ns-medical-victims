@@ -34,7 +34,7 @@ if ($victim_id) {
     $victim_name = $victim->victim_name;
 }
 // query: get array of classification for this imprisonment
-$tagged = $dbi->connection->query("SELECT ic.ID_classification, vc.english
+$tagged = $dbi->connection->query("SELECT ic.ID_classification, vc.classification
                                    FROM nmv__imprisonment_classification ic
                                    LEFT JOIN nmv__victim_classification vc ON vc.ID_classification = ic.ID_classification
                                    WHERE ic.ID_imprisonment = $imprisonment_id");

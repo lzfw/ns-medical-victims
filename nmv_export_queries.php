@@ -2,7 +2,7 @@
 
 $institution_query_start =
 "SELECT DISTINCT i.ID_institution, i.institution_name, i.location,
-                c.english AS country, t.english AS institution_type, i.notes
+                c.country AS country, t.institution_type, i.notes
 FROM nmv__institution i
 LEFT JOIN nmv__country c ON c.ID_country = i.ID_country
 LEFT JOIN nmv__institution_type t ON t.ID_institution_type = i.ID_institution_type";
@@ -36,10 +36,10 @@ $literature_query_end = "GROUP BY l.ID_literature";
 $perpetrator_query_start =
 "SELECT p.ID_perpetrator, p.surname, p.first_names, p.titles,
 CONCAT(IFNULL(p.birth_day, '-'), '.', IFNULL(p.birth_month, '-'), '.', IFNULL(p.birth_year, '-')) AS birth_date,
-p.birth_place, bc.english AS birth_country,
+p.birth_place, bc.country AS birth_country,
 CONCAT(IFNULL(p.death_day, '-'), '.', IFNULL(p.death_month, '-'), '.', IFNULL(p.death_year, '-')) AS death_date,
-p.death_place, dc.english AS death_country,
-p.gender, r.english AS religion, n.english AS nationality_1938, p.occupation, pc.english AS perp_classification,
+p.death_place, dc.country AS death_country,
+p.gender, r.religion, n.nationality AS nationality_1938, p.occupation, pc.classification AS perp_classification,
 p.career_history,
 GROUP_CONCAT(DISTINCT
      'ID qualification: ', q.ID_qualification, '  --  ',
@@ -93,7 +93,7 @@ $perpetrator_query_end = "GROUP BY p.ID_perpetrator";
 
 $experiment_query_start =
 "SELECT e.ID_experiment, e.experiment_title, IF(e.confirmed_experiment = 1, 'yes', ' - ') AS confirmed_experiment,
-        ec.english AS classification, e.funding, GROUP_CONCAT(DISTINCT f.english SEPARATOR ', ') AS fields_of_interest,
+        ec.classification, e.funding, GROUP_CONCAT(DISTINCT f.field_of_interest SEPARATOR ', ') AS fields_of_interest,
         e.objective, GROUP_CONCAT(DISTINCT 'ID ', i.ID_institution, ' - ', i.institution_name SEPARATOR ' \n ') AS institution,
         e.location_details, e.notes_location, e.number_victims_estimate, e.number_victims_remark, e.number_fatalities_estimate,
         CONCAT(IFNULL(e.start_day, '-'), '.', IFNULL(e.start_month, '-'), '.', IFNULL(e.start_year, '-')) AS start_date,
@@ -122,8 +122,8 @@ LEFT JOIN nmv__experiment_literature el ON el.ID_experiment = e.ID_experiment
 LEFT JOIN nmv__literature l ON l.ID_literature = el.ID_literature
 LEFT JOIN nmv__experiment_source es ON es.ID_experiment = e.ID_experiment
 LEFT JOIN nmv__source s ON s.ID_source = es.ID_source
-LEFT JOIN nmv__perpetrator_experiment pe		ON e.ID_experiment = pe.ID_experiment
-LEFT JOIN nmv__perpetrator p								ON pe.ID_perpetrator = p.ID_perpetrator";
+LEFT JOIN nmv__perpetrator_experiment pe    ON e.ID_experiment = pe.ID_experiment
+LEFT JOIN nmv__perpetrator p                ON pe.ID_perpetrator = p.ID_perpetrator";
 $experiment_query_end = "GROUP BY e.ID_experiment";
 
 
@@ -131,26 +131,26 @@ $experiment_query_end = "GROUP BY e.ID_experiment";
 
 $victim_query_start =
 "SELECT v.ID_victim, v.surname,
-GROUP_CONCAT(DISTINCT vn.victim_name, IF(nt.english IS NULL, 'null', CONCAT(' (', nt.english, ')') ) SEPARATOR ', ') AS alternative_surnames,
+GROUP_CONCAT(DISTINCT vn.victim_name, IF(nt.nametype IS NULL, 'null', CONCAT(' (', nt.nametype, ')') ) SEPARATOR ', ') AS alternative_surnames,
 v.first_names,
-GROUP_CONCAT(DISTINCT vn.victim_first_names, IF(nt.english IS NULL, 'null', CONCAT(' (', nt.english, ')') ) SEPARATOR ', ') AS alternative_firstnames, IF(v.twin=-1, 'yes', NULL) AS twin,
+GROUP_CONCAT(DISTINCT vn.victim_first_names, IF(nt.nametype IS NULL, 'null', CONCAT(' (', nt.nametype, ')') ) SEPARATOR ', ') AS alternative_firstnames, IF(v.twin=-1, 'yes', NULL) AS twin,
 IF(v.birth_day IS NULL AND v.birth_month IS NULL AND v.birth_year IS NULL, NULL,
 CONCAT(IFNULL(v.birth_day, '-'), '.', IFNULL(v.birth_month, '-'), '.', IFNULL(v.birth_year, '-'))) AS birth_date_DMY,
-v.birth_place, bc.english AS birth_country, n1938.english AS nationality_1938,
+v.birth_place, bc.country AS birth_country, n1938.nationality AS nationality_1938,
 IF(v.death_day IS NULL AND v.death_month IS NULL AND v.death_year IS NULL, NULL,
 CONCAT(IFNULL(v.death_day, '-'), '.', IFNULL(v.death_month, '-'), '.', IFNULL(v.death_year, '-'))) AS death_date_DMY,
 v.death_place,
 CONCAT(IFNULL(di.institution_name, ''), ' - ', IFNULL(di.location, ''), ' - ', IFNULL(v.death_institution, '')) AS death_institution,
-dc.english AS death_country, v.cause_of_death, v.gender, f.english AS family_status, r.english AS religion,
-eg.english AS ethnic_group, ed.english AS highest_education, o.english AS occupation, v.occupation_details,
-v.arrest_prehistory, v.arrest_location, ac.english AS arrest_country, v.arrest_history,
+dc.country AS death_country, v.cause_of_death, v.gender, f.marital_family_status, r.religion,
+eg.ethnic_group, ed.education AS highest_education, o.occupation, v.occupation_details,
+v.arrest_prehistory, v.arrest_location, ac.country AS arrest_country, v.arrest_history,
 GROUP_CONCAT(DISTINCT
-	       'ID imprisonment: --', i.ID_imprisonment, '--',
-		IF(i.location IS NULL, '', CONCAT(', imprisonment location: --', i.location, '--')),
+         'ID imprisonment: --', i.ID_imprisonment, '--',
+    IF(i.location IS NULL, '', CONCAT(', imprisonment location: --', i.location, '--')),
     IF(i.ID_institution IS NULL, '', CONCAT(', institution of imprisonment: --', ii.institution_name, '--')),
-		IF(i.number IS NULL, '', CONCAT(', prisoner_number: --', i.number, '--')),
+    IF(i.number IS NULL, '', CONCAT(', prisoner_number: --', i.number, '--')),
     IF(vicla.classifications IS NULL, '', CONCAT(', prisoner classification(s): --', vicla.classifications, '--')),
-		IF(i.start_day IS NULL AND i.start_month IS NULL AND i.start_year IS NULL, '',
+    IF(i.start_day IS NULL AND i.start_month IS NULL AND i.start_year IS NULL, '',
       CONCAT(', date of imprisonment DMY: --', IFNULL(i.start_day, '-'), '.', IFNULL(i.start_month, '-'), '.', IFNULL(i.start_year, '-'), '--'))
                  SEPARATOR ' \n') AS  imprisonments,
 GROUP_CONCAT(DISTINCT
@@ -163,7 +163,7 @@ GROUP_CONCAT(DISTINCT
                 IF(ve.exp_end_day IS NULL AND ve.exp_end_month IS NULL AND ve.exp_end_year IS NULL, '',
                   CONCAT('END of experiment: --', IFNULL(ve.exp_end_day, '-'), '.', IFNULL(ve.exp_end_month, '-'), '.', IFNULL(ve.exp_end_year, '-'), '--, ')),
                 IF(ve.outcome_injuries IS NULL, '', CONCAT('outcome INJURIES: --', ve.outcome_injuries, '--, ')),
-                IF(s.english IS NULL, '', CONCAT('SURVIVAL of THIS experiment: --', s.english, '--, ')),
+                IF(s.survival IS NULL, '', CONCAT('SURVIVAL of THIS experiment: --', s.survival, '--, ')),
                 IF(ve.notes_perpetrator IS NULL, '', CONCAT('notes about PERPETRATOR: --', ve.notes_perpetrator, '--, ')),
                 IF(ve.notes IS NULL, '', CONCAT('NOTES concerning experiment: --', ve.notes, '--, ')),
                 IF(ve.narratives IS NULL, '', CONCAT('NARRATIVES concerning experiment: --', ve.narratives, '--'))
@@ -171,7 +171,7 @@ GROUP_CONCAT(DISTINCT
 GROUP_CONCAT(DISTINCT
                 'ID hospitalisation: --', h.ID_med_history_hosp, '--, ',
                 IF(ih.institution_name IS NULL AND h.institution IS NULL, '', CONCAT('INSTITUTION: --', IFNULL(ih.institution_name, ''), ', ', IFNULL(h.institution, ''), '--, ')),
-                IF(ioh.english IS NULL, '', CONCAT('institution order: --', ioh.english, '--, ')),
+                IF(ioh.institution_order IS NULL, '', CONCAT('institution order: --', ioh.institution_order, '--, ')),
                 IF(h.date_entry_day IS NULL AND h.date_entry_month IS NULL AND h.date_entry_year IS NULL, '',
                   CONCAT('Date ENTRY: --', IFNULL(h.date_entry_day, '-'), '.', IFNULL(h.date_entry_month, '-'), '.', IFNULL(h.date_entry_year, '-'), '--, ')),
                 IF(h.age_entry IS NULL, '', CONCAT('AGE at entry: --', h.age_entry, '--, ')),
@@ -181,8 +181,8 @@ GROUP_CONCAT(DISTINCT
                 IF(h.diagnosis IS NULL, '', CONCAT('DIAGNOSIS: --', h.diagnosis, '--, ')),
                 IF(ditah.hosp_diagnoses IS NULL, '', CONCAT('DIAGNOSIS TAGS: --', ditah.hosp_diagnoses, '--, ')),
                 IF(eh.educational_abilities IS NULL, '', CONCAT('EDUCATIONAL ABILITIES: --', eh.educational_abilities, '--, ')),
-                IF(bh.english IS NULL, '', CONCAT('BEHAVIOUR:-- ', bh.english, '--, ')),
-                IF(dih.english IS NULL, '', CONCAT('DISABILITY: --', dih.english, '--, ')),
+                IF(bh.behaviour IS NULL, '', CONCAT('BEHAVIOUR:-- ', bh.behaviour, '--, ')),
+                IF(dih.disability IS NULL, '', CONCAT('DISABILITY: --', dih.disability, '--, ')),
                 IF(h.autopsy_ref_no IS NULL, '', CONCAT('autopsy REF NO: --', h.autopsy_ref_no, '--, ')),
                 IF(h.notes IS NULL, '', CONCAT('hospitalisation NOTES: --', h.notes, '--, ')),
                 IF(h.hosp_has_photo = -1, 'medical record has photo', '')
@@ -200,21 +200,21 @@ GROUP_CONCAT(DISTINCT
                 IF(b.brain_report_has_photo = -1, 'brain report has photo', '')
                  SEPARATOR ' \n') AS 'Victim - Brain Report',
 GROUP_CONCAT(DISTINCT
-		'ID tissue: --', t.ID_med_history_tissue, '--, ',
+    'ID tissue: --', t.ID_med_history_tissue, '--, ',
                 IF(it.institution_name IS NULL, '', CONCAT('INSTITUTION: --', it.institution_name, '--, ')),
                 IF(t.since_day IS NULL AND t.since_month IS NULL AND t.since_year IS NULL, '',
                   CONCAT('in institution SINCE: --', IFNULL(t.since_day, '-'), '.', IFNULL(t.since_month, '-'), '.', IFNULL(t.since_year, '-'), '--, ')),
-                IF(ts.english IS NULL, '', CONCAT('tissue STATE: --', ts.english, '--, ')),
-                IF(tf.english IS NULL, '', CONCAT('tissue FORM: --', tf.english, '--, ')),
+                IF(ts.tissue_state IS NULL, '', CONCAT('tissue STATE: --', ts.tissue_state, '--, ')),
+                IF(tf.tissue_form IS NULL, '', CONCAT('tissue FORM: --', tf.tissue_form, '--, ')),
                 IF(t.ref_no IS NULL, '', CONCAT('tissue REF NO: --', t.ref_no, '--, ')),
                 IF(t.notes IS NULL, '', CONCAT('tissue NOTES: --', t.notes, '--, '))
                  SEPARATOR ' \n') AS 'Victim - Tissue',
-v.notes, v.consequential_injuries, v.compensation, v.compensation_details, evs.english AS evaluation_status, v.status_due_to, v.status_notes,
-v.residence_after_1945_place, v.residence_after_1945_country, n1945.english AS nationality_after_1945, v.occupation_after_1945, v.notes_after_1945,
+v.notes, v.consequential_injuries, v.compensation, v.compensation_details, evs.status AS evaluation_status, v.status_due_to, v.status_notes,
+v.residence_after_1945_place, v.residence_after_1945_country, n1945.nationality AS nationality_after_1945, v.occupation_after_1945, v.notes_after_1945,
 GROUP_CONCAT(DISTINCT
-		'ID source: --', so.ID_source, '--, ',
-		IF(so.source_title IS NULL, '', CONCAT('TITLE source: --', so.source_title, '--, ')),
-		IF(vs.location IS NULL, '', CONCAT('LOCATION in source: --', vs.location, '--, ')),
+    'ID source: --', so.ID_source, '--, ',
+    IF(so.source_title IS NULL, '', CONCAT('TITLE source: --', so.source_title, '--, ')),
+    IF(vs.location IS NULL, '', CONCAT('LOCATION in source: --', vs.location, '--, ')),
                 IF(vs.url IS NULL, '', CONCAT('URL: --', vs.url, '--, ')),
                 IF(vs.access_day IS NULL AND vs.access_month IS NULL AND vs.access_year IS NULL, '',
                   CONCAT('ACCESS DATE URL --', IFNULL(vs.access_day, '-'), '.', IFNULL(vs.access_month, '-'), '.', IFNULL(vs.access_year, '-'), '--, ')),
@@ -222,8 +222,8 @@ GROUP_CONCAT(DISTINCT
                  SEPARATOR ' \n') AS sources,
 GROUP_CONCAT(DISTINCT
                 'ID literature: --', l.ID_literature, '--, ',
-		IF(l.lit_title IS NULL, '', CONCAT('title literature: --', l.lit_title, '--, ')),
-		IF(vl.pages IS NULL, '', CONCAT('pages: --', vl.pages, '--, ')),
+    IF(l.lit_title IS NULL, '', CONCAT('title literature: --', l.lit_title, '--, ')),
+    IF(vl.pages IS NULL, '', CONCAT('pages: --', vl.pages, '--, ')),
                 IF(vl.url IS NULL, '', CONCAT('URL: --', vl.url, '--, ')),
                 IF(vl.access_day IS NULL AND vl.access_month IS NULL AND vl.access_year IS NULL, '',
                   CONCAT('ACCESS DATE URL --', IFNULL(vl.access_day, '-'), '.', IFNULL(vl.access_month, '-'), '.', IFNULL(vl.access_year, '-'), '--, ')),
@@ -248,11 +248,11 @@ FROM nmv__victim v
         LEFT JOIN nmv__experiment ex ON ex.ID_experiment = ve.ID_experiment
         LEFT JOIN nmv__experiment_institution ei ON ei.ID_experiment = ex.ID_experiment
         LEFT JOIN nmv__experiment_foi ef ON ef.ID_experiment = ex.ID_experiment
-        LEFT JOIN nmv__imprisonment i	ON v.ID_victim = i.ID_victim
+        LEFT JOIN nmv__imprisonment i ON v.ID_victim = i.ID_victim
         LEFT JOIN nmv__imprisonment_classification ic ON ic.ID_imprisonment = i.ID_imprisonment
         LEFT JOIN nmv__institution ii ON ii.ID_institution = i.ID_institution
         LEFT JOIN (
-                SELECT i1.ID_imprisonment, GROUP_CONCAT(vc.english SEPARATOR ', ') AS classifications
+                SELECT i1.ID_imprisonment, GROUP_CONCAT(vc.classification SEPARATOR ', ') AS classifications
                 FROM nmv__imprisonment i1
                 LEFT JOIN nmv__imprisonment_classification ic ON ic.ID_imprisonment = i1.ID_imprisonment
                 LEFT JOIN nmv__victim_classification vc ON vc.ID_classification = ic.ID_classification
@@ -278,7 +278,7 @@ FROM nmv__victim v
                 GROUP BY h1.ID_med_history_hosp) AS ditah ON ditah.ID_med_history_hosp = h.ID_med_history_hosp
         LEFT JOIN nmv__med_history_brain b ON b.ID_victim = v.ID_victim
         LEFT JOIN nmv__diagnosis_brain db ON db.ID_med_history_brain = b.ID_med_history_brain
-        LEFT JOIN nmv__diagnosis_tag dtb			ON dtb.ID_diagnosis = db.ID_diagnosis
+        LEFT JOIN nmv__diagnosis_tag dtb      ON dtb.ID_diagnosis = db.ID_diagnosis
         LEFT JOIN nmv__institution ib ON ib.ID_institution = b.ID_institution
         LEFT JOIN (
                 SELECT b1.ID_med_history_brain, GROUP_CONCAT(dit.diagnosis SEPARATOR ', ') AS brain_diagnoses
@@ -295,16 +295,16 @@ $victim_query_end =  " GROUP BY v.ID_victim ORDER BY v.ID_victim ASC";
 
 
 $was_prisoner_assistant_query_start =
-"SELECT v.ID_victim, v.surname, IF(v.was_prisoner_assistant != 'victim only', 'yes', ' - ') AS was_prisoner_assistant, GROUP_CONCAT(DISTINCT vn.victim_name, IF(nt.english IS NULL, 'null', CONCAT(' (', nt.english, ')') ) SEPARATOR ', ') AS alternative_surnames,
-v.first_names, GROUP_CONCAT(DISTINCT vn.victim_first_names, IF(nt.english IS NULL, 'null', CONCAT(' (', nt.english, ')') ) SEPARATOR ', ') AS alternative_firstnames, IF(v.twin=-1, 'yes', NULL) AS twin,
+"SELECT v.ID_victim, v.surname, IF(v.was_prisoner_assistant != 'victim only', 'yes', ' - ') AS was_prisoner_assistant, GROUP_CONCAT(DISTINCT vn.victim_name, IF(nt.nametype IS NULL, 'null', CONCAT(' (', nt.nametype, ')') ) SEPARATOR ', ') AS alternative_surnames,
+v.first_names, GROUP_CONCAT(DISTINCT vn.victim_first_names, IF(nt.nametype IS NULL, 'null', CONCAT(' (', nt.nametype, ')') ) SEPARATOR ', ') AS alternative_firstnames, IF(v.twin=-1, 'yes', NULL) AS twin,
 IF(v.birth_day IS NULL AND v.birth_month IS NULL AND v.birth_year IS NULL, NULL, CONCAT(IFNULL(v.birth_day, '-'), '.', IFNULL(v.birth_month, '-'), '.', IFNULL(v.birth_year, '-'))) AS birth_date_DMY,
-v.birth_place, bc.english AS birth_country, n1938.english AS nationality_1938,
+v.birth_place, bc.country AS birth_country, n1938.nationality AS nationality_1938,
 IF(v.death_day IS NULL AND v.death_month IS NULL AND v.death_year IS NULL, NULL, CONCAT(IFNULL(v.death_day, '-'), '.', IFNULL(v.death_month, '-'), '.', IFNULL(v.death_year, '-'))) AS death_date_DMY,
 v.death_place,
 CONCAT(IFNULL(di.institution_name, ''), ' - ', IFNULL(di.location, ''), ' - ', IFNULL(v.death_institution, '')) AS death_institution,
-dc.english AS death_country, v.cause_of_death, v.gender, f.english AS family_status, r.english AS religion,
-eg.english AS ethnic_group, ed.english AS highest_education, o.english AS occupation, v.occupation_details,
-v.arrest_prehistory, v.arrest_location, ac.english AS arrest_country, v.arrest_history,
+dc.country AS death_country, v.cause_of_death, v.gender, f.marital_family_status, r.religion,
+eg.ethnic_group, ed.education AS highest_education, o.occupation, v.occupation_details,
+v.arrest_prehistory, v.arrest_location, ac.country AS arrest_country, v.arrest_history,
 GROUP_CONCAT(DISTINCT
                'ID imprisonment: --', i.ID_imprisonment, '--',
                 IF(i.location IS NULL, '', CONCAT(', imprisonment location: --', i.location, '--')),
@@ -321,7 +321,7 @@ GROUP_CONCAT(DISTINCT
                 IF(ve.exp_start_day IS NULL AND ve.exp_start_month IS NULL AND ve.exp_start_year IS NULL, '', CONCAT('START of experiment: --', IFNULL(ve.exp_start_day, '-'), '.', IFNULL(ve.exp_start_month, '-'), '.', IFNULL(ve.exp_start_year, '-'), '--, ')),
                 IF(ve.exp_end_day IS NULL AND ve.exp_end_month IS NULL AND ve.exp_end_year IS NULL, '', CONCAT('END of experiment: --', IFNULL(ve.exp_end_day, '-'), '.', IFNULL(ve.exp_end_month, '-'), '.', IFNULL(ve.exp_end_year, '-'), '--, ')),
                 IF(ve.outcome_injuries IS NULL, '', CONCAT('outcome INJURIES: --', ve.outcome_injuries, '--, ')),
-                IF(s.english IS NULL, '', CONCAT('SURVIVAL of THIS experiment: --', s.english, '--, ')),
+                IF(s.survival IS NULL, '', CONCAT('SURVIVAL of THIS experiment: --', s.survival, '--, ')),
                 IF(ve.notes_perpetrator IS NULL, '', CONCAT('notes about PERPETRATOR: --', ve.notes_perpetrator, '--, ')),
                 IF(ve.notes IS NULL, '', CONCAT('NOTES concerning experiment: --', ve.notes, '--, ')),
                 IF(ve.narratives IS NULL, '', CONCAT('NARRATIVES concerning experiment: --', ve.narratives, '--'))
@@ -336,13 +336,13 @@ GROUP_CONCAT(DISTINCT
                 IF(pae.notes_about_involvement IS NULL, '', CONCAT('notes about INVOLVEMENT in this experiment: --', pae.notes_about_involvement, '--, ')),
                 IF(pae.narratives IS NULL, '', CONCAT('NARRATIVES concerning experiment: --', pae.narratives, '--, ')),
                 CONCAT('Gave TESTIMONY in trial?: --', pae.gave_testimony_in_trial, '--, '),
-                IF(pae.ID_role IS NULL, '', CONCAT('ROLE in experiment: --', ro.english, '--, ')),
+                IF(pae.ID_role IS NULL, '', CONCAT('ROLE in experiment: --', ro.role, '--, ')),
                 IF(pae.role_other IS NULL, '', CONCAT('ROLE in experiment: --', pae.role_other, '--, '))
                  SEPARATOR ' \n') AS 'PRISONER ASSISTANT in experiment',
 GROUP_CONCAT(DISTINCT
                 'ID hospitalisation: --', h.ID_med_history_hosp, '--, ',
                 IF(ih.institution_name IS NULL AND h.institution IS NULL, '', CONCAT('INSTITUTION: --', IFNULL(ih.institution_name, ''), ', ', IFNULL(h.institution, ''), '--, ')),
-                IF(ioh.english IS NULL, '', CONCAT('institution order: --', ioh.english, '--, ')),
+                IF(ioh.institution_order IS NULL, '', CONCAT('institution order: --', ioh.institution_order, '--, ')),
                 IF(h.date_entry_day IS NULL AND h.date_entry_month IS NULL AND h.date_entry_year IS NULL, '', CONCAT('Date ENTRY: --', IFNULL(h.date_entry_day, '-'), '.', IFNULL(h.date_entry_month, '-'), '.', IFNULL(h.date_entry_year, '-'), '--, ')),
                 IF(h.age_entry IS NULL, '', CONCAT('AGE at entry: --', h.age_entry, '--, ')),
                 IF(h.date_exit_day IS NULL AND h.date_exit_month IS NULL AND h.date_exit_year IS NULL, '', CONCAT('Date EXIT: --', IFNULL(h.date_exit_day, '-'), '.', IFNULL(h.date_exit_month, '-'), '.', IFNULL(h.date_exit_year, '-'), '--, ')),
@@ -350,8 +350,8 @@ GROUP_CONCAT(DISTINCT
                 IF(h.diagnosis IS NULL, '', CONCAT('DIAGNOSIS: --', h.diagnosis, '--, ')),
                 IF(ditah.hosp_diagnoses IS NULL, '', CONCAT('DIAGNOSIS TAGS: --', ditah.hosp_diagnoses, '--, ')),
                 IF(eh.educational_abilities IS NULL, '', CONCAT('EDUCATIONAL ABILITIES: --', eh.educational_abilities, '--, ')),
-                IF(bh.english IS NULL, '', CONCAT('BEHAVIOUR:-- ', bh.english, '--, ')),
-                IF(dih.english IS NULL, '', CONCAT('DISABILITY: --', dih.english, '--, ')),
+                IF(bh.behaviour IS NULL, '', CONCAT('BEHAVIOUR:-- ', bh.behaviour, '--, ')),
+                IF(dih.disability IS NULL, '', CONCAT('DISABILITY: --', dih.disability, '--, ')),
                 IF(h.autopsy_ref_no IS NULL, '', CONCAT('autopsy REF NO: --', h.autopsy_ref_no, '--, ')),
                 IF(h.notes IS NULL, '', CONCAT('hospitalisation NOTES: --', h.notes, '--, ')),
                 IF(h.hosp_has_photo = -1, 'medical record has photo', '')
@@ -371,13 +371,13 @@ GROUP_CONCAT(DISTINCT
                 'ID tissue: --', t.ID_med_history_tissue, '--, ',
                 IF(it.institution_name IS NULL, '', CONCAT('INSTITUTION: --', it.institution_name, '--, ')),
                 IF(t.since_day IS NULL AND t.since_month IS NULL AND t.since_year IS NULL, '', CONCAT('in institution SINCE: --', IFNULL(t.since_day, '-'), '.', IFNULL(t.since_month, '-'), '.', IFNULL(t.since_year, '-'), '--, ')),
-                IF(ts.english IS NULL, '', CONCAT('tissue STATE: --', ts.english, '--, ')),
-                IF(tf.english IS NULL, '', CONCAT('tissue FORM: --', tf.english, '--, ')),
+                IF(ts.tissue_state IS NULL, '', CONCAT('tissue STATE: --', ts.tissue_state, '--, ')),
+                IF(tf.tissue_form IS NULL, '', CONCAT('tissue FORM: --', tf.tissue_form, '--, ')),
                 IF(t.ref_no IS NULL, '', CONCAT('tissue REF NO: --', t.ref_no, '--, ')),
                 IF(t.notes IS NULL, '', CONCAT('tissue NOTES: --', t.notes, '--, '))
                  SEPARATOR ' \n') AS 'Victim - Tissue',
-v.notes, v.consequential_injuries, v.compensation, v.compensation_details, evs.english AS evaluation_status, v.status_due_to, v.status_notes,
-v.residence_after_1945_place, v.residence_after_1945_country, n1945.english AS nationality_after_1945, v.occupation_after_1945, v.notes_after_1945,
+v.notes, v.consequential_injuries, v.compensation, v.compensation_details, evs.status AS evaluation_status, v.status_due_to, v.status_notes,
+v.residence_after_1945_place, v.residence_after_1945_country, n1945.nationality AS nationality_after_1945, v.occupation_after_1945, v.notes_after_1945,
 GROUP_CONCAT(DISTINCT
                 'ID source: --', so.ID_source, '--, ',
                 IF(so.source_title IS NULL, '', CONCAT('TITLE source: --', so.source_title, '--, ')),
@@ -414,11 +414,11 @@ FROM nmv__victim v
         LEFT JOIN nmv__prisoner_assistant_experiment pae ON pae.ID_victim = v.ID_victim
         LEFT JOIN nmv__experiment ex2 ON ex2.ID_experiment = pae.ID_experiment
         LEFT JOIN nmv__role ro ON ro.ID_role = pae.ID_role
-        LEFT JOIN nmv__imprisonment i	ON v.ID_victim = i.ID_victim
+        LEFT JOIN nmv__imprisonment i ON v.ID_victim = i.ID_victim
         LEFT JOIN nmv__imprisonment_classification ic ON ic.ID_imprisonment = i.ID_imprisonment
         LEFT JOIN nmv__institution ii ON ii.ID_institution = i.ID_institution
         LEFT JOIN (
-                SELECT i1.ID_imprisonment, GROUP_CONCAT(vc.english SEPARATOR ', ') AS classifications
+                SELECT i1.ID_imprisonment, GROUP_CONCAT(vc.classification SEPARATOR ', ') AS classifications
                 FROM nmv__imprisonment i1
                 LEFT JOIN nmv__imprisonment_classification ic ON ic.ID_imprisonment = i1.ID_imprisonment
                 LEFT JOIN nmv__victim_classification vc ON vc.ID_classification = ic.ID_classification

@@ -69,27 +69,27 @@ $form->addField ('gender',SELECT)
 $form->addField ('ID_marital_family_status',SELECT)
     ->setLabel ('martial familiy status')
     ->addOption (NO_VALUE,'please choose')
-    ->addOptionsFromTable ( 'nmv__marital_family_status', 'ID_marital_family_status', 'english');
+    ->addOptionsFromTable ( 'nmv__marital_family_status', 'ID_marital_family_status', 'marital_family_status');
 $form->addField ('ID_education',SELECT)
     ->setLabel ('highest education level')
     ->addOption (NO_VALUE,'please choose')
-    ->addOptionsFromTable ( 'nmv__education', 'ID_education', 'english');
+    ->addOptionsFromTable ( 'nmv__education', 'ID_education', 'education');
 $form->addField ('religion',SELECT)
     ->setLabel ('religion')
     ->addOption (NO_VALUE,'please choose')
-    ->addOptionsFromTable ( 'nmv__religion', 'ID_religion', 'english');
+    ->addOptionsFromTable ( 'nmv__religion', 'ID_religion', 'religion');
 $form->addField ('nationality_1938',SELECT)
     ->setLabel ('nationality (1938)')
     ->addOption (NO_VALUE,'please choose')
-    ->addOptionsFromTable ( 'nmv__nationality', 'ID_nationality', 'english');
+    ->addOptionsFromTable ( 'nmv__nationality', 'ID_nationality', 'nationality');
 $form->addField ('ethnic_group',SELECT)
     ->setLabel ('ethnic group')
     ->addOption (NO_VALUE,'please choose')
-    ->addOptionsFromTable ( 'nmv__ethnic_group', 'ID_ethnic_group', 'english');
+    ->addOptionsFromTable ( 'nmv__ethnic_group', 'ID_ethnic_group', 'ethnic_group');
 $form->addField ('occupation',SELECT)
     ->setLabel ('occupation')
     ->addOption (NO_VALUE,'please choose')
-    ->addOptionsFromTable ( 'nmv__occupation', 'ID_occupation', 'english');
+    ->addOptionsFromTable ( 'nmv__occupation', 'ID_occupation', 'occupation');
 $form->addField ('occupation_details',TEXT,50)
     ->setLabel ('occupation_details');
 $form->addField ('notes',TEXTAREA)

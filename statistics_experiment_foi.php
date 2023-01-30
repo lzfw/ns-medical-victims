@@ -23,8 +23,8 @@ $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 
 //Query field of interest
 		//query
-		$querystring_items = '	SELECT A.english as field_of_interest, A.experiments AS experiments, A.number as anumber, B.number as bnumber
-														FROM 	(SELECT COUNT(v.ID_victim) AS number, GROUP_CONCAT(DISTINCT "ID ", e.ID_experiment, ": ", e.experiment_title SEPARATOR "<br>") AS experiments, foi.english
+		$querystring_items = '	SELECT A.field_of_interest, A.experiments AS experiments, A.number as anumber, B.number as bnumber
+														FROM 	(SELECT COUNT(v.ID_victim) AS number, GROUP_CONCAT(DISTINCT "ID ", e.ID_experiment, ": ", e.experiment_title SEPARATOR "<br>") AS experiments, foi.field_of_interest
 																		FROM nmv__experiment e
 																		INNER JOIN nmv__victim_experiment ve ON ve.ID_experiment = e.ID_experiment
 																		LEFT JOIN nmv__victim v ON v.ID_victim = ve.ID_victim
@@ -32,7 +32,7 @@ $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 																		LEFT JOIN nmv__field_of_interest foi ON foi.ID_foi = ef.ID_foi
 																		GROUP BY ef.ID_foi) A
 														      LEFT JOIN
-																	(SELECT COUNT(v.ID_victim) AS number, GROUP_CONCAT(DISTINCT "ID ", e.ID_experiment, ": ", e.experiment_title SEPARATOR "<br>") AS experiments, foi.english
+																	(SELECT COUNT(v.ID_victim) AS number, GROUP_CONCAT(DISTINCT "ID ", e.ID_experiment, ": ", e.experiment_title SEPARATOR "<br>") AS experiments, foi.field_of_interest
 																		FROM nmv__experiment e
 																		INNER JOIN nmv__victim_experiment ve ON ve.ID_experiment = e.ID_experiment
 																		LEFT JOIN nmv__victim v ON v.ID_victim = ve.ID_victim
@@ -40,7 +40,7 @@ $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 																		LEFT JOIN nmv__field_of_interest foi ON foi.ID_foi = ef.ID_foi
 																		WHERE v.mpg_project = -1
 																		GROUP BY ef.ID_foi) B
-														      ON A.english = B.english';
+														      ON A.field_of_interest = B.field_of_interest';
     $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 
 		// execute query

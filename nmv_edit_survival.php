@@ -10,9 +10,9 @@ $form
 	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
 	->setPrimaryKeyName('ID_survival');
 $form->addfield ('ID_survival', PROTECTED_TEXT)
-    ->setLabel ('survival ID');
-$form->addField ('english',TEXT,250)
-    ->setLabel ('english');
+    ->setLabel ('ID survival');
+$form->addField ('survival',TEXT,250)
+    ->setLabel ('survival');
 
 
 $form

@@ -10,9 +10,9 @@ $form
 	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
 	->setPrimaryKeyName('ID_institution_order');
 $form->addfield ('ID_institution_order', PROTECTED_TEXT)
-    ->setLabel ('institution order ID');
-$form->addField ('english',TEXT,250)
-    ->setLabel ('english');
+    ->setLabel ('ID institution order');
+$form->addField ('institution_order',TEXT,250)
+    ->setLabel ('institution order');
 
 
 $form

@@ -18,9 +18,9 @@ $querystring = "
     SELECT
         v.ID_victim ID_victim,
         v.first_names AS first_names, v.surname AS surname, v.birth_place AS birth_place,
-        h.ID_med_history_tissue AS id, f.english AS tissue_form,
-            s.english AS tissue_state, i.institution_name, i.location AS institution_location,
-            c.english AS institution_country,
+        h.ID_med_history_tissue AS id, f.tissue_form,
+            s.tissue_state, i.institution_name, i.location AS institution_location,
+            c.country AS institution_country,
             CONCAT(IFNULL(h.since_day, '-'), '.', IFNULL(h.since_month, '-'), '.', IFNULL(h.since_year, '-')) AS date,
             h.notes AS notes, h.ref_no AS ref_no
     FROM nmv__med_history_tissue h

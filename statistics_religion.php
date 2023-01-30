@@ -25,14 +25,14 @@ $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 
 //Query religion
 $querystring_items = 'SELECT A.religion as religion, A.number as anumber, B.number as bnumber
-											FROM (SELECT COUNT(v.ID_victim) as number, r.english as religion
+											FROM (SELECT COUNT(v.ID_victim) as number, r.religion
 											  		FROM nmv__victim v
 											  		LEFT JOIN nmv__religion r ON v.ID_religion = r.ID_religion
 														WHERE v.was_prisoner_assistant != "prisoner assistant only"
 											  		GROUP BY v.ID_religion
 											  		) A
 														LEFT JOIN
-											  		(SELECT COUNT(v.ID_victim) as number, r.english as religion
+											  		(SELECT COUNT(v.ID_victim) as number, r.religion
 											  		FROM nmv__victim v
 											  		LEFT JOIN nmv__religion r ON v.ID_religion = r.ID_religion
 											  		WHERE v.mpg_project = -1 AND v.was_prisoner_assistant != "prisoner assistant only"

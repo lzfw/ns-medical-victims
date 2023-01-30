@@ -43,7 +43,7 @@ $form->addField('birth_place',TEXT,200)
 $form->addField('ID_birth_country', SELECT)
 		->setLabel('Birth Country')
 		->addOption(NO_VALUE, 'please choose')
-		->addOptionsFromTable('nmv__country', 'ID_country', 'english');
+		->addOptionsFromTable('nmv__country', 'ID_country', 'country');
 $form->addField('death_day',TEXT,2)
     ->setLabel('Death DMYYYY')
     ->addCondition(VALUE,MIN,0)
@@ -62,7 +62,7 @@ $form->addField('death_place',TEXT,200)
 $form->addField('ID_death_country', SELECT)
 		->setLabel('Death Country')
 		->addOption(NO_VALUE, 'please choose')
-		->addOptionsFromTable('nmv__country', 'ID_country', 'english');
+		->addOptionsFromTable('nmv__country', 'ID_country', 'country');
 $form->addField('gender',SELECT)
     ->setLabel('Gender')
     ->addOption(NO_VALUE,'please choose')
@@ -71,17 +71,17 @@ $form->addField('gender',SELECT)
 $form->addField('ID_religion',SELECT)
     ->setLabel('Religion')
     ->addOption(NO_VALUE,'please choose')
-    ->addOptionsFromTable('nmv__religion', 'ID_religion', 'english');
+    ->addOptionsFromTable('nmv__religion', 'ID_religion', 'religion');
 $form->addField('ID_nationality_1938',SELECT)
     ->setLabel('Nationality (1938)')
     ->addOption(NO_VALUE,'please choose')
-    ->addOptionsFromTable( 'nmv__nationality', 'ID_nationality', 'english');
+    ->addOptionsFromTable( 'nmv__nationality', 'ID_nationality', 'nationality');
 $form->addField('occupation',TEXT,500)
     ->setLabel('Occupation');
 $form->addField('ID_perp_class',SELECT)
     ->setLabel('Classification')
     ->addOption(NO_VALUE,'please choose')
-    ->addOptionsFromTable('nmv__perpetrator_classification', 'ID_perp_class', 'english');
+    ->addOptionsFromTable('nmv__perpetrator_classification', 'ID_perp_class', 'classification');
 $form->addField('career_history',TEXTAREA)
     ->setClass('keyboardInput')
     ->setLabel('Career History');

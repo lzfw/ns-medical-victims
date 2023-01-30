@@ -6,13 +6,13 @@ $dbi->requireUserPermission ('admin');
 $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 
 // browsing options
-$dbi->setUserVar ('sort',getUrlParameter('sort'),'english');
+$dbi->setUserVar ('sort',getUrlParameter('sort'),'marital_family_status');
 $dbi->setUserVar ('order',getUrlParameter('order'),'ASC');
 $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 
 // Select-Klauseln erstellen
 $querystring_count = 'SELECT COUNT(*) AS total FROM nmv__marital_family_status'; // für Treffer gesamt
-$querystring_items = 'SELECT ID_marital_family_status, english
+$querystring_items = 'SELECT ID_marital_family_status, marital_family_status
                       FROM nmv__marital_family_status';
 
 // Gesamtanzahl der Suchergebnisse feststellen

@@ -29,7 +29,7 @@ $querystring = "SELECT
                     CONCAT(IFNULL(e.experiment_title, 'no entry'), ' - ID ',
                                   e.ID_experiment, ' - ',
                                   IFNULL(i.institution_name, 'no entry')) AS ei_info,
-                    s.english AS survival
+                    s.survival
                 FROM nmv__victim_experiment ve
                 LEFT JOIN nmv__victim v                ON (ve.ID_victim = v.ID_victim)
                 LEFT JOIN nmv__experiment e            ON (ve.ID_experiment = e.ID_experiment)

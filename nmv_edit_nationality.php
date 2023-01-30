@@ -11,8 +11,8 @@ $form
 	->setPrimaryKeyName('ID_nationality');
 $form->addfield ('ID_nationality', PROTECTED_TEXT)
     ->setLabel ('nationality ID');
-$form->addField ('english',TEXT,250)
-    ->setLabel ('english');
+$form->addField ('nationality',TEXT,250)
+    ->setLabel ('nationality');
 
 
 $form

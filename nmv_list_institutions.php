@@ -21,7 +21,7 @@ if ($dbi->checkUserPermission('admin')) {
 // Select-Klauseln erstellen
 $querystring_count = 'SELECT COUNT(*) AS total FROM nmv__institution i'; // für Treffer gesamt
 $querystring_items = "SELECT ID_institution, IFNULL(institution_name, 'unavailable') institution_name,
- location, c.english AS country, it.english AS itype, notes
+ location, c.country AS country, it.institution_type AS institution_type, notes
 FROM nmv__institution i
 LEFT JOIN nmv__institution_type it ON i.ID_institution_type = it.ID_institution_type
 LEFT JOIN nmv__country c ON c.ID_country = i.ID_country"; // für Ergebnisliste
