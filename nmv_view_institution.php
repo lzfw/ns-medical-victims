@@ -45,7 +45,6 @@ $institution_type = 0;
 
 if ($institution = $result->fetch_object()) {
     $institution_name = $institution->institution_name;
-    $institution_type = $institution->type;
     $content .= buildElement('table','grid',
         buildDataSheetRow('Institution ID',        $institution_id).
         buildDataSheetRow('Name',                  $institution->institution_name).
