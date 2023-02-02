@@ -120,11 +120,11 @@ foreach ($diy_fields as $field) {
 	if (getUrlParameter($field)) {
 		if ($field == 'surname') {
 			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
-			$querystring_where[] = "(vn.victim_name LIKE '%".$filtered_field."%' OR v.$field LIKE '%".$filtered_field."%')";
+			$querystring_where[] = "(vn.surname LIKE '%".$filtered_field."%' OR v.$field LIKE '%".$filtered_field."%')";
 		}
 		if ($field == 'first_names') {
 			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
-			$querystring_where[] = "(vn.victim_first_names LIKE '%".$filtered_field."%' OR v.$field LIKE '%".$filtered_field."%')";
+			$querystring_where[] = "(vn.first_names LIKE '%".$filtered_field."%' OR v.$field LIKE '%".$filtered_field."%')";
 		}
 	}
 }

@@ -131,9 +131,9 @@ $experiment_query_end = "GROUP BY e.ID_experiment";
 
 $victim_query_start =
 "SELECT v.ID_victim, v.surname,
-GROUP_CONCAT(DISTINCT vn.victim_name, IF(nt.nametype IS NULL, 'null', CONCAT(' (', nt.nametype, ')') ) SEPARATOR ', ') AS alternative_surnames,
+GROUP_CONCAT(DISTINCT vn.surname, IF(nt.nametype IS NULL, 'null', CONCAT(' (', nt.nametype, ')') ) SEPARATOR ', ') AS alternative_surnames,
 v.first_names,
-GROUP_CONCAT(DISTINCT vn.victim_first_names, IF(nt.nametype IS NULL, 'null', CONCAT(' (', nt.nametype, ')') ) SEPARATOR ', ') AS alternative_firstnames, IF(v.twin=-1, 'yes', NULL) AS twin,
+GROUP_CONCAT(DISTINCT vn.first_names, IF(nt.nametype IS NULL, 'null', CONCAT(' (', nt.nametype, ')') ) SEPARATOR ', ') AS alternative_firstnames, IF(v.twin=-1, 'yes', NULL) AS twin,
 IF(v.birth_day IS NULL AND v.birth_month IS NULL AND v.birth_year IS NULL, NULL,
 CONCAT(IFNULL(v.birth_day, '-'), '.', IFNULL(v.birth_month, '-'), '.', IFNULL(v.birth_year, '-'))) AS birth_date_DMY,
 v.birth_place, bc.country AS birth_country, n1938.nationality AS nationality_1938,
@@ -295,8 +295,8 @@ $victim_query_end =  " GROUP BY v.ID_victim ORDER BY v.ID_victim ASC";
 
 
 $was_prisoner_assistant_query_start =
-"SELECT v.ID_victim, v.surname, IF(v.was_prisoner_assistant != 'victim only', 'yes', ' - ') AS was_prisoner_assistant, GROUP_CONCAT(DISTINCT vn.victim_name, IF(nt.nametype IS NULL, 'null', CONCAT(' (', nt.nametype, ')') ) SEPARATOR ', ') AS alternative_surnames,
-v.first_names, GROUP_CONCAT(DISTINCT vn.victim_first_names, IF(nt.nametype IS NULL, 'null', CONCAT(' (', nt.nametype, ')') ) SEPARATOR ', ') AS alternative_firstnames, IF(v.twin=-1, 'yes', NULL) AS twin,
+"SELECT v.ID_victim, v.surname, IF(v.was_prisoner_assistant != 'victim only', 'yes', ' - ') AS was_prisoner_assistant, GROUP_CONCAT(DISTINCT vn.surname, IF(nt.nametype IS NULL, 'null', CONCAT(' (', nt.nametype, ')') ) SEPARATOR ', ') AS alternative_surnames,
+v.first_names, GROUP_CONCAT(DISTINCT vn.first_names, IF(nt.nametype IS NULL, 'null', CONCAT(' (', nt.nametype, ')') ) SEPARATOR ', ') AS alternative_firstnames, IF(v.twin=-1, 'yes', NULL) AS twin,
 IF(v.birth_day IS NULL AND v.birth_month IS NULL AND v.birth_year IS NULL, NULL, CONCAT(IFNULL(v.birth_day, '-'), '.', IFNULL(v.birth_month, '-'), '.', IFNULL(v.birth_year, '-'))) AS birth_date_DMY,
 v.birth_place, bc.country AS birth_country, n1938.nationality AS nationality_1938,
 IF(v.death_day IS NULL AND v.death_month IS NULL AND v.death_year IS NULL, NULL, CONCAT(IFNULL(v.death_day, '-'), '.', IFNULL(v.death_month, '-'), '.', IFNULL(v.death_year, '-'))) AS death_date_DMY,

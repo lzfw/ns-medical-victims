@@ -29,7 +29,7 @@ if ($victim_id) {
         // query: get other names
         $querystring = "
         SELECT vn.ID_name ID_name,
-            vn.victim_name victim_name, vn.victim_first_names victim_first_names,
+            vn.surname surname, vn.first_names first_names,
             vnt.nametype
         FROM nmv__victim_name vn
         LEFT JOIN nmv__victim_nametype vnt ON vnt.ID_nametype = vn.ID_nametype
@@ -38,7 +38,7 @@ if ($victim_id) {
         ORDER BY nametype, victim_name, victim_first_names";
 
         $options = '';
-        $row_template = ['{victim_name}', '{victim_first_names}', '{nametype}'];
+        $row_template = ['{surname}', '{first_names}', '{nametype}'];
         $header_template = ['Name', 'First Names', 'Name Type'];
 
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {

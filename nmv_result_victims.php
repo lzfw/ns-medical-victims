@@ -67,8 +67,8 @@ $dbi->setUserVar('querystring',implode('&',$query));
 
 // make select-clauses part one
 $querystring_items = "SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
-																			GROUP_CONCAT(DISTINCT vn.victim_name SEPARATOR ', ') AS alternative_surnames,
-																			GROUP_CONCAT(DISTINCT vn.victim_first_names SEPARATOR ', ') AS alternative_firstnames,
+																			GROUP_CONCAT(DISTINCT vn.surname SEPARATOR ', ') AS alternative_surnames,
+																			GROUP_CONCAT(DISTINCT vn.first_names SEPARATOR ', ') AS alternative_firstnames,
 																			v.birth_year, bc.country AS birth_country, v.birth_place,
 																			n.nationality AS nationality_1938, et.ethnic_group
 											FROM nmv__victim v
@@ -113,11 +113,11 @@ foreach ($diy_fields as $field) {
 	if (getUrlParameter($field)) {
 		if ($field == 'surname') {
 			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
-			$querystring_where[] = "(vn.victim_name LIKE '%".$filtered_field."%' OR v.$field LIKE '%".$filtered_field."%')";
+			$querystring_where[] = "(vn.surname LIKE '%".$filtered_field."%' OR v.$field LIKE '%".$filtered_field."%')";
 		}
 		if ($field == 'first_names') {
 			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
-			$querystring_where[] = "(vn.victim_first_names LIKE '%".$filtered_field."%' OR v.$field LIKE '%".$filtered_field."%')";
+			$querystring_where[] = "(vn.first_names LIKE '%".$filtered_field."%' OR v.$field LIKE '%".$filtered_field."%')";
 		}
 	}
 }
