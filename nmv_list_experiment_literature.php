@@ -31,7 +31,8 @@ if ($literature_id) {
         // query: get hosp data
         $querystring = "
         SELECT el.ID_exp_lit ID_exp_lit, el.pages pages, el.ID_experiment ID_experiment,
-            COALESCE(e.experiment_title, 'unspecified') title, c.classification
+            COALESCE(e.experiment_title, 'unspecified') title, c.classification,
+                        el.url, CONCAT(IFNULL(el.access_day, '-'), '.', IFNULL(el.access_month, '-'), '.', IFNULL(el.access_year, '-')) as access_date
         FROM nmv__experiment_literature el
         LEFT JOIN nmv__experiment e ON e.ID_experiment = el.ID_experiment
         LEFT JOIN nmv__literature l ON l.ID_literature = el.ID_literature
@@ -46,8 +47,8 @@ if ($literature_id) {
         $total_results = $query_count->fetch_object();
 
         $options = '';
-        $row_template = ['<a href="nmv_view_experiment?ID_experiment={ID_experiment}">{title}</a>', '{classification}', '{pages}'];
-        $header_template = ['Title', 'Classification', 'Pages'];
+        $row_template = ['<a href="nmv_view_experiment?ID_experiment={ID_experiment}">{title}</a>', '{classification}', '{pages}', '{url}', '{access_date}'];
+        $header_template = ['Title', 'Classification', 'Pages', 'URL', 'Access Date'];
 
         $options .= createSmallButton('view Experiment','nmv_view_experiment?ID_experiment={ID_experiment}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {

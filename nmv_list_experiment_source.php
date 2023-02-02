@@ -32,7 +32,9 @@ if ($source_id) {
         $querystring = "
         SELECT es.ID_exp_source ID_exp_source, es.location location, e.ID_experiment ID_experiment,
             CONCAT(COALESCE(e.experiment_title, 'unspecified'), '<br>institution: ',
-            COALESCE(GROUP_CONCAT(i.institution_name SEPARATOR ';\n '), '-')) title, c.classification
+            COALESCE(GROUP_CONCAT(i.institution_name SEPARATOR ';\n '), '-')) title, c.classification,
+            es.url, CONCAT(IFNULL(es.access_day, '-'), '.', IFNULL(es.access_month, '-'), '.', IFNULL(es.access_year, '-')) as access_date
+
         FROM nmv__experiment_source es
         LEFT JOIN nmv__experiment e                 ON e.ID_experiment = es.ID_experiment
         LEFT JOIN nmv__source s                     ON s.ID_source = es.ID_source
@@ -50,8 +52,8 @@ if ($source_id) {
         $total_results = $query_count->fetch_object();
 
         $options = '';
-        $row_template = ['<a href="nmv_view_experiment?ID_experiment={ID_experiment}">{title}</a>', '{classification}', '{location}'];
-        $header_template = ['Title', 'Classification', 'Location'];
+        $row_template = ['<a href="nmv_view_experiment?ID_experiment={ID_experiment}">{title}</a>', '{classification}', '{location}', '{url}', '{access_date}'];
+        $header_template = ['Title', 'Classification', 'Location', 'URL', 'Access Date'];
 
         $options .= createSmallButton('view Experiment','nmv_view_experiment?ID_experiment={ID_experiment}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
