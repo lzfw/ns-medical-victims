@@ -18,12 +18,6 @@ $form->addField('ID_exp_classification' ,SELECT)
     ->setLabel('Classification')
     ->addOption(NO_VALUE, 'please choose')
     ->addOptionsFromTable( 'nmv__experiment_classification', 'ID_exp_classification', 'classification');
-$form->addField('ID_institution', SELECT)
-    ->setLabel('Institution')
-    ->addOption(NO_VALUE, 'please choose')
-    ->addOptionsFromQuery("SELECT i.ID_institution AS value, CONCAT(IFNULL(institution_name, '-/-'), '&emsp;---&emsp;', LEFT(IFNULL(location, '-/-'), 50)) AS title
-														FROM nmv__institution i
-														ORDER BY i.institution_name");
 $form->addField('location_details', TEXT, 250)
     ->setClass('keyboardInput')
     ->setLabel('Location Details');
