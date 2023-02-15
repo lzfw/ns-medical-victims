@@ -90,8 +90,15 @@ $form
 	->addButton (APPLY);
 
 $form
-	->addAction (DATABASE,'nmv__experiment_literature')
-	->addAction (REDIRECT,'nmv_list_experiment_literature?ID_experiment='.$experiment_id);
+	->addAction (DATABASE,'nmv__experiment_literature');
+if($experiment_id){
+    $form
+        ->addAction (REDIRECT,'nmv_list_experiment_literature?ID_experiment='.$experiment_id);
+}
+elseif($literature_id){
+    $form
+        ->addAction (REDIRECT,'nmv_list_experiment_literature?ID_literature='.$literature_id);
+}
 
 $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 $dbi->addBreadcrumb ('Biomedical Research','nmv_list_experiments');

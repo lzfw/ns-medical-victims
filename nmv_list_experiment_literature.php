@@ -170,6 +170,6 @@ if ($experiment_id) {
 }
 
 $layout
-	->set('title',($literature_id ? 'Biomedical Research: "' . $literature_name . '"' : 'Literature List: "' . $experiment_name . '"'))
+	->set('title',($literature_id ? 'Biomedical Research linked to: <br>"' . $literature_name . '"' : 'Literature linked to: <br>"' . $experiment_name . '"'))
 	->set('content',$content)
 	->cast();
