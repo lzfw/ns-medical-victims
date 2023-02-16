@@ -9,7 +9,7 @@ class Field_Select extends Field {
 	protected function __construct (Form $Creator, $name, $required, $default_option) {
 		if (isset($name)) {
 			$this->Creator = $Creator;
-			$this->name = $name;
+  			$this->name = $name;
 			$this->required = $required;
 			$this->user_value = $default_option;
 			$this->Creator->debuglog->Write(DEBUG_INFO,'. new Select Field "'.$this->name.'" created');
@@ -17,20 +17,23 @@ class Field_Select extends Field {
 		else $this->Creator->debuglog->Write(DEBUG_ERROR,'. could not create new Select Field - name not specified');
 	}
 
-	static public function create() {
+	static public function create($Creator): ?Field_Select
+    {
 		// create ( name [, required [, default_option ]] )
 		$args = func_get_args();
 		switch (func_num_args()) {
 			case 2: return new Field_Select ($args[0],$args[1],NULL,NULL);
 			case 3: return new Field_Select ($args[0],$args[1],$args[2],NULL);
 			case 4: return new Field_Select ($args[0],$args[1],$args[2],$args[3]);
-			default: $this->Creator->debuglog->Write(DEBUG_WARNING,'. could not create new Select Field - invalid number of arguments');
-		}
+            default: $Creator->debuglog->WRITE(DEBUG_WARNING,'. could not create new Select Field - invalid number of arguments');
+        }
+        return NULL;
 	}
 
 	// SELECT OPTIONS ------------------------------------------------------------
 
-	public function addOption () {
+	public function addOption (): Field_Select
+    {
 		// addOption ( [ value [, title ]] )
 		$args = func_get_args();
 		switch (func_num_args()) {
@@ -39,11 +42,12 @@ class Field_Select extends Field {
 			case 2: $this->Options[] = new Select_Option ($args[0],$args[1]); break;
 			default: $this->Creator->debuglog->Write(DEBUG_WARNING,'. . . could not create new Select Option - invalid number of arguments'); break;
 		}
-		$this->Creator->debuglog->Write(DEBUG_INFO,'. . new Select Option "'.(isset($args[0])?$args[0]:'').'" created');
+		$this->Creator->debuglog->Write(DEBUG_INFO,'. . new Select Option "'.($args[0] ?? '').'" created');
 		return $this;
 	}
 
-	public function addOptionsFromTable () {
+	public function addOptionsFromTable (): Field_Select
+    {
 		// addOption ( table , value_column , title_column [, where_statement [, db_connection]] )
 		// example: addOption ('contacts','contact_id','contact_name','`contact_name` LIKE 'A*', $db_connection);
 
@@ -52,10 +56,10 @@ class Field_Select extends Field {
 
 		$args = func_get_args();
 		$options_querystring = "
-			SELECT {$args[1]} AS value, {$args[2]} AS title
-			FROM {$args[0]}
+			SELECT $args[1] AS value, $args[2] AS title
+			FROM $args[0]
 			".(isset($args[3])?'WHERE '.$args[3]:'')."
-			ORDER BY {$args[2]}
+			ORDER BY $args[2]
 		";
 		if (isset($args[4])) {
 		    $options_query = $args[4]->query($options_querystring);
@@ -73,7 +77,8 @@ class Field_Select extends Field {
 		return $this;
 	}
 
-	public function addValidOptionsFromTable () {
+	public function addValidOptionsFromTable (): Field_Select
+    {
 		// addOption ( table , value_column , title_column [, where_statement [, db_connection]] )
 		// example: addOption ('contacts','contact_id','contact_name','`contact_name` LIKE 'A*', $db_connection);
 
@@ -82,11 +87,11 @@ class Field_Select extends Field {
 
 		$args = func_get_args();
 		$options_querystring = "
-			SELECT {$args[1]} AS value, {$args[2]} AS title
-			FROM {$args[0]}
-			WHERE EXISTS (	SELECT * FROM {$args[3]}
-									WHERE {$args[0]}.{$args[1]} = {$args[3]}.{$args[1]})
-			ORDER BY {$args[2]}
+			SELECT $args[1] AS value, $args[2] AS title
+			FROM $args[0]
+			WHERE EXISTS (	SELECT * FROM $args[3]
+									WHERE {$args[0]}.$args[1] = $args[3].{$args[1]})
+			ORDER BY $args[2]
 		";
 
 		if (isset($args[4])) {
