@@ -92,7 +92,7 @@ if ($literature_id) {
         // query: get linked data
           $querystring = "
           SELECT vl.ID_vict_lit ID_vict_lit,
-              CONCAT(v.ID_victim, ': ', v.first_names, ' ', v.surname) victim_name,
+              CONCAT(v.ID_victim, ': ', COALESCE(v.first_names, ''), ' ', COALESCE(v.surname, '')) victim_name,
               v.birth_place birth_place,
               CONCAT_WS('.', v.birth_day, v.birth_month, v.birth_year) birth_date,
               vl.pages pages, vl.ID_victim, IF(vl.literature_has_photo = -1, 'yes', '-') AS literature_has_photo

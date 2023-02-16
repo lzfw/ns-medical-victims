@@ -36,21 +36,18 @@ $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 // zu durchsuchende felder und suchsystematik definieren:
 
 // felder, die immer exakt gematcht werden (Trunkierung nicht möglich, Diakritika distinkt, Basiszeichen distinkt)
-$exact_fields = array (	'twin', 					'mpg_project', 						'ID_birth_country',
-												'birth_year',			'ID_dataset_origin', 			'ID_death_country',
-												'death_year', 		'gender',									'ID_religion',
-												'ID_ethnic_group', 	'ID_nationality_1938', 			'ID_education',
-												'ID_occupation', 		'ID_arrest_country', 			'ID_perpetrator',
-												'photo',					'ID_nationality_after_1945',	'ID_death_institution',
-											  'ID_evaluation_status');
+$exact_fields = array ('twin', 'mpg_project', 'ID_birth_country', 'birth_year', 'ID_dataset_origin', 'ID_death_country',
+	'death_year', 'gender',	'ID_religion', 'ID_ethnic_group', 'ID_nationality_1938', 'ID_education', 'ID_occupation',
+	'ID_arrest_country', 'ID_perpetrator', 'photo',	 'ID_nationality_after_1945', 'ID_death_institution',
+	'ID_evaluation_status', 'compensation');
 
 // felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
 // --> If no diacritics are applied, it finds covers any combination: η would also return ἠ, ἦ or ἥ, while ἠ would find only ἠ.
 $like_fields = array ();
 
 //felder, die mit LIKE %xy% gematcht werden
-$contain_fields = array('residence_after_1945_country', 'occupation_after_1945',
-												'notes', 'notes_after_1945', 'notes_photo', 'birth_place', 'death_place', 'arrest_history');
+$contain_fields = array('residence_after_1945_country', 'occupation_after_1945', 'notes', 'notes_after_1945',
+	'notes_photo', 'birth_place', 'death_place', 'arrest_history');
 
 // felder, die mit like ODER exakt gematcht werden (Trunkierung möglich, Diakritika indistinkt)
 // --> Arabic vowel signs are treated indistinctively: سبب would also return سَبَبٌ, and vice versa.
@@ -61,28 +58,28 @@ $ticked_fields = array ();
 
 //fields involving data from tables other than nmv__victim
 //key defines table and column
-$special_fields = array('ex.ID_experiment'			=> 'ID_experiment',
-												'ei.ID_institution'   => 'exp_institution',
- 												'ic.ID_classification' => 'ID_classification',
-												'i.location' 					=> 'location',
-												't.ID_tissue_state' 	=> 'ID_tissue_state',
-												't.ID_tissue_form' 		=> 'ID_tissue_form',
-												'b.brain_report_year' => 'brain_report_year',
-												'b.ID_institution'		=> 'brain_report_institution',
-												'db.ID_diagnosis'			=> 'brain_report_ID_diagnosis',
-												'h.date_entry_year' 	=> 'hospitalisation_year',
-												'h.ID_institution'		=> 'hospitalisation_institution',
-												'dh.ID_diagnosis'			=> 'hospitalisation_ID_diagnosis',
-												't.ID_institution'   	=> 'tissue_institution',
-												'ef.ID_foi'						=> 'ID_foi',
-												'i.ID_institution'    => 'ID_imprisonment_institution'
-												);
+$special_fields = array('ex.ID_experiment'		=> 'ID_experiment',
+						'ei.ID_institution'   	=> 'exp_institution',
+						'ic.ID_classification' 	=> 'ID_classification',
+						'i.location' 			=> 'location',
+						't.ID_tissue_state' 	=> 'ID_tissue_state',
+						't.ID_tissue_form' 		=> 'ID_tissue_form',
+						'b.brain_report_year' 	=> 'brain_report_year',
+						'b.ID_institution'		=> 'brain_report_institution',
+						'db.ID_diagnosis'		=> 'brain_report_ID_diagnosis',
+						'h.date_entry_year' 	=> 'hospitalisation_year',
+						'h.ID_institution'		=> 'hospitalisation_institution',
+						'dh.ID_diagnosis'		=> 'hospitalisation_ID_diagnosis',
+						't.ID_institution'   	=> 'tissue_institution',
+						'ef.ID_foi'				=> 'ID_foi',
+						'i.ID_institution'    	=> 'ID_imprisonment_institution'
+						);
 
-$special_contain_fields = array("CONCAT(IFNULL(b.diagnosis, ''), IFNULL(dtb.diagnosis, ''))"	=> 'brain_report_diagnosis',
-																"CONCAT(IFNULL(h.diagnosis, ''), IFNULL(dth.diagnosis, ''))"	=> 'hospitalisation_diagnosis',
-																'b.ref_no'            => 'ref_no_brain',
-																't.ref_no'						=> 'ref_no_tissue',
-																'h.autopsy_ref_no'		=> 'autopsy_ref_no',
+$special_contain_fields = array("CONCAT(IFNULL(b.diagnosis, ''), IFNULL(dtb.diagnosis, ''))" => 'brain_report_diagnosis',
+	"CONCAT(IFNULL(h.diagnosis, ''), IFNULL(dth.diagnosis, ''))" => 'hospitalisation_diagnosis',
+	'b.ref_no'          => 'ref_no_brain',
+	't.ref_no'			=> 'ref_no_tissue',
+	'h.autopsy_ref_no'	=> 'autopsy_ref_no',
 																);
 
 // reconstruct GET-String (for scroll-function)
@@ -112,61 +109,61 @@ foreach ($special_contain_fields as $field) {
 $dbi->setUserVar('querystring',implode('&',$query));
 
 // make select-clauses part one
-if ((isset($_GET['ID_experiment']) && ($_GET['ID_experiment'])) || (isset($_GET['exp_institution']) && ($_GET['exp_institution']))): // query for experiment-related filters: shows and links victim-experiment data
-	$querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
-																					v.birth_year, bc.country AS birth_country, v.birth_place,
-																					n.nationality AS nationality_1938, et.ethnic_group,
-																					ve.exp_start_day, ve.exp_start_month, ve.exp_start_year,
-																					s.survival, ve.ID_vict_exp
-													FROM nmv__victim v
-													LEFT JOIN nmv__country bc 										ON bc.ID_country = v.ID_birth_country
-													LEFT JOIN nmv__victim_experiment ve						ON v.ID_victim = ve.ID_victim
-													LEFT JOIN nmv__survival s 										ON s.ID_survival = ve.ID_survival
-													LEFT JOIN nmv__experiment ex 									ON ve.ID_experiment = ex.ID_experiment
-													LEFT JOIN nmv__experiment_institution ei 			ON ei.ID_experiment = ex.ID_experiment
-													LEFT JOIN nmv__experiment_foi ef							ON ef.ID_experiment = ex.ID_experiment
-													LEFT JOIN nmv__field_of_interest foi					ON foi.ID_foi = ef.ID_foi
-													LEFT JOIN nmv__imprisonment i									ON v.ID_victim = i.ID_victim
-													LEFT JOIN nmv__imprisonment_classification ic ON ic.ID_imprisonment = i.ID_imprisonment
-													LEFT JOIN nmv__nationality n        					ON n.ID_nationality = v.ID_nationality_1938
-													LEFT JOIN nmv__ethnic_group et       					ON et.ID_ethnic_group = v.ID_ethnic_group
-													LEFT JOIN nmv__med_history_brain b						ON v.ID_victim = b.ID_victim
-													LEFT JOIN nmv__diagnosis_brain db 						ON db.ID_med_history_brain = b.ID_med_history_brain
-													LEFT JOIN nmv__diagnosis_tag dtb							ON dtb.ID_diagnosis = db.ID_diagnosis
-													LEFT JOIN nmv__med_history_tissue t						ON v.ID_victim = t.ID_victim
-													LEFT JOIN nmv__med_history_hosp h							ON v.ID_victim = h.ID_victim
-													LEFT JOIN nmv__diagnosis_hosp dh							ON dh.ID_med_history_hosp = h.ID_med_history_hosp
-													LEFT JOIN nmv__diagnosis_tag dth							ON dth.ID_diagnosis = dh.ID_diagnosis
-													LEFT JOIN nmv__victim_source vs 							ON vs.ID_victim = v.ID_victim
-													LEFT JOIN nmv__victim_literature vl 					ON vl.ID_victim = v.ID_victim
-													LEFT JOIN nmv__institution di									ON di.ID_institution = v.ID_death_institution
-												'; // für Ergebnisliste
+if ((isset($_GET['ID_experiment']) && ($_GET['ID_experiment'])) || (isset($_GET['exp_institution']) && ($_GET['exp_institution']))):
+// query for experiment-related filters: shows and links victim-experiment data
+	$querystring_items = '	
+		SELECT DISTINCT v.ID_victim, v.surname, v.first_names, v.birth_year, bc.country AS birth_country, v.birth_place, 
+                n.nationality AS nationality_1938, et.ethnic_group, ve.exp_start_day, ve.exp_start_month, 
+                ve.exp_start_year, s.survival, ve.ID_vict_exp
+		FROM nmv__victim v
+		LEFT JOIN nmv__country bc 								ON bc.ID_country = v.ID_birth_country
+		LEFT JOIN nmv__victim_experiment ve						ON v.ID_victim = ve.ID_victim
+		LEFT JOIN nmv__survival s 								ON s.ID_survival = ve.ID_survival
+		LEFT JOIN nmv__experiment ex 							ON ve.ID_experiment = ex.ID_experiment
+		LEFT JOIN nmv__experiment_institution ei 				ON ei.ID_experiment = ex.ID_experiment
+		LEFT JOIN nmv__experiment_foi ef						ON ef.ID_experiment = ex.ID_experiment
+		LEFT JOIN nmv__field_of_interest foi					ON foi.ID_foi = ef.ID_foi
+		LEFT JOIN nmv__imprisonment i							ON v.ID_victim = i.ID_victim
+		LEFT JOIN nmv__imprisonment_classification ic 			ON ic.ID_imprisonment = i.ID_imprisonment
+		LEFT JOIN nmv__nationality n        					ON n.ID_nationality = v.ID_nationality_1938
+		LEFT JOIN nmv__ethnic_group et       					ON et.ID_ethnic_group = v.ID_ethnic_group
+		LEFT JOIN nmv__med_history_brain b						ON v.ID_victim = b.ID_victim
+		LEFT JOIN nmv__diagnosis_brain db 						ON db.ID_med_history_brain = b.ID_med_history_brain
+		LEFT JOIN nmv__diagnosis_tag dtb						ON dtb.ID_diagnosis = db.ID_diagnosis
+		LEFT JOIN nmv__med_history_tissue t						ON v.ID_victim = t.ID_victim
+		LEFT JOIN nmv__med_history_hosp h						ON v.ID_victim = h.ID_victim
+		LEFT JOIN nmv__diagnosis_hosp dh						ON dh.ID_med_history_hosp = h.ID_med_history_hosp
+		LEFT JOIN nmv__diagnosis_tag dth						ON dth.ID_diagnosis = dh.ID_diagnosis
+		LEFT JOIN nmv__victim_source vs 						ON vs.ID_victim = v.ID_victim
+		LEFT JOIN nmv__victim_literature vl 					ON vl.ID_victim = v.ID_victim
+		LEFT JOIN nmv__institution di								ON di.ID_institution = v.ID_death_institution
+		'; // für Ergebnisliste
 else:  // default query
-		$querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
-																					v.birth_year, bc.country AS birth_country, v.birth_place,
-																					n.nationality AS nationality_1938, et.ethnic_group
-													FROM nmv__victim v
-													LEFT JOIN nmv__country bc 										ON bc.ID_country = v.ID_birth_country
-													LEFT JOIN nmv__victim_experiment ve						ON v.ID_victim = ve.ID_victim
-													LEFT JOIN nmv__survival s 										ON s.ID_survival = ve.ID_survival
-													LEFT JOIN nmv__experiment ex 									ON ve.ID_experiment = ex.ID_experiment
-													LEFT JOIN nmv__experiment_foi ef							ON ef.ID_experiment = ex.ID_experiment
-													LEFT JOIN nmv__field_of_interest foi					ON foi.ID_foi = ef.ID_foi
-													LEFT JOIN nmv__imprisonment i								ON v.ID_victim = i.ID_victim
-													LEFT JOIN nmv__imprisonment_classification ic ON ic.ID_imprisonment = i.ID_imprisonment
-													LEFT JOIN nmv__nationality n        					ON n.ID_nationality = v.ID_nationality_1938
-													LEFT JOIN nmv__ethnic_group et       					ON et.ID_ethnic_group = v.ID_ethnic_group
-													LEFT JOIN nmv__med_history_brain b						ON v.ID_victim = b.ID_victim
-													LEFT JOIN nmv__diagnosis_brain db 						ON db.ID_med_history_brain = b.ID_med_history_brain
-													LEFT JOIN nmv__diagnosis_tag dtb							ON dtb.ID_diagnosis = db.ID_diagnosis
-													LEFT JOIN nmv__med_history_tissue t						ON v.ID_victim = t.ID_victim
-													LEFT JOIN nmv__med_history_hosp h							ON v.ID_victim = h.ID_victim
-													LEFT JOIN nmv__diagnosis_hosp dh							ON dh.ID_med_history_hosp = h.ID_med_history_hosp
-													LEFT JOIN nmv__diagnosis_tag dth							ON dth.ID_diagnosis = dh.ID_diagnosis
-													LEFT JOIN nmv__victim_source vs 							ON vs.ID_victim = v.ID_victim
-													LEFT JOIN nmv__victim_literature vl 					ON vl.ID_victim = v.ID_victim
-													LEFT JOIN nmv__institution di									ON di.ID_institution = v.ID_death_institution
-												'; // für Ergebnisliste}
+	$querystring_items = '	
+		SELECT DISTINCT v.ID_victim, v.surname, v.first_names, v.birth_year, 
+				bc.country AS birth_country, v.birth_place, n.nationality AS nationality_1938, et.ethnic_group
+		FROM nmv__victim v
+		LEFT JOIN nmv__country bc 								ON bc.ID_country = v.ID_birth_country
+		LEFT JOIN nmv__victim_experiment ve						ON v.ID_victim = ve.ID_victim
+		LEFT JOIN nmv__survival s 								ON s.ID_survival = ve.ID_survival
+		LEFT JOIN nmv__experiment ex 							ON ve.ID_experiment = ex.ID_experiment
+		LEFT JOIN nmv__experiment_foi ef						ON ef.ID_experiment = ex.ID_experiment
+		LEFT JOIN nmv__field_of_interest foi					ON foi.ID_foi = ef.ID_foi
+		LEFT JOIN nmv__imprisonment i							ON v.ID_victim = i.ID_victim
+		LEFT JOIN nmv__imprisonment_classification ic 			ON ic.ID_imprisonment = i.ID_imprisonment
+		LEFT JOIN nmv__nationality n        					ON n.ID_nationality = v.ID_nationality_1938
+		LEFT JOIN nmv__ethnic_group et       					ON et.ID_ethnic_group = v.ID_ethnic_group
+		LEFT JOIN nmv__med_history_brain b						ON v.ID_victim = b.ID_victim
+		LEFT JOIN nmv__diagnosis_brain db 						ON db.ID_med_history_brain = b.ID_med_history_brain
+		LEFT JOIN nmv__diagnosis_tag dtb						ON dtb.ID_diagnosis = db.ID_diagnosis
+		LEFT JOIN nmv__med_history_tissue t						ON v.ID_victim = t.ID_victim
+		LEFT JOIN nmv__med_history_hosp h						ON v.ID_victim = h.ID_victim
+		LEFT JOIN nmv__diagnosis_hosp dh						ON dh.ID_med_history_hosp = h.ID_med_history_hosp
+		LEFT JOIN nmv__diagnosis_tag dth						ON dth.ID_diagnosis = dh.ID_diagnosis
+		LEFT JOIN nmv__victim_source vs 						ON vs.ID_victim = v.ID_victim
+		LEFT JOIN nmv__victim_literature vl 					ON vl.ID_victim = v.ID_victim
+		LEFT JOIN nmv__institution di							ON di.ID_institution = v.ID_death_institution
+	'; // für Ergebnisliste}
 endif;
 $querystring_where = array(); // for where-part of select clause
 $querystring_where[] = "was_prisoner_assistant != 'prisoner assistant only'";
@@ -259,7 +256,7 @@ if (count($querystring_where) > 0) {
     $querystring_items .= $where_clause;
 }
 $querystring_items .= " GROUP BY v.ID_victim, ve.ID_vict_exp";
-// echo $querystring_items;
+//echo $querystring_items;
 //Gesamtanzahl der Suchergebnisse feststellen
 $querystring_count = "SELECT COUNT(*) AS total FROM ($querystring_items) AS xyz";
 $query_count = $dbi->connection->query($querystring_count);

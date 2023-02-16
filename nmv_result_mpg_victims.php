@@ -83,14 +83,11 @@ $querystring_items = 'SELECT DISTINCT v.ID_victim, v.surname, v.first_names, v.b
 											LEFT JOIN nmv__victim_name vn					ON v.ID_victim = vn.ID_victim
 											'; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
-$querystring_where[] = "was_prisoner_assistant != 'prisoner assistant only'";
+$querystring_where[] = "was_prisoner_assistant != 'prisoner assistant only' AND v.mpg_project = -1";
 
 // MySQL-Zeichenfilter definieren (Trunkierungszeichen werden zu MySQL-Zeichen)
 $filter_chars = array("'", '%', '_', '*', '٭');
 $replace_chars = array('', ' ', ' ', '%', '%');
-
-// WHERE Strings zusammenbauen
-$querystring_where[] = "v.mpg_project = -1";
 
 foreach ($exact_fields as $field) {
     if (getUrlParameter($field)) {

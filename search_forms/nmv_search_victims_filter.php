@@ -34,7 +34,7 @@ $victimsVariableForm->addField('ID_birth_country', SELECT)
                                   WHERE nmv__country.ID_country = nmv__victim.ID_birth_country)');
 
 $victimsVariableForm->addField('birth_place', TEXT, 120)
-                                    ->setLabel('place of birth <small>contains</small>');
+                                    ->setLabel('place of birth <small>contains keyword</small>');
 
 $victimsVariableForm->addField('birth_year', TEXT, 4)
   ->setLabel('year of birth (yyyy)');
@@ -63,7 +63,7 @@ $victimsVariableForm->addField('ID_death_country', SELECT)
                                   WHERE nmv__country.ID_country = nmv__victim.ID_death_country)');
 
 $victimsVariableForm->addField('death_place', TEXT, 120)
-  ->setLabel('place of death <small>contains</small>');
+  ->setLabel('place of death <small>contains keyword</small>');
 
 $victimsVariableForm->addField('death_year', TEXT, 4)
   ->setLabel('year of death (yyyy)');
@@ -175,7 +175,12 @@ $victimsVariableForm->addField('location', SELECT)
   ->addOptionsFromTable('nmv__imprisonment', 'DISTINCT location', 'location');
 
 $victimsVariableForm->addField('arrest_history', TEXT, 120)
-  ->setLabel('arrest history <small>contains</small>');
+  ->setLabel('arrest history <small>contains keyword</small>');
+
+$victimsVariableForm->addField('compensation', SELECT)
+    ->setLabel('compensation')
+    ->addOption(NO_VALUE, 'all compensation options')
+    ->addOptionsFromArray(array('yes'=>'yes', 'no'=>'no', 'not applicable'=>'not applicable', 'not specified'=>'not specified'));
 
 $victimsVariableForm->addField('ID_evaluation_status', SELECT)
   ->setLabel('evaluation status')
