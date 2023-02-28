@@ -45,7 +45,7 @@ $form->addField ('ID_source', SELECT, REQUIRED)
     ->setLabel ('source')
     ->addOption (NO_VALUE,'please choose')
     ->addOptionsFromTable ( 'nmv__source', 'ID_source', "LEFT(concat(IFNULL(LEFT(source_title, 60), '#'),' - ',IFNULL(LEFT(medium,40), '#'),' - ',IFNULL(creation_year, '#')),100)");
-$form->addField ('location', TEXT, 250)
+$form->addField ('location', TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('location');
 $form->addField ('url',TEXTAREA)
