@@ -14,7 +14,7 @@ $form
 	->setPrimaryKeyName('ID_literature');
 $form->addField ('ID_literature', PROTECTED_TEXT)
     ->setLabel ('Literature ID');
-$form->addField ('authors',TEXT,250)
+$form->addField ('authors',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Authors');
 $form->addField ('lit_year',TEXT,50)
