@@ -47,7 +47,7 @@ if ($perpetrator_id) {
         $options .= createSmallButton('View Literature','nmv_view_literature?ID_literature={ID_literature}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
         	if ($dbi->checkUserPermission('edit')) {
-        			$options .= createSmallButton(L_EDIT,'nmv_edit_perpetrator_literature?ID_perp_lit={ID_perp_lit}','icon edit');
+        			$options .= createSmallButton(L_EDIT,"nmv_edit_perpetrator_literature?ID_perp_lit={ID_perp_lit}&ID_perpetrator=$perpetrator_id",'icon edit');
         	}
         	if ($dbi->checkUserPermission('admin')) {
         			$options .= createSmallButton(L_DELETE,'nmv_remove_perpetrator_literature?ID_perp_lit={ID_perp_lit}','icon delete');
@@ -119,7 +119,7 @@ if ($literature_id) {
         $options .= createSmallButton('View Perpetrator','nmv_view_perpetrator?ID_perpetrator={ID_perpetrator}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
         	if ($dbi->checkUserPermission('edit')) {
-        			$options .= createSmallButton(L_EDIT,'nmv_edit_perpetrator_literature?ID_perp_lit={ID_perp_lit}','icon edit');
+        			$options .= createSmallButton(L_EDIT,"nmv_edit_perpetrator_literature?ID_perp_lit={ID_perp_lit}&ID_literature=$literature_id",'icon edit');
         	}
         	if ($dbi->checkUserPermission('admin')) {
         			$options .= createSmallButton(L_DELETE,'nmv_remove_perpetrator_literature?ID_perp_lit={ID_perp_lit}','icon delete');

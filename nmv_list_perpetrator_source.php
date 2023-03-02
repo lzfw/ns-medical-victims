@@ -47,7 +47,7 @@ if ($perpetrator_id) {
         $options .= createSmallButton('View Source','nmv_view_source?ID_source={ID_source}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
         	if ($dbi->checkUserPermission('edit')) {
-        			$options .= createSmallButton(L_EDIT,'nmv_edit_perpetrator_source?ID_perp_source={ID_perp_source}','icon edit');
+        			$options .= createSmallButton(L_EDIT,"nmv_edit_perpetrator_source?ID_perp_source={ID_perp_source}&ID_perpetrator=$perpetrator_id",'icon edit');
         	}
         	if ($dbi->checkUserPermission('admin')) {
         			$options .= createSmallButton(L_DELETE,'nmv_remove_perpetrator_source?ID_perp_source={ID_perp_source}','icon delete');
@@ -119,7 +119,7 @@ if ($source_id) {
         $options .= createSmallButton('View Perpetrator','nmv_view_perpetrator?ID_perpetrator={ID_perpetrator}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
         	if ($dbi->checkUserPermission('edit')) {
-        			$options .= createSmallButton(L_EDIT,'nmv_edit_perpetrator_source?ID_perp_source={ID_perp_source}','icon edit');
+        			$options .= createSmallButton(L_EDIT,"nmv_edit_perpetrator_source?ID_perp_source={ID_perp_source}&ID_source=$source_id",'icon edit');
         	}
         	if ($dbi->checkUserPermission('admin')) {
         			$options .= createSmallButton(L_DELETE,'nmv_remove_perpetrator_source?ID_perp_source={ID_perp_source}','icon delete');

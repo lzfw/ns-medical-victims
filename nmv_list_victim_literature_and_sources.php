@@ -49,7 +49,7 @@ if ($victim_id) {
         $options .= createSmallButton('view literature','nmv_view_literature?ID_literature={ID_literature}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
         	if ($dbi->checkUserPermission('edit')) {
-        			$options .= createSmallButton(L_EDIT,'nmv_edit_victim_literature?ID_vict_lit={ID_vict_lit}','icon edit');
+        			$options .= createSmallButton(L_EDIT,"nmv_edit_victim_literature?ID_vict_lit={ID_vict_lit}&ID_victim=$victim_id",'icon edit');
         	}
         	if ($dbi->checkUserPermission('admin')) {
         			$options .= createSmallButton(L_DELETE,'nmv_remove_victim_literature?ID_vict_lit={ID_vict_lit}','icon delete');
@@ -102,7 +102,7 @@ if ($victim_id) {
         $options .= createSmallButton('view source','nmv_view_source?ID_source={ID_source}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
           if ($dbi->checkUserPermission('edit')) {
-              $options .= createSmallButton(L_EDIT,'nmv_edit_victim_source?ID_vict_source={ID_vict_source}','icon edit');
+              $options .= createSmallButton(L_EDIT,"nmv_edit_victim_source?ID_vict_source={ID_vict_source}&ID_victim=$victim_id",'icon edit');
           }
           if ($dbi->checkUserPermission('admin')) {
               $options .= createSmallButton(L_DELETE,'nmv_remove_victim_source?ID_vict_source={ID_vict_source}','icon delete');
