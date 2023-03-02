@@ -161,19 +161,36 @@ if ($source_id) {
         }
         $row_template[] = $options;
     	$header_template[] = L_OPTIONS;
-      $query_count = $dbi->connection->query($querystring_count);
-      $total_results = $query_count->fetch_object();
-      $content .= buildTableFromQuery(
+        $query_count = $dbi->connection->query($querystring_count);
+        $total_results = $query_count->fetch_object();
+
+        // new entry - button
+        if ($dbi->checkUserPermission('edit')) {
+            $content .= '<div class="buttons">';
+            $content .= createButton ('New Person Link',
+                'nmv_edit_victim_source?ID_source='.$source_id,'icon add');
+            $content .= '</div>';
+        }
+
+        $content .= buildTableFromQuery(
           $querystring,
           $row_template,
           $header_template,
           'grid');
+
+        // new entry - button
+        if ($dbi->checkUserPermission('edit')) {
+            $content .= '<div class="buttons">';
+            $content .= createButton ('New Person Link',
+                'nmv_edit_victim_source?ID_source='.$source_id,'icon add');
+            $content .= '</div>';
+        }
     }
 
     //$content .= createBackLink ('View source: '.$source_name,'nmv_view_source?ID_source='.$source_id);
 }
 
 $layout
-	->set('title',($victim_id ? 'Sources List: "' . $victim_name . '"' : 'Victims List: "' . $source_name . '"'))
+	->set('title',($victim_id ? 'Sources List: "' . $victim_name . '"' : 'Persons List: "' . $source_name . '"'))
 	->set('content',$content)
 	->cast();

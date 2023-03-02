@@ -56,6 +56,13 @@ if ($victim_id) {
         $row_template[] = $options;
     	$header_template[] = L_OPTIONS;
 
+        if ($dbi->checkUserPermission('edit')) {
+            $content .= '<div class="buttons">';
+            $content .= createButton ('New literature Entry',
+                'nmv_edit_victim_literature?ID_victim='.$victim_id,'icon add');
+            $content .= '</div>';
+        }
+
         $content .= buildTableFromQuery(
             $querystring,
             $row_template,
@@ -115,7 +122,7 @@ if ($literature_id) {
 
         $options = '';
         $row_template = ['{victim_name}', '{birth_place}', '{birth_date}', '{pages}', '{literature_has_photo}'];
-        $header_template = ['Victim', 'Birth Place', 'Birth Date', 'Pages in Literature', 'Literature Contains Photo'];
+        $header_template = ['Person', 'Birth Place', 'Birth Date', 'Pages in Literature', 'Literature Contains Photo'];
 
         $options .= createSmallButton('view Victim','nmv_view_victim?ID_victim={ID_victim}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
@@ -129,17 +136,31 @@ if ($literature_id) {
         $row_template[] = $options;
         $header_template[] = L_OPTIONS;
 
+        if ($dbi->checkUserPermission('edit')) {
+            $content .= '<div class="buttons">';
+            $content .= createButton ('New Person Link',
+                'nmv_edit_victim_literature?ID_literature='.$literature_id,'icon add');
+            $content .= '</div>';
+        }
+
         $content .= buildTableFromQuery(
             $querystring,
             $row_template,
             $header_template,
             'grid');
+
+        if ($dbi->checkUserPermission('edit')) {
+            $content .= '<div class="buttons">';
+            $content .= createButton ('New Person Link',
+                'nmv_edit_victim_literature?ID_literature='.$literature_id,'icon add');
+            $content .= '</div>';
+        }
     }
 
     $content .= createBackLink ('View literature: '.$literature_name,'nmv_view_literature?ID_literature='.$literature_id);
 }
 
 $layout
-	->set('title',($victim_id ? 'Literature list: "' . $victim_name . '"' : 'Victims list: "' . $literature_name . '"'))
+	->set('title',($victim_id ? 'Literature list: "' . $victim_name . '"' : 'Persons list: "' . $literature_name . '"'))
 	->set('content',$content)
 	->cast();

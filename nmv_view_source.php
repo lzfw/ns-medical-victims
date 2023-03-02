@@ -44,7 +44,7 @@ if ($stmt = $dbi->connection->prepare($querystring)) {
 }
 
 if ($source = $result->fetch_object()) {
-    $source_name = '“' . $source->source_title.'” ('.$source->creation_year . ')';
+    $source_name = $source->source_title . '(' . $source->creation_year . ')';
 
     $content = buildElement('table','grid',
         buildDataSheetRow('Source ID',            $source_id).

@@ -128,11 +128,27 @@ if ($source_id) {
     	$row_template[] = $options;
     	$header_template[] = L_OPTIONS;
 
+        // new entry - button
+        if ($dbi->checkUserPermission('edit')) {
+            $content .= '<div class="buttons">';
+            $content .= createButton ('New Perpetrator Entry',
+                'nmv_edit_perpetrator_source?ID_source='.$source_id,'icon add');
+            $content .= '</div>';
+        }
+
         $content .= buildTableFromQuery(
             $querystring,
             $row_template,
             $header_template,
             'grid');
+
+        // new entry - button
+        if ($dbi->checkUserPermission('edit')) {
+            $content .= '<div class="buttons">';
+            $content .= createButton ('New Perpetrator Entry',
+                'nmv_edit_perpetrator_source?ID_source='.$source_id,'icon add');
+            $content .= '</div>';
+        }
 
         // Not supported by nmv_edit_perpetrator_source yet
         /*

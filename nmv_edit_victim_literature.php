@@ -8,8 +8,10 @@ $form = new Form ('nmv_victim_literature');
 
 // query: get victim data
 $victim_id = (int) getUrlParameter('ID_victim', 0);
+$literature_id = (int) getUrlParameter('ID_literature', 0);
+$lit_title = 'Error: Unknown.';
 $victim_name = 'Error: Unknown.';
-if ($victim_id) {
+if($victim_id){
     $querystring = "
     SELECT CONCAT(COALESCE(surname, ''), ' ', COALESCE(first_names, '')) victim_name
     FROM nmv__victim
@@ -17,34 +19,37 @@ if ($victim_id) {
     $query = $dbi->connection->query($querystring);
     $victim = $query->fetch_object();
     $victim_name = $victim->victim_name;
-} else {
-    $vict_literature_id = (int) getUrlParameter('ID_vict_lit', 0);
+} elseif($literature_id) {
     $querystring = "
-    SELECT CONCAT(COALESCE(v.surname, ''), ' ', COALESCE(v.first_names, '')) victim_name,
-        v.ID_victim victim_id
-    FROM nmv__victim v
-    RIGHT JOIN nmv__victim_literature h ON (h.ID_victim = v.ID_victim)
-    WHERE ID_vict_lit = $vict_literature_id";
+    SELECT lit_title
+    FROM nmv__literature
+    WHERE ID_literature = $literature_id";
     $query = $dbi->connection->query($querystring);
-    $victim = $query->fetch_object();
-    $victim_id = $victim->victim_id;
-    $victim_name = $victim->victim_name;
+    $literature = $query->fetch_object();
+    $lit_title = $literature->lit_title;
 }
-
-
-$form
-	->setLabel('Literature mentioning victim ' . $victim_name);
 
 $form
 	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
 	->setPrimaryKeyName('ID_vict_lit');
+if($victim_id) {
+    $form
+        ->setLabel('Literature mentioning Person: ' . $victim_name);
+    $form->addField('ID_victim', PROTECTED_TEXT)
+        ->setLabel('Victim ID');
+    $form->addField('ID_literature', SELECT, REQUIRED)
+        ->setLabel('Literature')
+        ->addOption(NO_VALUE, 'please choose')
+        ->addOptionsFromTable('nmv__literature', 'ID_literature', "LEFT(concat(IFNULL(LEFT(lit_title, 60), '#'),' - ',IFNULL(LEFT(authors,40), '#'),' - ',IFNULL(lit_year, '#')),100)");
+}elseif($literature_id){
+    $form
+        ->setLabel('Person mentioned in Literature: ' . $lit_title);
+    $form->addField('ID_literature', PROTECTED_TEXT)
+        ->setLabel('LiteratureID');
+    $form->addField('ID_victim', TEXT, 10)
+        ->setLabel('Victim ID in this database');
 
-$form->addField ('ID_victim',PROTECTED_TEXT)
-    ->setLabel ('victim ID');
-$form->addField ('ID_literature',SELECT,REQUIRED)
-    ->setLabel ('literature')
-    ->addOption (NO_VALUE,'please choose')
-    ->addOptionsFromTable ( 'nmv__literature', 'ID_literature', "LEFT(concat(IFNULL(LEFT(lit_title, 60), '#'),' - ',IFNULL(LEFT(authors,40), '#'),' - ',IFNULL(lit_year, '#')),100)");
+}
 $form->addField ('pages',TEXT,250)
     ->setLabel ('pages');
 $form->addField ('url',TEXTAREA)
@@ -76,6 +81,6 @@ $dbi->addBreadcrumb ('Victims','nmv_list_victims');
 $dbi->addBreadcrumb ('Literature describing '.$victim_name,'nmv_list_victim_literature?ID_victim='.$victim_id);
 
 $layout
-	->set('title',getUrlParameter('ID_vict_lit') ? 'Edit Victim Literature Entry' : 'New Victim Literature Entry')
+	->set('title',getUrlParameter('ID_vict_lit') ? 'Edit Person Literature Link' : 'New Person Literature Link')
 	->set('content',$form->run().'<div class="message">'.$form->success_message.'</div>'.$form->debuglog->Show())
 	->cast();
