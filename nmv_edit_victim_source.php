@@ -34,7 +34,7 @@ $form
 	->setPrimaryKeyName('ID_vict_source');
 if($victim_id){
     $form
-        ->setLabel('Source mentioning Person: ' . $victim_name);
+        ->setLabel('Source linked to Person: ' . $victim_name);
     $form->addField('ID_victim', PROTECTED_TEXT)
         ->setLabel('Victim ID');
     $form->addField('ID_source', SELECT, REQUIRED)
@@ -43,7 +43,7 @@ if($victim_id){
         ->addOptionsFromTable('nmv__source', 'ID_source', "LEFT(concat(IFNULL(LEFT(source_title, 60), '#'),' - ',IFNULL(LEFT(medium,40), '#'),' - ',IFNULL(creation_year, '#')),100)");
 }elseif($source_id){
     $form
-        ->setLabel('Person mentioned in Source: ' . $source_title);
+        ->setLabel('Person linked to Source: ' . $source_title);
     $form->addField('ID_source', PROTECTED_TEXT)
         ->setLabel('Source ID');
     $form->addField('ID_victim', TEXT, 10)

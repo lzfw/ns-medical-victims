@@ -34,7 +34,7 @@ $form
 	->setPrimaryKeyName('ID_vict_lit');
 if($victim_id) {
     $form
-        ->setLabel('Literature mentioning Person: ' . $victim_name);
+        ->setLabel('Literature linked to Person: ' . $victim_name);
     $form->addField('ID_victim', PROTECTED_TEXT)
         ->setLabel('Victim ID');
     $form->addField('ID_literature', SELECT, REQUIRED)
@@ -43,7 +43,7 @@ if($victim_id) {
         ->addOptionsFromTable('nmv__literature', 'ID_literature', "LEFT(concat(IFNULL(LEFT(lit_title, 60), '#'),' - ',IFNULL(LEFT(authors,40), '#'),' - ',IFNULL(lit_year, '#')),100)");
 }elseif($literature_id){
     $form
-        ->setLabel('Person mentioned in Literature: ' . $lit_title);
+        ->setLabel('Person linked to Literature: ' . $lit_title);
     $form->addField('ID_literature', PROTECTED_TEXT)
         ->setLabel('LiteratureID');
     $form->addField('ID_victim', TEXT, 10)

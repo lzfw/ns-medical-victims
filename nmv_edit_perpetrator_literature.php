@@ -38,7 +38,7 @@ $form
 	->setPrimaryKeyName('ID_perp_lit');
 if($perpetrator_id) {
     $form
-        ->setLabel('Literature mentioning perpetrator: ' . $perpetrator_name);
+        ->setLabel('Literature linked to perpetrator: ' . $perpetrator_name);
     $form->addField('ID_perpetrator', PROTECTED_TEXT)
         ->setLabel('Perpetrator ID');
     $form->addField('ID_literature', SELECT, REQUIRED)
@@ -48,7 +48,7 @@ if($perpetrator_id) {
         IFNULL(LEFT(authors,40), '#'),' - ',IFNULL(lit_year, '#')),100)");
 }elseif($literature_id){
     $form
-        ->setLabel('Perpetrator mentioned in literature: ' . $lit_title);
+        ->setLabel('Perpetrator linked to literature: ' . $lit_title);
     $form->addField('ID_literature', PROTECTED_TEXT)
         ->setLabel('Literature ID');
     $form->addField('ID_perpetrator', SELECT, REQUIRED)

@@ -35,7 +35,7 @@ $form
 	->setPrimaryKeyName('ID_perp_source');
 if($perpetrator_id){
     $form
-    ->setLabel('Source mentioning Perpetrator: ' . $perpetrator_name);
+    ->setLabel('Source linked to Perpetrator: ' . $perpetrator_name);
     $form->addField ('ID_perpetrator',PROTECTED_TEXT)
         ->setLabel ('Perpetrator ID');
     $form->addField ('ID_source',SELECT, REQUIRED)
@@ -45,7 +45,7 @@ if($perpetrator_id){
         IFNULL(LEFT(medium,40), '#'),' - ',IFNULL(creation_year, '#')),100)");
 } elseif($source_id){
     $form
-        ->setLabel('Perpetrator mentioned in Source: ' . $source_title);
+        ->setLabel('Perpetrator linked to Source: ' . $source_title);
     $form->addField ('ID_source',PROTECTED_TEXT)
         ->setLabel ('Source ID');
     $form->addField ('ID_perpetrator',SELECT, REQUIRED)
