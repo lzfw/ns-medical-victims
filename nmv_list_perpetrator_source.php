@@ -42,7 +42,7 @@ if ($perpetrator_id) {
 
         $options = '';
         $row_template = ['{title}', '{year}', '{medium}', '{location}', '{url}', '{access_date}', '{source_has_photo}'];
-        $header_template = ['Title', 'Year', 'Medium', 'Location in Source', 'URL', 'Access date', 'Source Contains Photo'];
+        $header_template = ['Title', 'Year', 'Medium', 'Location in Source', 'URL', 'Access Date dmY', 'Source Contains Photo'];
 
         $options .= createSmallButton('View Source','nmv_view_source?ID_source={ID_source}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
@@ -105,6 +105,7 @@ if ($source_id) {
             CONCAT(p.ID_perpetrator, ': ', p.first_names, ' ', p.surname) perpetrator_name,
             p.birth_place birth_place,
             CONCAT_WS('.', p.birth_day, p.birth_month, p.birth_year) birth_date,
+            ps.url, CONCAT(IFNULL(ps.access_day, '-'), '.', IFNULL(ps.access_month, '-'), '.', IFNULL(ps.access_year, '-')) as access_date,
             ps.location location, ps.ID_perpetrator ID_perpetrator, IF(ps.source_has_photo = -1, 'yes', '-') AS source_has_photo
         FROM nmv__perpetrator_source ps
         LEFT JOIN nmv__source s ON s.ID_source = ps.ID_source
@@ -113,8 +114,8 @@ if ($source_id) {
         ORDER BY perpetrator_name";
 
         $options = '';
-        $row_template = ['{perpetrator_name}', '{birth_place}', '{birth_date}', '{location}', '{source_has_photo}'];
-        $header_template = ['Perpetrator', 'Birth Place', 'Birth Date', 'Location in Source', 'Source Contains Photo'];
+        $row_template = ['{perpetrator_name}', '{birth_place}', '{birth_date}', '{location}', '{url}', '{access_date}', '{source_has_photo}'];
+        $header_template = ['Perpetrator', 'Birth Place', 'Birth Date', 'Location in Source', 'URL', 'Access Date dmY' , 'Source Contains Photo'];
 
         $options .= createSmallButton('View Perpetrator','nmv_view_perpetrator?ID_perpetrator={ID_perpetrator}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {

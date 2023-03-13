@@ -110,7 +110,8 @@ if ($source_id) {
               v.surname surname, v.first_names first_names,
               v.birth_place birth_place, v.birth_year birth_year,
               CONCAT_WS('.', v.birth_day, v.birth_month, v.birth_year) birth_date,
-              vs.location location, vs.ID_victim ID_victim, IF(vs.source_has_photo = -1, 'yes', '-') AS source_has_photo
+              vs.location location, vs.ID_victim ID_victim, IF(vs.source_has_photo = -1, 'yes', '-') AS source_has_photo,
+              vs.url, CONCAT(IFNULL(vs.access_day, '-'), '.', IFNULL(vs.access_month, '-'), '.', IFNULL(vs.access_year, '-')) as access_date
           FROM nmv__victim_source vs
           LEFT JOIN nmv__source s ON s.ID_source = vs.ID_source
           LEFT JOIN nmv__victim v ON v.ID_victim = vs.ID_victim
@@ -146,8 +147,8 @@ if ($source_id) {
         $content .= 'Number of victims: '. $total_results->total. '</p>';
 
         $options = '';
-        $row_template = ['{ID_victim}', '{surname}', '{birth_place}', '{birth_date}', '{location}', '{source_has_photo}'];
-        $header_template = ['ID', 'Surname', 'Birth Place', 'Birth Date', 'Location in Source', 'Source Contains Photo'];
+        $row_template = ['{ID_victim}', '{surname}', '{birth_place}', '{birth_date}', '{location}', '{url}', '{access_date}', '{source_has_photo}'];
+        $header_template = ['ID', 'Surname', 'Birth Place', 'Birth Date', 'Location in Source', 'URL', 'Access Date dmY', 'Source Contains Photo'];
 
 
         $options .= createSmallButton('view Victim','nmv_view_victim?ID_victim={ID_victim}','icon view');
