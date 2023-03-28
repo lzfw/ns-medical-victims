@@ -238,6 +238,10 @@ if (!($dbi->checkUserPermission('mpg'))) :
   $content .= createButton("Biomedical Research",'nmv_list_victim_experiment?ID_victim='.$victim_id,'icon report-paper');
 endif;
 $content .= createButton("Literature and Sources", 'nmv_list_victim_literature_and_sources?ID_victim='.$victim_id, 'icon report-paper');
+if($victim_id_old_profile != NULL)
+    $content .= createButton("Old Profile", 'nmv_view_victim.php?ID_victim='.$victim_id_old_profile, 'icon report-paper');
+if($victim_id_new_profile != NULL)
+    $content .= createButton("New Profile", 'nmv_view_victim.php?ID_victim='.$victim_id_new_profile, 'icon report-paper');
 $content .= '</div>';
 
 $content .= createBackLink ("List of Persons",'nmv_list_victims');
