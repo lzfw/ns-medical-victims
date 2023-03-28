@@ -27,7 +27,7 @@ class View_List_Statistics_Experiment_Institution extends View_List {
 
 		if ($results->num_rows>0) {
 		    $html .= '<table class="grid">';
-		    $html .= '<th>Institution</th><th>complete database</th><th>mpg only</th>';
+		    $html .= '<th>Institution</th><th>complete database</th><!--<th>mpg only</th>-->';
 				$asum = 0;
 				$bsum = 0;
 			while ($item = $results->fetch_object()) {
@@ -36,7 +36,7 @@ class View_List_Statistics_Experiment_Institution extends View_List {
 			    $html .= '<tr>
 			        <td><a href="nmv_view_institution?ID_institution=' . $item->ID_institution . '"> ' . $institution . '</a></td>
 			        <td>' . htmlentities($item->anumber, ENT_HTML5) . '</td>
-			        <td>' . htmlentities($item->bnumber, ENT_HTML5) . '</td>
+    		       <!-- <td>' . htmlentities($item->bnumber, ENT_HTML5) . '</td>-->
 			    </tr>';
 					$asum += $item->anumber;
 					$bsum += $item->bnumber;
@@ -44,7 +44,7 @@ class View_List_Statistics_Experiment_Institution extends View_List {
 			$html .= '	<tr>
 										<td><strong>total number of victim-experiment-connections</strong></td>
 										<td><strong>' . $asum . '</strong></td>
-										<td><strong>' . $bsum . '</strong></td>
+										<!--<td><strong>' . $bsum . '</strong></td>-->
 									</tr>
 								</table>';
 		}

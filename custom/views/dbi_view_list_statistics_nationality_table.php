@@ -27,7 +27,7 @@ class View_List_Statistics_Nationality_Table extends View_List {
 
 		if ($results->num_rows>0) {
 		    $html .= '<table class="grid">';
-		    $html .= '<th>Nationality (1938)</th><th>all victims</th><th>mpg only</th>';
+		    $html .= '<th>Nationality (1938)</th><th>all victims</th><!--<th>mpg only</th>-->';
 				$asum = 0;
 				$bsum = 0;
 			while ($item = $results->fetch_object()) {
@@ -35,7 +35,7 @@ class View_List_Statistics_Nationality_Table extends View_List {
 				$html .= '<tr>
 							<td>' . $nationality  . '</td>
 			    		<td>' . htmlentities($item->anumber, ENT_HTML5) . '</td>
-			    		<td>' . htmlentities($item->bnumber, ENT_HTML5) . '</td>
+			    		 <!-- <td>' . htmlentities($item->bnumber, ENT_HTML5) . '</td>-->
 			    </tr>';
 				$asum += $item->anumber;
 				$bsum += $item->bnumber;
@@ -43,7 +43,7 @@ class View_List_Statistics_Nationality_Table extends View_List {
 			$html .= '	<tr>
 										<td><strong>total number of victims</strong></td>
 										<td><strong>' . $asum . '</strong></td>
-										<td><strong>' . $bsum . '</strong></td>
+										<!--<td><strong>' . $bsum . '</strong></td>-->
 									</tr>
 								</table>';
 		}
