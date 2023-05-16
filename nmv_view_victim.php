@@ -82,8 +82,8 @@ if ($victim = $result->fetch_object()) {
         ($victim->death_country?' in '.$victim->death_country :'').
         ($victim->{"cause_of_death"}?', cause of death: '.$victim->{"cause_of_death"}:'');
     $content = buildElement('h3', 'Personal Data');
-    if($victim->mpg_project = -1)
-        $content .= buildElement('h3', 'mpgcolor', "Data from MPG Victims Research Project - workgroup $victim->workgroup");
+    if($victim->mpg_project == -1) {
+        $content .= buildElement('h3', 'mpgcolor', "Data from MPG Victims Research Project - workgroup $victim->workgroup");}
     $content .= buildElement('table','grid',
         buildDataSheetRow('ID',              $victim_id).
         buildDataSheetRow('Name',                   $victim_name).
