@@ -6,6 +6,8 @@ $dbi->requireUserPermission ('view');
 $dbi->setUserVar ('ID_victim',getUrlParameter('ID_victim'),NULL);
 $victim_id = (int) getUrlParameter('ID_victim',0);
 $victim_role = '';
+$victim_id_new_profile = NULL;
+$title = '';
 
 $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 $dbi->addBreadcrumb ('Victims','nmv_list_victims');
@@ -14,19 +16,19 @@ $dbi->addBreadcrumb ('Victims','nmv_list_victims');
 $querystring = "
     SELECT v.first_names, v.surname,
            CONCAT(IFNULL(v.birth_day , '-'), '.', IFNULL(v.birth_month , '-'), '.', IFNULL(v.birth_year, '-')) birth, v.twin,
-           v.birth_place, bc.country as birth_country, v.death_place, dc.country as death_country,
+           v.birth_place, bc.country AS birth_country, v.death_place, dc.country AS death_country,
            CONCAT(IFNULL(di.institution_name, ''), ' - ', IFNULL(di.location, ''), ' - ', IFNULL(v.death_institution, '')) AS death_institution,
            CONCAT(IFNULL(v.death_day , '-'), '.', IFNULL(v.death_month , '-'), '.', IFNULL(v.death_year, '-')) death,
            v.death_year, v.cause_of_death, gender, m.marital_family_status,
-           ed.education as education, r.religion,
+           ed.education AS education, r.religion,
            n.nationality, e.ethnic_group,
            p.occupation, v.occupation_details, v.notes,
            v.residence_after_1945_country, v.residence_after_1945_place,
            v.occupation_after_1945, n45.nationality AS nationality_after_1945,
            v.consequential_injuries, IFNULL(v.compensation, 'not specified') AS compensation, v.compensation_details,
-           v.notes_after_1945, v.mpg_project, v.arrest_prehistory, v.arrest_location, ac.country as arrest_country, v.arrest_history,
+           v.notes_after_1945, v.mpg_project, v.arrest_prehistory, v.arrest_location, ac.country AS arrest_country, v.arrest_history,
            IF(v.photo_exists, 'Yes', '-') AS photo_exists, v.notes_photo, v.was_prisoner_assistant,
-           v.evaluation_list, evs.status AS evaluation_status, v.status_due_to, v.status_notes
+           v.evaluation_list, evs.status AS evaluation_status, v.status_due_to, v.status_notes, v.mpg_project AS mpg_project, d.work_group AS workgroup
     FROM nmv__victim v
     LEFT JOIN nmv__marital_family_status m ON (m.ID_marital_family_status = v.ID_marital_family_status )
     LEFT JOIN nmv__education ed ON (ed.ID_education = v.ID_education)
@@ -44,6 +46,7 @@ $querystring = "
     LEFT JOIN nmv__med_history_hosp h ON h.ID_victim = v.ID_victim
     LEFT JOIN nmv__med_history_brain b ON b.ID_victim = v.ID_victim
     LEFT JOIN nmv__victim_evaluation_status evs ON evs.ID_evaluation_status = v.ID_evaluation_status
+    LEFT JOIN nmv__dataset_origin d ON d.ID_dataset_origin = v.ID_dataset_origin
     WHERE v.ID_victim = ?";
 
 $result = null;
@@ -79,10 +82,11 @@ if ($victim = $result->fetch_object()) {
         ($victim->death_country?' in '.$victim->death_country :'').
         ($victim->{"cause_of_death"}?', cause of death: '.$victim->{"cause_of_death"}:'');
     $content = buildElement('h3', 'Personal Data');
+    if($victim->mpg_project = -1)
+        $content .= buildElement('h3', 'mpgcolor', "Data from MPG Victims Research Project - workgroup $victim->workgroup");
     $content .= buildElement('table','grid',
         buildDataSheetRow('ID',              $victim_id).
         buildDataSheetRow('Name',                   $victim_name).
-        buildDataSheetRow('MPG project',            $victim->mpg_project ? 'Yes' : '-').
         buildDataSheetRow('Gender',                 $victim->gender).
         buildDataSheetRow('Birth DMY',                  $victim_birth).
         buildDataSheetRow('Death DMY',                  $victim_death).
@@ -98,45 +102,45 @@ if ($victim = $result->fetch_object()) {
             ($victim->occupation_details ?' ('.$victim->occupation_details.')':'')).
         buildDataSheetRow('Notes',$victim->notes));
 
-        if ($victim->photo_exists == 'Yes') {
+    if ($victim->photo_exists == 'Yes') {
         $content .= buildElement('table','grid',
-        buildDataSheetRow('Photo exists',           $victim->photo_exists).
-        buildDataSheetRow('Notes about photo',      $victim->notes_photo));
-        }
-        //complete db
-        if(!($dbi->checkUserPermission('mpg'))):
-          $content .= '<br>'.buildElement('table','grid',
-          buildDataSheetRow('Arrest prehistory',      $victim->arrest_prehistory).
-          buildDataSheetRow('Arrest location',        $victim->arrest_location).
-          buildDataSheetRow('Arrest country',      $victim->arrest_country).
-          buildDataSheetRow('Arrest history',      $victim->arrest_history));
-        endif;
+            buildDataSheetRow('Photo exists',           $victim->photo_exists).
+            buildDataSheetRow('Notes about photo',      $victim->notes_photo));
+    }
+    //complete db
+    if(!($dbi->checkUserPermission('mpg'))):
+        $content .= '<br>'.buildElement('table','grid',
+                buildDataSheetRow('Arrest prehistory',      $victim->arrest_prehistory).
+                buildDataSheetRow('Arrest location',        $victim->arrest_location).
+                buildDataSheetRow('Arrest country',      $victim->arrest_country).
+                buildDataSheetRow('Arrest history',      $victim->arrest_history));
+    endif;
     //complete db d 1
     if (!($dbi->checkUserPermission('mpg'))) :
-      $content .= '<br>'.buildElement('h3', 'Post 1945');
-      if(!($victim->mpg_project == -1) && ($victim->death_year == NULL || !($victim->death_year < 1946)) && ($victim->cause_of_death != 'T4 euthanasia' )):
-        $content .= buildElement('table','grid',
-            buildDataSheetRow('Country and place',
-                $victim->residence_after_1945_country . ' / ' .
-                $victim->residence_after_1945_place).
-            buildDataSheetRow('Occupation',             $victim->occupation_after_1945).
-            buildDataSheetRow('Nationality',            $victim->nationality_after_1945).
-            buildDataSheetRow('Consequential injuries', $victim->consequential_injuries).
-            buildDataSheetRow('Notes on life after 1945', $victim->notes_after_1945)
-        );
-      endif;
-      $content .= buildElement('table', 'grid',
+        $content .= '<br>'.buildElement('h3', 'Post 1945');
+        if(!($victim->mpg_project == -1) && ($victim->death_year == NULL || !($victim->death_year < 1946)) && ($victim->cause_of_death != 'T4 euthanasia' )):
+            $content .= buildElement('table','grid',
+                buildDataSheetRow('Country and place',
+                    $victim->residence_after_1945_country . ' / ' .
+                    $victim->residence_after_1945_place).
+                buildDataSheetRow('Occupation',             $victim->occupation_after_1945).
+                buildDataSheetRow('Nationality',            $victim->nationality_after_1945).
+                buildDataSheetRow('Consequential injuries', $victim->consequential_injuries).
+                buildDataSheetRow('Notes on life after 1945', $victim->notes_after_1945)
+            );
+        endif;
+        $content .= buildElement('table', 'grid',
             buildDataSheetRow('Compensation',           $victim->compensation).
             buildDataSheetRow('Compensation details',   $victim->compensation_details)
-          );
+        );
     endif;
     $content .= '<br>'.buildElement('h3', 'Evaluation');
     $content .= buildElement('table', 'grid',
-          buildDataSheetRow('Evaluation Status',              $victim->evaluation_status).
-          buildDataSheetRow('Status due to',                  $victim->status_due_to).
-          buildDataSheetRow('Status notes',                   $victim->status_notes).
-          buildDataSheetRow('Evaluation List',                $victim->evaluation_list)
-        );
+        buildDataSheetRow('Evaluation Status',              $victim->evaluation_status).
+        buildDataSheetRow('Status due to',                  $victim->status_due_to).
+        buildDataSheetRow('Status notes',                   $victim->status_notes).
+        buildDataSheetRow('Evaluation List',                $victim->evaluation_list)
+    );
 
     $content .= '<div class="indent">';
     $content .= '<br>'.buildElement('h3', 'Other Names');
@@ -155,14 +159,14 @@ if ($victim = $result->fetch_object()) {
     $header_template = ['Surname', 'First Names', 'Name Type'];
 
     if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
-    	if ($dbi->checkUserPermission('edit')) {
-    			$options .= createSmallButton(L_EDIT,'nmv_edit_victim_other_names?ID_name={ID_name}','icon edit');
-    	}
-    	if ($dbi->checkUserPermission('admin')) {
-    			$options .= createSmallButton(L_DELETE,'nmv_remove_victim_other_names?ID_name={ID_name}','icon delete');
-    	}
-    	$row_template[] = $options;
-    	$header_template[] = L_OPTIONS;
+        if ($dbi->checkUserPermission('edit')) {
+            $options .= createSmallButton(L_EDIT,'nmv_edit_victim_other_names?ID_name={ID_name}','icon edit');
+        }
+        if ($dbi->checkUserPermission('admin')) {
+            $options .= createSmallButton(L_DELETE,'nmv_remove_victim_other_names?ID_name={ID_name}','icon delete');
+        }
+        $row_template[] = $options;
+        $header_template[] = L_OPTIONS;
     }
 
     $content .= buildTableFromQuery(
@@ -172,10 +176,10 @@ if ($victim = $result->fetch_object()) {
         'grid');
 
     if ($dbi->checkUserPermission('edit')) {
-    	$content .= '<div class="buttons">';
-    	$content .= createButton ('New name',
-    	    'nmv_edit_victim_other_names?ID_victim='.$victim_id,'icon add');
-    	$content .= '</div>';
+        $content .= '<div class="buttons">';
+        $content .= createButton ('New name',
+            'nmv_edit_victim_other_names?ID_victim='.$victim_id,'icon add');
+        $content .= '</div>';
     }
 
     $content .= '<br>'.buildElement('h3', 'Imprisonment');
@@ -196,17 +200,17 @@ if ($victim = $result->fetch_object()) {
     $header_template = ['(Prisoner) Number', 'Institution', 'Location', 'Classifications', 'Date (DMY)'];
 
     if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
-    	if ($dbi->checkUserPermission('edit')) {
-    			$options .= createSmallButton(L_EDIT,'nmv_edit_victim_imprisonment?ID_imprisonment={ID_imprisonment}&ID_victim={ID_victim}','icon edit');
-    	}
-      if ($dbi->checkUserPermission('admin')) {
-      			$options .= createSmallButton(L_DELETE,'nmv_remove_victim_imprisonment?ID_imprisonment={ID_imprisonment}','icon delete');
-      }
-    	if ($dbi->checkUserPermission('edit')) {
-    			$options .= createSmallButton('edit classifications','nmv_edit_imprisonment_classification?ID_imprisonment={ID_imprisonment}&ID_victim={ID_victim}','icon edit');
-    	}
-        	$row_template[] = $options;
-    	$header_template[] = L_OPTIONS;
+        if ($dbi->checkUserPermission('edit')) {
+            $options .= createSmallButton(L_EDIT,'nmv_edit_victim_imprisonment?ID_imprisonment={ID_imprisonment}&ID_victim={ID_victim}','icon edit');
+        }
+        if ($dbi->checkUserPermission('admin')) {
+            $options .= createSmallButton(L_DELETE,'nmv_remove_victim_imprisonment?ID_imprisonment={ID_imprisonment}','icon delete');
+        }
+        if ($dbi->checkUserPermission('edit')) {
+            $options .= createSmallButton('edit classifications','nmv_edit_imprisonment_classification?ID_imprisonment={ID_imprisonment}&ID_victim={ID_victim}','icon edit');
+        }
+        $row_template[] = $options;
+        $header_template[] = L_OPTIONS;
     }
 
     $content .= buildTableFromQuery(
@@ -216,12 +220,21 @@ if ($victim = $result->fetch_object()) {
         'grid');
 
     if ($dbi->checkUserPermission('edit')) {
-    	$content .= '<div class="buttons">';
-    	$content .= createButton ('New imprisonment (prison number)',
-    	    'nmv_edit_victim_imprisonment?ID_victim='.$victim_id,'icon add');
-    	$content .= '</div>';
+        $content .= '<div class="buttons">';
+        $content .= createButton ('New imprisonment (prison number)',
+            'nmv_edit_victim_imprisonment?ID_victim='.$victim_id,'icon add');
+        $content .= '</div>';
     }
-} else {
+    //get linked new profile if existent
+//    $querystring = "SELECT v1.ID_victim AS ID_new_profile
+//                    FROM nmv__victim v1
+//                    WHERE EXISTS (SELECT v2.ID_victim
+//                                  FROM nmv__victim v2
+//                                  WHERE v1.ID_victim = v2.ID_victim
+//                                  AND v2.ID_old_profile = $victim_id)";
+//    $result_new_profile = $dbi->connection->query($querystring)->fetch_object();
+//    if($result_new_profile != NULL) $victim_id_new_profile = $result_new_profile->ID_new_profile;
+    } else {
     $victim_name = 'Error: unknown victim';
     $content = buildElement('p','Error: Victim not found. Maybe it has been deleted from the database?');
 }
@@ -235,24 +248,26 @@ $content .= '<br>';
 $content .= createButton("Medical History",'nmv_list_med_hist?ID_victim='.$victim_id,'icon report-paper');
 //complete db d 2
 if (!($dbi->checkUserPermission('mpg'))) :
-  $content .= createButton("Biomedical Research",'nmv_list_victim_experiment?ID_victim='.$victim_id,'icon report-paper');
+    $content .= createButton("Biomedical Research",'nmv_list_victim_experiment?ID_victim='.$victim_id,'icon report-paper');
 endif;
 $content .= createButton("Literature and Sources", 'nmv_list_victim_literature_and_sources?ID_victim='.$victim_id, 'icon report-paper');
+//if($victim_id_old_profile != NULL)
+//    $content .= createButton("Old Profile", 'nmv_view_victim.php?ID_victim='.$victim_id_old_profile, 'icon report-paper');
+//if($victim_id_new_profile != NULL)
+//    $content .= createButton("New Profile", 'nmv_view_victim.php?ID_victim='.$victim_id_new_profile, 'icon report-paper');
 $content .= '</div>';
-
-$content .= createBackLink ("List of Persons",'nmv_list_victims');
-
-$title = 'Victim: ' . $victim_name;
+$content .= createBackLink ("Back to Previous Page");
+$title .= 'Victim: ' . $victim_name . '<br>';
 if($victim->was_prisoner_assistant =='prisoner assistant only'){
-  $title = '<span class="red">Prisoner Assistant:</span> ' . $victim_name;
-  $content = 'Prisoner Assistants were forced to participate in the conduction of unethical biomedical research
+    $title .= '<span class="red">Prisoner Assistant:</span> ' . $victim_name;
+    $content = 'Prisoner Assistants were forced to participate in the conduction of unethical biomedical research
               <br>Please find information about involvement in experiments in '.createButton("Biomedical Research",'nmv_list_victim_experiment?ID_victim='.$victim_id,'icon report-paper') . $content;
 } else if($victim->was_prisoner_assistant == 'prisoner assistant AND victim') {
-  $title = 'Victim and <span class="red">Prisoner Assistant: </span>' .$victim_name;
-  $content = $victim_name . ' was victim of experiments and was also forced to participate in the conduction of unethical biomedical research' . $content;
+    $title .= 'Victim and <span class="red">Prisoner Assistant: </span>' .$victim_name;
+    $content = $victim_name . ' was victim of experiments and was also forced to participate in the conduction of unethical biomedical research' . $content;
 }
 
 $layout
-	->set('title', $title)
-	->set('content',$content)
-	->cast();
+    ->set('title', $title)
+    ->set('content',$content)
+    ->cast();
