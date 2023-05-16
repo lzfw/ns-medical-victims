@@ -168,7 +168,7 @@ div.indent {
 
 .toggle_box{
 	vertical-align: bottom;
-  margin: 3px 2px 4px 1px;
+	margin: 3px 2px 4px 1px;
 }
 
 
@@ -282,8 +282,12 @@ p.small {
 }
 
 span.red {
-	 color: red;
- }
+	color: red;
+}
+
+.mpgcolor {
+	color: #006c66;
+}
 
 /* TABLES ------------------------------------------------------------------- */
 
@@ -426,7 +430,7 @@ li.indent {
 }
 
 #sidebar li a {
-display: block;
+	display: block;
 }
 
 
