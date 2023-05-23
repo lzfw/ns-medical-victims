@@ -17,7 +17,7 @@ if ($literature_id) {
 
     // query: get literature data
     $querystring = "
-    SELECT CONCAT(COALESCE(lit_title, ''), ' ', COALESCE(authors, '')) literature_name
+    SELECT CONCAT(COALESCE(lit_title, ''), ' <br>- ', COALESCE(authors, '')) literature_name
     FROM nmv__literature
     WHERE ID_literature = $literature_id";
     $query = $dbi->connection->query($querystring);
@@ -52,12 +52,12 @@ if ($literature_id) {
 
         $options .= createSmallButton('view Experiment','nmv_view_experiment?ID_experiment={ID_experiment}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
-        	if ($dbi->checkUserPermission('edit')) {
-        			$options .= createSmallButton(L_EDIT,'nmv_edit_experiment_literature?ID_exp_lit={ID_exp_lit}','icon edit');
-        	}
-        	if ($dbi->checkUserPermission('admin')) {
-        			$options .= createSmallButton(L_DELETE,'nmv_remove_experiment_literature?ID_exp_lit={ID_exp_lit}','icon delete');
-        	}
+            if ($dbi->checkUserPermission('edit')) {
+                $options .= createSmallButton(L_EDIT,'nmv_edit_experiment_literature?ID_exp_lit={ID_exp_lit}','icon edit');
+            }
+            if ($dbi->checkUserPermission('admin')) {
+                $options .= createSmallButton(L_DELETE,'nmv_remove_experiment_literature?ID_exp_lit={ID_exp_lit}','icon delete');
+            }
         }
         $row_template[] = $options;
         $header_template[] = L_OPTIONS;
@@ -66,10 +66,10 @@ if ($literature_id) {
 
         // new entry button
         if ($dbi->checkUserPermission('edit')) {
-        	$content .= '<div class="buttons">';
-        	$content .= createButton ('New Biomedical Research Entry',
-        	    'nmv_edit_experiment_literature?ID_literature='.$literature_id,'icon add');
-        	$content .= '</div>';
+            $content .= '<div class="buttons">';
+            $content .= createButton ('New Biomedical Research Entry',
+                'nmv_edit_experiment_literature?ID_literature='.$literature_id,'icon add');
+            $content .= '</div>';
         }
 
         // table
@@ -81,10 +81,10 @@ if ($literature_id) {
 
         // new entry button
         if ($dbi->checkUserPermission('edit')) {
-        	$content .= '<div class="buttons">';
-        	$content .= createButton ('New Biomedical Research Entry',
-        	    'nmv_edit_experiment_literature?ID_literature='.$literature_id,'icon add');
-        	$content .= '</div>';
+            $content .= '<div class="buttons">';
+            $content .= createButton ('New Biomedical Research Entry',
+                'nmv_edit_experiment_literature?ID_literature='.$literature_id,'icon add');
+            $content .= '</div>';
         }
     }
 
@@ -130,24 +130,24 @@ if ($experiment_id) {
         $header_template = ['Title', 'Authors', 'Pages', 'URL', 'Access Date'];
 
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
-        	if ($dbi->checkUserPermission('edit')) {
-        			$options .= createSmallButton(L_EDIT,'nmv_edit_experiment_literature?ID_exp_lit={ID_exp_lit}','icon edit');
-        	}
-        	if ($dbi->checkUserPermission('admin')) {
-        			$options .= createSmallButton(L_DELETE,'nmv_remove_experiment_literature?ID_exp_lit={ID_exp_lit}','icon delete');
-        	}
-        	$row_template[] = $options;
-        	$header_template[] = L_OPTIONS;
+            if ($dbi->checkUserPermission('edit')) {
+                $options .= createSmallButton(L_EDIT,'nmv_edit_experiment_literature?ID_exp_lit={ID_exp_lit}','icon edit');
+            }
+            if ($dbi->checkUserPermission('admin')) {
+                $options .= createSmallButton(L_DELETE,'nmv_remove_experiment_literature?ID_exp_lit={ID_exp_lit}','icon delete');
+            }
+            $row_template[] = $options;
+            $header_template[] = L_OPTIONS;
         }
 
         $content .= '<p>Number of literature: ' . $total_results->total . ' </p>';
 
         // new entry - button
         if ($dbi->checkUserPermission('edit')) {
-        	$content .= '<div class="buttons">';
-        	$content .= createButton ('New Literature Entry',
-        	    'nmv_edit_experiment_literature?ID_experiment='.$experiment_id,'icon add');
-        	$content .= '</div>';
+            $content .= '<div class="buttons">';
+            $content .= createButton ('New Literature Entry',
+                'nmv_edit_experiment_literature?ID_experiment='.$experiment_id,'icon add');
+            $content .= '</div>';
         }
 
         // table view
@@ -159,10 +159,10 @@ if ($experiment_id) {
 
         // new entry - button
         if ($dbi->checkUserPermission('edit')) {
-        	$content .= '<div class="buttons">';
-        	$content .= createButton ('New Literature Entry',
-        	    'nmv_edit_experiment_literature?ID_experiment='.$experiment_id,'icon add');
-        	$content .= '</div>';
+            $content .= '<div class="buttons">';
+            $content .= createButton ('New Literature Entry',
+                'nmv_edit_experiment_literature?ID_experiment='.$experiment_id,'icon add');
+            $content .= '</div>';
         }
     }
 
@@ -170,6 +170,7 @@ if ($experiment_id) {
 }
 
 $layout
-	->set('title',($literature_id ? 'Biomedical Research linked to: <br>"' . $literature_name . '"' : 'Literature linked to: <br>"' . $experiment_name . '"'))
-	->set('content',$content)
-	->cast();
+    ->set('title',($literature_id ? 'Biomedical Research linked to: <br>
+' . $literature_name  : 'Literature linked to: <br>"' . $experiment_name . '"'))
+    ->set('content',$content)
+    ->cast();

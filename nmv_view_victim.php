@@ -6,7 +6,7 @@ $dbi->requireUserPermission ('view');
 $dbi->setUserVar ('ID_victim',getUrlParameter('ID_victim'),NULL);
 $victim_id = (int) getUrlParameter('ID_victim',0);
 $victim_role = '';
-$victim_id_new_profile = NULL;
+$victim_id_old_profile = NULL;
 $title = '';
 
 $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
@@ -28,7 +28,8 @@ $querystring = "
            v.consequential_injuries, IFNULL(v.compensation, 'not specified') AS compensation, v.compensation_details,
            v.notes_after_1945, v.mpg_project, v.arrest_prehistory, v.arrest_location, ac.country AS arrest_country, v.arrest_history,
            IF(v.photo_exists, 'Yes', '-') AS photo_exists, v.notes_photo, v.was_prisoner_assistant,
-           v.evaluation_list, evs.status AS evaluation_status, v.status_due_to, v.status_notes, v.mpg_project AS mpg_project, d.work_group AS workgroup
+           v.evaluation_list, evs.status AS evaluation_status, v.status_due_to, v.status_notes, v.mpg_project AS mpg_project, d.work_group AS workgroup,
+           v.ID_new_profile 
     FROM nmv__victim v
     LEFT JOIN nmv__marital_family_status m ON (m.ID_marital_family_status = v.ID_marital_family_status )
     LEFT JOIN nmv__education ed ON (ed.ID_education = v.ID_education)
@@ -73,6 +74,7 @@ if ($stmt = $dbi->connection->prepare($querystring)) {
 
 if ($victim = $result->fetch_object()) {
     $victim_name = $victim->first_names.' '.$victim->surname;
+    $victim_id_new_profile = $victim->ID_new_profile;
     $victim_birth = $victim->birth.
         ($victim->birth_place ? ' in '.$victim->birth_place : '').
         ($victim->birth_country ? ' in '.$victim->birth_country : '').
@@ -226,14 +228,14 @@ if ($victim = $result->fetch_object()) {
         $content .= '</div>';
     }
     //get linked new profile if existent
-//    $querystring = "SELECT v1.ID_victim AS ID_new_profile
-//                    FROM nmv__victim v1
-//                    WHERE EXISTS (SELECT v2.ID_victim
-//                                  FROM nmv__victim v2
-//                                  WHERE v1.ID_victim = v2.ID_victim
-//                                  AND v2.ID_old_profile = $victim_id)";
-//    $result_new_profile = $dbi->connection->query($querystring)->fetch_object();
-//    if($result_new_profile != NULL) $victim_id_new_profile = $result_new_profile->ID_new_profile;
+    $querystring = "SELECT v1.ID_victim AS ID_old_profile
+                    FROM nmv__victim v1
+                    WHERE EXISTS (SELECT v2.ID_victim
+                                  FROM nmv__victim v2
+                                  WHERE v1.ID_victim = v2.ID_victim
+                                  AND v2.ID_new_profile = $victim_id)";
+    $result_old_profile = $dbi->connection->query($querystring)->fetch_object();
+    if($result_old_profile != NULL) $victim_id_old_profile = $result_old_profile->ID_old_profile;
     } else {
     $victim_name = 'Error: unknown victim';
     $content = buildElement('p','Error: Victim not found. Maybe it has been deleted from the database?');
@@ -251,10 +253,10 @@ if (!($dbi->checkUserPermission('mpg'))) :
     $content .= createButton("Biomedical Research",'nmv_list_victim_experiment?ID_victim='.$victim_id,'icon report-paper');
 endif;
 $content .= createButton("Literature and Sources", 'nmv_list_victim_literature_and_sources?ID_victim='.$victim_id, 'icon report-paper');
-//if($victim_id_old_profile != NULL)
-//    $content .= createButton("Old Profile", 'nmv_view_victim.php?ID_victim='.$victim_id_old_profile, 'icon report-paper');
-//if($victim_id_new_profile != NULL)
-//    $content .= createButton("New Profile", 'nmv_view_victim.php?ID_victim='.$victim_id_new_profile, 'icon report-paper');
+if($victim_id_new_profile != NULL)
+    $content .= createButton("New Profile", 'nmv_view_victim.php?ID_victim='.$victim_id_new_profile, 'icon report-paper');
+if($victim_id_old_profile != NULL)
+    $content .= createButton("Old Profile", 'nmv_view_victim.php?ID_victim='.$victim_id_old_profile, 'icon report-paper');
 $content .= '</div>';
 $content .= createBackLink ("Back to Previous Page");
 $title .= 'Victim: ' . $victim_name . '<br>';
