@@ -12,9 +12,6 @@ require_once 'flotilla/ini.php';
 
 $dbi->requireUserPermission ('view');
 
-//complete db
-$dbi->denyUserPermission ('mpg');
-
 // url parameters
 $dbi->setUserVar ('view',getUrlParameter('view'),'default');
 // browsing options

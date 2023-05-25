@@ -51,15 +51,15 @@ $survival_query =  "SELECT s.survival, COUNT(ve.ID_victim) AS count_survival
 $ethnicity_query = "SELECT et.ethnic_group, COUNT(ve.ID_victim) AS count_ethnic_group
                     FROM nmv__victim_experiment ve
                     LEFT JOIN nmv__victim v ON v.ID_victim = ve.ID_victim
-                    LEFT JOIN nmv__ethnic_group et ON et.ID_ethnic_group = v.ethnic_group
+                    LEFT JOIN nmv__ethnic_group et ON et.ID_ethnic_group = v.ID_ethnic_group
                     WHERE ve.ID_experiment = $experiment_id
-                    GROUP BY v.ethnic_group";
+                    GROUP BY v.ID_ethnic_group";
 $nationality_query = "SELECT n.nationality, COUNT(ve.ID_victim) AS count_nationality
                       FROM nmv__victim_experiment ve
                       LEFT JOIN nmv__victim v ON v.ID_victim = ve.ID_victim
-                      LEFT JOIN nmv__nationality n ON n.ID_nationality = v.nationality_1938
+                      LEFT JOIN nmv__nationality n ON n.ID_nationality = v.ID_nationality_1938
                       WHERE ve.ID_experiment = $experiment_id
-                      GROUP BY v.nationality_1938";
+                      GROUP BY v.ID_nationality_1938";
 
 
 //show the data: build tables
