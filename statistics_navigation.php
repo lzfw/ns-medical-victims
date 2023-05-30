@@ -5,7 +5,7 @@ $layout->set('sidebar', '
     <ul class="nav_stats" >
       <li><a href="statistics.php">Start</a></li>
       <li><a href="statistics_religion.php">Religion</a></li>
-      <li><a href="statistics_ethnic_group.php">Ethnic Group</a></li>
+      <li><a href="statistics_ethnic_group.php">Ascribed Ethnic Group</a></li>
       <li><a href="statistics_experiment_foi.php">Experiment (Field of Interest)</a></li>
       <li><a href="statistics_experiment_startyear.php">Experiment (Startyear)</a></li>
       <li><a href="statistics_experiment_institution.php">Experiment (Institution)</a></li>

@@ -22,7 +22,7 @@ class View_List_Table_NMV_PA_Exp extends View_List {
 		$this->addSortOption ('Born','birth_year','ASC','DESC');
 		$this->addSortOption ('Birth Country','birth_country','ASC','DESC');
 		$this->addSortOption ('Nationality (1938)','nationality_1938','ASC','DESC');
-		$this->addSortOption ('Ethnic Group','ethnic_group','ASC','DESC');
+		$this->addSortOption ('Ascribed Ethnic Group','ethnic_group','ASC','DESC');
 		$this->addSortOption ('Start Date', 'exp_start_year, exp_start_month, exp_start_day', 'ASC', 'ASC');
 
 		$html = '';
@@ -31,7 +31,7 @@ class View_List_Table_NMV_PA_Exp extends View_List {
 
 		if ($results->num_rows>0) {
 		    $html .= '<table class="grid">';
-		    $html .= '<th>Surname</th><th>First Names</th><th>ID</th><th>Born</th><th>Birth Country</th><th>Nationality (1938)</th><th>Ethnic Group</th><th>Start Date Experiment<br>(D.M.Y)</th><th>Options</th>';
+		    $html .= '<th>Surname</th><th>First Names</th><th>ID</th><th>Born</th><th>Birth Country</th><th>Nationality (1938)</th><th>Ascribed Ethnic Group</th><th>Start Date Experiment<br>(D.M.Y)</th><th>Options</th>';
 			// buttons view, edit, delete connection victim-experiment
 			while ($item = $results->fetch_object()) {
 					$options = '';

@@ -28,7 +28,7 @@ class View_List_Statistics_Ethnic_Group_Table extends View_List {
 		if ($results->num_rows>0) {
             if (($dbi->checkUserPermission('mpg'))) {
                 $html .= '<table class="grid">';
-                $html .= '<th>Ethnic Group</th><th>mpg project</th>';
+                $html .= '<th>Ascribed Ethnic Group</th><th>mpg project</th>';
                 $asum = 0;
                 $bsum = 0;
                 while ($item = $results->fetch_object()) {
@@ -47,7 +47,7 @@ class View_List_Statistics_Ethnic_Group_Table extends View_List {
 								</table>';
             } else {
                 $html .= '<table class="grid">';
-                $html .= '<th>Ethnic Group</th><th>all victims</th><th>mpg project</th>';
+                $html .= '<th>Ascribed Ethnic Group</th><th>all victims</th><th>mpg project</th>';
                 $asum = 0;
                 $bsum = 0;
                 while ($item = $results->fetch_object()) {

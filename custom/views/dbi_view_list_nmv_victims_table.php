@@ -19,7 +19,7 @@ class View_List_NMV_Victims_Table extends View_List {
 
 		// toggle columns
 		$column = ['Birth Country', 'Death Year', 'Death Place', 'Death Country', 'Cause of Death',
-							'Twin', 'Gender', 'Family Status', 'Religion', 'Nationality (1938)', 'Ethnic Group',
+							'Twin', 'Gender', 'Family Status', 'Religion', 'Nationality (1938)', 'Ascribed Ethnic Group',
 							'Education', 'Occupation', 'Occupation Details', 'Arrest Location', 'Arrest County',
 							'Status Evaluation', 'MPG-Project'
 						];

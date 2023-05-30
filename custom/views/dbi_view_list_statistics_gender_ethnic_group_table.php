@@ -29,7 +29,7 @@ class View_List_Statistics_Gender_Ethnic_Group_Table extends View_List {
 		if ($results->num_rows>0) {
             if (($dbi->checkUserPermission('mpg'))) {
                 $html .= '<table class="grid">';
-                $html .= '<th>Ethnic Group</th><th>Gender</th><th>mpg project</th>';
+                $html .= '<th>Ascribed Ethnic Group</th><th>Gender</th><th>mpg project</th>';
                 $bsum = 0;
                 while ($item = $results->fetch_object()) {
                     $ethnic_group = $item->ethnic_group == '' ? 'No Entry' : htmlentities($item->ethnic_group, ENT_HTML5);
@@ -50,7 +50,7 @@ class View_List_Statistics_Gender_Ethnic_Group_Table extends View_List {
 								';
             } else {
                 $html .= '<table class="grid">';
-                $html .= '<th>Ethnic Group</th><th>Gender</th><th>all victims</th><th>mpg project</th>';
+                $html .= '<th>Ascribed Ethnic Group</th><th>Gender</th><th>all victims</th><th>mpg project</th>';
                 $asum = 0;
                 $bsum = 0;
                 while ($item = $results->fetch_object()) {
