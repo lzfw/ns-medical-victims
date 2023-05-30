@@ -86,7 +86,7 @@ $victimsVariableForm->addField('ID_religion', SELECT)
                                   WHERE nmv__religion.ID_religion = nmv__victim.ID_religion)');
 
 $victimsVariableForm->addField('ID_ethnic_group', SELECT)
-  ->setLabel('ethnic group')
+  ->setLabel('ascribed ethnic group')
   ->addOption(NO_VALUE,'all ethnic groups')
   ->addOption('NULL')
   ->addOptionsFromTable('nmv__ethnic_group', 'ID_ethnic_group', 'ethnic_group',

@@ -98,7 +98,7 @@ if ($victim = $result->fetch_object()) {
         buildDataSheetRow('Highest education level',$victim->education).
         buildDataSheetRow('Religion',               $victim->religion).
         buildDataSheetRow('Nationality (1938)',     $victim->nationality).
-        buildDataSheetRow('Ethnic group',           $victim->ethnic_group).
+        buildDataSheetRow('Ascribed Ethnic Group',           $victim->ethnic_group).
         buildDataSheetRow('Occupation',
             $victim->occupation.
             ($victim->occupation_details ?' ('.$victim->occupation_details.')':'')).

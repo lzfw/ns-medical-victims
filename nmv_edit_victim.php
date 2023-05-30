@@ -106,7 +106,7 @@ $form->addField('ID_nationality_1938', SELECT)
     ->addOption(NO_VALUE, 'please choose')
     ->addOptionsFromTable('nmv__nationality', 'ID_nationality', 'nationality');
 $form->addField('ID_ethnic_group', SELECT)
-    ->setLabel('Ethnic Group')
+    ->setLabel('Ascribed Ethnic Group')
     ->addOption(NO_VALUE, 'please choose')
     ->addOptionsFromTable('nmv__ethnic_group', 'ID_ethnic_group', 'ethnic_group');
 $form->addField('ID_occupation', SELECT)
