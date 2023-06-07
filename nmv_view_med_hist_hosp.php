@@ -71,16 +71,16 @@ if ($victim = $query->fetch_object()) {
       buildDataSheetRow('Institution Order',              $victim->institution_order) .
       buildDataSheetRow('Diagnosis',                      $victim->diagnosis) .
       buildDataSheetRowTag('Diagnosis Tags',              $tag_array, $tag_button) .
-      buildDataSheetRow('Educational abilities',          $victim->educational_abilities) .
+      buildDataSheetRow('Educational Abilities',          $victim->educational_abilities) .
       buildDataSheetRow('Behaviour',                      $victim->behaviour) .
-      buildDataSheetRow('disability',                     $victim->disability) .
+      buildDataSheetRow('Disability',                     $victim->disability) .
       buildDataSheetRow('Entry Date ddmmyyyy',            $victim->date_entry) .
-      buildDataSheetRow('Exit date ddmmyyyy',             $victim->date_exit) .
+      buildDataSheetRow('Exit Date ddmmyyyy',             $victim->date_exit) .
       buildDataSheetRow('Entry Age',                      $victim->age_entry) .
       buildDataSheetRow('Exit Age',                       $victim->age_exit) .
-      buildDataSheetRow('Autopsy reference number',       $victim->autopsy_ref_no) .
-      buildDataSheetRow('Notes / Autopsy details',        $victim->notes) .
-      buildDataSheetRow('Medical Record Contains Photo',  $victim->photo)
+      buildDataSheetRow('Autopsy Reference Number',       $victim->autopsy_ref_no) .
+      buildDataSheetRow('Notes / Autopsy Details',        $victim->notes) .
+      buildDataSheetRow('Medical Record contains Photo',  $victim->photo)
     );
 }
 
