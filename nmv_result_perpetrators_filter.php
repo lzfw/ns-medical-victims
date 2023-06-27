@@ -96,7 +96,7 @@ foreach ($special_contain_fields as $field) {
 $dbi->setUserVar('querystring',implode('&',$query));
 
 // make select-clauses part one
-$querystring_items = '	SELECT p.ID_perpetrator, p.surname, p.first_names, p.birth_year, bc.country AS birth_country,
+$querystring_items = '	SELECT p.ID_perpetrator, p.surname, p.first_names, p.birth_year, p.death_year, bc.country AS birth_country,
 												p.birth_place, p.occupation
 												FROM nmv__perpetrator p
 												LEFT JOIN nmv__country bc ON bc.ID_country = p.ID_birth_country
