@@ -20,7 +20,7 @@ if ($dbi->checkUserPermission('admin')) {
 
 // Select-Klauseln erstellen
 $querystring_count = 'SELECT COUNT(*) AS total FROM nmv__perpetrator p'; // für Treffer gesamt
-$querystring_items = 'SELECT p.ID_perpetrator, p.surname, p.first_names, p.birth_place, p.birth_year, p.occupation
+$querystring_items = 'SELECT p.ID_perpetrator, p.surname, p.first_names, p.birth_place, p.birth_year, p.death_year, p.occupation
 											FROM nmv__perpetrator p'; // für Ergebnisliste
 $querystring_where = array(); // für Filter
 
