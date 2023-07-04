@@ -60,8 +60,8 @@ $querystring_items = 'SELECT p.ID_perpetrator, p.surname, p.first_names, p.birth
 $querystring_where = array(); // für Filter
 
 // MySQL-Zeichenfilter definieren (Trunkierungszeichen werden zu MySQL-Zeichen)
-$filter_chars = array("'", '%', '_', '*', '٭');
-$replace_chars = array('', ' ', ' ', '%', '%');
+$filter_chars = array('%', '_', '*', '٭', '\'');
+$replace_chars = array(' ', ' ', '%', '%', '_');
 
 // Strings zusammenbauen
 foreach ($exact_fields as $field) {

@@ -78,10 +78,13 @@ $querystring_items = 'SELECT DISTINCT v.ID_victim, v.surname, v.first_names,
 $querystring_where = array(); // for where-part of select clause
 $querystring_where[] = "was_prisoner_assistant != 'victim only'";
 
+// include only profiles where there does not exist a new one from mpg-project
+//$querystring_where[] = "v.ID_new_profile IS NULL";
+
 
 // MySQL-Zeichenfilter definieren (Trunkierungszeichen werden zu MySQL-Zeichen)
-$filter_chars = array("'", '%', '_', '*', '٭');
-$replace_chars = array('', ' ', ' ', '%', '%');
+$filter_chars = array('%', '_', '*', '٭', '\'');
+$replace_chars = array(' ', ' ', '%', '%', '_');
 
 // WHERE Strings zusammenbauen
 foreach ($exact_fields as $field) {
