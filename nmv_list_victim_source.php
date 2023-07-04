@@ -186,6 +186,11 @@ if ($source_id) {
                 'nmv_edit_victim_source?ID_source='.$source_id,'icon add');
             $content .= '</div>';
         }
+        //table export - button
+        $where_clause_encoded = urlencode(utf8_encode( " WHERE vs.ID_source = $source_id")); //encode for url-transfer to export
+        $content .= '<div class="buttons">'.createButton ('Export Table to .csv',"nmv_export.php?type=csv&entity=victim&where-clause=$where_clause_encoded",'icon download')
+        .createButton ('Export Table to .xls',"nmv_export.php?type=xls&entity=victim&where-clause=$where_clause_encoded",'icon download')
+        . '</div>';
     }
 
     //$content .= createBackLink ('View source: '.$source_name,'nmv_view_source?ID_source='.$source_id);
