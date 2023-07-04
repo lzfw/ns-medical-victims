@@ -86,8 +86,8 @@ $querystring_where = array(); // for where-part of select clause
 $querystring_where[] = "was_prisoner_assistant != 'prisoner assistant only' AND v.mpg_project = -1";
 
 // MySQL-Zeichenfilter definieren (Trunkierungszeichen werden zu MySQL-Zeichen)
-$filter_chars = array("'", '%', '_', '*', '٭');
-$replace_chars = array('', ' ', ' ', '%', '%');
+$filter_chars = array('%', '_', '*', '٭', '\'');
+$replace_chars = array(' ', ' ', '%', '%', '_');
 
 foreach ($exact_fields as $field) {
     if (getUrlParameter($field)) {
