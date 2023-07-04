@@ -86,7 +86,9 @@ if ($victim = $result->fetch_object()) {
     $content = buildElement('h3', 'Personal Data');
     if($victim->mpg_project == -1) {
         $content .= buildElement('h3', 'mpgcolor', "Data from MPG Victims Research Project - workgroup $victim->workgroup");}
-    $content .= buildElement('table','grid',
+    if($victim_id_new_profile != NULL) {
+        $content .= buildElement('h3', 'mpgcolor', "This profile represents the state of research prior to the start of the MPG project (2017-2024)");}
+        $content .= buildElement('table','grid',
         buildDataSheetRow('ID',              $victim_id).
         buildDataSheetRow('Name',                   $victim_name).
         buildDataSheetRow('Gender',                 $victim->gender).
@@ -254,9 +256,9 @@ if (!($dbi->checkUserPermission('mpg'))) :
 endif;
 $content .= createButton("Literature and Sources", 'nmv_list_victim_literature_and_sources?ID_victim='.$victim_id, 'icon report-paper');
 if($victim_id_new_profile != NULL)
-    $content .= createButton("New Profile", 'nmv_view_victim.php?ID_victim='.$victim_id_new_profile, 'icon report-paper');
+    $content .= '<br>' . createButton("Switch to MPG Project Profile", 'nmv_view_victim.php?ID_victim='.$victim_id_new_profile, 'icon report-paper mpgcolor');
 if($victim_id_old_profile != NULL)
-    $content .= createButton("Old Profile", 'nmv_view_victim.php?ID_victim='.$victim_id_old_profile, 'icon report-paper');
+    $content .= '<br>' . createButton("Switch to Non MPG Project Profile", 'nmv_view_victim.php?ID_victim='.$victim_id_old_profile, 'icon report-paper mpgcolor');
 $content .= '</div>';
 $content .= createBackLink ("Back to Previous Page");
 $title .= 'Victim: ' . $victim_name . '<br>';
