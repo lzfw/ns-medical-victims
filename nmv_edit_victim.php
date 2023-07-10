@@ -29,6 +29,18 @@ $form->addField('ID_dataset_origin', SELECT)
     ->addOptionsFromTableOrderedById('nmv__dataset_origin', 'ID_dataset_origin', 'work_group');
 $form->addField(('ID_new_profile'), TEXT, 11)
     ->setLabel('ID of mpg profile');
+
+$form->addField('s1', STATIC_TEXT, '<br>');
+
+$form->addField('entry_status', RADIO, '', '')
+    ->setLabel('Data entry status')
+    ->addRadioButton('Data entry (Halle)', ' Data entry (Halle)')
+    ->addRadioButton('Review (Vienna/Berlin/Munich)', ' Review (Vienna/Berlin/Munich)')
+    ->addRadioButton('Revision (Halle)', ' Revision (Halle)')
+    ->addRadioButton('Validated', ' Validated');
+
+$form->addField('s2', STATIC_TEXT, '<br>');
+
 $form->addField('separator_1', STATIC_TEXT, '<hr>');
 $form->addField('was_prisoner_assistant', RADIO, '', 'victim only')
     ->setLabel('Was Person Victim <br> and / or <br> Prisoner Assistant <br> of Experiment(s)')

@@ -14,7 +14,7 @@ $dbi->addBreadcrumb ('Victims','nmv_list_victims');
 
 // query: get victim data
 $querystring = "
-    SELECT v.first_names, v.surname,
+    SELECT v.first_names, v.surname, v.openUid, v.entry_status,
            CONCAT(IFNULL(v.birth_day , '-'), '.', IFNULL(v.birth_month , '-'), '.', IFNULL(v.birth_year, '-')) birth, v.twin,
            v.birth_place, bc.country AS birth_country, v.death_place, dc.country AS death_country,
            CONCAT(IFNULL(di.institution_name, ''), ' - ', IFNULL(di.location, ''), ' - ', IFNULL(v.death_institution, '')) AS death_institution,
@@ -85,11 +85,16 @@ if ($victim = $result->fetch_object()) {
         ($victim->{"cause_of_death"}?', cause of death: '.$victim->{"cause_of_death"}:'');
     $content = buildElement('h3', 'Personal Data');
     if($victim->mpg_project == -1) {
-        $content .= buildElement('h3', 'mpgcolor', "Data from MPG Victims Research Project - workgroup $victim->workgroup");}
+        $content .= buildElement('h3', 'mpgcolor', "Data from MPG Victims Research Project - workgroup $victim->workgroup");
+    }
+    if($victim->entry_status != NULL) {
+        $content .= buildElement('p', "Status Data Transfer: " . $victim->entry_status);
+    }
     if($victim_id_new_profile != NULL) {
         $content .= buildElement('h3', 'mpgcolor', "This profile represents the state of research prior to the start of the MPG project (2017-2024)");}
         $content .= buildElement('table','grid',
-        buildDataSheetRow('ID',              $victim_id).
+        buildDataSheetRow('ID',                      $victim_id).
+        buildDataSheetRow('openUid',                $victim->openUid).
         buildDataSheetRow('Name',                   $victim_name).
         buildDataSheetRow('Gender',                 $victim->gender).
         buildDataSheetRow('Birth DMY',                  $victim_birth).
