@@ -30,7 +30,7 @@ $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 // zu durchsuchende felder und suchsystematik definieren:
 
 // felder, die immer exakt gematcht werden (Trunkierung nicht möglich, Diakritika distinkt, Basiszeichen distinkt)
-$exact_fields = array ('ID_victim', 'ID_dataset_origin');
+$exact_fields = array ('ID_victim', 'ID_dataset_origin', 'openUid');
 
 // felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
 // --> If no diacritics are applied, it finds covers any combination: η would also return ἠ, ἦ or ἥ, while ἠ would find only ἠ.
@@ -152,6 +152,7 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 // ausgabe der suchtermini
 $suche_nach = array();
 if (isset($_GET['ID_victim']) && $_GET['ID_victim']) $suche_nach[] = 'ID_victim = '.$_GET['ID_victim'];
+if (isset($_GET['openUid']) && $_GET['openUid']) $suche_nach[] = 'openUid = '.$_GET['openUid'];
 if (isset($_GET['surname']) && $_GET['surname']) $suche_nach[] = 'surname = '.$_GET['surname'];
 if (isset($_GET['first_names']) && $_GET['first_names']) $suche_nach[] = 'first_names = '.$_GET['first_names'];
 if (isset($_GET['ID_dataset_origin']) && $_GET['ID_dataset_origin']) {

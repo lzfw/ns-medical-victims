@@ -33,7 +33,7 @@ $form->addField(('ID_new_profile'), TEXT, 11)
 $form->addField('s1', STATIC_TEXT, '<br>');
 
 $form->addField('entry_status', RADIO, '', '')
-    ->setLabel('Data entry status')
+    ->setLabel('Status Data Transfer')
     ->addRadioButton('Data entry (Halle)', ' Data entry (Halle)')
     ->addRadioButton('Review (Vienna/Berlin/Munich)', ' Review (Vienna/Berlin/Munich)')
     ->addRadioButton('Revision (Halle)', ' Revision (Halle)')

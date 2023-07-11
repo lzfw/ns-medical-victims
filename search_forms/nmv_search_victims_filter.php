@@ -201,6 +201,12 @@ $victimsVariableForm->addField('ID_dataset_origin', SELECT)
   ->addOption(NO_VALUE,'all workgroups')
   ->addOptionsFromTable('nmv__dataset_origin', 'ID_dataset_origin', 'work_group');
 
+$victimsVariableForm->addField('entry_status', SELECT)
+    ->setLabel('Status Data Transfer')
+    ->addOption(NO_VALUE, 'all statuses')
+    ->addOptionsFromArray(["Data entry (Halle)"=>"Data entry (Halle)", "Review (Vienna/Berlin/Munich)"=>"Review (Vienna/Berlin/Munich)",
+                            "Revision (Halle)"=>"Revision (Halle)", "Validated"=>"Validated"]);
+
 $victimsVariableForm->addField('br-tissue', STATIC_TEXT, '<br>');
 
 $victimsVariableForm->addField('tissue_institution', SELECT)

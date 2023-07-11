@@ -26,7 +26,7 @@ $victimForm = new Form('search_victim','nmv_result_victims.php','GET');
 
 $victimForm->addConnection(MYSQL_DB,$db_host,$db_user,$db_pass,$db_name);
 
-$victimForm->addField('ID_victim',TEXT,5)
+$victimForm->addField('ID_victim',TEXT,10)
 	->setLabel('ID');
 
 $victimForm->addField('surname',TEXT,120)
@@ -36,6 +36,10 @@ $victimForm->addField('surname',TEXT,120)
 $victimForm->addField('first_names',TEXT,120)
     ->setClass('keyboardInput')
 	->setLabel('First Name(s)');
+
+$victimForm->addField('openUid',TEXT,20)
+	->setLabel('openUid -- temporary for data-transfer');
+
 
 $victimForm
 	->addButton(BACK)
@@ -63,6 +67,9 @@ $MPGvictimForm->addField('ID_dataset_origin',SELECT)
 	    ->setLabel('MPG Project Data from')
 	    ->addOption(NO_VALUE,'all workgroups')
 	    ->addOptionsFromTableOrderedById('nmv__dataset_origin', 'ID_dataset_origin', 'work_group');
+
+$MPGvictimForm->addField('openUid',TEXT,20)
+	->setLabel('openUid -- temporary for data-transfer');
 
 $MPGvictimForm
 	->addButton(BACK)
