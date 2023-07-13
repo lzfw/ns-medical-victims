@@ -26,13 +26,14 @@ if ($victim_id) {
 
         // query: get hosp data
         $querystring = "
-        SELECT  h.ID_med_history_hosp id, i.ID_institution id_institution,
+        SELECT  h.ID_med_history_hosp id, i.ID_institution id_institution, h.notes notes, h.diagnosis diagnosis,
                 concat(
                   IFNULL(LEFT(i.institution_name, 150), '#'),' - ',
                   IFNULL(LEFT(i.location,40), '#'),' - ',
                   IFNULL(c.country, '#')) institution,
                 h.institution other_institution, IF(h.hosp_has_photo, 'yes', '-') AS photo,
-                CONCAT_WS('.', IFNULL(h.date_entry_day, '-'), IFNULL(h.date_entry_month, '-'), IFNULL(h.date_entry_year, '-')) date
+                CONCAT_WS('.', IFNULL(h.date_entry_day, '-'), IFNULL(h.date_entry_month, '-'), IFNULL(h.date_entry_year, '-')) entry_date,
+                CONCAT_WS('.', IFNULL(h.date_exit_day, '-'), IFNULL(h.date_exit_month, '-'), IFNULL(h.date_exit_year, '-')) exit_date
         FROM nmv__med_history_hosp h
         LEFT JOIN nmv__institution i ON i.ID_institution = h.ID_institution
         LEFT JOIN nmv__country c ON c.ID_country = i.ID_country
@@ -42,12 +43,15 @@ if ($victim_id) {
 
         $content .= '<h3>Hospitalization</h3>';
         $content .= '<table class="grid">';
-        $content .= '<tr><th>Institution</th><th>Date<br>(D.M.Y)</th><th>ID</th><th>Photo<th>Options</th>';
+        $content .= '<tr><th>Institution</th><th>Entry Date<br>(D.M.Y)</th><th>Exit Date<br>(D.M.Y)</th><th>notes</th><th>diagnosis</th><th>ID</th><th>Photo<th>Options</th>';
         $content .= '</tr>';
         while ($entry = $query->fetch_object()) {
         	$content .= '<tr>';
           $content .= '<td><a href="nmv_view_med_hist_hosp?ID_med_history_hosp='.$entry->id.'">'.htmlspecialchars($entry->institution,ENT_HTML5). ' <br> ' .htmlspecialchars($entry->other_institution,ENT_HTML5).'</a></td>';
-        	$content .= "<td>$entry->date</td>";
+        	$content .= "<td>$entry->entry_date</td>";
+        	$content .= "<td>$entry->exit_date</td>";
+        	$content .= "<td>$entry->notes</td>";
+        	$content .= "<td>$entry->diagnosis</td>";
         	$content .= "<td>$entry->id</td>";
           $content .= "<td>$entry->photo</td>";
         	$content .= '<td class="nowrap">';
