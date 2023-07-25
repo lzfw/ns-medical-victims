@@ -14,7 +14,7 @@ $dbi->addBreadcrumb ('Victims','nmv_list_victims');
 
 // query: get victim data
 $querystring = "
-    SELECT v.first_names, v.surname, v.openUid, v.entry_status,
+    SELECT v.first_names, v.surname, v.openUid, v.uid, v.entry_status,
            CONCAT(IFNULL(v.birth_day , '-'), '.', IFNULL(v.birth_month , '-'), '.', IFNULL(v.birth_year, '-')) birth, v.twin,
            v.birth_place, bc.country AS birth_country, v.death_place, dc.country AS death_country,
            CONCAT(IFNULL(di.institution_name, ''), ' - ', IFNULL(di.location, ''), ' - ', IFNULL(v.death_institution, '')) AS death_institution,
@@ -95,6 +95,7 @@ if ($victim = $result->fetch_object()) {
         $content .= buildElement('table','grid',
         buildDataSheetRow('ID',                      $victim_id).
         buildDataSheetRow('openUid',                $victim->openUid).
+        buildDataSheetRow('Uid',                $victim->uid).
         buildDataSheetRow('Name',                   $victim_name).
         buildDataSheetRow('Gender',                 $victim->gender).
         buildDataSheetRow('Birth DMY',                  $victim_birth).

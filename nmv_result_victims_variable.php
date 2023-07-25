@@ -385,6 +385,8 @@ if (isset($_GET['mpg_project']) && $_GET['mpg_project']) $suche_nach[] = 'mpg_pr
 if (isset($_GET['ID_dataset_origin']) && $_GET['ID_dataset_origin']) {
 	$search_term = $dbi->connection->query('SELECT work_group FROM nmv__dataset_origin WHERE ID_dataset_origin = '.$_GET['ID_dataset_origin'])->fetch_row();
 	$suche_nach[] = 'workgroup(s) = '.$search_term[0];
+}if (isset($_GET['entry_status']) && $_GET['entry_status']) {
+	$suche_nach[] = 'Status data transfer = '.$_GET['entry_status'];
 }
 if (isset($_GET['tissue_institution']) && $_GET['tissue_institution']) {
 	$search_term = $dbi->connection->query('SELECT institution_name FROM nmv__institution WHERE ID_institution = '.$_GET['tissue_institution'])->fetch_row();

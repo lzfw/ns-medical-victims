@@ -40,6 +40,9 @@ $victimForm->addField('first_names',TEXT,120)
 $victimForm->addField('openUid',TEXT,20)
 	->setLabel('openUid -- temporary for data-transfer');
 
+$victimForm->addField('uid',TEXT,20)
+	->setLabel('Uid -- temporary for data-transfer');
+
 
 $victimForm
 	->addButton(BACK)
@@ -70,6 +73,9 @@ $MPGvictimForm->addField('ID_dataset_origin',SELECT)
 
 $MPGvictimForm->addField('openUid',TEXT,20)
 	->setLabel('openUid -- temporary for data-transfer');
+
+$MPGvictimForm->addField('uid',TEXT,20)
+	->setLabel('Uid -- temporary for data-transfer');
 
 $MPGvictimForm
 	->addButton(BACK)
