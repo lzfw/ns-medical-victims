@@ -130,7 +130,7 @@ $experiment_query_end = "GROUP BY e.ID_experiment";
 
 
 $victim_query_start =
-"SELECT v.ID_victim, v.surname,
+"SELECT v.ID_victim, v.uid, v.openUid, v.surname,
 GROUP_CONCAT(DISTINCT vn.surname, IF(nt.nametype IS NULL, 'null', CONCAT(' (', nt.nametype, ')') ) SEPARATOR ', ') AS alternative_surnames,
 v.first_names,
 GROUP_CONCAT(DISTINCT vn.first_names, IF(nt.nametype IS NULL, 'null', CONCAT(' (', nt.nametype, ')') ) SEPARATOR ', ') AS alternative_firstnames, IF(v.twin=-1, 'yes', NULL) AS twin,
