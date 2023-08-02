@@ -26,7 +26,7 @@ if ($victim_id) {
 
         // query: get hosp data
         $querystring = "
-        SELECT  h.ID_med_history_hosp id, i.ID_institution id_institution, h.notes notes, h.diagnosis diagnosis,
+        SELECT  h.ID_med_history_hosp id, i.ID_institution id_institution, LEFT(h.notes, 30) notes, LEFT(h.diagnosis, 30) diagnosis,
                 concat(
                   IFNULL(LEFT(i.institution_name, 150), '#'),' - ',
                   IFNULL(LEFT(i.location,40), '#'),' - ',
@@ -43,7 +43,7 @@ if ($victim_id) {
 
         $content .= '<h3>Hospitalization</h3>';
         $content .= '<table class="grid">';
-        $content .= '<tr><th>Institution</th><th>Entry Date<br>(D.M.Y)</th><th>Exit Date<br>(D.M.Y)</th><th>notes</th><th>diagnosis</th><th>ID</th><th>Photo<th>Options</th>';
+        $content .= '<tr><th>Institution</th><th>Entry Date<br>(D.M.Y)</th><th>Exit Date<br>(D.M.Y)</th><th>notes (trunc.)</th><th>diagnosis (trunc.)</th><th>ID</th><th>Photo<th>Options</th>';
         $content .= '</tr>';
         while ($entry = $query->fetch_object()) {
         	$content .= '<tr>';
