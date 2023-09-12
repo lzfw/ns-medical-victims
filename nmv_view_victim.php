@@ -14,7 +14,7 @@ $dbi->addBreadcrumb ('Victims','nmv_list_victims');
 
 // query: get victim data
 $querystring = "
-    SELECT v.first_names, v.surname, v.openUid, v.uid, v.entry_status,
+    SELECT v.first_names, v.surname, v.openUid, v.uid, v.entry_status, v.potential_old_profile,
            CONCAT(IFNULL(v.birth_day , '-'), '.', IFNULL(v.birth_month , '-'), '.', IFNULL(v.birth_year, '-')) birth, v.twin,
            v.birth_place, bc.country AS birth_country, v.death_place, dc.country AS death_country,
            CONCAT(IFNULL(di.institution_name, ''), ' - ', IFNULL(di.location, ''), ' - ', IFNULL(v.death_institution, '')) AS death_institution,
@@ -275,6 +275,12 @@ if($victim->was_prisoner_assistant =='prisoner assistant only'){
 } else if($victim->was_prisoner_assistant == 'prisoner assistant AND victim') {
     $title .= 'Victim and <span class="red">Prisoner Assistant: </span>' .$victim_name;
     $content = $victim_name . ' was victim of experiments and was also forced to participate in the conduction of unethical biomedical research' . $content;
+}
+
+//complete db
+if(1 AND ($victim->mpg_project != -1 AND $victim->potential_old_profile != -1)) {
+    $title = 'Victim not found';
+    $content = '';
 }
 
 $layout

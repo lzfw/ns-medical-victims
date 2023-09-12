@@ -39,7 +39,7 @@ $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 $exact_fields = array ('twin', 'mpg_project', 'ID_birth_country', 'birth_year', 'ID_dataset_origin', 'ID_death_country',
 	'death_year', 'gender',	'ID_religion', 'ID_ethnic_group', 'ID_nationality_1938', 'ID_education', 'ID_occupation',
 	'ID_arrest_country', 'ID_perpetrator', 'photo',	 'ID_nationality_after_1945', 'ID_death_institution',
-	'ID_evaluation_status', 'compensation', 'entry_status');
+	'ID_evaluation_status', 'compensation', 'entry_status', 'potential_old_profile');
 
 // felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
 // --> If no diacritics are applied, it finds covers any combination: η would also return ἠ, ἦ or ἥ, while ἠ would find only ἠ.
@@ -170,7 +170,7 @@ $querystring_where[] = "was_prisoner_assistant != 'prisoner assistant only'";
 
 //complete db d
 if ($dbi->checkUserPermission('mpg')) :
-	$querystring_where[] = 'v.mpg_project = -1';
+	$querystring_where[] = '(v.mpg_project = -1 OR v.potential_old_entry)';
 endif;
 
 
