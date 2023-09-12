@@ -278,7 +278,7 @@ if($victim->was_prisoner_assistant =='prisoner assistant only'){
 }
 
 //complete db
-if(1 AND ($victim->mpg_project != -1 AND $victim->potential_old_profile != -1)) {
+if(($dbi->checkUserPermission('mpg')) AND ($victim->mpg_project != -1 AND $victim->potential_old_profile != -1)) {
     $title = 'Victim not found';
     $content = '';
 }
