@@ -170,7 +170,7 @@ $querystring_where[] = "was_prisoner_assistant != 'prisoner assistant only'";
 
 //complete db d
 if ($dbi->checkUserPermission('mpg')) :
-	$querystring_where[] = '(v.mpg_project = -1 OR v.potential_old_entry)';
+	$querystring_where[] = '(v.mpg_project = -1 OR v.potential_old_entry = -1)';
 endif;
 
 
