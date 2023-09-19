@@ -1,5 +1,5 @@
 <?php
-
+//TEST
 class View_List_NMV_Behaviour_Table extends View_List {
 
 	// CONSTRUCTOR ---------------------------------------------------------------
