@@ -91,7 +91,7 @@ if ($victim = $result->fetch_object()) {
         $content .= buildElement('p', "Status Data Transfer: " . $victim->entry_status);
     }
     if($victim_id_new_profile != NULL) {
-        $content .= buildElement('h3', 'mpgcolor', "This profile represents the state of research prior to the start of the MPG project (2017-2024)");}
+        $content .= buildElement('h3', 'mpgcolor', "This profile represents the state of research prior to the start of the MPG project (2017-2024) - workgroup Oxford");}
         $content .= buildElement('table','grid',
         buildDataSheetRow('ID',                      $victim_id).
         buildDataSheetRow('openUid',                $victim->openUid).
