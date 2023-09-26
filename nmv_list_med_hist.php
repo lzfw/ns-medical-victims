@@ -117,7 +117,7 @@ if ($victim_id) {
         // query: get brain tissue data
         $querystring = "
         SELECT h.ID_med_history_tissue id, f.tissue_form,
-            s.tissue_state, h.ref_no ref_no,
+            s.tissue_state, h.ref_no ref_no, h.ref_no_2 ref_no_2,
             CONCAT_WS('.', IFNULL(h.since_day, '-'), IFNULL(h.since_month, '-'), IFNULL(h.since_year, '-')) date,
             CONCAT(IFNULL(i.institution_name,'unknown'), ' - ', IFNULL(i.location, '-'), ' - ', IFNULL(c.country, '-')) AS institution
         FROM nmv__med_history_tissue h
@@ -131,12 +131,13 @@ if ($victim_id) {
 
         $content .= '<h3>Brain Tissue</h3>';
         $content .= '<table class="grid">';
-        $content .= '<tr><th>Ref No.</th><th>Date<br>(D.M.Y)</th><th>Tissue Form</th><th>Tissue State</th><th>Institution - Location</th><th>ID</th><th>Options</th>';
+        $content .= '<tr><th>Ref No.</th><th>2nd Ref No.</th><th>Date<br>(D.M.Y)</th><th>Tissue Form</th><th>Tissue State</th><th>Institution - Location</th><th>ID</th><th>Options</th>';
 
         $content .= '</tr>';
         while ($entry = $query->fetch_object()) {
         	$content .= '<tr>';
           $content .= "<td>$entry->ref_no</td>";
+          $content .= "<td>$entry->ref_no_2</td>";
           $content .= "<td>$entry->date</td>";
           $content .= '<td class="nowrap">'.htmlspecialchars($entry->tissue_form,ENT_HTML5).'</td>';
         	$content .= '<td class="nowrap">'.htmlspecialchars($entry->tissue_state,ENT_HTML5).'</td>';

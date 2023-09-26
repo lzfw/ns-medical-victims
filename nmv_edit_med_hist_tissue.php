@@ -69,6 +69,8 @@ $form->addField ('notes',TEXTAREA)
     ->setLabel ('Notes');
 $form->addField ('ref_no',TEXT,50)
     ->setLabel ('Reference number');
+$form->addField ('ref_no_2',TEXT,50)
+    ->setLabel ('2nd Reference number');
 
 $form
 	->addButton (SUBMIT)

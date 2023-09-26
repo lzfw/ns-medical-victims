@@ -22,7 +22,7 @@ $querystring = "
             s.tissue_state, i.institution_name, i.location AS institution_location,
             c.country AS institution_country,
             CONCAT(IFNULL(h.since_day, '-'), '.', IFNULL(h.since_month, '-'), '.', IFNULL(h.since_year, '-')) AS date,
-            h.notes AS notes, h.ref_no AS ref_no
+            h.notes AS notes, h.ref_no AS ref_no, h.ref_no_2 AS ref_no_2
     FROM nmv__med_history_tissue h
     LEFT JOIN nmv__victim v                ON h.ID_victim = v.ID_victim
     LEFT JOIN nmv__tissue_form f           ON f.ID_tissue_form = h.ID_tissue_form
@@ -57,6 +57,8 @@ if ($victim = $query->fetch_object()) {
         htmlspecialchars($victim->notes, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Reference number</th><td>'.
         htmlspecialchars($victim->ref_no, ENT_HTML5).'</td></tr>';
+    $content .= '<tr><th>2nd Reference number</th><td>'.
+        htmlspecialchars($victim->ref_no_2, ENT_HTML5).'</td></tr>';
 
 }
 $content .= '</table>';

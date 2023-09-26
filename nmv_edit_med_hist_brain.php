@@ -68,6 +68,8 @@ $form->addField ('notes',TEXTAREA)
     ->setLabel ('Notes');
 $form->addField ('ref_no',TEXT,50)
     ->setLabel ('Reference number');
+$form->addField ('ref_no_2',TEXT,50)
+    ->setLabel ('2nd Reference number');
 $form->addField('brain_report_has_photo', CHECKBOX, -1)
     ->setLabel('brain report contains photo');
 $form->addField('info', STATIC_TEXT, '<hr><strong>Diagnosis Tags </strong> can be edited in the Brain Report View. <br>

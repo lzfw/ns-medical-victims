@@ -77,8 +77,8 @@ $special_fields = array('ex.ID_experiment'		=> 'ID_experiment',
 
 $special_contain_fields = array("CONCAT(IFNULL(b.diagnosis, ''), IFNULL(dtb.diagnosis, ''))" => 'brain_report_diagnosis',
 	"CONCAT(IFNULL(h.diagnosis, ''), IFNULL(dth.diagnosis, ''))" => 'hospitalisation_diagnosis',
-	'b.ref_no'          => 'ref_no_brain',
-	't.ref_no'			=> 'ref_no_tissue',
+	"CONCAT(IFNULL(b.ref_no, ''), ' ', IFNULL(b.ref_no_2, ''))"      => 'ref_no_brain',
+	"CONCAT(IFNULL(t.ref_no, ''), ' ', IFNULL(t.ref_no_2, ''))"    => 'ref_no_tissue',
 	'h.autopsy_ref_no'	=> 'autopsy_ref_no',
 																);
 
