@@ -207,6 +207,7 @@ GROUP_CONCAT(DISTINCT
                 IF(ts.tissue_state IS NULL, '', CONCAT('tissue STATE: --', ts.tissue_state, '--, ')),
                 IF(tf.tissue_form IS NULL, '', CONCAT('tissue FORM: --', tf.tissue_form, '--, ')),
                 IF(t.ref_no IS NULL, '', CONCAT('tissue REF NO: --', t.ref_no, '--, ')),
+                IF(t.ref_no_2 IS NULL, '', CONCAT('tissue REF NO 2: --', t.ref_no_2, '--, ')),
                 IF(t.notes IS NULL, '', CONCAT('tissue NOTES: --', t.notes, '--, '))
                  SEPARATOR ' \n') AS 'Victim - Tissue',
 v.notes, v.consequential_injuries, v.compensation, v.compensation_details, evs.status AS evaluation_status, v.status_due_to, v.status_notes,
