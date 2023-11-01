@@ -126,7 +126,7 @@ if ($victim_id) {
         LEFT JOIN nmv__institution i ON i.ID_institution = h.ID_institution
         LEFT JOIN nmv__country c ON c.ID_country = i.ID_country
         WHERE ID_victim = $victim_id
-        ORDER BY ref_no, h.since_year, h.since_month, h.since_day";
+        ORDER BY ref_no, FIELD(h.ID_tissue_state, 3, 5, 6, 1, 2, 7, 4), h.since_year, h.since_month, h.since_day ";
         $query = $dbi->connection->query($querystring);
 
         $content .= '<h3>Brain Tissue</h3>';
