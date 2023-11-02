@@ -131,6 +131,8 @@ $form->addField('occupation_details', TEXT, 50)
 $form->addField('notes', TEXTAREA)
     ->setClass('keyboardInput')
     ->setLabel('Notes');
+$form->addField('internal_notes', TEXTAREA)
+    ->setLabel('Internal notes');
 $form->addField('photo_exists', CHECKBOX, -1)
     ->setLabel('Photo exists');
 $form->addField('notes_photo', TEXTAREA)

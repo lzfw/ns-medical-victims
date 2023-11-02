@@ -22,7 +22,7 @@ $querystring = "
            v.death_year, v.cause_of_death, gender, m.marital_family_status,
            ed.education AS education, r.religion,
            n.nationality, e.ethnic_group,
-           p.occupation, v.occupation_details, v.notes,
+           p.occupation, v.occupation_details, v.notes, v.internal_notes,
            v.residence_after_1945_country, v.residence_after_1945_place,
            v.occupation_after_1945, n45.nationality AS nationality_after_1945,
            v.consequential_injuries, IFNULL(v.compensation, 'not specified') AS compensation, v.compensation_details,
@@ -110,7 +110,8 @@ if ($victim = $result->fetch_object()) {
         buildDataSheetRow('Occupation',
             $victim->occupation.
             ($victim->occupation_details ?' ('.$victim->occupation_details.')':'')).
-        buildDataSheetRow('Notes',$victim->notes));
+        buildDataSheetRow('Notes',$victim->notes).
+        buildDataSheetRow('Internal Notes', $victim->internal_notes));
 
     if ($victim->photo_exists == 'Yes') {
         $content .= buildElement('table','grid',
