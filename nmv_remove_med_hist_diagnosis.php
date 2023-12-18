@@ -66,7 +66,7 @@ function get_med_hist_diagnosis($dbi, $id) {
             ' / #' . $dbi->connection->errno . ' / ' . $dbi->connection->error);
     }
 
-    $med_hist_hosp = $result->fetch_object();
+    $med_hist_diagnosis= $result->fetch_object();
     return $med_hist_diagnosis;
 }
 
@@ -80,7 +80,7 @@ function breadcrumb($dbi, $item, $record_id) {
 
 function prompt($dbi, $item) {
     $victim = get_victim($dbi, $item->ID_victim);
-    $med_hist_hosp = get_med_hist_diagnosis($dbi, $item->ID_med_history_diagnosis);
+    $med_hist_diagnosis = get_med_hist_diagnosis($dbi, $item->ID_med_history_diagnosis);
 
     $victim_med_hist_diagnosis =
         htmlspecialchars($med_hist_diagnosis->year, ENT_HTML5).' - ' .
