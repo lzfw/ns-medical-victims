@@ -45,7 +45,7 @@ $form
 $dbi->addBreadcrumb(L_CONTENTS, 'z_menu_contents');
 
 $layout
-	->set('title', 'Tags (Diagnosis) for Diagnosis ID ' . $ID_hosp)
+	->set('title', 'Tags (Diagnosis) for Diagnosis ID ' . $ID_diagnosis)
 	->set('content', '<div>please select all diagnosis tags for the diagnosis, <br>then click button "Update Tags" at the bottom of the page</div>
                     <div>Freetext Diagnosis: '. $diagnosis . '</div>' . $form->run() . '<div class="message">' . $form->success_message . '</div>' . $form->debuglog->Show())
 	->cast();
