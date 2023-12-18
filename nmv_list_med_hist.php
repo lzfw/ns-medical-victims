@@ -53,7 +53,7 @@ if ($victim_id) {
         	$content .= "<td>$entry->notes</td>";
         	$content .= "<td>$entry->diagnosis</td>";
         	$content .= "<td>$entry->id</td>";
-          $content .= "<td>$entry->photo</td>";
+            $content .= "<td>$entry->photo</td>";
         	$content .= '<td class="nowrap">';
         	$content .= createSmallButton('View Details','nmv_view_med_hist_hosp?ID_med_history_hosp='.$entry->id,'icon view');
         	if ($dbi->checkUserPermission('edit')) {
@@ -70,6 +70,42 @@ if ($victim_id) {
         	$content .= '<div class="buttons">';
         	$content .= createButton ('New Hospitalization Entry',
         	    'nmv_edit_med_hist_hosp?ID_victim='.$victim_id,'icon add');
+        	$content .= '</div><br>';
+        }
+
+        // query: get diagnosis data
+        $querystring = "
+        SELECT  d.ID_med_history_diagnosis id, d.diagnosis, d.year                
+        FROM nmv__med_history_diagnosis d 
+        WHERE ID_victim = $victim_id
+        ORDER BY d.year";
+        $query = $dbi->connection->query($querystring);
+
+        $content .= '<h3>Diagnosis</h3>';
+        $content .= '<table class="grid">';
+        $content .= '<tr><th>Year</th><th>Diagnosis (trunc.)</th><th>ID</th><th>Options</th>';
+        $content .= '</tr>';
+        while ($entry = $query->fetch_object()) {
+        	$content .= '<tr>';
+            $content .= "<td>$entry->year</td>";
+            $content .= "<td>$entry->diagnosis</td>";
+            $content .= "<td>$entry->id</td>";
+            $content .= '<td class="nowrap">';
+        	$content .= createSmallButton('View Details','nmv_view_med_hist_diagnosis?ID_med_history_diagnosis='.$entry->id,'icon view');
+        	if ($dbi->checkUserPermission('edit')) {
+        			$content .= createSmallButton(L_EDIT,'nmv_edit_med_hist_diagnosis?ID_med_history_diagnosis='.$entry->id,'icon edit');
+        	}
+        	if ($dbi->checkUserPermission('admin')) {
+        			$content .= createSmallButton(L_DELETE,'nmv_remove_med_hist_diagnosis?ID_med_history_diagnosis='.$entry->id,'icon delete');
+        	}
+        	$content .= "</td>";
+        	$content .= '</tr>';
+        }
+        $content .= '</table>';
+        if ($dbi->checkUserPermission('edit')) {
+        	$content .= '<div class="buttons">';
+        	$content .= createButton ('New Diagnosis Entry',
+        	    'nmv_edit_med_hist_diagnosis?ID_victim='.$victim_id,'icon add');
         	$content .= '</div><br>';
         }
 
