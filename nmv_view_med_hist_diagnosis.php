@@ -59,7 +59,7 @@ if ($victim = $query->fetch_object()) {
 	if ($dbi->checkUserPermission('edit'))
 	    $content .= createButton ('Edit','nmv_edit_med_hist_diagnosis?ID_med_history_diagnosis='.$ID_diagnosis,'icon edit');
 	if ($dbi->checkUserPermission('admin'))
-	    $content .= createButton(L_DELETE,'nmv_remove_med_hist_hosp?ID_med_history_diagnosis='.$ID_diagnosis,'icon delete');
+	    $content .= createButton(L_DELETE,'nmv_remove_med_hist_diagnosis?ID_med_history_diagnosis='.$ID_diagnosis,'icon delete');
 	if ($victim_id) {
         $content .= createButton("basic victim data",'nmv_view_victim?ID_victim='.$victim_id,'icon report-paper');
 	}

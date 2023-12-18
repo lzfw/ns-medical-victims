@@ -73,7 +73,7 @@ function get_med_hist_diagnosis($dbi, $id) {
 function breadcrumb($dbi, $item, $record_id) {
     $victim = get_victim($dbi, $item->ID_victim);
     $med_hist_diagnosis = get_med_hist_diagnosis($dbi, $item->ID_med_history_diagnosis);
-    $med_hist_title = $med_hist_diagnosis->date . ' - ' . $victim->first_names . ' ' . $victim->surname;
+    $med_hist_title = $med_hist_diagnosis->year . ' - ' . $victim->first_names . ' ' . $victim->surname;
     $dbi->addBreadcrumb ('Medical History','nmv_list_med_hist?ID_victim='.$item->ID_victim);
     $dbi->addBreadcrumb ($med_hist_title,'nmv_view_med_hist_diagnosis?ID_victim='.$item->ID_victim);
 }
