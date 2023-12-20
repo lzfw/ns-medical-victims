@@ -105,12 +105,12 @@ if ($victim = $result->fetch_object()) {
         buildDataSheetRow('Marital familiy status',
             $victim->marital_family_status).
         buildDataSheetRow('Highest education level',$victim->education).
-        buildDataSheetRow('Religion',               $victim->religion).
-        buildDataSheetRow('Nationality (1938)',     $victim->nationality).
-        buildDataSheetRow('Ascribed Ethnic Group',           $victim->ethnic_group).
         buildDataSheetRow('Occupation',
             $victim->occupation.
             ($victim->occupation_details ?' ('.$victim->occupation_details.')':'')).
+        buildDataSheetRow('Religion',               $victim->religion).
+        buildDataSheetRow('Nationality (1938)',     $victim->nationality).
+        buildDataSheetRow('Ascribed Ethnic Group',           $victim->ethnic_group).
         buildDataSheetRow('Notes',$victim->notes).
         buildDataSheetRow('Internal Notes', $victim->internal_notes));
     if ($victim->stolperstein_exists == 'Yes') {
