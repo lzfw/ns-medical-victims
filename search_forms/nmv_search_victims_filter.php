@@ -46,7 +46,7 @@ $victimsVariableForm->addField('br-birth', STATIC_TEXT, '<br>');
 
 $victimsVariableForm->addField('ID_death_institution', SELECT)
   ->setLabel('institution of death')
-  ->addOption(NO_VALUE,'all instiutions')
+  ->addOption(NO_VALUE,'all institutions')
   ->addOption('NULL')
   ->addOptionsFromTable('nmv__institution', 'ID_institution', 'institution_name',
                         'EXISTS (	SELECT *
@@ -270,16 +270,20 @@ $victimsVariableForm->addField('hospitalisation_year', TEXT, 4)
 $victimsVariableForm->addField('autopsy_ref_no', TEXT, 120)
     ->setLabel('hospitalisation - Autopsy Number');
 
-$victimsVariableForm->addField('hospitalisation_ID_diagnosis', SELECT)
-  ->setLabel('hospitalisation - diagnosis tags')
+$victimsVariableForm->addField('clinical_ID_diagnosis', SELECT)
+  ->setLabel('clinical - diagnosis tags')
   ->addOption(NO_VALUE,'all diagnoses')
   ->addOptionsFromTable('nmv__diagnosis_tag', 'ID_diagnosis', 'diagnosis',
                         'EXISTS (	SELECT *
                                   FROM nmv__diagnosis_hosp
-                                  WHERE nmv__diagnosis_hosp.ID_diagnosis = nmv__diagnosis_tag.ID_diagnosis)');
+                                  WHERE nmv__diagnosis_hosp.ID_diagnosis = nmv__diagnosis_tag.ID_diagnosis)
+                         OR EXISTS (	SELECT *
+                                  FROM nmv__diagnosis_diagnosis
+                                  WHERE nmv__diagnosis_diagnosis.ID_diagnosis = nmv__diagnosis_tag.ID_diagnosis)'
+  );
 
-$victimsVariableForm->addField('hospitalisation_diagnosis', TEXT, 120)
-->setLabel('hospitalisation - diagnosis <br><small>(search for keyword in freetext and in tags)</small><br>');
+$victimsVariableForm->addField('clinical_diagnosis', TEXT, 120)
+->setLabel('clinical - diagnosis <br><small>(search for keyword in freetext and in tags)</small><br>');
 
 
 // complete db d 3
@@ -313,7 +317,7 @@ $victimsVariableForm->addField('photo-text', STATIC_TEXT, '<br> &nbsp;  &nbsp;')
 $victimsVariableForm->addField('photo', CHECKBOX, -1)
   ->setLabel('photo contained <br> <small>in source, literature, medical record or brain report</small>');
 $victimsVariableForm->addField('stolperstein_exists', CHECKBOX, -1)
-    ->setLabel('stolperstein <br> <small>is known</small>');
+    ->setLabel('stolperstein is known');
 
 
 

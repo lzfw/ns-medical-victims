@@ -39,7 +39,7 @@ $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 $exact_fields = array ('twin', 'mpg_project', 'ID_birth_country', 'birth_year', 'ID_dataset_origin', 'ID_death_country',
 	'death_year', 'gender',	'ID_religion', 'ID_ethnic_group', 'ID_nationality_1938', 'ID_education', 'ID_occupation',
 	'ID_arrest_country', 'ID_perpetrator', 'photo',	 'stolperstein_exists', 'ID_nationality_after_1945', 'ID_death_institution',
-	'ID_evaluation_status', 'compensation', 'entry_status', 'potential_old_profile');
+	'ID_evaluation_status', 'compensation', 'entry_status', 'potential_old_profile', 'clinical_ID_diagnosis');
 
 // felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
 // --> If no diacritics are applied, it finds covers any combination: η would also return ἠ, ἦ or ἥ, while ἠ would find only ἠ.
@@ -69,14 +69,13 @@ $special_fields = array('ex.ID_experiment'		=> 'ID_experiment',
 						'db.ID_diagnosis'		=> 'brain_report_ID_diagnosis',
 						'h.date_entry_year' 	=> 'hospitalisation_year',
 						'h.ID_institution'		=> 'hospitalisation_institution',
-						'dh.ID_diagnosis'		=> 'hospitalisation_ID_diagnosis',
 						't.ID_institution'   	=> 'tissue_institution',
 						'ef.ID_foi'				=> 'ID_foi',
 						'i.ID_institution'    	=> 'ID_imprisonment_institution'
 						);
 
 $special_contain_fields = array("CONCAT(IFNULL(b.diagnosis, ''), IFNULL(dtb.diagnosis, ''))" => 'brain_report_diagnosis',
-	"CONCAT(IFNULL(h.diagnosis, ''), IFNULL(dth.diagnosis, ''))" => 'hospitalisation_diagnosis',
+	"CONCAT(IFNULL(h.diagnosis, ''), IFNULL(dth.diagnosis, ''), IFNULL(d.diagnosis, ''), IFNULL(dtd.diagnosis, ''))" => 'clinical_diagnosis',
 	"CONCAT(IFNULL(b.ref_no, ''), ' ', IFNULL(b.ref_no_2, ''))"      => 'ref_no_brain',
 	"CONCAT(IFNULL(t.ref_no, ''), ' ', IFNULL(t.ref_no_2, ''))"    => 'ref_no_tissue',
 	'h.autopsy_ref_no'	=> 'autopsy_ref_no',
@@ -134,6 +133,9 @@ if ((isset($_GET['ID_experiment']) && ($_GET['ID_experiment'])) || (isset($_GET[
 		LEFT JOIN nmv__med_history_hosp h						ON v.ID_victim = h.ID_victim
 		LEFT JOIN nmv__diagnosis_hosp dh						ON dh.ID_med_history_hosp = h.ID_med_history_hosp
 		LEFT JOIN nmv__diagnosis_tag dth						ON dth.ID_diagnosis = dh.ID_diagnosis
+		LEFT JOIN nmv__med_history_diagnosis d					ON d.ID_victim = v.ID_victim
+		LEFT JOIN nmv__diagnosis_diagnosis dd 					ON dd.ID_med_history_diagnosis = d.ID_med_history_diagnosis
+		LEFT JOIN nmv__diagnosis_tag dtd 						ON dtd.ID_diagnosis = dd.ID_diagnosis
 		LEFT JOIN nmv__victim_source vs 						ON vs.ID_victim = v.ID_victim
 		LEFT JOIN nmv__victim_literature vl 					ON vl.ID_victim = v.ID_victim
 		LEFT JOIN nmv__institution di								ON di.ID_institution = v.ID_death_institution
@@ -160,6 +162,9 @@ else:  // default query
 		LEFT JOIN nmv__med_history_hosp h						ON v.ID_victim = h.ID_victim
 		LEFT JOIN nmv__diagnosis_hosp dh						ON dh.ID_med_history_hosp = h.ID_med_history_hosp
 		LEFT JOIN nmv__diagnosis_tag dth						ON dth.ID_diagnosis = dh.ID_diagnosis
+		LEFT JOIN nmv__med_history_diagnosis d					ON d.ID_victim = v.ID_victim
+		LEFT JOIN nmv__diagnosis_diagnosis dd 					ON dd.ID_med_history_diagnosis = d.ID_med_history_diagnosis
+		LEFT JOIN nmv__diagnosis_tag dtd 						ON dtd.ID_diagnosis = dd.ID_diagnosis
 		LEFT JOIN nmv__victim_source vs 						ON vs.ID_victim = v.ID_victim
 		LEFT JOIN nmv__victim_literature vl 					ON vl.ID_victim = v.ID_victim
 		LEFT JOIN nmv__institution di							ON di.ID_institution = v.ID_death_institution
@@ -189,7 +194,12 @@ foreach ($exact_fields as $field) {
 																 b.brain_report_has_photo = -1 OR
 																 h.hosp_has_photo = -1 OR
 																 v.photo_exists = -1)";
-			} else {
+			}
+			elseif ($field == 'clinical_ID_diagnosis') {
+				$querystring_where[] = "(dd.ID_diagnosis = '".getUrlParameter($field)."' OR
+											dh.ID_diagnosis = '".getUrlParameter($field)."')";
+			}
+			else {
 				if (getUrlParameter($field) == 'NULL') {
 					$querystring_where[] = "v.$field IS NULL";
 				} else {
@@ -241,7 +251,7 @@ foreach ($special_contain_fields as $key=>$field) {
     if (getUrlParameter($field)) {
 			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
 			if (getUrlParameter($field) == 'NULL') {
-				$querystring_where[] = "$openssl_get_publickey IS NULL";
+				$querystring_where[] = "$key IS NULL";
 			} else {
 				$querystring_where[] = "$key LIKE '%".$filtered_field."%'";
 			}
@@ -411,9 +421,9 @@ if (isset($_GET['brain_report_ID_diagnosis']) && $_GET['brain_report_ID_diagnosi
 	$suche_nach[] = 'diagnosis tag brain report = '.$search_term[0];
 }
 if (isset($_GET['brain_report_diagnosis']) && $_GET['brain_report_diagnosis']) $suche_nach[] = 'diagnosis from brain report contains: '.$_GET['brain_report_diagnosis'];
-if (isset($_GET['hospitalisation_ID_diagnosis']) && $_GET['hospitalisation_ID_diagnosis']) {
-	$search_term = $dbi->connection->query('SELECT diagnosis FROM nmv__diagnosis_tag WHERE ID_diagnosis = '.$_GET['hospitalisation_ID_diagnosis'])->fetch_row();
-	$suche_nach[] = 'diagnosis tag hospitalisation = '.$search_term[0];
+if (isset($_GET['clinical_ID_diagnosis']) && $_GET['clinical_ID_diagnosis']) {
+	$search_term = $dbi->connection->query('SELECT diagnosis FROM nmv__diagnosis_tag WHERE ID_diagnosis = '.$_GET['clinical_ID_diagnosis'])->fetch_row();
+	$suche_nach[] = 'clinical diagnosis tag  = '.$search_term[0];
 }
 if (isset($_GET['ref_no_brain']) && $_GET['ref_no_brain']) $suche_nach[] = 'RefNo Brain report contains:  '.$_GET['ref_no_brain'];
 
@@ -422,7 +432,7 @@ if (isset($_GET['hospitalisation_institution']) && $_GET['hospitalisation_instit
 	$search_term = $dbi->connection->query('SELECT institution_name FROM nmv__institution WHERE ID_institution = '.$_GET['hospitalisation_institution'])->fetch_row();
 	$suche_nach[] = 'institution of hospitalisation = '.$search_term[0];
 }
-if (isset($_GET['hospitalisation_diagnosis']) && $_GET['hospitalisation_diagnosis']) $suche_nach[] = 'hospitalisation diagnosis contains: '.$_GET['hospitalisation_diagnosis'];
+if (isset($_GET['clinical_diagnosis']) && $_GET['clinical_diagnosis']) $suche_nach[] = 'clinical diagnosis contains: '.$_GET['clinical_diagnosis'];
 if (isset($_GET['autopsy_ref_no']) && $_GET['autopsy_ref_no']) $suche_nach[] = 'AutopsyRefNo Hospitalisation contains:  '.$_GET['autopsy_ref_no'];
 
 if (isset($_GET['residence_after_1945_country']) && $_GET['residence_after_1945_country']) $suche_nach[] = 'residence after 1945 (country) = '.$_GET['residence_after_1945_country'];
