@@ -27,6 +27,7 @@ $querystring = "
            v.occupation_after_1945, n45.nationality AS nationality_after_1945,
            v.consequential_injuries, IFNULL(v.compensation, 'not specified') AS compensation, v.compensation_details,
            v.notes_after_1945, v.mpg_project, v.arrest_prehistory, v.arrest_location, ac.country AS arrest_country, v.arrest_history,
+           IF(v.stolperstein_exists, 'Yes', '-') AS stolperstein_exists, 
            IF(v.photo_exists, 'Yes', '-') AS photo_exists, v.notes_photo, v.was_prisoner_assistant,
            v.evaluation_list, evs.status AS evaluation_status, v.status_due_to, v.status_notes, v.mpg_project AS mpg_project, d.work_group AS workgroup,
            v.ID_new_profile 
@@ -112,7 +113,10 @@ if ($victim = $result->fetch_object()) {
             ($victim->occupation_details ?' ('.$victim->occupation_details.')':'')).
         buildDataSheetRow('Notes',$victim->notes).
         buildDataSheetRow('Internal Notes', $victim->internal_notes));
-
+    if ($victim->stolperstein_exists == 'Yes') {
+        $content .= buildElement('table', 'grid',
+            buildDataSheetRow('Stolperstein exists',  $victim->stolperstein_exists));
+    }
     if ($victim->photo_exists == 'Yes') {
         $content .= buildElement('table','grid',
             buildDataSheetRow('Photo exists',           $victim->photo_exists).

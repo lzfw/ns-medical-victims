@@ -133,6 +133,8 @@ $form->addField('notes', TEXTAREA)
     ->setLabel('Notes');
 $form->addField('internal_notes', TEXTAREA)
     ->setLabel('Internal notes');
+$form->addField('stolperstein_exists', CHECKBOX, -1)
+    ->setLabel('Stolperstein exists');
 $form->addField('photo_exists', CHECKBOX, -1)
     ->setLabel('Photo exists');
 $form->addField('notes_photo', TEXTAREA)
