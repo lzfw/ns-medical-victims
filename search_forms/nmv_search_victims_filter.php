@@ -312,6 +312,8 @@ $victimsVariableForm->addField('notes_photo', TEXT, 120)
 $victimsVariableForm->addField('photo-text', STATIC_TEXT, '<br> &nbsp;  &nbsp;');
 $victimsVariableForm->addField('photo', CHECKBOX, -1)
   ->setLabel('photo contained <br> <small>in source, literature, medical record or brain report</small>');
+$victimsVariableForm->addField('stolperstein_exists', CHECKBOX, -1)
+    ->setLabel('stolperstein <br> <small>is known</small>');
 
 
 

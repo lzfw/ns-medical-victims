@@ -38,7 +38,7 @@ $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 // felder, die immer exakt gematcht werden (Trunkierung nicht möglich, Diakritika distinkt, Basiszeichen distinkt)
 $exact_fields = array ('twin', 'mpg_project', 'ID_birth_country', 'birth_year', 'ID_dataset_origin', 'ID_death_country',
 	'death_year', 'gender',	'ID_religion', 'ID_ethnic_group', 'ID_nationality_1938', 'ID_education', 'ID_occupation',
-	'ID_arrest_country', 'ID_perpetrator', 'photo',	 'ID_nationality_after_1945', 'ID_death_institution',
+	'ID_arrest_country', 'ID_perpetrator', 'photo',	 'stolperstein_exists', 'ID_nationality_after_1945', 'ID_death_institution',
 	'ID_evaluation_status', 'compensation', 'entry_status', 'potential_old_profile');
 
 // felder, die mit like gematcht werden (Trunkierung möglich, Diakritika distinkt, Basiszeichen ambivalent)
@@ -434,6 +434,7 @@ if (isset($_GET['ID_nationality_after_1945']) && $_GET['ID_nationality_after_194
 if (isset($_GET['notes']) && $_GET['notes']) $suche_nach[] = 'notes = ... '.$_GET['notes'] . ' ...';
 if (isset($_GET['notes_after_1945']) && $_GET['notes_after_1945']) $suche_nach[] = 'notes after 1945 = ... ' . $_GET['notes_after_1945'] . ' ...';
 if (isset($_GET['photo']) && $_GET['photo']) $suche_nach[] = 'photo contained';
+if (isset($_GET['stolperstein_exists']) && $_GET['stolperstein_exists']) $suche_nach[] = 'known stolperstein';
 
 
 // breadcrumbs
