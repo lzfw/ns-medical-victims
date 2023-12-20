@@ -618,6 +618,43 @@ form button {
 	text-align:right !important;
 }
 
+/* TOOLTIP---------------------------------------------------------------- */
+
+/* Tooltip container */
+.tooltip {
+	position: relative;
+	display: inline-block;
+}
+
+.tooltip:after {
+	content: url(../images/fugue-icons_zefiro/question-balloon.png);
+	position: absolute;
+	top: 10%;
+	right: -20px;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+	visibility: hidden;
+	width: 20rem;
+	background-color: #f8f8ff;
+	color: black;
+	text-align: center;
+	text-wrap: balance;
+	padding: 5px;
+	border: 1px solid black;
+	border-radius: 6px;
+	position: absolute;
+	z-index: 1;
+}
+
+/* Show the tooltip text when hovering */
+.tooltip:hover .tooltiptext {
+	visibility: visible;
+}
+
+
+
 /* JQUERY UI ---------------------------------------------------------------- */
 
 .ui-autocomplete {

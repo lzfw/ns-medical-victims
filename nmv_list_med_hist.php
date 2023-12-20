@@ -81,7 +81,7 @@ if ($victim_id) {
         ORDER BY d.year";
         $query = $dbi->connection->query($querystring);
 
-        $content .= '<h3>Diagnosis</h3>';
+        $content .= '<h3 class="tooltip">Diagnosis<span class="tooltiptext">Clinical diagnosis that is not assigned to a specific hospitalisation</span></h3>';
         $content .= '<table class="grid">';
         $content .= '<tr><th>Year</th><th>Diagnosis (trunc.)</th><th>ID</th><th>Options</th>';
         $content .= '</tr>';

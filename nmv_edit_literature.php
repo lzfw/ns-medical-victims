@@ -52,7 +52,10 @@ $form->addField ('names_mentioned',TEXT,6)
     ->setLabel ('names mentioned (count)');
     */
 $form->addField ('scientific_exploitation',CHECKBOX,1)
-    ->setLabel ('Scientific exploitation');
+    ->setLabel ('<div class="tooltip">Scientific exploitation
+                    <span class="tooltiptext">was this literature making use results of unethical research</span>
+                </div>');
+
 $form->addField ('written_by_perpetrator',CHECKBOX,-1)
     ->setLabel ('Written by perpetrator')
 		->setDescription ('&rArr; Tick if at least one author is listed as perpetrator');
