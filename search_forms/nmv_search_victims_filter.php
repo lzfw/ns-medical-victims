@@ -308,6 +308,8 @@ endif;
 $victimsVariableForm->addField('notes-text', SUBHEADLINE, '<br> &nbsp; keyword search in notes &nbsp;');
 $victimsVariableForm->addField('notes', TEXT, 120)
   ->setLabel('keyword in "notes"');
+$victimsVariableForm->addField('internal_notes', TEXT, 120)
+  ->setLabel('keyword in "internal notes"');
 $victimsVariableForm->addField('notes_after_1945', TEXT, 120)
   ->setLabel('keyword in "notes after 1945"');
 $victimsVariableForm->addField('notes_photo', TEXT, 120)

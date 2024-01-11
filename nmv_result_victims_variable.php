@@ -47,7 +47,7 @@ $like_fields = array ();
 
 //felder, die mit LIKE %xy% gematcht werden
 $contain_fields = array('residence_after_1945_country', 'occupation_after_1945', 'notes', 'notes_after_1945',
-	'notes_photo', 'birth_place', 'death_place', 'arrest_history');
+	'notes_photo', 'birth_place', 'death_place', 'arrest_history', 'internal_notes');
 
 // felder, die mit like ODER exakt gematcht werden (Trunkierung möglich, Diakritika indistinkt)
 // --> Arabic vowel signs are treated indistinctively: سبب would also return سَبَبٌ, and vice versa.
