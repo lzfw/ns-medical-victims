@@ -97,7 +97,7 @@ $querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names, v.
 												LEFT JOIN nmv__med_history_hosp h					ON v.ID_victim = h.ID_victim
 												LEFT JOIN nmv__diagnosis_brain db 				ON db.ID_med_history_brain = b.ID_med_history_brain
 												LEFT JOIN nmv__diagnosis_hosp dh 					ON dh.ID_med_history_hosp = h.ID_med_history_hosp
-                        LEFT JOIN nmv__diagnosis_tag dth          ON dth.ID_diagnosis = db.ID_diagnosis OR dth.ID_diagnosis = dh.ID_diagnosis
+                       							LEFT JOIN nmv__diagnosis_tag dth          ON dth.ID_diagnosis = db.ID_diagnosis OR dth.ID_diagnosis = dh.ID_diagnosis
                         '; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
 
@@ -130,7 +130,8 @@ foreach ($contain_fields as $field) {
 			$querystring_where[] = "v.cause_of_death LIKE '%".$filtered_field."%' OR
                               b.diagnosis LIKE '%".$filtered_field."%' OR
                               h.diagnosis LIKE '%".$filtered_field."%' OR
-                              dth.diagnosis LIKE '%".$filtered_field."%'
+                              dth.diagnosis LIKE '%".$filtered_field."%' OR
+                              h.notes LIKE '%".$filtered_field."%' 
                              ";
     }
 }
