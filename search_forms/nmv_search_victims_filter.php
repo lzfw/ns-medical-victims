@@ -199,7 +199,7 @@ endif;
 $victimsVariableForm->addField('ID_dataset_origin', SELECT)
   ->setLabel('workgroup')
   ->addOption(NO_VALUE,'all workgroups')
-  ->addOptionsFromTable('nmv__dataset_origin', 'ID_dataset_origin', 'work_group');
+  ->addOptionsFromTable('nmv__dataset_origin', 'ID_dataset_origin', 'work_group', 'ID_dataset_origin < 7');
 
 $victimsVariableForm->addField('entry_status', SELECT)
     ->setLabel('status data transfer (temporary)')

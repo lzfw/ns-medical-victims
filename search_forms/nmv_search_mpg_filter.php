@@ -56,7 +56,7 @@ $MPGfilterForm->addField('ID_tissue_institution', SELECT)
 $MPGfilterForm->addField('ID_dataset_origin',SELECT)
 	    ->setLabel('MPG Project Data from')
 	    ->addOption(NO_VALUE,'all workgroups')
-	    ->addOptionsFromTableOrderedById('nmv__dataset_origin', 'ID_dataset_origin', 'work_group');
+	    ->addOptionsFromTableOrderedById('nmv__dataset_origin', 'ID_dataset_origin', 'work_group', 'ID_dataset_origin < 7');
 
 
 
