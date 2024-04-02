@@ -83,12 +83,25 @@ if ($victim_id) {
 
         $content .= '<h3 class="tooltip">Diagnosis<span class="tooltiptext">Clinical diagnosis that is not assigned to a specific hospitalisation</span></h3>';
         $content .= '<table class="grid">';
-        $content .= '<tr><th>Year</th><th>Diagnosis (trunc.)</th><th>ID</th><th>Options</th>';
+        $content .= '<tr><th>Year</th><th>Diagnosis (trunc.)</th><th>Diagnosis Tags</th><th>ID</th><th>Options</th>';
         $content .= '</tr>';
         while ($entry = $query->fetch_object()) {
-        	$content .= '<tr>';
+            //query get diagnosis tags
+            $querystring_tag = "
+                SELECT d.diagnosis
+                FROM nmv__diagnosis_diagnosis dd
+                LEFT JOIN nmv__diagnosis_tag d ON d.ID_diagnosis = dd.ID_diagnosis
+                WHERE dd.ID_med_history_diagnosis = $entry->id";
+            $tagged = $dbi->connection->query($querystring_tag);
+            while ($tag = $tagged->fetch_row()) {
+                $tag_array[] = $tag[0];
+            }
+
+            //table body
+            $content .= '<tr>';
             $content .= "<td>$entry->year</td>";
             $content .= "<td>$entry->diagnosis</td>";
+            $content .= "<td>" . implode(' | ', $tag_array) . "</td>";
             $content .= "<td>$entry->id</td>";
             $content .= '<td class="nowrap">';
         	$content .= createSmallButton('View Details','nmv_view_med_hist_diagnosis?ID_med_history_diagnosis='.$entry->id,'icon view');
