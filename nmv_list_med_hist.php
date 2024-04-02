@@ -87,6 +87,7 @@ if ($victim_id) {
         $content .= '</tr>';
         while ($entry = $query->fetch_object()) {
             //query get diagnosis tags
+            $tag_array = [];
             $querystring_tag = "
                 SELECT d.diagnosis
                 FROM nmv__diagnosis_diagnosis dd
