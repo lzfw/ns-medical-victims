@@ -44,6 +44,12 @@ if ($victim_id) {
     $query = $dbi->connection->query($querystring);
     $victim = $query->fetch_object();
     $victim_id = $victim->victim_id;
+    //OBACHT
+    if($victim_id>= 46028 && $victim_id <= 46126 || $victim_id >= 46259 && $victim_id <= 47647):
+        $dbi->requireUserPermission('all');
+    else:
+        $dbi->requireUserPermission ('edit');
+    endif;
     $victim_name = $victim->victim_name;
 }
 
