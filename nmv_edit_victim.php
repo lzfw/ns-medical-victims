@@ -83,6 +83,11 @@ $form->addField('was_prisoner_assistant', RADIO, '', 'victim only')
     ->addRadioButton('prisoner assistant AND victim', ' prisoner assistant AND victim')
     ->addRadioButton('victim only', ' victim only');
 $form->addField('separator_2', STATIC_TEXT, '<hr>');
+$form->addField('gender', SELECT)
+    ->setLabel('Gender')
+    ->addOption(NO_VALUE, 'please choose')
+    ->addOption('female')
+    ->addOption('male');
 $form->addField('birth_day', TEXT, 2)
     ->setLabel('Birth DMYYYY')
     ->addCondition(VALUE, MIN, 0)
@@ -131,11 +136,6 @@ $form->addField('ID_death_country', SELECT)
     ->addOptionsFromTable('nmv__country', 'ID_country', 'country');
 $form->addField('cause_of_death', TEXT, 255)
     ->setLabel('Cause of Death');
-$form->addField('gender', SELECT)
-    ->setLabel('Gender')
-    ->addOption(NO_VALUE, 'please choose')
-    ->addOption('female')
-    ->addOption('male');
 $form->addField('ID_marital_family_status', SELECT)
     ->setLabel('Marital Familiy Status')
     ->addOption(NO_VALUE, 'please choose')
@@ -144,6 +144,13 @@ $form->addField('ID_education', SELECT)
     ->setLabel('Highest Education Level')
     ->addOption(NO_VALUE, 'please choose')
     ->addOptionsFromTable('nmv__education', 'ID_education', 'education');
+$form->addField('ID_occupation', SELECT)
+    ->setLabel('Occupation')
+    ->addOption(NO_VALUE, 'please choose')
+    ->addOptionsFromTable('nmv__occupation', 'ID_occupation', 'occupation');
+$form->addField('occupation_details', TEXT, 50)
+    ->setClass('keyboardInput')
+    ->setLabel('Occupation Details');
 $form->addField('ID_religion', SELECT)
     ->setLabel('Religion')
     ->addOption(NO_VALUE, 'please choose')
@@ -156,13 +163,6 @@ $form->addField('ID_ethnic_group', SELECT)
     ->setLabel('Ascribed Ethnic Group')
     ->addOption(NO_VALUE, 'please choose')
     ->addOptionsFromTable('nmv__ethnic_group', 'ID_ethnic_group', 'ethnic_group');
-$form->addField('ID_occupation', SELECT)
-    ->setLabel('Occupation')
-    ->addOption(NO_VALUE, 'please choose')
-    ->addOptionsFromTable('nmv__occupation', 'ID_occupation', 'occupation');
-$form->addField('occupation_details', TEXT, 50)
-    ->setClass('keyboardInput')
-    ->setLabel('Occupation Details');
 $form->addField('notes', TEXTAREA)
     ->setClass('keyboardInput')
     ->setLabel('Notes');
