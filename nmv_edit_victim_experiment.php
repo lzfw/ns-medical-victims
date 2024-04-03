@@ -9,6 +9,20 @@ $form = new Form ('nmv_victim_experiment');
 $vict_exp_id = (int) getUrlParameter('ID_vict_exp', 0);
 $victim_id = (int) getUrlParameter('ID_victim', 0);
 
+/** Requires check of User permission - User needs to have permission to edit.
+ * If profile is from TEilprojekte Berlin/Vienna/Munich special permission 'all' is needed
+ *
+ * @var DBI $dbi Calls method require user permission.
+ * @see
+ */
+//OBACHT
+$ID_victim = (int) getUrlParameter('ID_victim', 0);
+if($ID_victim >= 46028 && $ID_victim <= 46126 || $ID_victim >= 46259 && $ID_victim <= 47647):
+    $dbi->requireUserPermission('all');
+else:
+    $dbi->requireUserPermission ('edit');
+endif;
+
 
 // query: get victim data
 $victim_name = 'Error: Unknown.';

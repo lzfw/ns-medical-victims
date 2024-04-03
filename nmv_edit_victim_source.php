@@ -10,36 +10,20 @@ $form = new Form ('nmv_victim_source');
 $victim_id = (int) getUrlParameter('ID_victim', 0);
 $source_id = (int) getUrlParameter('ID_source', 0);
 $vict_source_id = (int) getUrlParameter('ID_vict_source', 0);
-//$source_title = 'Error: Unknown';
-//$victim_name = 'Error: Unknown.';
-//if ($victim_id) {
-//    $querystring = "
-//    SELECT CONCAT(COALESCE(surname, ''), ' ', COALESCE(first_names, '')) victim_name
-//    FROM nmv__victim
-//    WHERE ID_victim = $victim_id";
-//    $query = $dbi->connection->query($querystring);
-//    $victim = $query->fetch_object();
-//    $victim_name = $victim->victim_name;
-//} elseif ($source_id) {
-//    $querystring = "
-//    SELECT source_title
-//    FROM nmv__source
-//    WHERE ID_source = $source_id";
-//    $query = $dbi->connection->query($querystring);
-//    $source = $query->fetch_object();
-//    $source_title = $source->source_title;
-//} else {
-//    $querystring = "
-//    SELECT CONCAT(COALESCE(v.surname, ''), ' ', COALESCE(v.first_names, '')) victim_name,
-//        v.ID_victim victim_id
-//    FROM nmv__victim v
-//    RIGHT JOIN nmv__victim_source h ON (h.ID_victim = v.ID_victim)
-//    WHERE ID_vict_source = $vict_source_id";
-//    $query = $dbi->connection->query($querystring);
-//    $victim = $query->fetch_object();
-//    $victim_id = $victim->victim_id;
-//    $victim_name = $victim->victim_name;
-//}
+
+/** Requires check of User permission - User needs to have permission to edit.
+ * If profile is from TEilprojekte Berlin/Vienna/Munich special permission 'all' is needed
+ *
+ * @var DBI $dbi Calls method require user permission.
+ * @see
+ */
+//OBACHT
+$ID_victim = (int) getUrlParameter('ID_victim', 0);
+if($ID_victim >= 46028 && $ID_victim <= 46126 || $ID_victim >= 46259 && $ID_victim <= 47647):
+    $dbi->requireUserPermission('all');
+else:
+    $dbi->requireUserPermission ('edit');
+endif;
 
 $form
 	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)

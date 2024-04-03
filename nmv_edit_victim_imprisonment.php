@@ -2,7 +2,19 @@
 require_once 'zefiro/ini.php';
 require_once 'flotilla/ini.php';
 
-$dbi->requireUserPermission ('edit');
+/** Requires check of User permission - User needs to have permission to edit.
+ * If profile is from TEilprojekte Berlin/Vienna/Munich special permission 'all' is needed
+ *
+ * @var DBI $dbi Calls method require user permission.
+ *
+ */
+//OBACHT
+$ID_victim = (int) getUrlParameter('ID_victim', 0);
+if($ID_victim >= 46028 && $ID_victim <= 46126 || $ID_victim >= 46259 && $ID_victim <= 47647):
+    $dbi->requireUserPermission('all');
+else:
+    $dbi->requireUserPermission ('edit');
+endif;
 
 $form = new Form ('nmv_edit_victim_imprisonment');
 $tag_array = array();
