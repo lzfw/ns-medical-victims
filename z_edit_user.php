@@ -27,7 +27,7 @@ if ($uid) {
 	$form->addField ('password_text',PASSWORD,15,REQUIRED)	->setLabel (L_USER_PASSWORD);
 }
 
-
+//OBACHT: all am Ende des Projektes obsolet
 if ($dbi->checkUserPermission('system')) {
 	$form->addField ('group',TEXT,15,REQUIRED)
 		->setLabel (L_USER_GROUP);
@@ -40,7 +40,9 @@ if ($dbi->checkUserPermission('system')) {
 			->addOption ('view, edit')
 			->addOption ('view, edit, all')
 			->addOption ('view, edit, admin')
+			->addOption ('view, edit, admin, all')
 			->addOption ('view, edit, admin, system')
+			->addOption ('view, edit, admin, system, all')
 			->addOption ('view, admin')
 			->addOption ('view, admin, system')
 			->addOption ('view, system');
@@ -55,7 +57,9 @@ elseif ($dbi->checkUserPermission('admin')) {
 			->addOption ('view')
 			->addOption ('view, mpg')
 			->addOption ('view, edit')
+			->addOption ('view, edit, all')
 			->addOption ('view, edit, admin')
+			->addOption ('view, edit, admin, all')
 			->addOption ('view, admin');
 }
 
