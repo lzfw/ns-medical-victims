@@ -1,12 +1,50 @@
 <?php
+
+namespace EditForm;
+
 require_once 'zefiro/ini.php';
 require_once 'flotilla/ini.php';
 
+use DBI;
+use Form;
+use Layout;
+
+/**
+ * Creates a html form for editing or creating a victim entry.
+ *
+ *
+ *
+ * @see class /flotilla/classes/form Creates html form elements.
+ * @see class /flotilla/classes/connection_mysql Opens connection to MySQL-database.
+ * @see class /zefiro/lib/dbi Checks if user has permission to edit and create entries.
+ * @see class /zefiro/lib/layout
+ * @see file /zefiro/ini Initialises Zefiro and requires needed files to build Webapplication.
+ * @var string $db_host
+ * @var string $db_user
+ * @var string $db_pass
+ * @var string $db_name
+ * @var Layout $layout
+ */
+
+$ID_victim = (int) getUrlParameter('ID_victim', 0);
+
+/** Requires check of User permission - User needs to have permission to edit
+ *
+ * @var DBI $dbi Calls method require user permission.
+ * @see
+ */
 $dbi->requireUserPermission ('edit');
 
+/**
+ * Requires special permission (all) to edit entries from Teilprojekte
+ *
+ */
+if($ID_victim >= 46028 && $ID_victim <= 46126 || $ID_victim >= 46259 && $ID_victim <= 47647):
+    echo 'verboten';
+    $dbi->requireUserPermission('all');
+endif;
+
 $form = new Form ('nmv_edit_victim');
-
-
 
 $form
     ->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
@@ -196,9 +234,6 @@ $form->addField('status_due_to', TEXTAREA)
 $form->addField('status_notes', TEXTAREA)
     ->setClass('keyboardInput')
     ->setLabel('Status notes');
-
-
-
 
 $form
     ->addButton(SUBMIT)
