@@ -33,9 +33,9 @@ use Layout;
  * @var DBI $dbi Calls method require user permission.
  * @see
  */
+//OBACHT
 $ID_victim = (int) getUrlParameter('ID_victim', 0);
 if($ID_victim >= 46028 && $ID_victim <= 46126 || $ID_victim >= 46259 && $ID_victim <= 47647):
-    echo 'verboten';
     $dbi->requireUserPermission('all');
 else:
     $dbi->requireUserPermission ('edit');
