@@ -26,22 +26,19 @@ use Layout;
  * @var Layout $layout
  */
 
-$ID_victim = (int) getUrlParameter('ID_victim', 0);
 
-/** Requires check of User permission - User needs to have permission to edit
+/** Requires check of User permission - User needs to have permission to edit.
+ * If profile is from TEilprojekte Berlin/Vienna/Munich special permission 'all' is needed
  *
  * @var DBI $dbi Calls method require user permission.
  * @see
  */
-$dbi->requireUserPermission ('edit');
-
-/**
- * Requires special permission (all) to edit entries from Teilprojekte
- *
- */
+$ID_victim = (int) getUrlParameter('ID_victim', 0);
 if($ID_victim >= 46028 && $ID_victim <= 46126 || $ID_victim >= 46259 && $ID_victim <= 47647):
     echo 'verboten';
     $dbi->requireUserPermission('all');
+else:
+    $dbi->requireUserPermission ('edit');
 endif;
 
 $form = new Form ('nmv_edit_victim');
