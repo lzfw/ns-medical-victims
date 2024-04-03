@@ -38,6 +38,7 @@ if ($dbi->checkUserPermission('system')) {
 			->addOption ('view')
 			->addOption ('view, mpg')
 			->addOption ('view, edit')
+			->addOption ('view, edit, all')
 			->addOption ('view, edit, admin')
 			->addOption ('view, edit, admin, system')
 			->addOption ('view, admin')
