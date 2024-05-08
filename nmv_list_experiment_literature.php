@@ -31,8 +31,7 @@ if ($literature_id) {
         // query: get hosp data
         $querystring = "
         SELECT el.ID_exp_lit ID_exp_lit, el.pages pages, el.ID_experiment ID_experiment,
-            COALESCE(e.experiment_title, 'unspecified') title, c.classification,
-                        el.url, CONCAT(IFNULL(el.access_day, '-'), '.', IFNULL(el.access_month, '-'), '.', IFNULL(el.access_year, '-')) as access_date
+            COALESCE(e.experiment_title, 'unspecified') title, c.classification
         FROM nmv__experiment_literature el
         LEFT JOIN nmv__experiment e ON e.ID_experiment = el.ID_experiment
         LEFT JOIN nmv__literature l ON l.ID_literature = el.ID_literature
@@ -47,8 +46,8 @@ if ($literature_id) {
         $total_results = $query_count->fetch_object();
 
         $options = '';
-        $row_template = ['<a href="nmv_view_experiment?ID_experiment={ID_experiment}">{title}</a>', '{classification}', '{pages}', '{url}', '{access_date}'];
-        $header_template = ['Title', 'Classification', 'Pages', 'URL', 'Access Date'];
+        $row_template = ['<a href="nmv_view_experiment?ID_experiment={ID_experiment}">{title}</a>', '{classification}', '{pages}'];
+        $header_template = ['Title', 'Classification', 'Pages'];
 
         $options .= createSmallButton('view Experiment','nmv_view_experiment?ID_experiment={ID_experiment}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
@@ -110,8 +109,7 @@ if ($experiment_id) {
         // query: get hosp data
         $querystring = "
         SELECT el.ID_exp_lit ID_exp_lit, l.lit_title title, l.authors authors,
-            el.pages pages, el.ID_literature ID_literature,
-            el.url, CONCAT(IFNULL(el.access_day, '-'), '.', IFNULL(el.access_month, '-'), '.', IFNULL(el.access_year, '-')) as access_date
+            el.pages pages, el.ID_literature ID_literature
         FROM nmv__experiment_literature el
         LEFT JOIN nmv__experiment e ON e.ID_experiment = el.ID_experiment
         LEFT JOIN nmv__literature l ON l.ID_literature = el.ID_literature
@@ -126,8 +124,8 @@ if ($experiment_id) {
         $total_results = $query_count->fetch_object();
 
         $options = '';
-        $row_template = ['<a href="nmv_view_literature?ID_literature={ID_literature}">{title}</a>', '{authors}', '{pages}', '{url}', '{access_date}'];
-        $header_template = ['Title', 'Authors', 'Pages', 'URL', 'Access Date'];
+        $row_template = ['<a href="nmv_view_literature?ID_literature={ID_literature}">{title}</a>', '{authors}', '{pages}'];
+        $header_template = ['Title', 'Authors', 'Pages'];
 
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
             if ($dbi->checkUserPermission('edit')) {
