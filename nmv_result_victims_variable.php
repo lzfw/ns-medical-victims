@@ -76,9 +76,9 @@ $special_fields = array('ex.ID_experiment'		=> 'ID_experiment',
 
 $special_contain_fields = array("CONCAT(IFNULL(b.diagnosis, ''), IFNULL(dtb.diagnosis, ''))" => 'brain_report_diagnosis',
 	"CONCAT(IFNULL(h.diagnosis, ''), IFNULL(dth.diagnosis, ''), IFNULL(d.diagnosis, ''), IFNULL(dtd.diagnosis, ''))" => 'clinical_diagnosis',
-	"CONCAT(IFNULL(b.ref_no, ''), ' ', IFNULL(b.ref_no_2, ''))"      => 'ref_no_brain',
 	"CONCAT(IFNULL(t.ref_no, ''), ' ', IFNULL(t.ref_no_2, ''))"    => 'ref_no_tissue',
 	'h.autopsy_ref_no'	=> 'autopsy_ref_no',
+	'b.ref_no'			=> 'ref_no_brain',
 																);
 
 // reconstruct GET-String (for scroll-function)
@@ -172,6 +172,9 @@ else:  // default query
 endif;
 $querystring_where = array(); // for where-part of select clause
 $querystring_where[] = "was_prisoner_assistant != 'prisoner assistant only'";
+
+// include only profiles where there does not exist a new one from mpg-project
+//$querystring_where[] = "v.ID_new_profile IS NULL";
 
 //complete db d
 if ($dbi->checkUserPermission('mpg')) :

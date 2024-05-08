@@ -26,7 +26,7 @@ $querystring = "SELECT v.ID_victim ID_victim,
             IFNULL(c.country, '#'))institution,
         CONCAT(IFNULL(h.brain_report_day, '-'), '.', IFNULL(h.brain_report_month, '-'), '.', IFNULL(h.brain_report_year, '-')) AS brain_report_date,
         h.kwi_researcher kwi_researcher, h.diagnosis diagnosis,
-        h.notes notes, h.ref_no ref_no, h.ref_no_2 AS ref_no_2, IF(h.brain_report_has_photo, 'yes', '-') AS photo
+        h.notes notes, h.ref_no ref_no, IF(h.brain_report_has_photo, 'yes', '-') AS photo
     FROM nmv__med_history_brain h
     LEFT JOIN nmv__victim v               ON (h.ID_victim = v.ID_victim)
     LEFT JOIN nmv__institution i           ON (h.ID_institution = i.ID_institution)
@@ -62,7 +62,6 @@ if ($victim = $query->fetch_object()) {
       buildDataSheetRow('Report Date dmyyyy',                 $victim->brain_report_date) .
       buildDataSheetRow('Notes',                              $victim->notes) .
       buildDataSheetRow('Reference number',                   $victim->ref_no) .
-      buildDataSheetRow('2nd Reference number',                   $victim->ref_no_2) .
       buildDataSheetRow('Brain Report Contains Photo',        $victim->photo)
 
 
