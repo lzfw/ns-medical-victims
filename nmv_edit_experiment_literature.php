@@ -43,10 +43,14 @@ if ($experiment_id) {
     $experiment_name = $experiment->experiment_name;
 }
 //query: get experiment-institutions for experiment SELECT
-$querystring_experiment = "  SELECT e.ID_experiment AS value, CONCAT(IFNULL(e.experiment_title, 'no entry'), ' &ensp; - &ensp; ID ', e.ID_experiment, ' &ensp; - &ensp; ', IFNULL(i.institution_name, 'no entry')) AS title
+$querystring_experiment =   "SELECT e.ID_experiment AS value,
+                                    CONCAT(IFNULL(e.experiment_title, 'no entry'), ' &ensp; - &ensp; ID ',
+                                        e.ID_experiment, ' &ensp; - &ensp; ',
+                                        IFNULL(GROUP_CONCAT(i.institution_name), 'no entry')) AS title
                               FROM nmv__experiment e
-                              LEFT JOIN nmv__institution i
-                              ON e.ID_institution = i.ID_institution
+                              LEFT JOIN nmv__experiment_institution ei ON ei.ID_experiment = e.ID_experiment
+                              LEFT JOIN nmv__institution i ON ei.ID_institution = i.ID_institution
+                              GROUP BY e.ID_experiment
                               ORDER BY title";
 
 if ($literature_id) {
