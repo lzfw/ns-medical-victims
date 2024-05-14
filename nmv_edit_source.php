@@ -31,8 +31,6 @@ $form->addField ('language',TEXT,255)
 $form->addField ('description',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Description');
-$form->addField ('medium',TEXT,50)
-    ->setLabel ('Medium (Outdated, will be deleted soon)');
 $form->addField('ID_medium',SELECT)
 		->setLabel ('Medium')
 		->addOption(NO_VALUE, 'please choose')

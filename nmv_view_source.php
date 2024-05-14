@@ -12,7 +12,7 @@ $dbi->addBreadcrumb ('Source','nmv_list_sources');
 // query: get source data
 $querystring = "
     SELECT s.source_title, s.signature, s.creation_year, s.pages, s.type,
-    s.description, s.medium AS medium_old, m.medium, s.published_source, s.notes, i.institution_name,
+    s.description, m.medium, s.published_source, s.notes, i.institution_name,
     s.data_entry_status, s.names_mentioned, s.location, s.person_in_charge,
     s.language, s.url,
     IF((s.access_day IS NULL AND s.access_month IS NULL AND s.access_year IS NULL), ' ', CONCAT(IFNULL(s.access_day, '-'), '.', IFNULL(s.access_month, '-'), '.', IFNULL(s.access_year, '-'))) as access_date
@@ -55,7 +55,6 @@ if ($source = $result->fetch_object()) {
         buildDataSheetRow('Type',                 $source->type).
         buildDataSheetRow('Language',             $source->language).
         buildDataSheetRow('Description',          $source->description).
-        buildDataSheetRow('Medium (outdated, will soon be deleted)',               $source->medium_old).
         buildDataSheetRow('Medium',               $source->medium).
         buildDataSheetRow('Published source',     $source->published_source ? 'Yes' : 'No').
         buildDataSheetRow('Location',             $source->location).

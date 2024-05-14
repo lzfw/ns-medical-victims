@@ -20,7 +20,7 @@ if ($dbi->checkUserPermission('admin')) {
 
 // create SELECT clause
 $querystring_count = 'SELECT COUNT(ID_source) AS total FROM nmv__source v'; // für Treffer gesamt
-$querystring_items = 'SELECT `ID_source`, `source_title`, `medium`, `signature`, `description`, location
+$querystring_items = 'SELECT `ID_source`, `source_title`, `signature`, `description`, location
                 FROM nmv__source'; // für Ergebnisliste
 $querystring_where = array(); // für Filter
 
