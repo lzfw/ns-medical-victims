@@ -20,7 +20,6 @@ $querystring = "SELECT
                     pae.ID_victim AS ID_victim, pae.ID_experiment,
                     pa.first_names AS first_names, pa.surname AS surname,
                     LEFT(concat(IFNULL(LEFT(e.experiment_title, 60), '#'),' - ',IFNULL(e.funding, '#')),100) AS experiment,
-                    pae.experiment_duration AS experiment_duration, pae.age_experiment_start AS age_experiment_start,
                     pae.narratives AS narratives,
                     CONCAT(IFNULL(pae.exp_start_day, '-'), '.',IFNULL(pae.exp_start_month, '-'), '.', IFNULL(pae.exp_start_year, '-')) AS pae_start_date,
                     CONCAT(IFNULL(pae.exp_end_day, '-'), '.',IFNULL(pae.exp_end_month, '-'), '.', IFNULL(pae.exp_end_year, '-')) AS pae_end_date,
@@ -60,10 +59,6 @@ if ($pae = $query->fetch_object()) {
         htmlspecialchars($ei_info, ENT_HTML5).'</a></td></tr>';
     $content .= '<tr><th>start and end date D.M.Y<br> (of involvement)</th><td>'.
         htmlspecialchars('from ' . $pae->pae_start_date . ' until ' . $pae->pae_end_date, ENT_HTML5).'</td></tr>';
-    $content .= '<tr><th>age (at start of involmement)</th><td>'.
-        htmlspecialchars($pae->age_experiment_start, ENT_HTML5).'</td></tr>';
-    $content .= '<tr><th>duration of involvement</th><td>'.
-        htmlspecialchars($pae->experiment_duration, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>role in experiment</th><td>'.
         htmlspecialchars($pae->role, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>other role in experiment<br>(if role not found in selection)</th><td>'.

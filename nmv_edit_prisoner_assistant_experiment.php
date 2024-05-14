@@ -36,11 +36,8 @@ if ($victim_id) {
 //query: get experiment-institutions for experiment SELECT
 $querystring_experiment = "  SELECT e.ID_experiment AS value,
                                     CONCAT(IFNULL(e.experiment_title, 'no entry'), ' &ensp; - &ensp; ID ',
-                                                  e.ID_experiment, ' &ensp; - &ensp; ',
-                                                  IFNULL(i.institution_name, 'no entry')) AS title
+                                                  e.ID_experiment) AS title
                               FROM nmv__experiment e
-                              LEFT JOIN nmv__institution i
-                              ON e.ID_institution = i.ID_institution
                               ORDER BY title";
 
 $form
@@ -81,12 +78,6 @@ $form->addField('exp_end_year',TEXT,4)
     ->addCondition(VALUE,MIN,0)
     ->addCondition(VALUE,MAX,2950)
     ->appendTo('exp_end_day');
-$form->addField('experiment_duration',TEXT,50)
-    ->setLabel('duration of involvement in experiment');
-$form->addField('age_experiment_start',TEXT,3)
-    ->setLabel('age (at start of involvement)')
-    ->addCondition(VALUE,MIN,0)
-    ->addCondition(VALUE,MAX,200);
 $form->addField('ID_role',SELECT)
     ->setLabel('role in experiment')
     ->addOption(NO_VALUE,'please choose')

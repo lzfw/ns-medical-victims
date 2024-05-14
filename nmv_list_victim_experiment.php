@@ -46,7 +46,7 @@ if ($victim_id) {
         $experiment_count_v = $total_results_v->total;
 
         // query: get experiment data (victim)
-        $querystring_v = "SELECT ve.ID_vict_exp AS ID_vict_exp, ve.experiment_duration AS duration, ve.age_experiment_start AS age,
+        $querystring_v = "SELECT ve.ID_vict_exp AS ID_vict_exp, 
                             COALESCE(e.experiment_title, 'unspecified') AS title, c.classification, REPLACE(GROUP_CONCAT(i.institution_name SEPARATOR '<br>'), ' ', '&nbsp;') AS institution,
                             ve.ID_experiment AS ID_experiment
                         FROM nmv__victim_experiment ve
@@ -63,8 +63,8 @@ if ($victim_id) {
         //table victim
         if($victim->role != 'prisoner assistant only') {
           $options = '';
-          $row_template = ['{title}', '{institution}', '{classification}', '{duration}', '{age}'];
-          $header_template = ['Title', 'Institution', 'Classification', 'Duration', 'Age'];
+          $row_template = ['{title}', '{institution}', '{classification}'];
+          $header_template = ['Title', 'Institution', 'Classification'];
 
           $options .= createSmallButton('View Victim-Experiment-Link','nmv_view_victim_experiment?ID_vict_exp={ID_vict_exp}','icon view');
           if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
@@ -112,7 +112,7 @@ if ($victim_id) {
       $experiment_count_pa = $total_results_pa->total;
 
       // query: get experiment data (prisoner assistant)
-      $querystring_pa = "SELECT pae.ID_pa_exp AS ID_pa_exp, pae.experiment_duration AS duration, pae.age_experiment_start AS age,
+      $querystring_pa = "SELECT pae.ID_pa_exp AS ID_pa_exp,
                           COALESCE(e.experiment_title, 'unspecified') AS title, c.classification, REPLACE(GROUP_CONCAT(i.institution_name SEPARATOR '<br>'), ' ', '&nbsp;') AS institution,
                           pae.ID_experiment AS ID_experiment, pa.was_prisoner_assistant AS role
                       FROM nmv__prisoner_assistant_experiment pae
@@ -129,8 +129,8 @@ if ($victim_id) {
       // table prisoner assistant
       if($victim->role != 'victim only') {
           $options = '';
-          $row_template = ['{title}', '{institution}', '{classification}', '{duration}', '{age}'];
-          $header_template = ['Title', 'Institution', 'Classification', 'Duration', 'Age'];
+          $row_template = ['{title}', '{institution}', '{classification}'];
+          $header_template = ['Title', 'Institution', 'Classification'];
 
           $options .= createSmallButton('View Prisoner-Assistant-Experiment-Link','nmv_view_prisoner_assistant_experiment?ID_pa_exp={ID_pa_exp}','icon view');
           if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {

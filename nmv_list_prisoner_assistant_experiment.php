@@ -61,10 +61,6 @@ $total_results = $query_count->fetch_object();
 //$victim_count = $total_results->total;
 $dbi->setUserVar('total_results',$total_results->total);
 
-// order-klausel
-// version with Z_LIST_ROWS_PAGE victims per page and pagination:
-//$querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}".($dbi->user['skip']).','.Z_LIST_ROWS_PAGE;
-//version with all victims on one page:
 $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 
 // query ausführen
