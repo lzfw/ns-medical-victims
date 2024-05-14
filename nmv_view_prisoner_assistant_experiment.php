@@ -26,14 +26,17 @@ $querystring = "SELECT
                     pae.notes_about_involvement AS notes_about_involvement,
                     CONCAT(IFNULL(e.experiment_title, 'no entry'), ' - ID ',
                                   e.ID_experiment, ' - ',
-                                  IFNULL(i.institution_name, 'no entry')) AS ei_info,
+                                  IFNULL(GROUP_CONCAT(i.institution_name SEPARATOR ' and '), 'no entry')
+                                  ) AS ei_info,
                     ro.role, pae.role_other, pae.gave_testimony_in_trial
                 FROM nmv__prisoner_assistant_experiment pae
                 LEFT JOIN nmv__victim pa                ON (pae.ID_victim = pa.ID_victim)
                 LEFT JOIN nmv__experiment e             ON (pae.ID_experiment = e.ID_experiment)
-                LEFT JOIN nmv__institution i            ON (e.ID_institution = i.ID_institution)
+                LEFT JOIN nmv__experiment_institution ei    ON ei.ID_experiment = e.ID_experiment
+                LEFT JOIN nmv__institution i                ON i.ID_institution = ei.ID_institution
                 LEFT JOIN nmv__role ro                  ON (ro.ID_role = pae.ID_role)
-                WHERE pae.ID_pa_exp = " . $dbi->getUserVar('ID_pa_exp');
+                WHERE pae.ID_pa_exp = " . $dbi->getUserVar('ID_pa_exp') . "
+                GROUP BY ID_experiment";
 $query = $dbi->connection->query($querystring);
 
 $content = '';
