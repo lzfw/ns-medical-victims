@@ -12,40 +12,6 @@ $literature_id = (int) getUrlParameter('ID_literature', 0);
 $perp_literature_id = (int) getUrlParameter('ID_perp_lit', 0);
 
 
-//$perpetrator_name = 'Error: Unknown.';
-//$lit_title = 'Error: Unknown.';
-//if ($perpetrator_id) {
-//    $querystring = "
-//    SELECT CONCAT(COALESCE(surname, ''), ' ', COALESCE(first_names, '')) perpetrator_name
-//    FROM nmv__perpetrator
-//    WHERE ID_perpetrator = $perpetrator_id";
-//    $query = $dbi->connection->query($querystring);
-//    $perpetrator = $query->fetch_object();
-//    $perpetrator_name = $perpetrator->perpetrator_name;
-//} elseif ($literature_id) {
-//    $querystring = "
-//    SELECT lit_title, authors
-//    FROM nmv__literature
-//    WHERE ID_literature = $literature_id";
-//    $query = $dbi->connection->query($querystring);
-//    $literature = $query->fetch_object();
-//    $lit_title = $literature->lit_title;
-//} else {
-//    $querystring = "
-//    SELECT CONCAT(COALESCE(p.surname, ''), ' ', COALESCE(p.first_names, '')) perpetrator_name,
-//        p.ID_perpetrator perpetrator_id
-//    FROM nmv__perpetrator p
-//    RIGHT JOIN nmv__perpetrator_literature h ON (h.ID_perpetrator = p.ID_perpetrator)
-//    WHERE ID_perp_lit = $perp_literature_id";
-//    $query = $dbi->connection->query($querystring);
-//    $perpetrator = $query->fetch_object();
-//    $perpetrator_id = $perpetrator->perpetrator_id;
-//    $perpetrator_name = $perpetrator->perpetrator_name;
-//}
-
-
-
-
 $form
 	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
 	->setPrimaryKeyName('ID_perp_lit');
@@ -84,19 +50,6 @@ elseif ($perpetrator_id) {
 }
 $form->addField ('pages',TEXT,250)
     ->setLabel ('pages');
-$form->addField ('url',TEXTAREA)
-    ->setClass ('keyboardInput')
-    ->setLabel ('URL');
-$form->addField ('access_day',TEXT,2)
-		->addCondition(VALUE, MIN, 1)
-		->addCondition(VALUE, MAX, 31)
-    ->setLabel ('Access date DDMMYYYY');
-$form->addField ('access_month',TEXT,2)
-		->addCondition(VALUE, MIN, 1)
-		->addCondition(VALUE, MAX, 12)
-		->appendTo('access_day');
-$form->addField ('access_year',TEXT,4)
-		->appendTo('access_day');
 $form->addField('literature_has_photo', CHECKBOX, -1)
     ->setLabel('literature contains photo');
 
