@@ -115,7 +115,7 @@ if ($experiment_id) {
         // query: get hosp data
         $querystring = "
         SELECT es.ID_exp_source ID_exp_source, s.source_title title, s.ID_source ID_source,
-        s.medium medium, s.creation_year year, es.location location
+        s.creation_year year, es.location location
         FROM nmv__experiment_source es
         LEFT JOIN nmv__experiment e ON e.ID_experiment = es.ID_experiment
         LEFT JOIN nmv__source s ON s.ID_source = es.ID_source
@@ -131,8 +131,8 @@ if ($experiment_id) {
 
 
         $options = '';
-        $row_template = ['<a href="nmv_view_source?ID_source={ID_source}">{title}</a>', '{medium}', '{year}', '{location}'];
-        $header_template = ['Title', 'Medium', 'Year', 'Location'];
+        $row_template = ['<a href="nmv_view_source?ID_source={ID_source}">{title}</a>', '{year}', '{location}'];
+        $header_template = ['Title', 'Year', 'Location'];
 
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
         	if ($dbi->checkUserPermission('edit')) {

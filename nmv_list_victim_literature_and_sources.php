@@ -84,20 +84,20 @@ if ($victim_id) {
         // query: get source data
         $querystring_source = "
         SELECT vs.ID_vict_source ID_vict_source,
-            COALESCE(s.source_title, 'unspecified') title, s.creation_year year, s.medium medium,
+            COALESCE(s.source_title, 'unspecified') title, s.creation_year year, 
             vs.location location, vs.ID_source ID_source, IF(vs.source_has_photo = -1, 'yes', '-') AS source_has_photo,
             vs.url, CONCAT(IFNULL(vs.access_day, '-'), '.', IFNULL(vs.access_month, '-'), '.', IFNULL(vs.access_year, '-')) as access_date
         FROM nmv__victim_source vs
         LEFT JOIN nmv__source s ON s.ID_source = vs.ID_source
         LEFT JOIN nmv__victim v ON v.ID_victim = vs.ID_victim
         WHERE vs.ID_victim = $victim_id
-        ORDER BY title, year, medium";
+        ORDER BY title, year";
 
         $content .= '<br><br><br><br><br><h2>Sources List: "' . $victim_name . '"</h2>';
 
         $options = '';
-        $row_template = ['{title}', '{year}', '{medium}', '{location}', '{url}', '{access_date}', '{source_has_photo}'];
-        $header_template = ['Title', 'Year', 'Medium', 'Location', 'URL', 'Access date', 'Contains Photo'];
+        $row_template = ['{title}', '{year}','{location}', '{url}', '{access_date}', '{source_has_photo}'];
+        $header_template = ['Title', 'Year','Location', 'URL', 'Access date', 'Contains Photo'];
 
         $options .= createSmallButton('view source','nmv_view_source?ID_source={ID_source}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
