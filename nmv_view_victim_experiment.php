@@ -28,14 +28,16 @@ $querystring = "SELECT
                     ve.notes AS notes,
                     CONCAT(IFNULL(e.experiment_title, 'no entry'), ' - ID ',
                                   e.ID_experiment, ' - ',
-                                  IFNULL(i.institution_name, 'no entry')) AS ei_info,
+                                  IFNULL(GROUP_CONCAT(i.institution_name), 'no entry')) AS ei_info,
                     s.survival
                 FROM nmv__victim_experiment ve
                 LEFT JOIN nmv__victim v                ON (ve.ID_victim = v.ID_victim)
                 LEFT JOIN nmv__experiment e            ON (ve.ID_experiment = e.ID_experiment)
-                LEFT JOIN nmv__institution i           ON (e.ID_institution = i.ID_institution)
+                LEFT JOIN nmv__experiment_institution ei  ON (ei.ID_experiment = e.ID_experiment)
+                LEFT JOIN nmv__institution i           ON (ei.ID_institution = i.ID_institution)
                 LEFT JOIN nmv__survival s              ON (ve.ID_survival = s.ID_survival)
-                WHERE ve.ID_vict_exp = " . $dbi->getUserVar('ID_vict_exp');
+                WHERE ve.ID_vict_exp = " . $dbi->getUserVar('ID_vict_exp') .
+                " GROUP BY e.ID_experiment";
 $query = $dbi->connection->query($querystring);
 
 $content = '';
