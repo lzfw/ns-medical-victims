@@ -23,7 +23,7 @@ if ($experiment_id) {
     $experiment_name = $experiment->experiment_name;
 } else if ($source_id) {
     $querystring = "
-    SELECT CONCAT(COALESCE(source_title, ''), ' ', COALESCE(medium, '')) experiment_name
+    SELECT COALESCE(source_title, '') experiment_name
     FROM nmv__source
     WHERE ID_source = $source_id";
     $query = $dbi->connection->query($querystring);
@@ -73,7 +73,8 @@ $form->addField ('ID_experiment',SELECT,REQUIRED)
 $form->addField ('ID_source',SELECT,REQUIRED)
     ->setLabel ('Source')
     ->addOption (NO_VALUE,'please choose')
-    ->addOptionsFromTable ( 'nmv__source', 'ID_source', "LEFT(concat(IFNULL(LEFT(source_title, 60), '#'),' - ',IFNULL(LEFT(medium,40), '#'),' - ',IFNULL(creation_year, '#')),100)");
+    ->addOptionsFromTable ( 'nmv__source', 'ID_source', "LEFT(concat(IFNULL(LEFT(source_title, 60), '#'),' - ',
+            IFNULL(creation_year, '#')),100)");
 $form->addField ('location',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Location');

@@ -34,8 +34,8 @@ if ($vict_source_id) {
     $form->addField('ID_source', SELECT, REQUIRED)
         ->setLabel('Source')
         ->addOption(NO_VALUE, 'please choose')
-        ->addOptionsFromTable('nmv__source', 'ID_source', "LEFT(concat(IFNULL(LEFT(source_title, 60), '#'),' - ',
-        IFNULL(LEFT(medium,40), '#'),' - ',IFNULL(creation_year, '#')),100)");
+        ->addOptionsFromTable('nmv__source', 'ID_source', "LEFT(concat(IFNULL(LEFT(source_title, 60), '#'),' - ', 
+                IFNULL(creation_year, '#')),100)");
     $form->addField('ID_victim', TEXT, 10)
         ->setLabel('Person ID in this database');
 }
@@ -47,8 +47,8 @@ elseif ($victim_id) {
     $form->addField('ID_source', SELECT, REQUIRED)
         ->setLabel('Source')
         ->addOption(NO_VALUE, 'please choose')
-        ->addOptionsFromTable('nmv__source', 'ID_source', "LEFT(concat(IFNULL(LEFT(source_title, 60), '#'),' - ',
-        IFNULL(LEFT(medium,40), '#'),' - ',IFNULL(creation_year, '#')),100)");
+        ->addOptionsFromTable('nmv__source', 'ID_source', "LEFT(concat(IFNULL(LEFT(source_title, 60), '#'),
+                        ' - ',IFNULL(creation_year, '#')),100)");
 } elseif ($source_id) {
 //    $form
 //        ->setLabel('Person linked to Source: ' . $source_title);
