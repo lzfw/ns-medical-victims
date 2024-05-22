@@ -225,10 +225,7 @@ GROUP_CONCAT(DISTINCT
                 'ID literature: --', l.ID_literature, '--, ',
     IF(l.lit_title IS NULL, '', CONCAT('title literature: --', l.lit_title, '--, ')),
     IF(vl.pages IS NULL, '', CONCAT('pages: --', vl.pages, '--, ')),
-                IF(vl.url IS NULL, '', CONCAT('URL: --', vl.url, '--, ')),
-                IF(vl.access_day IS NULL AND vl.access_month IS NULL AND vl.access_year IS NULL, '',
-                  CONCAT('ACCESS DATE URL --', IFNULL(vl.access_day, '-'), '.', IFNULL(vl.access_month, '-'), '.', IFNULL(vl.access_year, '-'), '--, ')),
-                IF(vl.literature_has_photo = -1, 'literature has photo', '')
+                 IF(vl.literature_has_photo = -1, 'literature has photo', '')
                  SEPARATOR ' \n') AS literature
 FROM nmv__victim v
         LEFT JOIN nmv__victim_name vn ON vn.ID_victim = v.ID_victim
