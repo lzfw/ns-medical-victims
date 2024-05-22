@@ -25,37 +25,6 @@ else:
     $dbi->requireUserPermission ('edit');
 endif;
 
-//$lit_title = 'Error: Unknown.';
-//$victim_name = 'Error: Unknown.';
-//if($victim_id){
-//    $querystring = "
-//    SELECT CONCAT(COALESCE(surname, ''), ' ', COALESCE(first_names, '')) victim_name
-//    FROM nmv__victim
-//    WHERE ID_victim = $victim_id";
-//    $query = $dbi->connection->query($querystring);
-//    $victim = $query->fetch_object();
-//    $victim_name = $victim->victim_name;
-//} elseif($literature_id) {
-//    $querystring = "
-//    SELECT lit_title
-//    FROM nmv__literature
-//    WHERE ID_literature = $literature_id";
-//    $query = $dbi->connection->query($querystring);
-//    $literature = $query->fetch_object();
-//    $lit_title = $literature->lit_title;
-//} else {
-//    $querystring = "
-//    SELECT CONCAT(COALESCE(v.surname, ''), ' ', COALESCE(v.first_names, '')) victim_name,
-//        v.ID_victim victim_id
-//    FROM nmv__victim v
-//    RIGHT JOIN nmv__victim_literature h ON (h.ID_victim = v.ID_victim)
-//    WHERE ID_vict_lit = $vict_literature_id";
-//    $query = $dbi->connection->query($querystring);
-//    $victim = $query->fetch_object();
-//    $victim_id = $victim->victim_id;
-//    $victim_name = $victim->victim_name;
-//}
-
 $form
 	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
 	->setPrimaryKeyName('ID_vict_lit');
@@ -89,19 +58,6 @@ elseif($victim_id) {
 
 $form->addField ('pages',TEXT,250)
     ->setLabel ('pages');
-$form->addField ('url',TEXTAREA)
-    ->setClass ('keyboardInput')
-    ->setLabel ('URL');
-$form->addField ('access_day',TEXT,2)
-		->addCondition(VALUE, MIN, 1)
-		->addCondition(VALUE, MAX, 31)
-    ->setLabel ('Access date DDMMYYYY');
-$form->addField ('access_month',TEXT,2)
-		->addCondition(VALUE, MIN, 1)
-		->addCondition(VALUE, MAX, 12)
-		->appendTo('access_day');
-$form->addField ('access_year',TEXT,4)
-		->appendTo('access_day');
 $form->addField('literature_has_photo', CHECKBOX, -1)
         ->setLabel('literature contains photo');
 
