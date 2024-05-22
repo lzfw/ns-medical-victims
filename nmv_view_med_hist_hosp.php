@@ -25,9 +25,6 @@ $querystring = "SELECT v.ID_victim AS ID_victim,
             IFNULL(i.location, '#'),' - ',
             IFNULL(c.country, '#')) AS institution,
         o.institution_order,
-        e.educational_abilities AS educational_abilities,
-        b.behaviour AS behaviour,
-        d.disability AS disability,
         CONCAT(IFNULL(h.date_entry_day, '-'), '.', IFNULL(h.date_entry_month, '-'), '.', IFNULL(h.date_entry_year, '-')) AS date_entry,
         CONCAT(IFNULL(h.date_exit_day, '-'), '.', IFNULL(h.date_exit_month, '-'), '.', IFNULL(h.date_exit_year, '-')) AS date_exit,
         h.age_entry AS age_entry, h.age_exit AS age_exit, h.institution as institution_freetext,
@@ -38,9 +35,6 @@ $querystring = "SELECT v.ID_victim AS ID_victim,
     LEFT JOIN nmv__institution i           ON h.ID_institution = i.ID_institution
     LEFT JOIN nmv__institution_order o     ON h.ID_institution_order = o.ID_institution_order
     LEFT JOIN nmv__country c               ON c.ID_country = i.ID_country
-    LEFT JOIN nmv__educational_abilities e ON h.ID_educational_abilities = e.ID_educational_abilities
-    LEFT JOIN nmv__behaviour b             ON h.ID_behaviour = b.ID_behaviour
-    LEFT JOIN nmv__disability d            ON h.ID_disability = d.ID_disability
     WHERE h.ID_med_history_hosp = $ID_hosp";
 $query = $dbi->connection->query($querystring);
 
@@ -71,9 +65,6 @@ if ($victim = $query->fetch_object()) {
       buildDataSheetRow('Institution Order',              $victim->institution_order) .
       buildDataSheetRow('Diagnosis',                      $victim->diagnosis) .
       buildDataSheetRowTag('Diagnosis Tags',              $tag_array, $tag_button) .
-      buildDataSheetRow('Educational Abilities',          $victim->educational_abilities) .
-      buildDataSheetRow('Behaviour',                      $victim->behaviour) .
-      buildDataSheetRow('Disability',                     $victim->disability) .
       buildDataSheetRow('Entry Date ddmmyyyy',            $victim->date_entry) .
       buildDataSheetRow('Exit Date ddmmyyyy',             $victim->date_exit) .
       buildDataSheetRow('Entry Age',                      $victim->age_entry) .

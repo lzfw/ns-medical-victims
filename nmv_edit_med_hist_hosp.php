@@ -72,18 +72,6 @@ $form->addField('ID_institution_order', SELECT)
     ->addOptionsFromTable('nmv__institution_order', 'ID_institution_order', 'institution_order');
 $form->addField('diagnosis', TEXTAREA)
     ->setLabel('Diagnosis');
-$form->addField('ID_educational_abilities', SELECT)
-    ->setLabel('Educational Abilities')
-    ->addOption(NO_VALUE, 'please choose')
-    ->addOptionsFromTable('nmv__educational_abilities', 'ID_educational_abilities', 'educational_abilities');
-$form->addField('ID_behaviour', SELECT)
-    ->setLabel('Behaviour')
-    ->addOption(NO_VALUE, 'please choose')
-    ->addOptionsFromTable ('nmv__behaviour', 'ID_behaviour', 'behaviour');
-$form->addField('ID_disability', SELECT)
-    ->setLabel('Disability')
-    ->addOption(NO_VALUE, 'please choose')
-    ->addOptionsFromTable('nmv__disability', 'ID_disability', 'disability');
 $form->addField('date_entry_day', TEXT, 2)
     ->setLabel('Entry Date DMYYYY')
     ->addCondition(VALUE ,MIN, 0)
