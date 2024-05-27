@@ -50,8 +50,6 @@ elseif ($perpetrator_id) {
 }
 $form->addField ('pages',TEXT,250)
     ->setLabel ('pages');
-$form->addField('literature_has_photo', CHECKBOX, -1)
-    ->setLabel('literature contains photo');
 
 $form
 	->addButton (SUBMIT)
