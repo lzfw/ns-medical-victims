@@ -64,8 +64,7 @@ $form->addField ('access_month',TEXT,2)
 		->appendTo('access_day');
 $form->addField ('access_year',TEXT,4)
 		->appendTo('access_day');
-$form->addField('source_has_photo', CHECKBOX, -1)
-    ->setLabel('source contains photo');
+
 
 $form
 	->addButton (SUBMIT)
