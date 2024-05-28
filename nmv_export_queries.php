@@ -180,9 +180,6 @@ GROUP_CONCAT(DISTINCT
                 IF(h.age_exit IS NULL, '', CONCAT('AGE at exit: --', h.age_exit, '--, ')),
                 IF(h.diagnosis IS NULL, '', CONCAT('DIAGNOSIS: --', h.diagnosis, '--, ')),
                 IF(ditah.hosp_diagnoses IS NULL, '', CONCAT('DIAGNOSIS TAGS: --', ditah.hosp_diagnoses, '--, ')),
-                IF(eh.educational_abilities IS NULL, '', CONCAT('EDUCATIONAL ABILITIES: --', eh.educational_abilities, '--, ')),
-                IF(bh.behaviour IS NULL, '', CONCAT('BEHAVIOUR:-- ', bh.behaviour, '--, ')),
-                IF(dih.disability IS NULL, '', CONCAT('DISABILITY: --', dih.disability, '--, ')),
                 IF(h.autopsy_ref_no IS NULL, '', CONCAT('autopsy REF NO: --', h.autopsy_ref_no, '--, ')),
                 IF(h.notes IS NULL, '', CONCAT('hospitalisation NOTES: --', h.notes, '--, ')),
                 IF(h.hosp_has_photo = -1, 'medical record has photo', '')
@@ -265,9 +262,6 @@ FROM nmv__victim v
         LEFT JOIN nmv__diagnosis_tag dth ON dth.ID_diagnosis = dh.ID_diagnosis
         LEFT JOIN nmv__institution ih ON ih.ID_institution = h.ID_institution
         LEFT JOIN nmv__institution_order ioh ON ioh.ID_institution_order = h.ID_institution_order
-        LEFT JOIN nmv__behaviour bh ON bh.ID_behaviour = h.ID_behaviour
-        LEFT JOIN nmv__disability dih ON dih.ID_disability = h.ID_disability
-        LEFT JOIN nmv__educational_abilities eh ON eh.ID_educational_abilities = h.ID_educational_abilities
         LEFT JOIN (
                 SELECT h1.ID_med_history_hosp, GROUP_CONCAT(dit.diagnosis SEPARATOR ', ') AS hosp_diagnoses
                 FROM nmv__med_history_hosp h1
