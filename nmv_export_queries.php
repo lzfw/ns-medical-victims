@@ -183,7 +183,7 @@ GROUP_CONCAT(DISTINCT
                 IF(h.autopsy_ref_no IS NULL, '', CONCAT('autopsy REF NO: --', h.autopsy_ref_no, '--, ')),
                 IF(h.notes IS NULL, '', CONCAT('hospitalisation NOTES: --', h.notes, '--, ')),
                 IF(h.hosp_has_photo = -1, 'medical record has photo', '')
-                 SEPARATOR ' \n') AS 'Victim - Hospitalisations (Information often from Krankenakten)',
+                 SEPARATOR ' \n') AS 'Victim - Hospitalisations',
 GROUP_CONCAT(DISTINCT
                 'ID brain report: --', b.ID_med_history_brain, '--, ',
                 IF(ib.institution_name IS NULL, '', CONCAT('INSTITUTION: --', ib.institution_name, '--, ')),
@@ -321,8 +321,6 @@ GROUP_CONCAT(DISTINCT
 GROUP_CONCAT(DISTINCT
                 'ID experiment: --', pae.ID_experiment, '--, ',
                 IF(ex2.experiment_title IS NULL, '', CONCAT('TITLE experiment: --', ex2.experiment_title, '--, ')),
-                IF(pae.experiment_duration IS NULL, '', CONCAT('DURATION of participation in experiment: --', pae.experiment_duration, '--, ')),
-                IF(pae.age_experiment_start IS NULL, '', CONCAT('AGE of prisoner assistant when getting involved: --', pae.age_experiment_start, '--, ')),
                 IF(pae.exp_start_day IS NULL AND pae.exp_start_month IS NULL AND pae.exp_start_year IS NULL, '', CONCAT('START of experiment: --', IFNULL(pae.exp_start_day, '-'), '.', IFNULL(pae.exp_start_month, '-'), '.', IFNULL(pae.exp_start_year, '-'), '--, ')),
                 IF(pae.exp_end_day IS NULL AND pae.exp_end_month IS NULL AND pae.exp_end_year IS NULL, '', CONCAT('END of experiment: --', IFNULL(pae.exp_end_day, '-'), '.', IFNULL(pae.exp_end_month, '-'), '.', IFNULL(pae.exp_end_year, '-'), '--, ')),
                 IF(pae.notes_about_involvement IS NULL, '', CONCAT('notes about INVOLVEMENT in this experiment: --', pae.notes_about_involvement, '--, ')),
@@ -341,13 +339,10 @@ GROUP_CONCAT(DISTINCT
                 IF(h.age_exit IS NULL, '', CONCAT('AGE at exit: --', h.age_exit, '--, ')),
                 IF(h.diagnosis IS NULL, '', CONCAT('DIAGNOSIS: --', h.diagnosis, '--, ')),
                 IF(ditah.hosp_diagnoses IS NULL, '', CONCAT('DIAGNOSIS TAGS: --', ditah.hosp_diagnoses, '--, ')),
-                IF(eh.educational_abilities IS NULL, '', CONCAT('EDUCATIONAL ABILITIES: --', eh.educational_abilities, '--, ')),
-                IF(bh.behaviour IS NULL, '', CONCAT('BEHAVIOUR:-- ', bh.behaviour, '--, ')),
-                IF(dih.disability IS NULL, '', CONCAT('DISABILITY: --', dih.disability, '--, ')),
                 IF(h.autopsy_ref_no IS NULL, '', CONCAT('autopsy REF NO: --', h.autopsy_ref_no, '--, ')),
                 IF(h.notes IS NULL, '', CONCAT('hospitalisation NOTES: --', h.notes, '--, ')),
                 IF(h.hosp_has_photo = -1, 'medical record has photo', '')
-                 SEPARATOR ' \n') AS 'Victim - Hospitalisations (Information often from Krankenakten)',
+                 SEPARATOR ' \n') AS 'Victim - Hospitalisations',
 GROUP_CONCAT(DISTINCT
                 'ID brain report: --', b.ID_med_history_brain, '--, ',
                 IF(ib.institution_name IS NULL, '', CONCAT('INSTITUTION: --', ib.institution_name, '--, ')),
@@ -382,8 +377,6 @@ GROUP_CONCAT(DISTINCT
                 'ID literature: --', l.ID_literature, '--, ',
                 IF(l.lit_title IS NULL, '', CONCAT('title literature: --', l.lit_title, '--, ')),
                 IF(vl.pages IS NULL, '', CONCAT('pages: --', vl.pages, '--, ')),
-                IF(vl.url IS NULL, '', CONCAT('URL: --', vl.url, '--, ')),
-                IF(vl.access_day IS NULL AND vl.access_month IS NULL AND vl.access_year IS NULL, '', CONCAT('ACCESS DATE URL --', IFNULL(vl.access_day, '-'), '.', IFNULL(vl.access_month, '-'), '.', IFNULL(vl.access_year, '-'), '--, ')),
                 IF(vl.literature_has_photo = -1, 'literature has photo', '')
                  SEPARATOR ' \n') AS literature
 FROM nmv__victim v
@@ -423,9 +416,6 @@ FROM nmv__victim v
         LEFT JOIN nmv__med_history_hosp h ON h.ID_victim = v.ID_victim
         LEFT JOIN nmv__institution ih ON ih.ID_institution = h.ID_institution
         LEFT JOIN nmv__institution_order ioh ON ioh.ID_institution_order = h.ID_institution_order
-        LEFT JOIN nmv__behaviour bh ON bh.ID_behaviour = h.ID_behaviour
-        LEFT JOIN nmv__disability dih ON dih.ID_disability = h.ID_disability
-        LEFT JOIN nmv__educational_abilities eh ON eh.ID_educational_abilities = h.ID_educational_abilities
         LEFT JOIN (
                 SELECT h.ID_med_history_hosp, GROUP_CONCAT(dit.diagnosis SEPARATOR ', ') AS hosp_diagnoses
                 FROM nmv__med_history_hosp h
