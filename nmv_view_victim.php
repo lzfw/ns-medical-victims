@@ -122,15 +122,12 @@ if ($victim = $result->fetch_object()) {
             buildDataSheetRow('Photo exists',           $victim->photo_exists).
             buildDataSheetRow('Notes about photo',      $victim->notes_photo));
     }
-    //complete db
-    if(!($dbi->checkUserPermission('mpg'))):
-        $content .= '<br>'.buildElement('table','grid',
-                buildDataSheetRow('Arrest prehistory',      $victim->arrest_prehistory).
-                buildDataSheetRow('Arrest location',        $victim->arrest_location).
-                buildDataSheetRow('Arrest country',      $victim->arrest_country).
-                buildDataSheetRow('Arrest history',      $victim->arrest_history));
-    endif;
-    //complete db d 1
+    $content .= '<br>'.buildElement('table','grid',
+            buildDataSheetRow('Arrest prehistory',      $victim->arrest_prehistory).
+            buildDataSheetRow('Arrest location',        $victim->arrest_location).
+            buildDataSheetRow('Arrest country',      $victim->arrest_country).
+            buildDataSheetRow('Arrest history',      $victim->arrest_history));
+        //complete db d 1
     if (!($dbi->checkUserPermission('mpg'))) :
         $content .= '<br>'.buildElement('h3', 'Post 1945');
         if(!($victim->mpg_project == -1) && ($victim->death_year == NULL || !($victim->death_year < 1946)) && ($victim->cause_of_death != 'T4 euthanasia' )):
