@@ -11,9 +11,9 @@ $institution_query_end = "GROUP BY i.ID_institution";
 
 $source_query_start =
 "SELECT DISTINCT s.ID_source, s.source_title, s.signature, s.creation_year,
-                s.pages, s.type, s.language, s.description, s.medium AS medium_old,
+                s.pages, s.type, s.language, s.description,
                 m.medium, IF(s.published_source = -1, 'yes', '-') AS published_source,
-                s.location, i.institution_name, s.folder, s.url,
+                s.location, i.institution_name, s.url,
                 CONCAT(IFNULL(s.access_day, '-'), '.', IFNULL(s.access_month, '-'), '.', IFNULL(s.access_year, '-')) AS access_date,
                 s.notes
 FROM nmv__source s
@@ -63,17 +63,13 @@ GROUP_CONCAT(DISTINCT
         IF(s.source_title IS NULL, '', CONCAT('TITLE source: --', s.source_title, '--, ')),
         IF(ps.location IS NULL, '', CONCAT('LOCATION in source: --', ps.location, '--, ')),
         IF(ps.url IS NULL, '', CONCAT('URL: --', ps.url, '--, ')),
-        IF(ps.access_day IS NULL AND ps.access_month IS NULL AND ps.access_year IS NULL, '', CONCAT('ACCESS DATE URL --', IFNULL(ps.access_day, '-'), '.', IFNULL(ps.access_month, '-'), '.', IFNULL(ps.access_year, '-'), '--, ')),
-        IF(ps.source_has_photo = -1, 'source has photo', '')
+        IF(ps.access_day IS NULL AND ps.access_month IS NULL AND ps.access_year IS NULL, '', CONCAT('ACCESS DATE URL --', IFNULL(ps.access_day, '-'), '.', IFNULL(ps.access_month, '-'), '.', IFNULL(ps.access_year, '-'), '--, '))
          SEPARATOR ' \n') AS sources,
 GROUP_CONCAT(DISTINCT
         'ID literature: --', l.ID_literature, '--, ',
         IF(l.lit_title IS NULL, '', CONCAT('title literature: --', l.lit_title, '--, ')),
-        IF(pl.pages IS NULL, '', CONCAT('pages: --', pl.pages, '--, ')),
-        IF(pl.url IS NULL, '', CONCAT('URL: --', pl.url, '--, ')),
-        IF(pl.access_day IS NULL AND pl.access_month IS NULL AND pl.access_year IS NULL, '', CONCAT('ACCESS DATE URL --', IFNULL(pl.access_day, '-'), '.', IFNULL(pl.access_month, '-'), '.', IFNULL(pl.access_year, '-'), '--, ')),
-        IF(pl.literature_has_photo = -1, 'literature has photo', '')
-                 SEPARATOR ' \n') AS literature
+        IF(pl.pages IS NULL, '', CONCAT('pages: --', pl.pages, '--, '))
+         SEPARATOR ' \n') AS literature
 FROM nmv__perpetrator p
 LEFT JOIN nmv__country bc ON bc.ID_country = p.ID_birth_country
 LEFT JOIN nmv__country dc ON dc.ID_country = p.ID_death_country
