@@ -102,8 +102,7 @@ if ($literature_id) {
               CONCAT(v.ID_victim, ': ', COALESCE(v.first_names, ''), ' ', COALESCE(v.surname, '')) victim_name,
               v.birth_place birth_place,
               CONCAT_WS('.', v.birth_day, v.birth_month, v.birth_year) birth_date,
-              vl.pages pages, vl.ID_victim, IF(vl.literature_has_photo = -1, 'yes', '-') AS literature_has_photo,
-              vl.url, CONCAT(IFNULL(vl.access_day, '-'), '.', IFNULL(vl.access_month, '-'), '.', IFNULL(vl.access_year, '-')) as access_date
+              vl.pages pages, vl.ID_victim, IF(vl.literature_has_photo = -1, 'yes', '-') AS literature_has_photo
           FROM nmv__victim_literature vl
           LEFT JOIN nmv__literature l ON l.ID_literature = vl.ID_literature
           LEFT JOIN nmv__victim v ON v.ID_victim = vl.ID_victim
@@ -122,8 +121,8 @@ if ($literature_id) {
         $querystring .= " ORDER BY victim_name";
 
         $options = '';
-        $row_template = ['{victim_name}', '{birth_place}', '{birth_date}', '{pages}', '{url}', '{access_date}' , '{literature_has_photo}'];
-        $header_template = ['Person', 'Birth Place', 'Birth Date', 'Pages in Literature', 'URL', 'Access Date dmY', 'Literature Contains Photo'];
+        $row_template = ['{victim_name}', '{birth_place}', '{birth_date}', '{pages}', '{literature_has_photo}'];
+        $header_template = ['Person', 'Birth Place', 'Birth Date', 'Pages in Literature', 'Literature Contains Photo'];
 
         $options .= createSmallButton('view Victim','nmv_view_victim?ID_victim={ID_victim}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
