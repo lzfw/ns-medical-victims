@@ -70,7 +70,8 @@ if (getUrlParameter('where-clause')) {
   $export_query_where = ' ';
 };
 $export_query = $export_query_start . ' ' . $export_query_where . ' ' . $export_query_end;
-// echo $export_query;
+//Obacht
+//echo $export_query;
 // Fetch records from database
 $query_items = $dbi->connection->query($export_query);
 

@@ -181,6 +181,12 @@ GROUP_CONCAT(DISTINCT
                 IF(h.hosp_has_photo = -1, 'medical record has photo', '')
                  SEPARATOR ' \n') AS 'Victim - Hospitalisations',
 GROUP_CONCAT(DISTINCT
+                'ID diagnosis: --', d.ID_med_history_diagnosis, '--, ',                
+                IF (d.year IS NULL, '', CONCAT('YEAR: --', d.year, '--, ')),
+                IF (d.diagnosis IS NULL, '', CONCAT('DIAGNOSIS: --', d.diagnosis, '--, ')),
+                IF (ditad.diagnosis_diagnoses IS NULL, '', CONCAT('DIAGNOSIS TAGS: --', ditad.diagnosis_diagnoses, '--, '))
+                SEPARATOR ' \n') AS 'Victim - Diagnosis',
+GROUP_CONCAT(DISTINCT
                 'ID brain report: --', b.ID_med_history_brain, '--, ',
                 IF(ib.institution_name IS NULL, '', CONCAT('INSTITUTION: --', ib.institution_name, '--, ')),
                 IF(b.kwi_researcher IS NULL, '', CONCAT('RESEARCHER: --', b.kwi_researcher, '--, ')),
@@ -274,6 +280,15 @@ FROM nmv__victim v
                 LEFT JOIN nmv__diagnosis_brain dtb ON dtb.ID_med_history_brain = b1.ID_med_history_brain
                 LEFT JOIN nmv__diagnosis_tag dit ON dit.ID_diagnosis = dtb.ID_diagnosis
                 GROUP BY b1.ID_med_history_brain) AS ditab ON ditab.ID_med_history_brain = b.ID_med_history_brain
+        LEFT JOIN nmv__med_history_diagnosis d ON d.ID_victim = v.ID_victim
+        LEFT JOIN nmv__diagnosis_diagnosis dd ON dd.ID_med_history_diagnosis = d.ID_med_history_diagnosis
+        LEFT JOIN nmv__diagnosis_tag dtd ON dtd.ID_diagnosis = dd.ID_diagnosis
+        LEFT JOIN (
+                SELECT d1.ID_med_history_diagnosis, GROUP_CONCAT(dtd.diagnosis SEPARATOR ' ,') AS diagnosis_diagnoses
+                FROM nmv__med_history_diagnosis d1
+                LEFT JOIN nmv__diagnosis_diagnosis dd ON dd.ID_med_history_diagnosis = d1.ID_med_history_diagnosis
+                LEFT JOIN  nmv__diagnosis_tag dtd ON dtd.ID_diagnosis = dd.ID_diagnosis
+                GROUP BY d1.ID_med_history_diagnosis) AS ditad ON ditad.ID_med_history_diagnosis = d.ID_med_history_diagnosis       
         LEFT JOIN nmv__med_history_tissue t ON t.ID_victim = v.ID_victim
         LEFT JOIN nmv__institution it ON it.ID_institution = t.ID_institution
         LEFT JOIN nmv__tissue_state ts ON ts.ID_tissue_state = t.ID_tissue_state
