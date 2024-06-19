@@ -63,8 +63,9 @@ $form->addField('ID_dataset_origin', SELECT)
     ->addOption(NO_VALUE,'please choose')
     ->addOptionsFromTableOrderedById('nmv__dataset_origin', 'ID_dataset_origin', 'work_group');
 $form->addField(('ID_new_profile'), TEXT, 11)
-    ->setLabel('ID of mpg profile');
-
+    ->setLabel('ID of mpg profile (creates link)');
+$form->addField('potential_old_profile', CHECKBOX, -1)
+    ->setLabel('Potential pro-project profile');
 $form->addField('s1', STATIC_TEXT, '<br>');
 
 $form->addField('entry_status', RADIO, '', '')
