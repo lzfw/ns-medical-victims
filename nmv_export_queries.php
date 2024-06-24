@@ -97,17 +97,13 @@ $experiment_query_start =
 GROUP_CONCAT(DISTINCT
         'ID source: --', s.ID_source, '--, ',
         IF(s.source_title IS NULL, '', CONCAT('TITLE source: --', s.source_title, '--, ')),
-        IF(es.location IS NULL, '', CONCAT('LOCATION in source: --', es.location, '--, ')),
-        IF(es.url IS NULL, '', CONCAT('URL: --', es.url, '--, ')),
-        IF(es.access_day IS NULL AND es.access_month IS NULL AND es.access_year IS NULL, '', CONCAT('ACCESS DATE URL --', IFNULL(es.access_day, '-'), '.', IFNULL(es.access_month, '-'), '.', IFNULL(es.access_year, '-'), '--, '))
+        IF(es.location IS NULL, '', CONCAT('LOCATION in source: --', es.location, '--, '))
          SEPARATOR ' \n') AS sources,
 GROUP_CONCAT(DISTINCT
         'ID literature: --', l.ID_literature, '--, ',
         IF(l.lit_title IS NULL, '', CONCAT('title literature: --', l.lit_title, '--, ')),
-        IF(el.pages IS NULL, '', CONCAT('pages: --', el.pages, '--, ')),
-        IF(el.url IS NULL, '', CONCAT('URL: --', el.url, '--, ')),
-        IF(el.access_day IS NULL AND el.access_month IS NULL AND el.access_year IS NULL, '', CONCAT('ACCESS DATE URL --', IFNULL(el.access_day, '-'), '.', IFNULL(el.access_month, '-'), '.', IFNULL(el.access_year, '-'), '--, '))
-                 SEPARATOR ' \n') AS literature
+        IF(el.pages IS NULL, '', CONCAT('pages: --', el.pages, '--, '))
+        SEPARATOR ' \n') AS literature
 FROM nmv__experiment e
 LEFT JOIN nmv__experiment_institution ei ON ei.ID_experiment = e.ID_experiment
 LEFT JOIN nmv__institution i ON i.ID_institution = ei.ID_institution
