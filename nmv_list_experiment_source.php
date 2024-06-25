@@ -13,7 +13,7 @@ $experiment_name = 'Error: Missing experiment.';
 $content = '';
 
 if ($source_id) {
-    $dbi->addBreadcrumb ('Source','nmv_list_source');
+    $dbi->addBreadcrumb ('Sources','nmv_list_sources');
 
     // query: get source data
     $querystring = "

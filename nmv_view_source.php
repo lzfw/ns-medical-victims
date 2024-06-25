@@ -7,7 +7,7 @@ $dbi->setUserVar ('ID_source',getUrlParameter('ID_source'),NULL);
 $source_id = (int) getUrlParameter('ID_source',0);
 
 $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
-$dbi->addBreadcrumb ('Source','nmv_list_sources');
+$dbi->addBreadcrumb ('Sources','nmv_list_sources');
 
 // query: get source data
 $querystring = "
