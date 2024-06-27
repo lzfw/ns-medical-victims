@@ -32,7 +32,6 @@ $layout
 		($dbi->checkUserPermission('admin')
 			?
 				'<br><li><strong>Reference Tables:</strong></li>'
-				.	createListItem('Behaviour','nmv_list_behaviour','')
 				. createListItem('Classification (Imprisonment)','nmv_list_victim_classification','')
 				. createListItem('Classification (Experiment)','nmv_list_experiment_classification','')
 				. createListItem('Classification (Perpetrator)','nmv_list_perpetrator_classification','')
