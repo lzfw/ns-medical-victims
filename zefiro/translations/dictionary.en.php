@@ -92,14 +92,32 @@ define('L_DATABASE_BACKUP_OK',			'A backup copy of the database was saved.');
 define('L_DATABASE_RECOVERY',			'Recovery');
 define('L_DATABASE_RECOVERY_OK',		'The recovery of the backup is complete.');
 
-// user accounts ---------------------------------------------------------------
+// visibility tools for website
 
-define('L_USERS',						'Users');
-define('L_USER_ACCOUNT',				'User Account');
-define('L_USER_ACCOUNTS',				'User Accounts');
-define('L_NEW_USER_ACCOUNT',			'New User Account');
-define('L_EDIT_USER_ACCOUNT',			'Edit User Account');
-define('L_REMOVE_USER_ACCOUNT',			'Remove User Account');
+define('L_WEBSITE',                     'Website');
+
+// website user accounts -----------------------------------------------------------------
+
+define('L_WEBSITE_USERS',               'Website Users');
+define('L_WEBSITE_USER_ACCOUNT',        'Website User Account');
+define('L_WEBSITE_USER_ACCOUNTS',		'Interface User Accounts');
+define('L_WEBSITE_NEW_USER_ACCOUNT',	'New Interface User Account');
+define('L_WEBSITE_EDIT_USER_ACCOUNT',	'Edit Interface User Account');
+define('L_WEBSITE_REMOVE_USER_ACCOUNT',	'Remove Interface User Account');
+
+define('L_WEBSITE_USER_NAME',           'Website User Name');
+define('L_WEBSITE_USER_MAIL',           'Website User Mail');
+define('L_WEBSITE_USER_INSTITUTION',    'Website User Institution');
+define('L_WEBSITE_USER_PASSWORD',       'Website User Password');
+
+// interface user accounts ---------------------------------------------------------------
+
+define('L_USERS',						'Interface Users');
+define('L_USER_ACCOUNT',				'Interface User Account');
+define('L_USER_ACCOUNTS',				'Interface User Accounts');
+define('L_NEW_USER_ACCOUNT',			'New Interface User Account');
+define('L_EDIT_USER_ACCOUNT',			'Edit Interface User Account');
+define('L_REMOVE_USER_ACCOUNT',			'Remove Interface User Account');
 
 define('L_REMOTE_ACCESS',				'Remote Access');
 define('L_REMOTE_ACCESSES',				'Remote Accesses');

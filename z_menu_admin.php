@@ -10,6 +10,7 @@ $layout
 	->set('title',L_ADMIN)
 	->set('content',
 		'<ul class="icons">'.
+		createListItem(L_WEBSITE, 'website_list_tables','website').
 		createListItem(L_DATABASE,'z_database','db').
 		createListItem(L_USER_ACCOUNTS,'z_list_users','users').
 		createListItem(L_REMOTE_ACCESSES,'z_list_remote','remotes').

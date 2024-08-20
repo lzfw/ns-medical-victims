@@ -107,6 +107,14 @@ div.indent {
 	white-space: pre;
 }
 
+.minwidth30{
+	min-width: 30rem;
+}
+
+.margintop3{
+	margin-top: 3rem;
+}
+
 /* show'n'hide-elements (css-checkbox-trick to show and hide elements)*/
 .hide_show_label{
 	font-weight: bold;

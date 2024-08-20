@@ -93,6 +93,7 @@
 
 /* database management */
 .icon.db,				.icons.db > *,				.icons > .db				{ background-image:url(../images/fugue-icons_zefiro/database.png); }
+.icon.website,			.icons.website > *,			.icons > .website			{ background-image:url(../images/fugue-icons_zefiro/terminal.png); }
 .icon.dbStatus,			.icons.dbStatus > *,		.icons > .dbStatus			{ background-image:url(../images/fugue-icons_zefiro/database.png); }
 .icon.dbBackup,			.icons.dbBackup > *,		.icons > .dbBackup			{ background-image:url(../images/fugue-icons_zefiro/databases.png); }
 .icon.dbRecovery,		.icons.dbRecovery > *,		.icons > .dbRecovery		{ background-image:url(../images/fugue-icons_zefiro/database-share.png); }
