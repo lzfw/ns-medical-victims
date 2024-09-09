@@ -77,12 +77,13 @@ endif;
 
 //build Table
 if ($experiment = $result->fetch_object()) {
-    $confirmed = $experiment->confirmed_experiment ? ' (confirmed biomedical research)' : '';
+    $confirmed = $experiment->confirmed_experiment ? ' yes' : ' no';
     $experiment_name = $experiment->experiment_title . $confirmed;
 
     $content = buildElement('table','grid',
         buildDataSheetRow('ID experiment',            $experiment->ID_experiment).
-        buildDataSheetRow('Title',                    $experiment->experiment_title . $confirmed).
+        buildDataSheetRow('Title',                    $experiment->experiment_title).
+        buildDataSheetRow('Confirmed Experiment',                 $confirmed).
         buildDataSheetRow('Classification',           $experiment->classification).
         buildDataSheetRowTag('Institution(s)',        $institution_array, $institution_button, 'list').
         buildDataSheetRow('Location Details',         $experiment->location_details).
