@@ -106,7 +106,7 @@ if ($source_id) {
         $dbi->addBreadcrumb ($source_name,'nmv_view_source?ID_source='.$source_id);
 
         // query: get linking data
-        $querystring = "SELECT vs.ID_vict_source ID_vict_source,
+        $querystring = "SELECT vs.ID_vict_source ID_vict_source, s.signature signature,
               v.surname surname, v.first_names first_names,
               v.birth_place birth_place, v.birth_year birth_year,
               CONCAT_WS('.', v.birth_day, v.birth_month, v.birth_year) birth_date,
@@ -147,8 +147,8 @@ if ($source_id) {
         $content .= 'Number of victims: '. $total_results->total. '</p>';
 
         $options = '';
-        $row_template = ['{ID_victim}', '{surname}', '{birth_place}', '{birth_date}', '{location}', '{url}', '{access_date}', '{source_has_photo}'];
-        $header_template = ['ID', 'Surname', 'Birth Place', 'Birth Date', 'Location in Source', 'URL', 'Access Date dmY', 'Source Contains Photo'];
+        $row_template = ['{ID_victim}', '{surname}', '{birth_place}', '{birth_date}', '{signature}', '{location}', '{url}', '{access_date}', '{source_has_photo}'];
+        $header_template = ['ID', 'Surname', 'Birth Place', 'Birth Date', 'Source Signature', 'Location in Source', 'URL', 'Access Date dmY', 'Source Contains Photo'];
 
 
         $options .= createSmallButton('view Victim','nmv_view_victim?ID_victim={ID_victim}','icon view');

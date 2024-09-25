@@ -31,7 +31,7 @@ if ($perpetrator_id) {
         // query: get source data
         $querystring = "
         SELECT ps.ID_perp_source ID_perp_source,
-            COALESCE(s.source_title, 'unspecified') title, s.creation_year year,
+            COALESCE(s.source_title, 'unspecified') title, s.creation_year year, s.signature signature,
             ps.location location, ps.ID_source ID_source,
             ps.url, CONCAT(IFNULL(ps.access_day, '-'), '.', IFNULL(ps.access_month, '-'), '.', IFNULL(ps.access_year, '-')) as access_date
         FROM nmv__perpetrator_source ps
@@ -41,8 +41,8 @@ if ($perpetrator_id) {
         ORDER BY title, year";
 
         $options = '';
-        $row_template = ['{title}', '{year}','{location}', '{url}', '{access_date}'];
-        $header_template = ['Title', 'Year','Location in Source', 'URL', 'Access Date dmY'];
+        $row_template = ['{title}', '{year}', '{signature}', '{location}', '{url}', '{access_date}'];
+        $header_template = ['Title', 'Year', 'Source Signature', 'Location in Source', 'URL', 'Access Date dmY'];
 
         $options .= createSmallButton('View Source','nmv_view_source?ID_source={ID_source}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
@@ -106,7 +106,7 @@ if ($source_id) {
             p.birth_place birth_place,
             CONCAT_WS('.', p.birth_day, p.birth_month, p.birth_year) birth_date,
             ps.url, CONCAT(IFNULL(ps.access_day, '-'), '.', IFNULL(ps.access_month, '-'), '.', IFNULL(ps.access_year, '-')) as access_date,
-            ps.location location, ps.ID_perpetrator ID_perpetrator
+            ps.location location, ps.ID_perpetrator ID_perpetrator, s.signature signature
         FROM nmv__perpetrator_source ps
         LEFT JOIN nmv__source s ON s.ID_source = ps.ID_source
         LEFT JOIN nmv__perpetrator p ON p.ID_perpetrator = ps.ID_perpetrator
@@ -114,8 +114,8 @@ if ($source_id) {
         ORDER BY perpetrator_name";
 
         $options = '';
-        $row_template = ['{perpetrator_name}', '{birth_place}', '{birth_date}', '{location}', '{url}', '{access_date}'];
-        $header_template = ['Perpetrator', 'Birth Place', 'Birth Date', 'Location in Source', 'URL', 'Access Date dmY'];
+        $row_template = ['{perpetrator_name}', '{birth_place}', '{birth_date}', '{signature}', '{location}', '{url}', '{access_date}'];
+        $header_template = ['Perpetrator', 'Birth Place', 'Birth Date', 'Source Signature' , 'Location in Source', 'URL', 'Access Date dmY'];
 
         $options .= createSmallButton('View Perpetrator','nmv_view_perpetrator?ID_perpetrator={ID_perpetrator}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {

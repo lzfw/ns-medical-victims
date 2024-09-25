@@ -83,7 +83,7 @@ if ($victim_id) {
         // query: get source data
         $querystring_source = "
         SELECT vs.ID_vict_source ID_vict_source,
-            COALESCE(s.source_title, 'unspecified') title, s.creation_year year, 
+            COALESCE(s.source_title, 'unspecified') title, s.creation_year year, s.signature,
             vs.location location,
             vs.url, CONCAT(IFNULL(vs.access_day, '-'), '.', IFNULL(vs.access_month, '-'), '.', IFNULL(vs.access_year, '-')) as access_date,
             vs.ID_source ID_source, IF(vs.source_has_photo = -1, 'yes', '-') AS source_has_photo
@@ -96,8 +96,8 @@ if ($victim_id) {
         $content .= '<br><br><br><br><br><h2>Sources List: "' . $victim_name . '"</h2>';
 
         $options = '';
-        $row_template = ['{title}', '{year}', '{location}', '{url}', '{access_date}', '{source_has_photo}'];
-        $header_template = ['Title', 'Year', 'Location', 'URL', 'Access Date', 'Contains Photo'];
+        $row_template = ['{title}', '{year}', '{signature}', '{location}', '{url}', '{access_date}', '{source_has_photo}'];
+        $header_template = ['Title', 'Year', 'Source Signature', 'Location', 'URL', 'Access Date', 'Contains Photo'];
 
         $options .= createSmallButton('view source','nmv_view_source?ID_source={ID_source}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
