@@ -134,6 +134,7 @@ if ($experiment_id) {
         $row_template = ['<a href="nmv_view_source?ID_source={ID_source}">{title}</a>', '{year}', '{signature}', '{location}'];
         $header_template = ['Title', 'Year', 'Signature', 'Location'];
 
+        $options .= createSmallButton('view Source','nmv_view_source?ID_source={ID_source}','icon view');
         if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
         	if ($dbi->checkUserPermission('edit')) {
         			$options .= createSmallButton(L_EDIT,'nmv_edit_experiment_source?ID_exp_source={ID_exp_source}','icon edit');
