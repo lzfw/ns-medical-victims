@@ -266,7 +266,7 @@ $content .= createButton("Literature and Sources", 'nmv_list_victim_literature_a
 if($victim_id_new_profile != NULL)
     $content .= '<br>' . createButton("Switch to MPG Project Profile", 'nmv_view_victim.php?ID_victim='.$victim_id_new_profile, 'icon report-paper mpgcolor');
 if($victim_id_old_profile != NULL)
-    $content .= '<br>' . createButton("Switch to Non MPG Project Profile", 'nmv_view_victim.php?ID_victim='.$victim_id_old_profile, 'icon report-paper mpgcolor');
+    $content .= '<br>' . createButton("Switch to Pre MPG Project Profile", 'nmv_view_victim.php?ID_victim='.$victim_id_old_profile, 'icon report-paper mpgcolor');
 $content .= '</div>';
 $content .= createBackLink ("Back to Previous Page");
 $title .= 'Victim: ' . $victim_name . '<br>';
