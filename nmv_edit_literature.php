@@ -62,7 +62,7 @@ $form->addField ('written_by_perpetrator',CHECKBOX,-1)
 $form->addField ('notes',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Notes');
-$form->addField ('url',TEXT,250)
+$form->addField ('url',TEXTAREA)
     ->setLabel ('URL');
 $form->addField ('access_day',TEXT,2)
 		->addCondition(VALUE, MIN, 1)
