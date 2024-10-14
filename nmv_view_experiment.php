@@ -83,7 +83,7 @@ if ($experiment = $result->fetch_object()) {
     $content = buildElement('table','grid',
         buildDataSheetRow('ID experiment',            $experiment->ID_experiment).
         buildDataSheetRow('Title',                    $experiment->experiment_title).
-        buildDataSheetRow('Confirmed Experiment',                 $confirmed).
+        buildDataSheetRow('Confirmed Research',                 $confirmed).
         buildDataSheetRow('Classification',           $experiment->classification).
         buildDataSheetRowTag('Institution(s)',        $institution_array, $institution_button, 'list').
         buildDataSheetRow('Location Details',         $experiment->location_details).
