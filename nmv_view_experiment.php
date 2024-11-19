@@ -78,7 +78,7 @@ endif;
 //build Table
 if ($experiment = $result->fetch_object()) {
     $confirmed = $experiment->confirmed_experiment ? ' yes' : ' no';
-    $experiment_name = $experiment->experiment_title . ($experiment->confirmed_experiment ? ' (confirmed experiment)' : '');
+    $experiment_name = $experiment->experiment_title;
 
     $content = buildElement('table','grid',
         buildDataSheetRow('ID experiment',            $experiment->ID_experiment).
