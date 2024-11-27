@@ -68,6 +68,7 @@ $content .= '<div class="buttons">';
 $content .= createButton("Experiments",'nmv_result_experiments?ID_institution='.$institution_id,'icon report-paper');
 $content .= createButton("Victims (Experiment)",'nmv_result_victims_variable?exp_institution='.$institution_id,'icon report-paper');
 $content .= createButton("Victims (Hospitalisation)",'nmv_result_victims_variable?hospitalisation_institution='.$institution_id,'icon report-paper');
+$content .= createButton("Victims (Brain Report)",'nmv_result_victims_variable?brain_report_institution='.$institution_id,'icon report-paper');
 $content .= createButton("Victims (Tissue)",'nmv_result_victims_variable?tissue_institution='.$institution_id,'icon report-paper');
 $content .= createButton("Victims (Death Institution)",'nmv_result_victims_variable?ID_death_institution='.$institution_id,'icon report-paper');
 $content .= createButton("Victims (Imprisonment Institution)",'nmv_result_victims_variable?ID_imprisonment_institution='.$institution_id,'icon report-paper');
