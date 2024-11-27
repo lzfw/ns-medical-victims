@@ -38,7 +38,7 @@ $like_fields = array ();
 $double_fields = array ();
 
 // fields that trigger special conditions when ticked
-$ticked_fields = array ('cause_of_death', 'prisoner_of_war', 'psychiatric_patient', 'beddies_database', 'rothemund_list', 'schlote_list', 'm_series');
+$ticked_fields = array ('cause_of_death', 'prisoner_of_war', 'beddies_database', 'rothemund_list', 'schlote_list', 'm_series');
 
 // fields with special queries
 //$special_fields = array ('ID_institution');
@@ -126,19 +126,17 @@ if (getUrlParameter($ticked_fields[0])) {
 if (getUrlParameter($ticked_fields[1])) {
   $querystring_where[] = "ic.ID_classification = 7";
 }
+
 if (getUrlParameter($ticked_fields[2])) {
-  $querystring_where[] = "ic.ID_classification = 5";
-}
-if (getUrlParameter($ticked_fields[3])) {
   $querystring_where[] = "vs.ID_source = 207";
 }
-if (getUrlParameter($ticked_fields[4])) {
+if (getUrlParameter($ticked_fields[3])) {
   $querystring_where[] = "vs.ID_source IN (319, 299, 287)";
 }
-if (getUrlParameter($ticked_fields[5])) {
+if (getUrlParameter($ticked_fields[4])) {
   $querystring_where[] = "vs.ID_source = 304";
 }
-if (getUrlParameter($ticked_fields[6])) {
+if (getUrlParameter($ticked_fields[5])) {
   $querystring_where[] = "(b.ref_no LIKE 'M-%'
 													OR t.ref_no LIKE 'M-%')";
 }
@@ -169,7 +167,6 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $suche_nach = array();
 if (isset($_GET['cause_of_death']) && $_GET['cause_of_death']) $suche_nach[] = 'cause of death = executed';
 if (isset($_GET['prisoner_of_war']) && $_GET['prisoner_of_war']) $suche_nach[] = 'imprisonment = prisoner of war';
-if (isset($_GET['psychiatric_patient']) && $_GET['psychiatric_patient']) $suche_nach[] = 'imprisonment = psychiatric_patient';
 if (isset($_GET['beddies_database']) && $_GET['beddies_database']) $suche_nach[] = 'source = Beddies Database';
 if (isset($_GET['rothemund_list']) && $_GET['rothemund_list']) $suche_nach[] = 'source = Rothemund List';
 if (isset($_GET['schlote_list']) && $_GET['schlote_list']) $suche_nach[] = 'source = Schlote List';

@@ -18,9 +18,6 @@ $MPGfilterForm->addField('cause_of_death', CHECKBOX, -1)
 $MPGfilterForm->addField('prisoner_of_war', CHECKBOX, -1)
 	->setLabel('Imprisonment: Prisoner of War');
 
-$MPGfilterForm->addField('psychiatric_patient', CHECKBOX, -1)
-	->setLabel('Imprisonment: Psychiatric Patient');
-
 $MPGfilterForm->addField('beddies_database', CHECKBOX, -1)
 	->setLabel('Beddies Database');
 

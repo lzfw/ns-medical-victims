@@ -259,12 +259,10 @@ $layout
 	->set('title','Search and Filters')
 	->set('content',
 			'<div class="relative">
-					<input class="hide_show_checkbox"  id="checkbox_search_tips" type="checkbox" checked="checked">
-					<label class="hide_show_label" id="label_search_tips" for="checkbox_search_tips">Help</label>
 					<div class="hide_show_element block" id="element_search_tips">
 					<p>Search is not case sensitive<p>
 					<h3>wildcard character *</h3>
-					<p>
+					<p>	
 						You can use * as a wildcard-character. It replaces one or many characters.
 						<br>&nbsp; &rarr; Smi* returns all results that begin with Smi (e.g Smith, Smidt, Smilla ...)
 						<br>&nbsp; &rarr; J*zef returns results for Józef, Jozef, Joezef, Juzef ...

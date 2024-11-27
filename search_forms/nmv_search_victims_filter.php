@@ -272,6 +272,9 @@ $victimsVariableForm->addField('hospitalisation_year', TEXT, 4)
 $victimsVariableForm->addField('autopsy_ref_no', TEXT, 120)
     ->setLabel('hospitalisation - Autopsy Number');
 
+$victimsVariableForm->addField('br-clinical diag', STATIC_TEXT, '<br>');
+
+
 $victimsVariableForm->addField('clinical_ID_diagnosis', SELECT)
   ->setLabel('clinical - diagnosis tags')
   ->addOption(NO_VALUE,'all diagnoses')

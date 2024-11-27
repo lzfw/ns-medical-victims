@@ -210,6 +210,7 @@ v.residence_after_1945_place, v.residence_after_1945_country, n1945.nationality 
 GROUP_CONCAT(DISTINCT
     'ID source: --', so.ID_source, '--, ',
     IF(so.source_title IS NULL, '', CONCAT('TITLE source: --', so.source_title, '--, ')),
+    IF(so.signature IS NULL, '', CONCAT('SIGNATURE: --', so.signature, '--, ')),
     IF(vs.location IS NULL, '', CONCAT('LOCATION in source: --', vs.location, '--, ')),
                 IF(vs.url IS NULL, '', CONCAT('URL: --', vs.url, '--, ')),
                 IF(vs.access_day IS NULL AND vs.access_month IS NULL AND vs.access_year IS NULL, '',

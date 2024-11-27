@@ -160,7 +160,7 @@ function buildTableFromQuery () {
 function buildSheetFromQuery () {
     // TODO
     // das sollte eine vertikal angeordnete Tabelle sein
-    // also Feldnamen in der erstn Spalte
+    // also Feldnamen in der ersten Spalte
 	$args = func_get_args();
 	switch (func_num_args()) {
 		default: return false;

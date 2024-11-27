@@ -95,9 +95,11 @@ $querystring_items = '	SELECT DISTINCT v.ID_victim, v.surname, v.first_names, v.
 												LEFT JOIN nmv__experiment e								ON ve.ID_experiment = e.ID_experiment
 												LEFT JOIN nmv__med_history_brain b				ON v.ID_victim = b.ID_victim
 												LEFT JOIN nmv__med_history_hosp h					ON v.ID_victim = h.ID_victim
+												LEFT JOIN nmv__med_history_diagnosis d 					ON d.ID_victim = v.ID_victim
 												LEFT JOIN nmv__diagnosis_brain db 				ON db.ID_med_history_brain = b.ID_med_history_brain
 												LEFT JOIN nmv__diagnosis_hosp dh 					ON dh.ID_med_history_hosp = h.ID_med_history_hosp
-                       							LEFT JOIN nmv__diagnosis_tag dth          ON dth.ID_diagnosis = db.ID_diagnosis OR dth.ID_diagnosis = dh.ID_diagnosis
+												LEFT JOIN nmv__diagnosis_diagnosis dd  					ON dd.ID_med_history_diagnosis = d.ID_med_history_diagnosis    
+                       							LEFT JOIN nmv__diagnosis_tag dth          ON dth.ID_diagnosis = db.ID_diagnosis OR dth.ID_diagnosis = dh.ID_diagnosis OR dth.ID_diagnosis = dd.ID_diagnosis
                         '; // für Ergebnisliste
 $querystring_where = array(); // for where-part of select clause
 
