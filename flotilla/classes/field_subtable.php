@@ -154,7 +154,7 @@ class Field_Subtable extends Field {
 		if ($this->direction) $output .= ' dir="'.$this->direction.'"';
 		if ($this->length) $output .= ' maxlength="'.$this->length.'" size="'.$this->length.'"';
 		
-		$output .= ' value="'.htmlspecialchars(stripslashes($this->user_value[0])).'"';
+		$output .= ' value="'.htmlspecialchars(stripslashes((string) $this->user_value[0])).'"';
 		if ($this->is_not_hidden()) {
 			$output .= $this->HTMLTitle();
 			$output .= $this->HTMLClass();

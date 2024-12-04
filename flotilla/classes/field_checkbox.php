@@ -42,7 +42,7 @@ class Field_Checkbox extends Field {
 		$output .= ' name="'.$this->name.'"';
 		$output .= ' id="'.$this->getId().'"';
 		$output .= ' type="checkbox"';
-		$output .= ' value="'.htmlspecialchars(stripslashes($this->default_value)).'"';
+		$output .= ' value="'.htmlspecialchars(stripslashes((string) $this->default_value)).'"';
 		if ($this->is_not_hidden()) {
 			$output .= $this->HTMLTitle();
 			$output .= $this->HTMLClass();

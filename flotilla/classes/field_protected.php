@@ -36,7 +36,7 @@ class Field_Protected extends Field {
 		$output .= " id=\"field-$this->name\"";
 		$output .= ' type="text"';
 		$output .= ' readonly="readonly"';
-		$output .= " value=\"".htmlspecialchars(stripslashes($this->user_value))."\"";
+		$output .= " value=\"".htmlspecialchars(stripslashes((string)$this->user_value))."\"";
 		$output .= '/>'.PHP_EOL;
 		return $output;
 	}
