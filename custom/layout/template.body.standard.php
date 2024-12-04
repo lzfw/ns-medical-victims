@@ -72,7 +72,7 @@
 					echo L_VERSION;
 					if ($dbi->user) echo ' - '.L_AUTHENTICATED_AS.' <b>'.$dbi->user['display_name'].'</b>';
 					echo ' - '.L_SESSION_TIMEOUT.' '
-				        .date("H:i", mktime() + ini_get('session.gc_maxlifetime'));
+				        .date("H:i", time() + ini_get('session.gc_maxlifetime'));
 				?>
 			</div> <!-- .left -->
 			<div class="right">
