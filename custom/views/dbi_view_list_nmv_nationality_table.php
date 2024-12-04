@@ -33,8 +33,8 @@ class View_List_NMV_Nationality_Table extends View_List {
 		    $html .= '<th>nationality</th><th>ID</th><th>Options</th>';
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
-			        <td>' . htmlentities($item->nationality, ENT_HTML5) . '</td>
-              <td>' . htmlentities($item->ID_nationality, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->nationality, ENT_HTML5) . '</td>
+              <td>' . htmlentities((string) $item->ID_nationality, ENT_HTML5) . '</td>
 			        <td>' . str_replace('{ID_nationality}', $item->ID_nationality, $options) . '</td>
 			    </tr>';
 			}

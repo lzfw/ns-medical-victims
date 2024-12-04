@@ -39,9 +39,9 @@ class View_List_NMV_Literature_Table extends View_List {
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
 							<td>' . $item->ID_literature . '</td>
-			        <td><a href="nmv_view_literature?ID_literature=' . $item->ID_literature . '">' . ($item->authors ? htmlentities($item->authors, ENT_HTML5) : '(empty)') . '</a></td>
-							<td>' . htmlentities($item->lit_title, ENT_HTML5) . '</td>
-							<td>' . htmlentities($item->lit_year, ENT_HTML5) . '</td>
+			        <td><a href="nmv_view_literature?ID_literature=' . $item->ID_literature . '">' . ($item->authors ? htmlentities((string) $item->authors, ENT_HTML5) : '(empty)') . '</a></td>
+							<td>' . htmlentities((string) $item->lit_title, ENT_HTML5) . '</td>
+							<td>' . htmlentities((string) $item->lit_year, ENT_HTML5) . '</td>
 			        <td class="nowrap">' . str_replace('{ID_literature}', $item->ID_literature, $options) . '</td>
 			    </tr>';
 			}

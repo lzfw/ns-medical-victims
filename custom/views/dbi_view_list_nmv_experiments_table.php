@@ -40,12 +40,12 @@ class View_List_NMV_Experiments_Table extends View_List {
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
 							<td>' . $item->ID_experiment . '</td>
-			        <td><a href="nmv_view_experiment?ID_experiment=' . $item->ID_experiment . '">' . htmlentities($item->experiment_title, ENT_HTML5) . '</a></td>
-							<td class= "prewrap">' . htmlentities($item->institutions, ENT_HTML5) . '</td>
-							<td class= "prewrap">' . htmlentities($item->fields_of_interest, ENT_HTML5) . '</td>
-			        <td>' . htmlentities($item->objective, ENT_HTML5) . '</td>
-			        <td>' . htmlentities($item->start_year, ENT_HTML5) . '</td>
-			        <td>' . htmlentities($item->end_year, ENT_HTML5) . '</td>
+			        <td><a href="nmv_view_experiment?ID_experiment=' . $item->ID_experiment . '">' . htmlentities((string) $item->experiment_title, ENT_HTML5) . '</a></td>
+							<td class= "prewrap">' . htmlentities((string) $item->institutions, ENT_HTML5) . '</td>
+							<td class= "prewrap">' . htmlentities((string) $item->fields_of_interest, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->objective, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->start_year, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->end_year, ENT_HTML5) . '</td>
 			        <td class="nowrap">' . str_replace('{ID_experiment}', $item->ID_experiment, $options) . '</td>
 			    </tr>';
 			}

@@ -41,7 +41,7 @@ class Field_Text extends Field {
 		if ($this->language) $output .= ' lang="'.$this->language.'"';
 		if ($this->direction) $output .= ' dir="'.$this->direction.'"';
 		if ($this->length) $output .= ' maxlength="'.$this->length.'" size="'.$this->length.'"';
-		$output .= ' value="'.htmlspecialchars(stripslashes($this->user_value)).'"';
+		$output .= ' value="'.htmlspecialchars(stripslashes((string) $this->user_value)).'"';
 		if ($this->is_not_hidden()) {
 			$output .= $this->HTMLTitle();
 			$output .= $this->HTMLClass();

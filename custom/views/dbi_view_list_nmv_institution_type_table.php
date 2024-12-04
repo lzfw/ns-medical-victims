@@ -33,8 +33,8 @@ class View_List_NMV_Institution_Type_Table extends View_List {
 		    $html .= '<th>institution type</th><th>ID</th><th>Options</th>';
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
-			        <td>' . htmlentities($item->institution_type, ENT_HTML5) . '</td>
-              <td>' . htmlentities($item->ID_institution_type, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->institution_type, ENT_HTML5) . '</td>
+              <td>' . htmlentities((string) $item->ID_institution_type, ENT_HTML5) . '</td>
 			        <td>' . str_replace('{ID_institution_type}', $item->ID_institution_type, $options) . '</td>
 			    </tr>';
 			}

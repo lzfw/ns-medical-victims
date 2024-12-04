@@ -33,8 +33,8 @@ class View_List_NMV_Dataset_Origin_Table extends View_List {
 		    $html .= '<th>work group</th><th>ID</th><th>Options</th>';
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
-			        <td>' . htmlentities($item->work_group, ENT_HTML5) . '</td>
-              <td>' . htmlentities($item->ID_dataset_origin, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->work_group, ENT_HTML5) . '</td>
+              <td>' . htmlentities((string) $item->ID_dataset_origin, ENT_HTML5) . '</td>
 			        <td>' . str_replace('{ID_dataset_origin}', $item->ID_dataset_origin, $options) . '</td>
 			    </tr>';
 			}

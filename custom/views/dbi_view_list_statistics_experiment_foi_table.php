@@ -31,13 +31,13 @@ class View_List_Statistics_Experiment_FOI_Table extends View_List {
 				$asum = 0;
 				$bsum = 0;
 			while ($item = $results->fetch_object()) {
-					$field_of_interest = $item->field_of_interest == '' ? 'No indication of the "field of interest" in the experiment' : htmlentities($item->field_of_interest, ENT_HTML5);
+					$field_of_interest = $item->field_of_interest == '' ? 'No indication of the "field of interest" in the experiment' : htmlentities((string) $item->field_of_interest, ENT_HTML5);
 					$experiments = $item->experiments;
 					$html .= '<tr>
 			        <td>' . $field_of_interest . '</td>
 			        <td>' . $experiments . '</td>
-			        <td>' . htmlentities($item->anumber, ENT_HTML5) . '</td>
-			        <!-- <td>' . htmlentities($item->bnumber, ENT_HTML5) . '</td>-->
+			        <td>' . htmlentities((string) $item->anumber, ENT_HTML5) . '</td>
+			        <!-- <td>' . htmlentities((string) $item->bnumber, ENT_HTML5) . '</td>-->
 			    </tr>';
 					$asum += $item->anumber;
 					$bsum += $item->bnumber;

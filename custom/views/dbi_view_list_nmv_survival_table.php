@@ -33,8 +33,8 @@ class View_List_NMV_Survival_Table extends View_List {
 		    $html .= '<th>survival</th><th>ID</th><th>Options</th>';
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
-			        <td>' . htmlentities($item->survival, ENT_HTML5) . '</td>
-              <td>' . htmlentities($item->ID_survival, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->survival, ENT_HTML5) . '</td>
+              <td>' . htmlentities((string) $item->ID_survival, ENT_HTML5) . '</td>
 			        <td>' . str_replace('{ID_survival}', $item->ID_survival, $options) . '</td>
 			    </tr>';
 			}

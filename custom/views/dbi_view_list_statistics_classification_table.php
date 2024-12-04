@@ -30,10 +30,10 @@ class View_List_Statistics_classification_Table extends View_List {
                 $html .= '<table class="grid">';
                 $html .= '<th>Classification</th><th>mpg project</th>';
                 while ($item = $results->fetch_object()) {
-                    $name = $item->classification == '' ? 'No Entry' : htmlentities($item->classification, ENT_HTML5);
+                    $name = $item->classification == '' ? 'No Entry' : htmlentities((string) $item->classification, ENT_HTML5);
                     $html .= '<tr>
 			        <td>' . $name . '</td>
-			        <td>' . htmlentities($item->bnumber, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->bnumber, ENT_HTML5) . '</td>
 			    </tr>';
                     $bsum += $item->bnumber;
                 }
@@ -46,11 +46,11 @@ class View_List_Statistics_classification_Table extends View_List {
                 $html .= '<table class="grid">';
                 $html .= '<th>Classification</th><th>all imprisonments</th><th>mpg project</th>';
                 while ($item = $results->fetch_object()) {
-                    $name = $item->classification == '' ? 'No Entry' : htmlentities($item->classification, ENT_HTML5);
+                    $name = $item->classification == '' ? 'No Entry' : htmlentities((string) $item->classification, ENT_HTML5);
                     $html .= '<tr>
 			        <td>' . $name . '</td>
-			        <td>' . htmlentities($item->anumber, ENT_HTML5) . '</td>
-			        <td>' . htmlentities($item->bnumber, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->anumber, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->bnumber, ENT_HTML5) . '</td>
 			    </tr>';
                     $asum += $item->anumber;
                     $bsum += $item->bnumber;

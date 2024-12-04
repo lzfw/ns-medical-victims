@@ -42,23 +42,23 @@ if ($victim = $query->fetch_object()) {
     $dbi->addBreadcrumb ('Medical History','nmv_list_med_hist?ID_victim=' . $victim_id);
 
     $content .= '<tr><th>Victim ID</th><td>'.
-        htmlspecialchars($victim->ID_victim, ENT_HTML5).'</td></tr>';
+        htmlspecialchars((string) $victim->ID_victim, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Tissue ID</th><td>'.
-        htmlspecialchars($med_hist_id, ENT_HTML5).'</td></tr>';
+        htmlspecialchars((string) $med_hist_id, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Tissue form</th><td>'.
-        htmlspecialchars($victim->tissue_form, ENT_HTML5).'</td></tr>';
+        htmlspecialchars((string) $victim->tissue_form, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Tissue state</th><td>'.
-            htmlspecialchars($victim->tissue_state, ENT_HTML5).'</td></tr>';
+            htmlspecialchars((string) $victim->tissue_state, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>State since dmyyyy</th><td>'.
-        htmlspecialchars($victim->date, ENT_HTML5).'</td></tr>';
+        htmlspecialchars((string) $victim->date, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Tissue location<br>(Institution)</th><td>'.
-        htmlspecialchars($victim->institution_name, ENT_HTML5) . '<br>in ' . htmlspecialchars($victim->institution_location, ENT_HTML5) .  ', ' . htmlspecialchars($victim->institution_country, ENT_HTML5) . '</td></tr>';
-    $content .= '<tr><th>Notes</th><td>'.
-        htmlspecialchars($victim->notes, ENT_HTML5).'</td></tr>';
+        htmlspecialchars((string) $victim->institution_name, ENT_HTML5) . '<br>in ' . htmlspecialchars($victim->institution_location, ENT_HTML5) .  ', ' . htmlspecialchars($victim->institution_country, ENT_HTML5) . '</td></tr>';
+    $content .= '<tr><th>htmlspNotes</th><td>'.
+        htmlspecialchars((string) $victim->notes, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Reference number</th><td>'.
-        htmlspecialchars($victim->ref_no, ENT_HTML5).'</td></tr>';
+        htmlspecialchars((string) $victim->ref_no, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>2nd Reference number</th><td>'.
-        htmlspecialchars($victim->ref_no_2, ENT_HTML5).'</td></tr>';
+        htmlspecialchars((string) $victim->ref_no_2, ENT_HTML5).'</td></tr>';
 
 }
 $content .= '</table>';

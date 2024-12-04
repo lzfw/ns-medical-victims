@@ -53,29 +53,29 @@ if ($ve = $query->fetch_object()) {
     $dbi->addBreadcrumb ('Biomedical Research','nmv_list_victim_experiment?ID_victim=' . $victim_id);
 
     $content .= '<tr><th>Victim ID</th><td>'.
-        htmlspecialchars($victim_id, ENT_HTML5).'</td></tr>';
+        htmlspecialchars((string) $victim_id, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>ID Victim - Experiment</th><td>'.
-        htmlspecialchars($vict_exp_id, ENT_HTML5).'</td></tr>';
+        htmlspecialchars((string) $vict_exp_id, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Victim</th><td><a href="nmv_view_victim?ID_victim='. $victim_id . '">' .
-        htmlspecialchars($victim_name, ENT_HTML5).'</a></td></tr>';
+        htmlspecialchars((string) $victim_name, ENT_HTML5).'</a></td></tr>';
     $content .= '<tr><th>Biomedical Research <br> (title, ID, institution)</th><td><a href="nmv_view_experiment?ID_experiment='. $experiment_id . '">' .
-        htmlspecialchars($ei_info, ENT_HTML5).'</a></td></tr>';
+        htmlspecialchars((string) $ei_info, ENT_HTML5).'</a></td></tr>';
     $content .= '<tr><th>Biomedical Research Duration</th><td>'.
-        htmlspecialchars($ve->experiment_duration, ENT_HTML5).'</td></tr>';
+        htmlspecialchars((string) $ve->experiment_duration, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Start and End Date D.M.Y</th><td>'.
         htmlspecialchars('from ' . $ve->ve_start_date . ' until ' . $ve->ve_end_date, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Age (experiment start)</th><td>'.
-        htmlspecialchars($ve->age_experiment_start, ENT_HTML5).'</td></tr>';
+        htmlspecialchars((string) $ve->age_experiment_start, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Injuries</th><td>'.
-        htmlspecialchars($ve->outcome_injuries, ENT_HTML5).'</td></tr>';
+        htmlspecialchars((string) $ve->outcome_injuries, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Survival</th><td>'.
-        htmlspecialchars($ve->survival, ENT_HTML5).'</td></tr>';
+        htmlspecialchars((string) $ve->survival, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Notes about Perpetrator</th><td>'.
-        htmlspecialchars($ve->notes_perpetrator, ENT_HTML5).'</td></tr>';
+        htmlspecialchars((string) $ve->notes_perpetrator, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Narratives</th><td>'.
-        htmlspecialchars($ve->narratives, ENT_HTML5).'</td></tr>';
+        htmlspecialchars((string) $ve->narratives, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Notes</th><td>'.
-        htmlspecialchars($ve->notes, ENT_HTML5).'</td></tr>';
+        htmlspecialchars((string) $ve->notes, ENT_HTML5).'</td></tr>';
 }
 $content .= '</table>';
 

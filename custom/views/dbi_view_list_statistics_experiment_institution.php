@@ -31,12 +31,12 @@ class View_List_Statistics_Experiment_Institution extends View_List {
 				$asum = 0;
 				$bsum = 0;
 			while ($item = $results->fetch_object()) {
-					$institution = $item->institution == '' ? 'No entry' : htmlentities($item->institution, ENT_HTML5);
-					$institution .= $item->institution == '' ? '' : ' (ID ' . htmlentities($item->ID_institution . ')', ENT_HTML5);
+					$institution = $item->institution == '' ? 'No entry' : htmlentities((string) $item->institution, ENT_HTML5);
+					$institution .= $item->institution == '' ? '' : ' (ID ' . htmlentities((string) $item->ID_institution . ')', ENT_HTML5);
 			    $html .= '<tr>
 			        <td><a href="nmv_view_institution?ID_institution=' . $item->ID_institution . '"> ' . $institution . '</a></td>
-			        <td>' . htmlentities($item->anumber, ENT_HTML5) . '</td>
-    		       <!-- <td>' . htmlentities($item->bnumber, ENT_HTML5) . '</td>-->
+			        <td>' . htmlentities((string) $item->anumber, ENT_HTML5) . '</td>
+    		       <!-- <td>' . htmlentities((string) $item->bnumber, ENT_HTML5) . '</td>-->
 			    </tr>';
 					$asum += $item->anumber;
 					$bsum += $item->bnumber;

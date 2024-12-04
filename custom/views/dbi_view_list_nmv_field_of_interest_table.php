@@ -33,8 +33,8 @@ class View_List_NMV_Field_of_Interest_Table extends View_List {
 		    $html .= '<th>field of interest</th><th>ID</th><th>Options</th>';
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
-			        <td>' . htmlentities($item->field_of_interest, ENT_HTML5) . '</td>
-              <td>' . htmlentities($item->ID_foi, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->field_of_interest, ENT_HTML5) . '</td>
+              <td>' . htmlentities((string) $item->ID_foi, ENT_HTML5) . '</td>
 			        <td>' . str_replace('{ID_foi}', $item->ID_foi, $options) . '</td>
 			    </tr>';
 			}

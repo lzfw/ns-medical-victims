@@ -36,11 +36,11 @@ class View_List_Statistics_Survival_Table extends View_List {
                     elseif ($item->survivalID == 3 or $item->survivalID == 9):
                         $survival = 'INVALID ENTRY';
                     else:
-                        $survival = htmlentities($item->survival, ENT_HTML5);
+                        $survival = htmlentities((string) $item->survival, ENT_HTML5);
                     endif;
                     $html .= '<tr>
 							<td>' . $survival . '</td>
-			    		 <td>' . htmlentities($item->bnumber, ENT_HTML5) . '</td>
+			    		 <td>' . htmlentities((string) $item->bnumber, ENT_HTML5) . '</td>
 			    </tr>';
                     $bsum += $item->bnumber;
                 }
@@ -64,8 +64,8 @@ class View_List_Statistics_Survival_Table extends View_List {
                     endif;
                     $html .= '<tr>
 							<td>' . $survival . '</td>
-			    		<td>' . htmlentities($item->anumber, ENT_HTML5) . '</td>
-			    		 <td>' . htmlentities($item->bnumber, ENT_HTML5) . '</td>
+			    		<td>' . htmlentities((string) $item->anumber, ENT_HTML5) . '</td>
+			    		 <td>' . htmlentities((string) $item->bnumber, ENT_HTML5) . '</td>
 			    </tr>';
                     $asum += $item->anumber;
                     $bsum += $item->bnumber;

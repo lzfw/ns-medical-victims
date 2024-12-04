@@ -34,9 +34,9 @@ class View_List_NMV_Country_Table extends View_List {
 		    $html .= '<th>country</th><th>local name</th><th>ID</th><th>Options</th>';
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
-			        <td>' . htmlentities($item->country, ENT_HTML5) . '</td>
-			        <td>' . htmlentities($item->local_name, ENT_HTML5) . '</td>
-              <td>' . htmlentities($item->ID_country, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->country, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->local_name, ENT_HTML5) . '</td>
+              <td>' . htmlentities((string) $item->ID_country, ENT_HTML5) . '</td>
 			        <td>' . str_replace('{ID_country}', $item->ID_country, $options) . '</td>
 			    </tr>';
 			}

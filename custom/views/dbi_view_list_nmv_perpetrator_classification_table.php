@@ -33,8 +33,8 @@ class View_List_NMV_Perpetrator_Classification_Table extends View_List {
 		    $html .= '<th>classification</th><th>ID</th><th>Options</th>';
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
-			        <td>' . htmlentities($item->classification, ENT_HTML5) . '</td>
-              <td>' . htmlentities($item->ID_perp_class, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->classification, ENT_HTML5) . '</td>
+              <td>' . htmlentities((string) $item->ID_perp_class, ENT_HTML5) . '</td>
 			        <td>' . str_replace('{ID_perp_class}', $item->ID_perp_class, $options) . '</td>
 			    </tr>';
 			}

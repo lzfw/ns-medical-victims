@@ -43,12 +43,12 @@ class View_List_Table_NMV_PA_Exp extends View_List {
 
 			    $html .= '<tr>
 			        <td><a href="nmv_view_victim?ID_victim=' . $item->ID_victim . '">' . htmlentities($item->surname, ENT_HTML5) . '</a></td>
-							<td>' . htmlentities($item->first_names, ENT_HTML5) . '</td>
+							<td>' . htmlentities((string) $item->first_names, ENT_HTML5) . '</td>
 			        <td><a href="nmv_view_victim?ID_victim=' . $item->ID_victim . '">' . $item->ID_victim . '</a></td>
-							<td>' . htmlentities($item->birth_year, ENT_HTML5) . '</td>
-							<td>' . htmlentities($item->birth_country, ENT_HTML5) . '</td>
-							<td>' . htmlentities($item->nationality_1938, ENT_HTML5) . '</td>
-							<td>' . htmlentities($item->ethnic_group, ENT_HTML5) . '</td>
+							<td>' . htmlentities((string) $item->birth_year, ENT_HTML5) . '</td>
+							<td>' . htmlentities((string) $item->birth_country, ENT_HTML5) . '</td>
+							<td>' . htmlentities((string) $item->nationality_1938, ENT_HTML5) . '</td>
+							<td>' . htmlentities((string) $item->ethnic_group, ENT_HTML5) . '</td>
 							<td>' . htmlentities($start_day . '.' . $start_month . '.' . $start_year, ENT_HTML5). '</td>
 			        <td>' . str_replace('{ID_victim}', $item->ID_victim, $options) . '</td>
 			    </tr>';

@@ -82,32 +82,32 @@ class View_List_NMV_Victims_Table extends View_List {
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
 							<td><a href="nmv_view_victim?ID_victim=' . $item->ID_victim . '">' . $item->ID_victim . '</a></td>
-			        <td><a href="nmv_view_victim?ID_victim=' . $item->ID_victim . '">' . htmlentities($item->surname, ENT_HTML5) . '</a></td>
-			        <td>' . htmlentities($item->first_names, ENT_HTML5) . '</td>
-			        <td>' . htmlentities($item->birth_year, ENT_HTML5) . '</td>
-			        <td>' . htmlentities($item->birth_place, ENT_HTML5) . '</td>
-							<td class="toggle_element_0">' . htmlentities($item->birth_country, ENT_HTML5) . '</td>
-							<td class="toggle_element_1">' . htmlentities($item->death_year, ENT_HTML5) . '</td>
-							<td class="toggle_element_2">' . htmlentities($item->death_place, ENT_HTML5) . '</td>
-							<td class="toggle_element_3">' . htmlentities($item->death_country, ENT_HTML5) . '</td>
-							<td class="toggle_element_4">' . htmlentities($item->cause_of_death, ENT_HTML5) . '</td>';
+			        <td><a href="nmv_view_victim?ID_victim=' . $item->ID_victim . '">' . htmlentities((string) $item->surname, ENT_HTML5) . '</a></td>
+			        <td>' . htmlentities((string) $item->first_names, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->birth_year, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->birth_place, ENT_HTML5) . '</td>
+							<td class="toggle_element_0">' . htmlentities((string) $item->birth_country, ENT_HTML5) . '</td>
+							<td class="toggle_element_1">' . htmlentities((string) $item->death_year, ENT_HTML5) . '</td>
+							<td class="toggle_element_2">' . htmlentities((string) $item->death_place, ENT_HTML5) . '</td>
+							<td class="toggle_element_3">' . htmlentities((string) $item->death_country, ENT_HTML5) . '</td>
+							<td class="toggle_element_4">' . htmlentities((string) $item->cause_of_death, ENT_HTML5) . '</td>';
 							if($item->twin == -1) :
 								 $html .= '<td class="toggle_element_5">yes</td>';
 							else :
 								$html .= '<td class="toggle_element_5">-</td>';
 							endif;
 					$html .= '
-							<td class="toggle_element_6">' . htmlentities($item->gender, ENT_HTML5) . '</td>
-							<td class="toggle_element_7">' . htmlentities($item->marital_family_status, ENT_HTML5) . '</td>
-							<td class="toggle_element_8">' . htmlentities($item->religion, ENT_HTML5) . '</td>
-							<td class="toggle_element_9">' . htmlentities($item->nationality_1938, ENT_HTML5) . '</td>
-							<td class="toggle_element_10">' . htmlentities($item->ethnic_group, ENT_HTML5) . '</td>
-							<td class="toggle_element_11">' . htmlentities($item->education, ENT_HTML5) . '</td>
-							<td class="toggle_element_12">' . htmlentities($item->occupation, ENT_HTML5) . '</td>
-							<td class="toggle_element_13">' . htmlentities($item->occupation_details, ENT_HTML5) . '</td>
-							<td class="toggle_element_14">' . htmlentities($item->arrest_location, ENT_HTML5) . '</td>
-							<td class="toggle_element_15">' . htmlentities($item->arrest_country, ENT_HTML5) . '</td>
-							<td class="toggle_element_16">' . htmlentities($item->evaluation_status, ENT_HTML5) . '</td>';
+							<td class="toggle_element_6">' . htmlentities((string) $item->gender, ENT_HTML5) . '</td>
+							<td class="toggle_element_7">' . htmlentities((string) $item->marital_family_status, ENT_HTML5) . '</td>
+							<td class="toggle_element_8">' . htmlentities((string) $item->religion, ENT_HTML5) . '</td>
+							<td class="toggle_element_9">' . htmlentities((string) $item->nationality_1938, ENT_HTML5) . '</td>
+							<td class="toggle_element_10">' . htmlentities((string) $item->ethnic_group, ENT_HTML5) . '</td>
+							<td class="toggle_element_11">' . htmlentities((string) $item->education, ENT_HTML5) . '</td>
+							<td class="toggle_element_12">' . htmlentities((string) $item->occupation, ENT_HTML5) . '</td>
+							<td class="toggle_element_13">' . htmlentities((string) $item->occupation_details, ENT_HTML5) . '</td>
+							<td class="toggle_element_14">' . htmlentities((string) $item->arrest_location, ENT_HTML5) . '</td>
+							<td class="toggle_element_15">' . htmlentities((string) $item->arrest_country, ENT_HTML5) . '</td>
+							<td class="toggle_element_16">' . htmlentities((string) $item->evaluation_status, ENT_HTML5) . '</td>';
 							if($item->mpg_project == -1) :
 								 $html .= '<td class="toggle_element_17">yes</td>';
 							else :

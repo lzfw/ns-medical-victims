@@ -24,13 +24,6 @@ class View_List_NMV_Literature extends View_List {
 				    . ($item->lit_title != '' ? $item->lit_title : '?')
 				    . ' ('.$item->authors.') ('.$item->lit_year.')'
 				    . '</a></li>';
-				// options
-				//if ($this->Creator->checkUserPermission('edit')) {
-					//$html .= getDateUserStamp_HTML (L_STAMP_CREATED,$item->date_created,$abbreviation->user_created);
-					//$html .= getDateUserStamp_HTML (L_STAMP_MODIFIED,$item->date_modified,$abbreviation->user_modified);
-					//$html .= createSmallButton (L_EDIT,'nmv_edit_literature.php?id='.$item->ID_literature,'icon edit');
-					//$html .= createSmallButton (L_REMOVE,'nmv_remove_literature.php?id='.$item->ID_literature,'icon remove');
-				//}
 			}
 			$html .= '</ul>';
 		}

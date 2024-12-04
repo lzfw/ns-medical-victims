@@ -41,11 +41,11 @@ class View_List_Table_NMV_Victims extends View_List {
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
 			        <td><a href="nmv_view_victim?ID_victim=' . $item->ID_victim . '">'
-							 . htmlentities($item->surname, ENT_HTML5)
-							 . ' ' . htmlentities($item->first_names, ENT_HTML5) . '</a></td>
+							 . htmlentities((string) $item->surname, ENT_HTML5)
+							 . ' ' . htmlentities((string) $item->first_names, ENT_HTML5) . '</a></td>
 			        <td><a href="nmv_view_victim?ID_victim=' . $item->ID_victim . '">' . $item->ID_victim . '</a></td>
-							<td>' . htmlentities($item->birth_year, ENT_HTML5) . '</td>
-							<td>' . htmlentities($item->birth_place, ENT_HTML5) . '</td>
+							<td>' . htmlentities((string) $item->birth_year, ENT_HTML5) . '</td>
+							<td>' . htmlentities((string) $item->birth_place, ENT_HTML5) . '</td>
 			        <td>' . str_replace('{ID_victim}', $item->ID_victim, $options) . '</td>
 			    </tr>';
 			}

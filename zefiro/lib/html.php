@@ -48,7 +48,7 @@ function buildRow($rowElementName, $cellElementName, $cellContentArray) {
 function buildDataSheetRow (string $thContent, ?string $tdContent, $entityConversionFlags = ENT_HTML5) {
     $tdContent = $entityConversionFlags === FALSE
         ? $tdContent
-        : htmlspecialchars($tdContent, $entityConversionFlags);
+        : htmlspecialchars((string) $tdContent, $entityConversionFlags);
 
     return
         buildElement('tr',
@@ -62,7 +62,7 @@ function buildDataSheetRowTag (string $thContent, array $tdContent, string $tag_
 	foreach($tdContent as $tag){
 		$tag = $entityConversionFlags === FALSE
 		    ? $tag
-		    : htmlspecialchars($tag, $entityConversionFlags);
+		    : htmlspecialchars((string) $tag, $entityConversionFlags);
 		$tdContent_converted[] = $tag;
 	}
 

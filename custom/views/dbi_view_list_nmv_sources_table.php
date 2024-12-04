@@ -40,10 +40,10 @@ class View_List_NMV_Sources_Table extends View_List {
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
 							<td>' . $item->ID_source . '</td>
-			        <td><a href="nmv_view_source?ID_source=' . $item->ID_source . '">' . htmlentities($item->source_title, ENT_HTML5) . '</a></td>
-							<td>' . htmlentities($item->description, ENT_HTML5) . '</td>
-							<td>' . htmlentities($item->signature, ENT_HTML5) . '</td>
-							<td>' . htmlentities($item->location, ENT_HTML5) . '</td>
+			        <td><a href="nmv_view_source?ID_source=' . $item->ID_source . '">' . htmlentities((string) $item->source_title, ENT_HTML5) . '</a></td>
+							<td>' . htmlentities((string) $item->description, ENT_HTML5) . '</td>
+							<td>' . htmlentities((string) $item->signature, ENT_HTML5) . '</td>
+							<td>' . htmlentities((string) $item->location, ENT_HTML5) . '</td>
 			        <td class="nowrap">' . str_replace('{ID_source}', $item->ID_source, $options) . '</td>
 			    </tr>';
 			}

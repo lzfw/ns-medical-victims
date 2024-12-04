@@ -38,10 +38,10 @@ class View_List_NMV_Perpetrators_Table extends View_List {
 		    $html .= '<th>Surname</th><th>First Names</th><th>id</th><th>Birth Place</th><th>Options</th>';
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
-			        <td><a href="nmv_view_perpetrator?ID_perpetrator=' . $item->ID_perpetrator . '">' . htmlentities($item->surname, ENT_HTML5) . '</a></td>
-			        <td>' . htmlentities($item->first_names, ENT_HTML5) . '</td>
+			        <td><a href="nmv_view_perpetrator?ID_perpetrator=' . $item->ID_perpetrator . '">' . htmlentities((string) $item->surname, ENT_HTML5) . '</a></td>
+			        <td>' . htmlentities((string) $item->first_names, ENT_HTML5) . '</td>
 			        <td>' . $item->ID_perpetrator . '</td>
-			        <td>' . htmlentities($item->birth_place, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->birth_place, ENT_HTML5) . '</td>
 			        <td>' . str_replace('{ID_perpetrator}', $item->ID_perpetrator, $options) . '</td>
 			    </tr>';
 			}

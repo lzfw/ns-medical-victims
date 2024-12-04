@@ -24,13 +24,6 @@ class View_List_NMV_Source extends View_List {
 				    . ($item->source_title != '' ? $item->source_title : '?')
 				    . ' ('.$item->signature.') ('.$item->description.')'
 				    . '</a></li>';
-				// options
-				//if ($this->Creator->checkUserPermission('edit')) {
-					//$html .= getDateUserStamp_HTML (L_STAMP_CREATED,$item->date_created,$abbreviation->user_created);
-					//$html .= getDateUserStamp_HTML (L_STAMP_MODIFIED,$item->date_modified,$abbreviation->user_modified);
-					//$html .= createSmallButton (L_EDIT,'nmv_edit_source.php?id='.$item->ID_source,'icon edit');
-					//$html .= createSmallButton (L_REMOVE,'nmv_remove_source.php?id='.$item->ID_source,'icon remove');
-				//}
 			}
 			$html .= '</ul>';
 		}

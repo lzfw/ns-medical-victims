@@ -32,10 +32,10 @@ class View_List_Statistics_Nationality_Table extends View_List {
                 $asum = 0;
                 $bsum = 0;
                 while ($item = $results->fetch_object()) {
-                    $nationality = $item->nationality == '' ? 'NO ENTRY' : htmlentities($item->nationality, ENT_HTML5);
+                    $nationality = $item->nationality == '' ? 'NO ENTRY' : htmlentities((string) $item->nationality, ENT_HTML5);
                     $html .= '<tr>
 							<td>' . $nationality . '</td>
-			    		<td>' . htmlentities($item->bnumber, ENT_HTML5) . '</td>
+			    		<td>' . htmlentities((string) $item->bnumber, ENT_HTML5) . '</td>
 			    </tr>';
                     $asum += $item->anumber;
                     $bsum += $item->bnumber;
@@ -51,11 +51,11 @@ class View_List_Statistics_Nationality_Table extends View_List {
                 $asum = 0;
                 $bsum = 0;
                 while ($item = $results->fetch_object()) {
-                    $nationality = $item->nationality == '' ? 'NO ENTRY' : htmlentities($item->nationality, ENT_HTML5);
+                    $nationality = $item->nationality == '' ? 'NO ENTRY' : htmlentities((string) $item->nationality, ENT_HTML5);
                     $html .= '<tr>
 							<td>' . $nationality . '</td>
-			    		<td>' . htmlentities($item->anumber, ENT_HTML5) . '</td>
-			    		<td>' . htmlentities($item->bnumber, ENT_HTML5) . '</td>
+			    		<td>' . htmlentities((string) $item->anumber, ENT_HTML5) . '</td>
+			    		<td>' . htmlentities((string) $item->bnumber, ENT_HTML5) . '</td>
 			    </tr>';
                     $asum += $item->anumber;
                     $bsum += $item->bnumber;

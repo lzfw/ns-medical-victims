@@ -32,12 +32,12 @@ class View_List_Statistics_Gender_Birthyear_Table extends View_List {
                 $html .= '<th>Year of Birth</th><th>Gender</th><th>mpg project</th>';
                 $bsum = 0;
                 while ($item = $results->fetch_object()) {
-                    $birth_year = $item->birth_year == '' ? 'No Entry' : htmlentities($item->birth_year, ENT_HTML5);
-                    $gender = $item->gender == '' ? 'No Entry' : htmlentities($item->gender, ENT_HTML5);
+                    $birth_year = $item->birth_year == '' ? 'No Entry' : htmlentities((string) $item->birth_year, ENT_HTML5);
+                    $gender = $item->gender == '' ? 'No Entry' : htmlentities((string) $item->gender, ENT_HTML5);
                     $html .= '<tr>
 							<td>' . $birth_year . '</td>
 							<td>' . $gender . '</td>
-			    		<td>' . htmlentities($item->bnumber, ENT_HTML5) . '</td>
+			    		<td>' . htmlentities((string) $item->bnumber, ENT_HTML5) . '</td>
 			    </tr>';
                     $bsum += $item->bnumber;
                 }
@@ -53,13 +53,13 @@ class View_List_Statistics_Gender_Birthyear_Table extends View_List {
                 $asum = 0;
                 $bsum = 0;
                 while ($item = $results->fetch_object()) {
-                    $birth_year = $item->birth_year == '' ? 'No Entry' : htmlentities($item->birth_year, ENT_HTML5);
-                    $gender = $item->gender == '' ? 'No Entry' : htmlentities($item->gender, ENT_HTML5);
+                    $birth_year = $item->birth_year == '' ? 'No Entry' : htmlentities((string) $item->birth_year, ENT_HTML5);
+                    $gender = $item->gender == '' ? 'No Entry' : htmlentities((string) $item->gender, ENT_HTML5);
                     $html .= '<tr>
 							<td>' . $birth_year . '</td>
 							<td>' . $gender . '</td>
-			    		<td>' . htmlentities($item->anumber, ENT_HTML5) . '</td>
-			    		<td>' . htmlentities($item->bnumber, ENT_HTML5) . '</td>
+			    		<td>' . htmlentities((string) $item->anumber, ENT_HTML5) . '</td>
+			    		<td>' . htmlentities((string) $item->bnumber, ENT_HTML5) . '</td>
 			    </tr>';
                     $asum += $item->anumber;
                     $bsum += $item->bnumber;

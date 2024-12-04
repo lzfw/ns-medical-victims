@@ -33,8 +33,8 @@ class View_List_NMV_Tissue_State_Table extends View_List {
 		    $html .= '<th>tissue state</th><th>ID</th><th>Options</th>';
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
-			        <td>' . htmlentities($item->tissue_state, ENT_HTML5) . '</td>
-              <td>' . htmlentities($item->ID_tissue_state, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->tissue_state, ENT_HTML5) . '</td>
+              <td>' . htmlentities((string) $item->ID_tissue_state, ENT_HTML5) . '</td>
 			        <td>' . str_replace('{ID_tissue_state}', $item->ID_tissue_state, $options) . '</td>
 			    </tr>';
 			}

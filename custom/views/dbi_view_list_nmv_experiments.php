@@ -24,13 +24,6 @@ class View_List_NMV_Experiments extends View_List {
 				    . ($item->experiment_title != '' ? $item->experiment_title : '?')
 				    . ' ('.$item->funding.') ('.$item->field_of_interest.')  ('.$item->objective.')'
 				    . '</a></li>';
-				// options
-				//if ($this->Creator->checkUserPermission('edit')) {
-					//$html .= getDateUserStamp_HTML (L_STAMP_CREATED,$item->date_created,$abbreviation->user_created);
-					//$html .= getDateUserStamp_HTML (L_STAMP_MODIFIED,$item->date_modified,$abbreviation->user_modified);
-					//$html .= createSmallButton (L_EDIT,'nmv_edit_experiment.php?id='.$item->ID_experiment,'icon edit');
-					//$html .= createSmallButton (L_REMOVE,'nmv_remove_experiment.php?id='.$item->ID_experiment,'icon remove');
-				//}
 			}
 			$html .= '</ul>';
 		}

@@ -35,7 +35,7 @@ class Field_Hidden extends Field {
 		$output .= " name=\"$this->name\"";
 		$output .= " id=\"field-$this->name\"";
 		$output .= " type=\"hidden\"";
-		$output .= " value=\"".htmlspecialchars(stripslashes($this->user_value))."\"";
+		$output .= " value=\"".htmlspecialchars(stripslashes((string) $this->user_value))."\"";
 		$output .= '/>'.PHP_EOL;
 		return $output;
 	}

@@ -28,12 +28,12 @@ class View_List_Z_Log_Table extends View_List {
 		    $html .= '<th>'.L_DATE_TIME.' (UTC)</th><th>'.L_OPERATION.'</th><th>'.L_ENTITY.'</th><th>'.L_RESULT.'</th><th>'.L_ROW_ID.'</th><th>'.L_DETAILS.'</th>';
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
-			        <td>' . htmlentities($item->datetime, ENT_HTML5) . '</td>
-			        <td>' . htmlentities($item->operation, ENT_HTML5) . '</td>
-			        <td>' . htmlentities($item->entity, ENT_HTML5) . '</td>
-			        <td>' . htmlentities($item->result, ENT_HTML5) . '</td>
-			        <td>' . htmlentities($item->row_id, ENT_HTML5) . '</td>
-			        <td>' . htmlentities($item->details, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->datetime, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->operation, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->entity, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->result, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->row_id, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->details, ENT_HTML5) . '</td>
 			    </tr>';
 			}
 			$html .= '</table>';

@@ -33,8 +33,8 @@ class View_List_NMV_Diagnosis_Table extends View_List {
 		    $html .= '<th>diagnosis</th><th>ID</th><th>Options</th>';
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
-			        <td>' . htmlentities($item->diagnosis, ENT_HTML5) . '</td>
-              <td>' . htmlentities($item->ID_diagnosis, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->diagnosis, ENT_HTML5) . '</td>
+              <td>' . htmlentities((string) $item->ID_diagnosis, ENT_HTML5) . '</td>
 			        <td>' . str_replace('{ID_diagnosis}', $item->ID_diagnosis, $options) . '</td>
 			    </tr>';
 			}

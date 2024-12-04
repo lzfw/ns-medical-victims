@@ -53,25 +53,25 @@ if ($pae = $query->fetch_object()) {
 
 
     $content .= '<tr><th>ID Prisoner_Assistant - Experiment</th><td>'.
-        htmlspecialchars($pa_exp_id, ENT_HTML5).'</td></tr>';
+        htmlspecialchars((string) $pa_exp_id, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>ID Person</th><td>'.
-        htmlspecialchars($victim_id, ENT_HTML5).'</td></tr>';
+        htmlspecialchars((string) $victim_id, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>prisoner assistant</th><td><a href="nmv_view_victim?ID_victim='. $victim_id . '">' .
-        htmlspecialchars($victim_name, ENT_HTML5).'</a></td></tr>';
+        htmlspecialchars((string) $victim_name, ENT_HTML5).'</a></td></tr>';
     $content .= '<tr><th>biomedical research <br> (title, ID, institution)</th><td><a href="nmv_view_experiment?ID_experiment='. $experiment_id . '">' .
-        htmlspecialchars($ei_info, ENT_HTML5).'</a></td></tr>';
+        htmlspecialchars((string) $ei_info, ENT_HTML5).'</a></td></tr>';
     $content .= '<tr><th>start and end date D.M.Y<br> (of involvement)</th><td>'.
         htmlspecialchars('from ' . $pae->pae_start_date . ' until ' . $pae->pae_end_date, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>role in experiment</th><td>'.
-        htmlspecialchars($pae->role, ENT_HTML5).'</td></tr>';
+        htmlspecialchars((string) $pae->role, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>other role in experiment<br>(if role not found in selection)</th><td>'.
-        htmlspecialchars($pae->role_other, ENT_HTML5).'</td></tr>';
+        htmlspecialchars((string) $pae->role_other, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>gave testimony in trial</th><td>'.
-        htmlspecialchars($pae->gave_testimony_in_trial, ENT_HTML5).'</td></tr>';
+        htmlspecialchars((string) $pae->gave_testimony_in_trial, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>subjective narratives</th><td>'.
-        htmlspecialchars($pae->narratives, ENT_HTML5).'</td></tr>';
+        htmlspecialchars((string) $pae->narratives, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>notes about involment</th><td>'.
-        htmlspecialchars($pae->notes_about_involvement, ENT_HTML5).'</td></tr>';
+        htmlspecialchars((string) $pae->notes_about_involvement, ENT_HTML5).'</td></tr>';
 }
 $content .= '</table>';
 

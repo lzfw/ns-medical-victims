@@ -33,8 +33,8 @@ class View_List_NMV_Marital_Family_status_Table extends View_List {
 		    $html .= '<th>marital family status</th><th>ID</th><th>Options</th>';
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
-			        <td>' . htmlentities($item->marital_family_status, ENT_HTML5) . '</td>
-              <td>' . htmlentities($item->ID_marital_family_status, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->marital_family_status, ENT_HTML5) . '</td>
+              <td>' . htmlentities((string) $item->ID_marital_family_status, ENT_HTML5) . '</td>
 			        <td>' . str_replace('{ID_marital_family_status}', $item->ID_marital_family_status, $options) . '</td>
 			    </tr>';
 			}

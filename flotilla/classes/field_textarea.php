@@ -54,7 +54,7 @@ class Field_TextArea extends Field {
 		$output .= $this->HTMLClass();
 		$output .= $this->HTMLStyle();
 		$output .= '>';
-		$output .= htmlspecialchars(stripslashes($this->user_value));
+		$output .= htmlspecialchars(stripslashes((string) $this->user_value));
 		$output .= '</textarea>'.PHP_EOL;
 		return $output;
 	}

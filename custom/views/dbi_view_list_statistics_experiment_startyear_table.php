@@ -31,11 +31,11 @@ class View_List_Statistics_Experiment_Startyear_Table extends View_List {
 				$asum = 0;
 				$bsum = 0;
 			while ($item = $results->fetch_object()) {
-					$startyear = $item->startyear == '' ? 'No entry' : htmlentities($item->startyear, ENT_HTML5);
+					$startyear = $item->startyear == '' ? 'No entry' : htmlentities((string) $item->startyear, ENT_HTML5);
 			    $html .= '<tr>
 			        <td>' . $startyear . '</td>
-			        <td>' . htmlentities($item->anumber, ENT_HTML5) . '</td>
-			         <!-- <td>' . htmlentities($item->bnumber, ENT_HTML5) . '</td>-->
+			        <td>' . htmlentities((string) $item->anumber, ENT_HTML5) . '</td>
+			         <!-- <td>' . htmlentities((string) $item->bnumber, ENT_HTML5) . '</td>-->
 			    </tr>';
 					$asum += $item->anumber;
 					$bsum += $item->bnumber;

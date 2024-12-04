@@ -33,8 +33,8 @@ class View_List_NMV_Role_Table extends View_List {
 		    $html .= '<th>role</th><th>ID</th><th>Options</th>';
 			while ($item = $results->fetch_object()) {
 			    $html .= '<tr>
-			        <td>' . htmlentities($item->role, ENT_HTML5) . '</td>
-              <td>' . htmlentities($item->ID_role, ENT_HTML5) . '</td>
+			        <td>' . htmlentities((string) $item->role, ENT_HTML5) . '</td>
+              <td>' . htmlentities((string) $item->ID_role, ENT_HTML5) . '</td>
 			        <td>' . str_replace('{ID_role}', $item->ID_role, $options) . '</td>
 			    </tr>';
 			}
