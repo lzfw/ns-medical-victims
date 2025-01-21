@@ -27,7 +27,7 @@ $content = '<div>
             </div>';
 
 // SELECT QUERIES FOR ALL TABLES
-$general_query = "SELECT t.ID_website_table, t.website_table, t.type_of_table, p.website_page, t.visibility, t.info
+$general_query = "SELECT t.ID_website_table, t.website_table, t.type_of_table, t.ID_website_page, p.website_page, t.visibility, t.info
                  FROM website_table t
                  LEFT JOIN website_page p ON p.ID_website_page = t.ID_website_page"; // für Ergebnisliste
 
@@ -49,13 +49,14 @@ function generateTableHtml($title, $description, $query, $dbi) {
     $content .= "<p>$description</p>";
     $content .= '<table class="grid">';
     $content .= '<tr>
-                    <th>Table</th><th>Type of Table</th><th>Webpage</th><th>Visibility</th><th>Info Text for Website</th><th>ID</th><th>Options</th>
+                    <th>Table</th><th>Type of Table</th><th>Webpage</th><th>Webpage ID</th><th>Visibility</th><th>Info Text for Website</th><th>ID</th><th>Options</th>
                 </tr>';
     while ($entry = $query->fetch_object()) {
         $content .= '<tr>';
         $content .= '<td class="nowrap"><a href="website_view_table?ID_website_table=' . $entry->ID_website_table . '">' . htmlentities($entry->website_table, ENT_HTML5) .  '</a></td>';
         $content .= "<td class='nowrap'>$entry->type_of_table</td>";
         $content .= "<td class='nowrap'>$entry->website_page</td>";
+        $content .= "<td class='nowrap'>$entry->ID_website_page</td>";
         $content .= "<td class='nowrap'>$entry->visibility</td>";
         $content .= "<td class='minwidth30'>$entry->info</td>";
         $content .= "<td class='nowrap'>$entry->ID_website_table</td>";

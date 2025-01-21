@@ -29,7 +29,8 @@ $form->addField('type_of_table', PROTECTED_TEXT)
 $form->addField('visibility', SELECT)
     ->setLabel('Visibility')
     ->addOption('public')
-    ->addOption('restricted');
+    ->addOption('restricted')
+    ->addOption('hidden');
 $form->addField('info', TEXTAREA)
     ->setClass('keyboardInput')
     ->setLabel('Info Text');
