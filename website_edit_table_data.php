@@ -26,7 +26,7 @@ $form->addConnection(MYSQL_DB, $db_host, $db_user, $db_pass, $db_name)
     ->setPrimaryKeyName('ID_website_table_data');
 $form->addfield('ID_website_table_data', PROTECTED_TEXT)
     ->setLabel('ID of Table Data');
-$form->addField('website_table_data', PROTECTED_TEXT)
+$form->addField('website_table_data', TEXT, 255)
     ->setLabel('Name of Row / Column');
 $form->addField('visibility', SELECT)
     ->setLabel('Visibility')
