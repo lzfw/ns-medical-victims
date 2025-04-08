@@ -8,7 +8,7 @@ $form = new Form ('nmv_edit_victim_evaluation_status');
 
 $form
 	->addConnection (MYSQL_DB,$db_host,$db_user,$db_pass,$db_name)
-	->setPrimaryKeyName('ID_evalation_status');
+	->setPrimaryKeyName('ID_evaluation_status');
 $form->addfield ('ID_evaluation_status', PROTECTED_TEXT)
     ->setLabel ('ID status');
 $form->addField ('status',TEXT,250)
