@@ -14,7 +14,8 @@ $querystring = "
     SELECT s.source_title, s.signature, s.creation_year, s.pages, s.type,
     s.description, m.medium, s.published_source, s.notes, i.institution_name,
     s.location, s.language, s.url,
-    IF((s.access_day IS NULL AND s.access_month IS NULL AND s.access_year IS NULL), ' ', CONCAT(IFNULL(s.access_day, '-'), '.', IFNULL(s.access_month, '-'), '.', IFNULL(s.access_year, '-'))) as access_date
+    IF((s.access_day IS NULL AND s.access_month IS NULL AND s.access_year IS NULL), ' ', CONCAT(IFNULL(s.access_day, '-'), '.', IFNULL(s.access_month, '-'), '.', IFNULL(s.access_year, '-'))) as access_date,
+    s.visibility AS visibility
     FROM nmv__source s
     LEFT JOIN nmv__institution i ON (i.ID_institution = s.ID_institution)
     LEFT JOIN nmv__medium m ON (m.ID_medium = s.ID_medium)
@@ -60,7 +61,9 @@ if ($source = $result->fetch_object()) {
         buildDataSheetRow('Institution',          $source->institution_name).
         buildDataSheetRow('Notes',                $source->notes).
         buildDataSheetRow('URL',                  $source->url).
-        buildDataSheetRow('Access date (dmy)',    $source->access_date)
+        buildDataSheetRow('Access date (dmy)',    $source->access_date).
+        buildDataSheetRow('Visibility on Website',    $source->visibility)
+
     );
 } else {
     $source_name = 'Error: unknown source';

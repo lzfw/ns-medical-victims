@@ -14,7 +14,8 @@ $querystring = "
     SELECT authors, lit_year, lit_title, article, journal_or_series,
            editor, volume, location, pages, publisher, scientific_exploitation, written_by_perpetrator,
            notes, url, isbn, doi,
-           IF((access_day IS NULL AND access_month IS NULL AND access_year IS NULL), ' ', CONCAT(IFNULL(access_day, '-'), '.', IFNULL(access_month, '-'), '.', IFNULL(access_year, '-'))) as access_date
+           IF((access_day IS NULL AND access_month IS NULL AND access_year IS NULL), ' ', CONCAT(IFNULL(access_day, '-'), '.', IFNULL(access_month, '-'), '.', IFNULL(access_year, '-'))) as access_date,
+           visibility
     FROM nmv__literature v
     WHERE ID_literature = ?";
 
@@ -62,7 +63,8 @@ if ($literature = $result->fetch_object()) {
         buildDataSheetRow('URL',                          $literature->url).
         buildDataSheetRow('Access Data (dmy)',            $literature->access_date).
         buildDataSheetRow('ISBN',                      $literature->isbn).
-        buildDataSheetRow('DOI',                      $literature->doi)
+        buildDataSheetRow('DOI',                      $literature->doi).
+        buildDataSheetRow('Visibility on Website',    $literature->visibility)
     );
 } else {
     $literature_name = 'Error: unknown literature';

@@ -16,14 +16,19 @@ $content = '<br>';
 
 
 // SELECT QUERIES FOR ALL Data Categories
+$table_query = "SELECT t.website_table, p.website_page, t.type_of_table, t.visibility AS visibility_table, t.info AS info_table, t.ID_website_table
+                    FROM website_table t 
+                    LEFT JOIN website_page p ON p.ID_website_page = t.ID_website_page
+                    WHERE t.ID_website_table = $id_website_table";
+$table_query_result = $dbi->connection->query($table_query);
+
 $data_query = "SELECT d.ID_website_table_data, d.website_table_data, d.visibility AS visibility_data, d.info AS info_data,
-                        d.ID_website_table, t.website_table AS website_table, t.type_of_table, p.website_page, t.visibility AS visibility_table, t.info AS info_table
+                        d.ID_website_table, t.website_table AS website_table
                      FROM website_table_data d
                      LEFT JOIN website_table t ON t.ID_website_table = d.ID_website_table                     
-                     LEFT JOIN website_page p ON p.ID_website_page = t.ID_website_page
                      WHERE d.ID_website_table = $id_website_table"; //für Ergebnisliste
 $data_query_result = $dbi->connection->query($data_query);
-$table = $data_query_result->fetch_object();
+$table = $table_query_result->fetch_object();
 
 // HTML FOR TABLE
 $content .= '<div>';

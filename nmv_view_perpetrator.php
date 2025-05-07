@@ -19,7 +19,7 @@ $querystring = "SELECT first_names, surname, titles, mpg_project,
                  career_history, leopoldina_member, leopoldina_since_when, nsdap_member, nsdap_since_when,
                  ss_member, ss_since_when, sa_member, sa_since_when,
                  other_nsdap_organisations_member, details_all_memberships,
-                 career_after_1945, prosecution, prison_time, notes
+                 career_after_1945, prosecution, prison_time, notes, visibility
     FROM nmv__perpetrator p
     LEFT JOIN nmv__religion r ON (r.ID_religion = p.ID_religion)
     LEFT JOIN nmv__nationality n ON (n.ID_nationality = p.ID_nationality_1938)
@@ -94,7 +94,8 @@ if ($perpetrator = $result->fetch_object()) {
         buildDataSheetRow('Career after 1945',      $perpetrator->career_after_1945).
         buildDataSheetRow('Prosecution',            $perpetrator->prosecution).
         buildDataSheetRow('Prison time',            $perpetrator->prison_time).
-        buildDataSheetRow('Notes',                  $perpetrator->notes)
+        buildDataSheetRow('Notes',                  $perpetrator->notes).
+        buildDataSheetRow('Visibility on Website',  $perpetrator->visibility)
     );
 
 

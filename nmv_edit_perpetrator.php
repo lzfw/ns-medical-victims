@@ -17,6 +17,13 @@ $form->addField('ID_perpetrator', PROTECTED_TEXT)
 $form->addField('surname',TEXT,255,REQUIRED)
     ->setClass('keyboardInput')
     ->setLabel('Surname');
+$form->addField('separator_0', STATIC_TEXT, '<hr>');
+$form->addField('visibility', RADIO, '', '')
+    ->setLabel('Visibility')
+    ->addRadioButton('public', ' public (visible for every website-visitor')
+    ->addRadioButton('restricted', ' restricted (visible on the website after login)')
+    ->addRadioButton('hidden', ' hidden (not visible on website)');
+$form->addField('separator_1', STATIC_TEXT, '<hr>');
 $form->addField('first_names',TEXT,50)
     ->setClass('keyboardInput')
     ->setLabel('First Names');

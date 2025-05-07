@@ -24,7 +24,8 @@ $querystring = "SELECT e.ID_experiment, e.experiment_title AS experiment_title, 
                     e. location_details AS location_details,
                     CONCAT(IFNULL(e.start_day, '-'), '.', IFNULL(e.start_month, '-'), '.', IFNULL(e.start_year, '-')) AS start,
                     CONCAT(IFNULL(e.end_day, '-'), '.', IFNULL(e.end_month, '-'), '.', IFNULL(e.end_year, '-')) AS end,
-                    e.notes_location AS notes_location
+                    e.notes_location AS notes_location,
+                    e.visibility AS visibility
                 FROM nmv__experiment e
                 LEFT JOIN nmv__experiment_classification c ON c.ID_exp_classification = e.ID_exp_classification
                 WHERE e.ID_experiment = ?
@@ -95,7 +96,8 @@ if ($experiment = $result->fetch_object()) {
         buildDataSheetRow('Number of victims (estimate)',    $experiment->number_victims_estimate).
         buildDataSheetRow('Number of fatalities (estimate)', $experiment->number_fatalities_estimate).
         buildDataSheetRow('Remark about victim numbers',     $experiment->number_victims_remark).
-        buildDataSheetRow('Notes',                    $experiment->notes)
+        buildDataSheetRow('Notes',                    $experiment->notes).
+        buildDataSheetRow('Visibility on Website',    $experiment->visibility)
     );
 } else {
     $experiment_name = 'Error: unknown biomedical research';

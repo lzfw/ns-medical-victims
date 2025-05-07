@@ -68,7 +68,12 @@ $form->addField('confirmed_experiment', CHECKBOX, 1)
 $form->addField('notes', TEXTAREA)
     ->setClass('keyboardInput')
     ->setLabel('Notes');
-		$form->addField('foi', STATIC_TEXT, '<hr>	<strong>Fields of Interest and Institutions</strong> can be edited in the Experiment View.<br>
+$form->addField('visibility', RADIO, '', '')
+    ->setLabel('Visibility')
+    ->addRadioButton('public', ' public (visible for every website-visitor)')
+    ->addRadioButton('restricted', ' restricted (visible on the website after login)')
+    ->addRadioButton('hidden', ' hidden (not visible on website)');
+$form->addField('foi', STATIC_TEXT, '<hr>	<strong>Fields of Interest and Institutions</strong> can be edited in the Experiment View.<br>
 				 									Click OK-Button in order to save your changes and switch to View.<hr>');
 
 $form

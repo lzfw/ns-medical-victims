@@ -43,14 +43,6 @@ $form->addField ('location',TEXT,250)
 $form->addField ('publisher',TEXT,250)
     ->setClass ('keyboardInput')
     ->setLabel ('Publisher');
-/* Aleks requested so on Skype: 2019-05-02
-$form->addField ('data_entry_status',TEXT,255)
-    ->setLabel ('data entry status');
-$form->addField ('names_mentioned',TEXT,6)
-    ->addCondition(VALUE,MIN,0)
-    ->addCondition(VALUE,MAX,1000000)
-    ->setLabel ('names mentioned (count)');
-    */
 $form->addField ('scientific_exploitation',CHECKBOX,1)
     ->setLabel ('<div class="tooltip">Scientific exploitation
                     <span class="tooltiptext">was this literature making use results of unethical research</span>
@@ -78,6 +70,11 @@ $form->addField ('isbn',TEXT,25)
     ->setLabel ('ISBN');
 $form->addField ('doi',TEXT,255)
     ->setLabel ('DOI');
+$form->addField('visibility', RADIO, '', '')
+    ->setLabel('Visibility')
+    ->addRadioButton('public', ' public (visible for every website-visitor)')
+    ->addRadioButton('restricted', ' restricted (visible on the website after login)')
+    ->addRadioButton('hidden', ' hidden (not visible on website)');
 
 $form
 	->addButton (SUBMIT)

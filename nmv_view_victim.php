@@ -30,7 +30,7 @@ $querystring = "
            IF(v.stolperstein_exists, 'Yes', '-') AS stolperstein_exists, 
            IF(v.photo_exists, 'Yes', '-') AS photo_exists, v.notes_photo, v.was_prisoner_assistant,
            v.evaluation_list, evs.status AS evaluation_status, v.status_due_to, v.status_notes, v.mpg_project AS mpg_project, d.work_group AS workgroup,
-           v.ID_new_profile 
+           v.ID_new_profile, v.visibility 
     FROM nmv__victim v
     LEFT JOIN nmv__marital_family_status m ON (m.ID_marital_family_status = v.ID_marital_family_status )
     LEFT JOIN nmv__education ed ON (ed.ID_education = v.ID_education)
@@ -112,7 +112,8 @@ if ($victim = $result->fetch_object()) {
         buildDataSheetRow('Nationality (1938)',     $victim->nationality).
         buildDataSheetRow('Ascribed Ethnic Group',           $victim->ethnic_group).
         buildDataSheetRow('Notes',$victim->notes).
-        buildDataSheetRow('Internal Notes', $victim->internal_notes));
+        buildDataSheetRow('Internal Notes', $victim->internal_notes).
+        buildDataSheetRow('Visibility on Website',    $victim->visibility));
     if ($victim->stolperstein_exists == 'Yes') {
         $content .= buildElement('table', 'grid',
             buildDataSheetRow('Stolperstein exists',  $victim->stolperstein_exists));

@@ -54,6 +54,11 @@ $form->addField('surname', TEXT, 255)
 $form->addField('first_names', TEXT, 50)
     ->setClass('keyboardInput')
     ->setLabel('First Names');
+$form->addField('visibility', RADIO, '', '')
+    ->setLabel('Visibility')
+    ->addRadioButton('public', ' public (visible for every website-visitor)')
+    ->addRadioButton('restricted', ' restricted (visible on the website after login)')
+    ->addRadioButton('hidden', ' hidden (not visible on website)');
 $form->addField('separator_0', STATIC_TEXT, '<hr>');
 $form->addField('MPG-Project only', STATIC_TEXT, '<span class="mpgcolor">Only for MPG-project-profiles!<span>');
 $form->addField('mpg_project', CHECKBOX, -1)

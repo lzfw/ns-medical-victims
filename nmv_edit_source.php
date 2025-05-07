@@ -70,6 +70,11 @@ $form->addField ('access_year',TEXT,4)
 $form->addField ('notes',TEXTAREA)
     ->setClass ('keyboardInput')
     ->setLabel ('Notes');
+$form->addField('visibility', RADIO, '', '')
+    ->setLabel('Visibility')
+    ->addRadioButton('public', ' public (visible for every website-visitor)')
+    ->addRadioButton('restricted', ' restricted (visible on the website after login)')
+    ->addRadioButton('hidden', ' hidden (not visible on website)');
 
 $form
 	->addButton (SUBMIT)
