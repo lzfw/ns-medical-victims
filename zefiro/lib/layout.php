@@ -102,10 +102,8 @@ class Layout {
 		if ($varName) {
 			$this->Variables[$varName]->cast();
 		}
-		else {
-			if (!@require_once($this->template)) die ('failed to include template');
-			//require_once $this->template;
-			//echo $this->template;
+		elseif (!@require_once($this->template)) {
+			die ('failed to include template');
 		}
 	}
 
