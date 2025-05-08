@@ -84,8 +84,13 @@ class Form {
 		return $this;
 	}
 
-	// CONNECTION -------------------------------------------------------------
-
+	/**
+	 * Creates database connection depending on type.
+	 *
+	 * @see class /flotilla/classes/connection
+	 * @see  class /flotilla/classes/connection_mysql Connects to MySQL-database - only existin connection type yet..
+	 * @return mixed
+	 */
 	public function addConnection () {
 		require_once 'connection.php';
 		// addConnection ( type , host , user , pass , db_name )
