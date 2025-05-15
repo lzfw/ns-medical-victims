@@ -28,6 +28,12 @@ $form->addField('ID_institution_type',SELECT, REQUIRED)
     ->setLabel('Type')
     ->addOption(NO_VALUE,'please choose')
     ->addOptionsFromTable('nmv__institution_type', 'ID_institution_type', 'institution_type');
+$form->addField('latitude',TEXT,250)
+    ->setClass('keyboardInput')
+    ->setLabel('Latitude (xx.xxxxxxxx)');
+$form->addField('longitude',TEXT,250)
+    ->setClass('keyboardInput')
+    ->setLabel('Longitude (xx.xxxxxxxx)');
 $form->addField('notes',TEXTAREA)
     ->setClass('keyboardInput')
     ->setLabel('Notes');

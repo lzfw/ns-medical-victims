@@ -11,7 +11,8 @@ $dbi->addBreadcrumb ('Institutions','nmv_list_institutions');
 
 // query: get institution data
 $querystring = '
-    SELECT ID_institution, institution_name, location, c.country AS country, t.institution_type, notes, visibility
+    SELECT ID_institution, institution_name, location, c.country AS country, t.institution_type, 
+           latitude, longitude, notes, visibility
     FROM nmv__institution i
     LEFT JOIN nmv__institution_type t ON (t.ID_institution_type = i.ID_institution_type)
     LEFT JOIN nmv__country c ON c.ID_country = i.ID_country
@@ -46,13 +47,15 @@ $institution_type = 0;
 if ($institution = $result->fetch_object()) {
     $institution_name = $institution->institution_name;
     $content .= buildElement('table','grid',
-        buildDataSheetRow('Institution ID',        $institution_id).
-        buildDataSheetRow('Name',                  $institution->institution_name).
-        buildDataSheetRow('Location',              $institution->location).
-        buildDataSheetRow('Present Country',       $institution->country).
-        buildDataSheetRow('Type',                  $institution->institution_type).
-        buildDataSheetRow('Notes',                 $institution->notes).
-        buildDataSheetRow('Visibility on Website', $institution->visibility)
+        buildDataSheetRow('Institution ID',             $institution_id).
+        buildDataSheetRow('Name',                       $institution->institution_name).
+        buildDataSheetRow('Location',                   $institution->location).
+        buildDataSheetRow('Present Country',            $institution->country).
+        buildDataSheetRow('Type',                       $institution->institution_type).
+        buildDataSheetRow('Geocoordinate - Latitude',   $institution->latitude).
+        buildDataSheetRow('Geocoordinate - Longitude',  $institution->longitude).
+        buildDataSheetRow('Notes',                      $institution->notes).
+        buildDataSheetRow('Visibility on Website',      $institution->visibility)
 
     );
 } else {
