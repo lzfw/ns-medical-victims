@@ -14,7 +14,7 @@ $dbi->addBreadcrumb ('Victims','nmv_list_victims');
 
 // query: get victim data
 $querystring = "
-    SELECT v.first_names, v.surname, v.openUid, v.uid, v.entry_status, v.potential_old_profile,
+    SELECT v.first_names, v.surname, v.openUid, v.uid, v.entry_status, v.potential_old_profile, v.display_marker,
            CONCAT(IFNULL(v.birth_day , '-'), '.', IFNULL(v.birth_month , '-'), '.', IFNULL(v.birth_year, '-')) birth, v.twin,
            v.birth_place, bc.country AS birth_country, v.death_place, dc.country AS death_country,
            CONCAT(IFNULL(di.institution_name, ''), ' - ', IFNULL(di.location, ''), ' - ', IFNULL(v.death_institution, '')) AS death_institution,
@@ -113,7 +113,8 @@ if ($victim = $result->fetch_object()) {
         buildDataSheetRow('Ascribed Ethnic Group',           $victim->ethnic_group).
         buildDataSheetRow('Notes',$victim->notes).
         buildDataSheetRow('Internal Notes', $victim->internal_notes).
-        buildDataSheetRow('Visibility on Website',    $victim->visibility));
+        buildDataSheetRow('Visibility on Website',    $victim->visibility).
+        buildDataSheetRow('Markers for special display features on Website', $victim->display_marker));
     if ($victim->stolperstein_exists == 'Yes') {
         $content .= buildElement('table', 'grid',
             buildDataSheetRow('Stolperstein exists',  $victim->stolperstein_exists));

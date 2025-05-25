@@ -59,6 +59,10 @@ $form->addField('visibility', RADIO, '', '')
     ->addRadioButton('public', ' public (visible for every website-visitor)')
     ->addRadioButton('restricted', ' restricted (visible on the website after login)')
     ->addRadioButton('hidden', ' hidden (not visible on website)');
+$form->addField('display_marker', SELECT)
+    ->setLabel('Markers for special display features on Website')
+    ->addOption(NO_VALUE, 'no special marker (default)')
+    ->addOption('research prior to 2017');
 $form->addField('separator_0', STATIC_TEXT, '<hr>');
 $form->addField('MPG-Project only', STATIC_TEXT, '<span class="mpgcolor">Only for MPG-project-profiles!<span>');
 $form->addField('mpg_project', CHECKBOX, -1)
