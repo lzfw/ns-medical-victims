@@ -133,7 +133,7 @@ IF(v.death_day IS NULL AND v.death_month IS NULL AND v.death_year IS NULL, NULL,
 CONCAT(IFNULL(v.death_day, '-'), '.', IFNULL(v.death_month, '-'), '.', IFNULL(v.death_year, '-'))) AS death_date_DMY,
 v.death_place,
 CONCAT(IFNULL(di.institution_name, ''), ' - ', IFNULL(di.location, ''), ' - ', IFNULL(v.death_institution, '')) AS death_institution,
-dc.country AS death_country, v.cause_of_death, v.gender, f.marital_family_status, r.religion,
+dc.country AS death_country, v.cause_of_death, v.gender AS sex, f.marital_family_status, r.religion,
 eg.ethnic_group AS ascribed_ethnic_group, ed.education AS highest_education, o.occupation, v.occupation_details,
 v.arrest_prehistory, v.arrest_location, ac.country AS arrest_country, v.arrest_history,
 GROUP_CONCAT(DISTINCT

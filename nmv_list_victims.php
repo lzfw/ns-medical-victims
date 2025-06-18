@@ -10,15 +10,6 @@ $dbi->setUserVar ('skip',getUrlParameter('skip'),0);
 
 $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 
-//TODO -> überflüsssig?
-// $options = '';
-// if ($dbi->checkUserPermission('edit')) {
-// 		$options .= createSmallButton(L_EDIT,'nmv_edit_victim?ID_victim={ID_victim}','icon edit');
-// }
-// if ($dbi->checkUserPermission('admin')) {
-// 		$options .= createSmallButton(L_DELETE,'nmv_remove_victim?ID_victim={ID_victim}','icon delete');
-// }
-// $options .= createSmallButton("medical history",'nmv_list_med_hist?ID_victim={ID_victim}','icon report-paper');
 
 // Select-Klauseln erstellen
 $querystring_count = "SELECT COUNT(v.ID_victim) AS total FROM nmv__victim v WHERE v.was_prisoner_assistant != 'prisoner assistant only'"; // für Treffer gesamt

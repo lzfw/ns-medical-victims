@@ -1,13 +1,17 @@
 <?php
 
+/**
+ * Database Connector.
+ *
+ * @var string $db_name Name of database to connect with.
+ * @var DatabaseConnectionCreator $Creator
+ *
+ */
 abstract class Connection {
 
 	protected $Creator;
 	protected $db_name;
-	/**
-	 * MySQLi connection
-	 * @var mysqli
-	 */
+
 	public $link;
 	protected $primary_key_name;
 

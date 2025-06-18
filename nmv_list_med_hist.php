@@ -49,7 +49,7 @@ if ($victim_id) {
         $content .= '</tr>';
         while ($entry = $query->fetch_object()) {
         	$content .= '<tr>';
-          $content .= '<td><a href="nmv_view_med_hist_hosp?ID_med_history_hosp='.$entry->id.'">'.htmlspecialchars($entry->institution,ENT_HTML5). ' <br> ' .htmlspecialchars($entry->other_institution,ENT_HTML5).'</a></td>';
+          $content .= '<td><a href="nmv_view_med_hist_hosp?ID_med_history_hosp='.$entry->id.'">'.htmlspecialchars((string) $entry->institution,ENT_HTML5). ' <br> ' .htmlspecialchars((string) $entry->other_institution,ENT_HTML5).'</a></td>';
         	$content .= "<td>$entry->entry_date</td>";
         	$content .= "<td>$entry->exit_date</td>";
         	$content .= "<td>$entry->notes</td>";
@@ -145,7 +145,7 @@ if ($victim_id) {
         $content .= '</tr>';
         while ($entry = $query->fetch_object()) {
         	$content .= '<tr>';
-        	$content .= '<td><a href="nmv_view_med_hist_brain?ID_med_history_brain='.$entry->id.'">'.htmlspecialchars($entry->institution,ENT_HTML5).'</a></td>';
+        	$content .= '<td><a href="nmv_view_med_hist_brain?ID_med_history_brain='.$entry->id.'">'.htmlspecialchars((string) $entry->institution,ENT_HTML5).'</a></td>';
         	$content .= "<td>$entry->date</td>";
         	$content .= "<td>$entry->id</td>";
           $content .= "<td>$entry->photo</td>";
@@ -193,9 +193,9 @@ if ($victim_id) {
             $content .= "<td>$entry->ref_no</td>";
              $content .= "<td>$entry->ref_no_2</td>";
             $content .= "<td>$entry->date</td>";
-             $content .= '<td class="nowrap">'.htmlspecialchars($entry->tissue_form,ENT_HTML5).'</td>';
-        	$content .= '<td class="nowrap">'.htmlspecialchars($entry->tissue_state,ENT_HTML5).'</td>';
-        	$content .= '<td>'.htmlspecialchars($entry->institution,ENT_HTML5).'</td>';
+            $content .= '<td class="nowrap">'.htmlspecialchars((string) $entry->tissue_form,ENT_HTML5).'</td>';
+        	$content .= '<td class="nowrap">'.htmlspecialchars((string) $entry->tissue_state,ENT_HTML5).'</td>';
+        	$content .= '<td>'.htmlspecialchars((string) $entry->institution,ENT_HTML5).'</td>';
             $content .= "<td>$entry->notes</td>";
             $content .= "<td>$entry->id</td>";
         	$content .= '<td class="nowrap">';

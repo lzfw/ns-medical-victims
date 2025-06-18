@@ -11,10 +11,23 @@ $layout
 	->set('content',
 		'<ul class="icons">'.
 		createListItem(L_WEBSITE, 'website_list_tables','website').
-		createListItem(L_DATABASE,'z_database','db').
-		createListItem(L_USER_ACCOUNTS,'z_list_users','users').
-		createListItem(L_REMOTE_ACCESSES,'z_list_remote','remotes').
-		createListItem(L_VIEW_LOG,'z_log','clipboard-list').
+		createListItem('Website Users', 'website_user_list','website_users').
+		($dbi->checkUserPermission('system')
+			? createListItem(L_DATABASE,'z_database','db')
+			: NULL
+		).
+		($dbi->checkUserPermission('system')
+			? createListItem(L_USER_ACCOUNTS,'z_list_users','users')
+			: NULL
+		).
+		($dbi->checkUserPermission('system')
+			? createListItem(L_REMOTE_ACCESSES,'z_list_remote','remotes')
+			: NULL
+		).
+		($dbi->checkUserPermission('system')
+			? createListItem(L_VIEW_LOG,'z_log','clipboard-list')
+			: NULL
+		).
 		($dbi->checkUserPermission('system')
 			? createListItem(L_HELPTEXTS,'z_list_helptexts','helptexts')
 			: NULL

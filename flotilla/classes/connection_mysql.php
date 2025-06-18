@@ -2,11 +2,24 @@
 
 require_once 'flotilla/lib/opendb_mysql.php';
 
-	class Connection_MySQL extends Connection {
+/**
+ * Connects application to MySQL-database.
+ *
+ */
 
-	// CONSTRUCTORS --------------------------------------------------------------
 
-	protected function __construct ($Creator,$db_host,$db_user,$db_password,$db_name) {
+class Connection_MySQL extends Connection {
+
+    /**
+     * Constructor for MySQLConnection.
+     *
+     * @param Connection_MySQL $Creator DatabaseConnectionCreator - an instance responsible for creating database connections.
+     * @param string $db_host Host or URL of Database.
+     * @param string $db_user
+     * @param string $db_password
+     * @param string $db_name
+     */
+    protected function __construct ($Creator, $db_host, $db_user, $db_password, $db_name) {
 		$this->Creator = $Creator;
 		$this->db_host = $db_host;
 		$this->db_user = $db_user;

@@ -19,9 +19,9 @@ $querystring = "
            v.birth_place, bc.country AS birth_country, v.death_place, dc.country AS death_country,
            CONCAT(IFNULL(di.institution_name, ''), ' - ', IFNULL(di.location, ''), ' - ', IFNULL(v.death_institution, '')) AS death_institution,
            CONCAT(IFNULL(v.death_day , '-'), '.', IFNULL(v.death_month , '-'), '.', IFNULL(v.death_year, '-')) death,
-           v.death_year, v.cause_of_death, gender, m.marital_family_status,
+           v.death_year, v.cause_of_death, v.gender, m.marital_family_status,
            ed.education AS education, r.religion,
-           n.nationality, e.ethnic_group,
+           n.nationality, e.ethnic_group, v.ID_dataset_origin,
            p.occupation, v.occupation_details, v.notes, v.internal_notes,
            v.residence_after_1945_country, v.residence_after_1945_place,
            v.occupation_after_1945, n45.nationality AS nationality_after_1945,
@@ -92,7 +92,14 @@ if ($victim = $result->fetch_object()) {
         $content .= buildElement('p', "Status Data Transfer: " . $victim->entry_status);
     }
     if($victim_id_new_profile != NULL) {
-        $content .= buildElement('h3', 'mpgcolor', "This profile represents the state of research prior to the start of the MPG project (2017-2024) - workgroup Oxford");}
+        if($victim->ID_dataset_origin == 12) {
+            $content .= buildElement('h3', 'mpgcolor', "This profile was created based on notes provided by Patricia Heberer Rice (USHMM) drawn from patient files of the Heil- und Pflegeanstalt Kaufbeuren-Irsee.
+                        <br>It reflects the state of research prior to the beginning of the Brain Research Project (before 2017).");
+        }
+        else {
+            $content .= buildElement('h3', 'mpgcolor', "This profile represents the state of research prior to the start of the Brain Research Project (before 2017) - workgroup Oxford");
+        }
+    }
         $content .= buildElement('table','grid',
         buildDataSheetRow('ID',                      $victim_id).
         buildDataSheetRow('openUid',                $victim->openUid).

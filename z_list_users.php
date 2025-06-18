@@ -4,7 +4,7 @@
 
 require_once 'zefiro/ini.php';
 
-$dbi->requireUserPermission ('admin');
+$dbi->requireUserPermission ('system');
 
 $dbi->addBreadcrumb (L_ADMIN,'z_menu_admin');
 
@@ -14,6 +14,8 @@ $user_querystring = "SELECT * FROM z_users WHERE password <> '' ORDER BY `order_
 $user_query = $dbi->connection->query($user_querystring);
 
 $content = '';
+$content = '<p class="red">Attention: these are users for the Interface, not the Website!<br>
+If you grant access, the person might be able to change database contents.</p>';
 $content .= '<table class="grid">';
 $content .= '<tr><th>'.L_USER_DISPLAY_NAME.'</th><th>'.L_USER_NAME.'</th><th>'.L_USER_GROUP.'</th><th>'.L_USER_PERMISSIONS.'</th>';
 if ($dbi->checkUserPermission('admin')) {

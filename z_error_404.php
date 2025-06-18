@@ -5,16 +5,16 @@
 require_once 'zefiro/ini.php';
 
 // immediately: send error message to admin
-require_once 'dbi_error_sendmail.php';
+//require_once 'dbi_error_sendmail.php';
 
 // url parameters
-$dbi->setUserVar ('view',getUrlParameter('view'),'default');
+//$dbi->setUserVar ('view',getUrlParameter('view'),'default');
 
 // title
 $template_title = L_ERROR_404;
 
 // content
-$template_content = $dbi->getHelptext_HTML('error_404');
+//$template_content = $dbi->getHelptext_HTML('error_404');
 
 // sidebar
 $template_sidebar = '';
@@ -22,6 +22,6 @@ $template_sidebar = '';
 header ('refresh: 10; url=/');
 
 // call template
-require_once 'templates/ini.php';
+//require_once 'templates/ini.php';
 
 ?>
