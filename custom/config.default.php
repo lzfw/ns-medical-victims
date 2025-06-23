@@ -14,9 +14,9 @@ error_reporting(E_ALL);
 // LOCALIZATION ================================================================
 
 $z_languages = array(
-    'de' => 'Deutsch',
-    'en' => 'English'
-    // add more languages to choose from, requires translation files!
+	'de' => 'Deutsch',
+	'en' => 'English'
+	// add more languages to choose from, requires translation files!
 );
 
 define ('Z_DEFAULT_LANGUAGE', 'en');
@@ -33,33 +33,19 @@ define ('Z_USER_ARRAY',			'user');
 
 // SERVER/DATABASE CONFIGURATION =============================================
 
-//OBACHT
 switch ($_SERVER['SERVER_NAME']) {
-    case 'localhost': {
-        $db_host = 'localhost';
-        $db_user = 'salina';
-        $db_pass = 'PeDv9eh5J&56Qw';
-        $db_name = 'zefiro';
-        break;
-    }
-    default: {
-    }
+	case 'localhost': {
+		$db_host = 'host';
+		$db_user = 'user';
+		$db_pass = 'pass';
+		$db_name = 'name';
+		break;
+	}
+	default: {
+		echo 'Sorry. The server name is not enlisted in the DBI configuration: '.$_SERVER['SERVER_NAME'];
+		die;
+	}
 }
-
-// switch ($_SERVER['SERVER_NAME']) {
-// 	case 'localhost': {
-// 		$db_host = 'host';
-// 		$db_user = 'user';
-// 		$db_pass = 'pass';
-// 		$db_name = 'name';
-// 		break;
-// 	}
-// 	default: {
-// 		echo 'Sorry. The server name is not enlisted in the DBI configuration: '.$_SERVER['SERVER_NAME'];
-// 		die;
-// 	}
-// }
-
 
 
 // DATABASE INTERFACE ==========================================================
@@ -88,4 +74,6 @@ define('Z_LAST_SYMBOL',				'<span class="pointer" dir="ltr">&#x25ba;</span> ');
 // lists
 define('Z_LIST_ROWS_MAX',			5000);
 define('Z_LIST_ROWS_PAGE',			20);
-define('Z_LIST_ROWS_SKIP',			200); // 0 = disabled
+define('Z_LIST_ROWS_SKIP',		200); // 0 = disabled
+define('Z_LIST_ROWS_PAGE',		50);
+define('Z_LIST_ROWS_SKIP',		Z_LIST_ROWS_PAGE * 10); // 0 = disabled

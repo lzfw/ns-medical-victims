@@ -42,28 +42,15 @@ function createSmallButton () {
 		.(isset($args[1])?'</a>':'').PHP_EOL;
 }
 
-//OBACHT
 function createListItem () {
 	$args = func_get_args();
 	// 0: text
 	// 1: link
 	// 2: class
 	return
-		//	'<li'.(isset($args[2])?' class="'.$args[2].'"':'').'><a href="'.				$args[1].'">'
-		'<li'.(isset($args[2])?' class="'.$args[2].'"':'').'><a href="'.				$args[1].'.php'.'">'
-
+		'<li'.(isset($args[2])?' class="'.$args[2].'"':'').'><a href="'.$args[1].'">'
 		.(isset($args[0])?$args[0]:'').'</a></li>';
 }
-
-// function createListItem () {
-// 	$args = func_get_args();
-// 	// 0: text
-// 	// 1: link
-// 	// 2: class
-// 	return
-// 		'<li'.(isset($args[2])?' class="'.$args[2].'"':'').'><a href="'.$args[1].'">'
-// 		.(isset($args[0])?$args[0]:'').'</a></li>';
-// }
 
 function createIcon () {
 	$args = func_get_args();
