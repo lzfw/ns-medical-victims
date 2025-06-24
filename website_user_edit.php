@@ -58,6 +58,12 @@ $form->addCondition (USER_FUNCTION, function() use ($form, $id) {
     return true;
 }, L_PASSWORD_UPDATE_FAILED);
 
+$form->addCondition(USER_FUNCTION, function() use ($form) {
+    $form->addField('updated_at', HIDDEN);
+    $form->Fields['updated_at']->user_value = date('Y-m-d H:i:s');
+    return true;
+}, '');
+
 $form
     ->addButton (SUBMIT)
     ->addButton (APPLY);
