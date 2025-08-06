@@ -40,10 +40,10 @@ class View_List_NMV_Institutions_Table extends View_List {
 			    $html .= '<tr>
 			        <td><a href="nmv_view_institution?ID_institution=' . $item->ID_institution . '">' . htmlentities((string) $item->institution_name, ENT_HTML5) . '</a></td>
 			        <td>' . htmlentities((string) $item->ID_institution, ENT_HTML5) . '</td>
-			        <td>' . htmlentities($item->location, ENT_HTML5) . '</td>
-			        <td>' . htmlentities($item->country, ENT_HTML5) . '</td>
-			        <td>' . htmlentities($item->institution_type, ENT_HTML5) . '</td>
-			        <td>' . htmlentities($item->notes, ENT_HTML5) . '</td>
+			        <td>' . htmlentities($item->location ?? '', ENT_HTML5) . '</td>
+			        <td>' . htmlentities($item->country ?? '', ENT_HTML5) . '</td>
+			        <td>' . htmlentities($item->institution_type ?? '', ENT_HTML5) . '</td>
+			        <td>' . htmlentities($item->notes ?? '', ENT_HTML5) . '</td>
 			        <td class="nowrap">' . str_replace('{ID_institution}', $item->ID_institution, $options) . '</td>
 			    </tr>';
 			}

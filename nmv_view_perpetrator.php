@@ -10,23 +10,23 @@ $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 $dbi->addBreadcrumb ('Perpetrators','nmv_list_perpetrators');
 
 // query: get perpetrator data
-$querystring = "SELECT first_names, surname, titles, mpg_project,
-                 CONCAT(IFNULL(birth_day , '-'), '.', IFNULL(birth_month , '-'), '.', IFNULL(birth_year, '-')) birth,
-                 birth_place, bc.country as birth_country, death_place, dc.country as death_country,
-                 CONCAT(IFNULL(death_day , '-'), '.', IFNULL(death_month , '-'), '.', IFNULL(death_year, '-')) death,
-                 gender, r.religion,
-                 n.nationality as nationality, c.classification, occupation,
-                 career_history, leopoldina_member, leopoldina_since_when, nsdap_member, nsdap_since_when,
-                 ss_member, ss_since_when, sa_member, sa_since_when,
-                 other_nsdap_organisations_member, details_all_memberships,
-                 career_after_1945, prosecution, prison_time, notes, visibility
+$querystring = "SELECT p.first_names, p.surname, p.titles, p.mpg_project,
+                 CONCAT(IFNULL(p.birth_day , '-'), '.', IFNULL(p.birth_month , '-'), '.', IFNULL(p.birth_year, '-')) birth,
+                 p.birth_place, bc.country as birth_country, p.death_place, dc.country as death_country,
+                 CONCAT(IFNULL(p.death_day , '-'), '.', IFNULL(p.death_month , '-'), '.', IFNULL(p.death_year, '-')) death,
+                 p.gender, r.religion,
+                 n.nationality as nationality, c.classification, p.occupation,
+                 p.career_history, p.leopoldina_member, p.leopoldina_since_when, p.nsdap_member, p.nsdap_since_when,
+                 p.ss_member, p.ss_since_when, p.sa_member, p.sa_since_when,
+                 p.other_nsdap_organisations_member, p.details_all_memberships,
+                 p.career_after_1945, p.prosecution, p.prison_time, p.notes, p.visibility
     FROM nmv__perpetrator p
     LEFT JOIN nmv__religion r ON (r.ID_religion = p.ID_religion)
     LEFT JOIN nmv__nationality n ON (n.ID_nationality = p.ID_nationality_1938)
     LEFT JOIN nmv__perpetrator_classification c ON (c.ID_perp_class = p.ID_perp_class)
     LEFT JOIN nmv__country bc ON (bc.ID_country = p.ID_birth_country)
     LEFT JOIN nmv__country dc ON (dc.ID_country = p.ID_death_country)
-    WHERE ID_perpetrator = ?";
+    WHERE p.ID_perpetrator = ?";
 
 $result = null;
 if ($stmt = $dbi->connection->prepare($querystring)) {
@@ -133,8 +133,46 @@ if ($perpetrator = $result->fetch_object()) {
       $content .= '<div class="buttons">';
       $content .= createButton ('New Qualification',
           'nmv_edit_perpetrator_qualification?ID_perpetrator='.$perpetrator_id,'icon add');
-      $content .= '</div><br><br>';
+      $content .= '</div><br>';
     }
+
+    $content .= '<div>';
+    $content .= buildElement('h3', 'Authority Records');
+    // query: get other names
+    $querystring = "
+    SELECT arp.ID_authority_record_perpetrator AS ID_authority_record_perpetrator, arp.authority_type, arp.authority_id
+    FROM nmv__authority_record_perpetrator arp
+    WHERE arp.ID_perpetrator = $perpetrator_id";
+
+    $options = '';
+    $row_template = ['{authority_type}', '{authority_id}'];
+    $header_template = ['Typ', 'ID'];
+
+
+    if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
+        if ($dbi->checkUserPermission('edit')) {
+            $options .= createSmallButton(L_EDIT,'nmv_edit_authority_record_perpetrator?ID_authority_record_perpetrator={ID_authority_record_perpetrator}','icon edit');
+        }
+        if ($dbi->checkUserPermission('admin')) {
+            $options .= createSmallButton(L_DELETE,'nmv_remove_authority_record_perpetrator?ID_authority_record_perpetrator={ID_authority_record_perpetrator}','icon delete');
+        }
+        $row_template[] = $options;
+        $header_template[] = L_OPTIONS;
+    }
+
+    $content .= buildTableFromQuery(
+        $querystring,
+        $row_template,
+        $header_template,
+        'grid');
+
+    if ($dbi->checkUserPermission('edit')) {
+        $content .= '<div class="buttons">';
+        $content .= createButton ('New Authority Record',
+            'nmv_edit_authority_record_perpetrator?ID_perpetrator='.$perpetrator_id,'icon add');
+        $content .= '</div>';
+    }
+    $content .= '</div><br>';
 
 } else {
     $perpetrator_name = 'Error: unknown perpetrator';

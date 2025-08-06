@@ -11,12 +11,12 @@ $dbi->addBreadcrumb ('Institutions','nmv_list_institutions');
 
 // query: get institution data
 $querystring = '
-    SELECT ID_institution, institution_name, location, c.country AS country, t.institution_type, 
-           latitude, longitude, notes, visibility
+    SELECT i.ID_institution, i.institution_name, i.location, c.country AS country, t.institution_type, 
+           i.latitude, i.longitude, i.notes, i.visibility
     FROM nmv__institution i
     LEFT JOIN nmv__institution_type t ON (t.ID_institution_type = i.ID_institution_type)
     LEFT JOIN nmv__country c ON c.ID_country = i.ID_country
-    WHERE ID_institution = ?';
+    WHERE i.ID_institution = ?';
 
 $result = null;
 if ($stmt = $dbi->connection->prepare($querystring)) {
@@ -56,8 +56,45 @@ if ($institution = $result->fetch_object()) {
         buildDataSheetRow('Geocoordinate - Longitude',  $institution->longitude).
         buildDataSheetRow('Notes',                      $institution->notes).
         buildDataSheetRow('Visibility on Website',      $institution->visibility)
-
     );
+
+    $content .= '<div>';
+    $content .= '<br>'.buildElement('h3', 'Authority Records');
+    // query: get other names
+    $querystring = "
+    SELECT ari.ID_authority_record_institution AS ID_authority_record_institution, ari.authority_type, ari.authority_id
+    FROM nmv__authority_record_institution ari
+    WHERE ari.ID_institution = $institution_id";
+
+    $options = '';
+    $row_template = ['{authority_type}', '{authority_id}'];
+    $header_template = ['Typ', 'ID'];
+
+    if ($dbi->checkUserPermission('edit') || $dbi->checkUserPermission('admin')) {
+        if ($dbi->checkUserPermission('edit')) {
+            $options .= createSmallButton(L_EDIT,'nmv_edit_authority_record_institution?ID_authority_record_institution={ID_authority_record_institution}','icon edit');
+        }
+        if ($dbi->checkUserPermission('admin')) {
+            $options .= createSmallButton(L_DELETE,'nmv_remove_authority_record_institution?ID_authority_record_institution={ID_authority_record_institution}','icon delete');
+        }
+        $row_template[] = $options;
+        $header_template[] = L_OPTIONS;
+    }
+
+    $content .= buildTableFromQuery(
+        $querystring,
+        $row_template,
+        $header_template,
+        'grid');
+
+    if ($dbi->checkUserPermission('edit')) {
+        $content .= '<div class="buttons">';
+        $content .= createButton ('New Authority Record',
+            'nmv_edit_authority_record_institution?ID_institution='.$institution_id,'icon add');
+        $content .= '</div>';
+    }
+    $content .= '</div><br>';
+
 } else {
     $institution_name = 'Error: Unknown Institution';
     $content = buildElement('p','Error: Institution not found. Maybe it has been deleted from the database?');

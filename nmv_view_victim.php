@@ -258,40 +258,41 @@ if ($victim = $result->fetch_object()) {
     } else {
     $victim_name = 'Error: unknown victim';
     $content = buildElement('p','Error: Victim not found. Maybe it has been deleted from the database?');
-}
+    }
 
-$content .= '</div><div class="buttons">';
-if ($dbi->checkUserPermission('edit'))
-    $content .= createButton ('Edit personal data','nmv_edit_victim?ID_victim='.$victim_id,'icon edit');
-if ($dbi->checkUserPermission('admin'))
-    $content .= createButton('Delete complete entry','nmv_remove_victim?ID_victim='.$victim_id,'icon delete');
-$content .= '<br>';
-$content .= createButton("Medical History",'nmv_list_med_hist?ID_victim='.$victim_id,'icon report-paper');
-//complete db d 2
-if (!($dbi->checkUserPermission('mpg'))) :
-    $content .= createButton("Biomedical Research",'nmv_list_victim_experiment?ID_victim='.$victim_id,'icon report-paper');
-endif;
-$content .= createButton("Literature and Sources", 'nmv_list_victim_literature_and_sources?ID_victim='.$victim_id, 'icon report-paper');
-if($victim_id_new_profile != NULL)
-    $content .= '<br>' . createButton("Switch to MPG Project Profile", 'nmv_view_victim.php?ID_victim='.$victim_id_new_profile, 'icon report-paper mpgcolor');
-if($victim_id_old_profile != NULL)
-    $content .= '<br>' . createButton("Switch to Pre MPG Project Profile", 'nmv_view_victim.php?ID_victim='.$victim_id_old_profile, 'icon report-paper mpgcolor');
-$content .= '</div>';
-$content .= createBackLink ("Back to Previous Page");
-$title .= 'Victim: ' . $victim_name . '<br>';
-if($victim->was_prisoner_assistant =='prisoner assistant only'){
-    $title .= '<span class="red">Prisoner Assistant:</span> ' . $victim_name;
-    $content = 'Prisoner Assistants were forced to participate in the conduction of unethical biomedical research
-              <br>Please find information about involvement in experiments in '.createButton("Biomedical Research",'nmv_list_victim_experiment?ID_victim='.$victim_id,'icon report-paper') . $content;
-} else if($victim->was_prisoner_assistant == 'prisoner assistant AND victim') {
-    $title .= 'Victim and <span class="red">Prisoner Assistant: </span>' .$victim_name;
-    $content = $victim_name . ' was victim of experiments and was also forced to participate in the conduction of unethical biomedical research' . $content;
-}
+    $content .= '</div><div class="buttons">';
+    if ($dbi->checkUserPermission('edit'))
+        $content .= createButton ('Edit personal data','nmv_edit_victim?ID_victim='.$victim_id,'icon edit');
+    if ($dbi->checkUserPermission('admin'))
+        $content .= createButton('Delete complete entry','nmv_remove_victim?ID_victim='.$victim_id,'icon delete');
+    $content .= '<br>';
+    $content .= createButton("Medical History",'nmv_list_med_hist?ID_victim='.$victim_id,'icon report-paper');
+    //complete db d 2
+    if (!($dbi->checkUserPermission('mpg'))) :
+        $content .= createButton("Biomedical Research",'nmv_list_victim_experiment?ID_victim='.$victim_id,'icon report-paper');
+    endif;
+    $content .= createButton("Literature and Sources", 'nmv_list_victim_literature_and_sources?ID_victim='.$victim_id, 'icon report-paper');
+    if($victim_id_new_profile != NULL)
+        $content .= '<br>' . createButton("Switch to MPG Project Profile", 'nmv_view_victim.php?ID_victim='.$victim_id_new_profile, 'icon report-paper mpgcolor');
+    if($victim_id_old_profile != NULL)
+        $content .= '<br>' . createButton("Switch to Pre MPG Project Profile", 'nmv_view_victim.php?ID_victim='.$victim_id_old_profile, 'icon report-paper mpgcolor');
+    $content .= '</div>';
+    $content .= createBackLink ("Back to Previous Page");
+    $title .= 'Victim: ' . $victim_name . '<br>';
+    if($victim->was_prisoner_assistant =='prisoner assistant only'){
+        $title .= '<span class="red">Prisoner Assistant:</span> ' . $victim_name;
+        $content = 'Prisoner Assistants were forced to participate in the conduction of unethical biomedical research
+                  <br>Please find information about involvement in experiments in '.createButton("Biomedical Research",'nmv_list_victim_experiment?ID_victim='.$victim_id,'icon report-paper') . $content;
+    } else if($victim->was_prisoner_assistant == 'prisoner assistant AND victim') {
+        $title .= 'Victim and <span class="red">Prisoner Assistant: </span>' .$victim_name;
+        $content = $victim_name . ' was victim of experiments and was also forced to participate in the conduction of unethical biomedical research' . $content;
+    }
 
 //complete db
 if(($dbi->checkUserPermission('mpg')) AND ($victim->mpg_project != -1 AND $victim->potential_old_profile != -1)) {
     $title = 'Victim not found';
     $content = '';
+
 }
 
 $layout
