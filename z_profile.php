@@ -4,7 +4,7 @@
 
 require_once 'zefiro/ini.php';
 
-$dbi->setUserVar ('user_id', getUrlParameter('user_id'), 0);
+$dbi->setUserVar ('user_id', (int) getUrlParameter('user_id'), 0);
 $dbi->setUserVar ('user_name', getUrlParameter('user_name'), 0);
 $dbi->setUserVar ('view',getUrlParameter('view'),'default');
 
@@ -33,7 +33,7 @@ elseif ($dbi->getUserVar('user_name')) {
 	$user_querystring = "
 		SELECT u.*
 		FROM z_users u
-		WHERE u.name = '{$dbi->user['user_name']}'
+		WHERE u.name = '".escapeSQL($dbi->user['user_name'])."'
 	";
 	$user_query = $dbi->connection->query($user_querystring);
 	$user = $user_query->fetch_object();

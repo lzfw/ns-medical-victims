@@ -289,7 +289,7 @@ class Form {
 					$this->error = FLO_CHECK_PARAMETER;
 				} else {
 					if ($this->primary_key == $field->name) {
-						$this->SetPrimaryKeyValue ($_GET[$field->name]);
+						$this->SetPrimaryKeyValue ((int) $_GET[$field->name]);
 					}
 				}
 			}
