@@ -21,6 +21,9 @@ Data curation interface of the NMV database. Deployed as the `zefiro` submodule 
 - Request values in SQL: `escapeSQL()` (zefiro/lib/url.php) inside '...' literals, applied after
   the wildcard `str_replace`; `(int)` for IDs. `DBI::setUserVar()` only accepts column names
   for `sort` and ASC/DESC lists for `order`, since both go into ORDER BY unquoted.
+- Request values in HTML: `htmlspecialchars()`; in links: `http_build_query()`/`urlencode()`;
+  in onclick handlers: `Button::HTMLOnclickLocation()` (JSON + HTML escaping). `skip` must be
+  digits (`DBI::setUserVar()`), flotilla's "last page" only accepts referers from this site.
 - Never pass SQL through URLs. Result pages hand their WHERE clause to nmv_export.php via
   `registerExportWhereClause()` (zefiro/lib/url.php, stored in the session); links carry only
   `export-id`.

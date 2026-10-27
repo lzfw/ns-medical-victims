@@ -98,12 +98,15 @@ class DBI {
 	public function setUserVar() {
 		// setUserVar ( var_name , value , default )
 		$args = func_get_args();
-		// sort and order end up in ORDER BY clauses: only column names and ASC/DESC lists
-		if (isset($args[1]) && in_array($args[0], array('sort', 'order'), true)) {
-			$pattern = ($args[0] == 'sort')
-				? '/^[A-Za-z_][A-Za-z0-9_.]*(\s*,\s*[A-Za-z_][A-Za-z0-9_.]*)*$/'
-				: '/^(ASC|DESC)(\s*,\s*[A-Za-z_][A-Za-z0-9_.]*\s+(ASC|DESC))*$/i';
-			if (!is_string($args[1]) || !preg_match($pattern, $args[1])) unset($args[1]);
+		// sort and order end up in ORDER BY clauses (only column names and ASC/DESC lists),
+		// skip in links (digits only)
+		$patterns = array(
+			'sort' => '/^[A-Za-z_][A-Za-z0-9_.]*(\s*,\s*[A-Za-z_][A-Za-z0-9_.]*)*$/',
+			'order' => '/^(ASC|DESC)(\s*,\s*[A-Za-z_][A-Za-z0-9_.]*\s+(ASC|DESC))*$/i',
+			'skip' => '/^\d+$/'
+		);
+		if (isset($args[1]) && isset($patterns[$args[0]])) {
+			if (!(is_string($args[1]) || is_int($args[1])) || !preg_match($patterns[$args[0]], (string) $args[1])) unset($args[1]);
 		}
 		if (isset($args[0]) && isset($args[1])) return $this->user[$args[0]] = $args[1];
 		elseif (isset($args[2])) return $this->user[$args[0]] = $args[2];

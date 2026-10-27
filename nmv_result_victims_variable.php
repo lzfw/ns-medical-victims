@@ -84,25 +84,25 @@ $special_contain_fields = array("CONCAT(IFNULL(b.diagnosis, ''), IFNULL(dtb.diag
 // reconstruct GET-String (for scroll-function)
 $query = array();
 foreach ($exact_fields as $field) {
-	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
+	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = http_build_query(array($field => $_GET[$field]));
 }
 foreach ($like_fields as $field) {
-	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
+	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = http_build_query(array($field => $_GET[$field]));
 }
 foreach ($contain_fields as $field) {
-	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
+	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = http_build_query(array($field => $_GET[$field]));
 }
 foreach ($double_fields as $field) {
-	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
+	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = http_build_query(array($field => $_GET[$field]));
 }
 foreach ($ticked_fields as $field) {
-	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
+	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = http_build_query(array($field => $_GET[$field]));
 }
 foreach ($special_fields as $field) {
-	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
+	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = http_build_query(array($field => $_GET[$field]));
 }
 foreach ($special_contain_fields as $field) {
-	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
+	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = http_build_query(array($field => $_GET[$field]));
 }
 
 $dbi->setUserVar('querystring',implode('&',$query));
@@ -463,7 +463,7 @@ if((isset($_GET['ID_experiment']) && $_GET['ID_experiment']) || (isset($_GET['ex
 	$layout
 		->set('title',L_RESULTS)
 		->set('content',
-	        '<p>Search for: <em>'.implode(' AND ', $suche_nach).'</em><br>
+	        '<p>Search for: <em>'.htmlspecialchars(implode(' AND ', $suche_nach)).'</em><br>
 					Number of results: '. $total_results->total. '</p>'
 					. '<div class="buttons">'.createButton ('Export Table to .csv',"nmv_export.php?type=csv&entity=victim&export-id=$export_id",'icon download')
 																	 .createButton ('Export Table to .xls',"nmv_export.php?type=xls&entity=victim&export-id=$export_id",'icon download')
@@ -480,7 +480,7 @@ if((isset($_GET['ID_experiment']) && $_GET['ID_experiment']) || (isset($_GET['ex
 	$layout
 		->set('title',L_RESULTS)
 		->set('content',
-	        '<p>Search for: <em>'.implode(', AND ',$suche_nach).'</em><br>
+	        '<p>Search for: <em>'.htmlspecialchars(implode(', AND ', $suche_nach)).'</em><br>
 					Number of results: '. $total_results->total. '</p>'
 					. '<div class="buttons">'.createButton ('Export Table to .csv',"nmv_export.php?type=csv&entity=victim&export-id=$export_id",'icon download')
 																	 .createButton ('Export Table to .xls',"nmv_export.php?type=xls&entity=victim&export-id=$export_id",'icon download')

@@ -10,7 +10,7 @@ $dbi->setUserVar ('view',getUrlParameter('view'),'default');
 
 $user_query = array();
 if ($dbi->getUserVar('user_id')) $user_query[] = 'user_id='.$dbi->getUserVar('user_id');
-if ($dbi->getUserVar('user_name')) $user_query[] = 'user_name='.$dbi->getUserVar('user_name');
+if ($dbi->getUserVar('user_name')) $user_query[] = 'user_name='.urlencode($dbi->getUserVar('user_name'));
 $dbi->setUserVar('querystring', implode('&',$user_query));
 
 $title = '';

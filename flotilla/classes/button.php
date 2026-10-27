@@ -66,19 +66,24 @@ class Button {
 
 	// HTML OUTPUT METHODS -------------------------------------------------------
 
+	protected function HTMLOnclickLocation ($url) {
+		// the URL ends up in a JavaScript string inside an HTML attribute
+		return ' onclick="location.href='.htmlspecialchars(json_encode((string) $url, JSON_UNESCAPED_SLASHES)).'"';
+	}
+
 	protected function HTMLLeadIn () {
 		$lead_in = NULL;
 		$lead_in .= "\t\t\t<button name=\"{$this->type}-button\" type=\"".$this->htmltype.'" class="button '.$this->type.'-button"';
 		switch ($this->type) {
-			case BACK:		$lead_in .= ' onclick="location.href=\''.$_SESSION['flotilla']['last_page'].'\'"'; break;
-			case CANCEL:	$lead_in .= ' onclick="location.href=\''.(isset($this->target)?$this->target:'.').'\'"'; break;
-			case REFRESH:	$lead_in .= ' onclick="location.href=\''.$_SERVER['SCRIPT_NAME'].'\'"'; break;
+			case BACK:		$lead_in .= $this->HTMLOnclickLocation($_SESSION['flotilla']['last_page']); break;
+			case CANCEL:	$lead_in .= $this->HTMLOnclickLocation(isset($this->target)?$this->target:'.'); break;
+			case REFRESH:	$lead_in .= $this->HTMLOnclickLocation($_SERVER['SCRIPT_NAME']); break;
 			case RELOAD:	$lead_in .= ' onclick="location.reload()"'; break;
 			case LINK:
 				$this->target = preg_replace_callback('/(\{(\w*)\})/', function ($matches) {
 				    return $this->Creator->Fields[$matches[2]]->user_value;
 				}, $this->target);
-				$lead_in .= ' onclick="location.href=\''.$this->target.'\'"';
+				$lead_in .= $this->HTMLOnclickLocation($this->target);
 				break;
 		}
 		$lead_in .= ' title="';
@@ -90,7 +95,7 @@ class Button {
 			case RELOAD:	$lead_in .= FLO_TITLE_RELOAD;	break;
 			case RESET:		$lead_in .= FLO_TITLE_RESET;	break;
 			case SUBMIT:	$lead_in .= FLO_TITLE_SUBMIT;	break;
-			default:		$lead_in .= $this->target;		break;
+			default:		$lead_in .= htmlspecialchars((string) $this->target);		break;
 		};
 		$lead_in .= '"';
 		$lead_in .= '>';
