@@ -6,8 +6,8 @@ Data curation interface of the NMV database. Deployed as the `zefiro` submodule 
 
 ## PHP
 - Target PHP 8.4, keep 8.2 compatible. Upgraded from 7.2 in branch `php-8.4-upgrade`.
-- `display_errors=1` / `E_ALL` is hard-coded (custom/config.default.php, zefiro/lib/layout.php,
-  flotilla/ini.php), so every warning or deprecation shows up in the UI. Keep pages free of them.
+- Error display is set only in custom/config.php (production: off). config.default.php turns
+  it on with `E_ALL` for development, so keep pages free of warnings and deprecations.
 - Undefined constants are fatal on PHP 8. Constants live in zefiro/translations,
   custom/translations, flotilla/translations and flotilla/classes/*.dict.php.
 - Declare properties on classes; dynamic properties are deprecated since 8.2.
