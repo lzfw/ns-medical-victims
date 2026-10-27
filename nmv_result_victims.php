@@ -87,36 +87,36 @@ $replace_chars = array(' ', ' ', '%', '%', '_');
 // WHERE Strings zusammenbauen
 foreach ($exact_fields as $field) {
     if (getUrlParameter($field)) {
-        $querystring_where[] = "v.$field = '".getUrlParameter($field)."'";
+        $querystring_where[] = "v.$field = '".escapeSQL(getUrlParameter($field))."'";
     }
 }
 foreach ($like_fields as $field) {
     if (getUrlParameter($field)) {
-		$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
+		$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
 		$querystring_where[] = "TRIM(v.$field) LIKE TRIM('".$filtered_field."')";
     }
 }
 foreach ($contain_fields as $field) {
     if (getUrlParameter($field)) {
-		$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
+		$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
 		$querystring_where[] = "v.$field LIKE '%".$filtered_field."%'";
     }
 }
 foreach ($double_fields as $field) {
     if (getUrlParameter($field)) {
-		$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
-		$querystring_where[] = "(v.$field LIKE '".$filtered_field."' OR v.$field = '".getUrlParameter($field)."')";
+		$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
+		$querystring_where[] = "(v.$field LIKE '".$filtered_field."' OR v.$field = '".escapeSQL(getUrlParameter($field))."')";
     }
 }
 //diy-WHERE-clauses for including Other Names in search
 foreach ($diy_fields as $field) {
 	if (getUrlParameter($field)) {
 		if ($field == 'surname') {
-			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
+			$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
 			$querystring_where[] = "(vn.surname LIKE '%".$filtered_field."%' OR v.$field LIKE '%".$filtered_field."%')";
 		}
 		if ($field == 'first_names') {
-			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
+			$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
 			$querystring_where[] = "(vn.first_names LIKE '%".$filtered_field."%' OR v.$field LIKE '%".$filtered_field."%')";
 		}
 	}

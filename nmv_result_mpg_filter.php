@@ -93,29 +93,29 @@ $querystring_where[] = "v.mpg_project = -1";
 foreach ($exact_fields as $field) {
     if (getUrlParameter($field)) {
 			if ($field == 'ID_institution'){
-				$querystring_where[] = "(b.$field = '".getUrlParameter($field)."'
-				OR h.$field = '".getUrlParameter($field)."'
-				OR ei.$field = '".getUrlParameter($field)."')";
+				$querystring_where[] = "(b.$field = '".escapeSQL(getUrlParameter($field))."'
+				OR h.$field = '".escapeSQL(getUrlParameter($field))."'
+				OR ei.$field = '".escapeSQL(getUrlParameter($field))."')";
 			}
 			elseif ($field == 'ID_tissue_institution'){
-				$querystring_where[] = "t.ID_institution = '".getUrlParameter($field)."'";
+				$querystring_where[] = "t.ID_institution = '".escapeSQL(getUrlParameter($field))."'";
 			}
 			else{
-				$querystring_where[] = "v.$field = '".getUrlParameter($field)."'";
+				$querystring_where[] = "v.$field = '".escapeSQL(getUrlParameter($field))."'";
 			}
 
     }
 }
 foreach ($like_fields as $field) {
     if (getUrlParameter($field)) {
-		$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
+		$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
 		$querystring_where[] = "TRIM(v.$field) LIKE TRIM('".$filtered_field."')";
     }
 }
 foreach ($double_fields as $field) {
     if (getUrlParameter($field)) {
-		$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
-		$querystring_where[] = "(v.$field LIKE '".$filtered_field."' OR v.$field = '".getUrlParameter($field)."')";
+		$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
+		$querystring_where[] = "(v.$field LIKE '".$filtered_field."' OR v.$field = '".escapeSQL(getUrlParameter($field))."')";
     }
 }
 if (getUrlParameter($ticked_fields[0])) {
@@ -172,15 +172,15 @@ if (isset($_GET['rothemund_list']) && $_GET['rothemund_list']) $suche_nach[] = '
 if (isset($_GET['schlote_list']) && $_GET['schlote_list']) $suche_nach[] = 'source = Schlote List';
 if (isset($_GET['m_series']) && $_GET['m_series']) $suche_nach[] = 'M-Series';
 if (isset($_GET['ID_institution']) && $_GET['ID_institution']) {
-	$institution = $dbi->connection->query('SELECT institution_name FROM nmv__institution WHERE ID_institution = '.$_GET['ID_institution'])->fetch_row();
+	$institution = $dbi->connection->query('SELECT institution_name FROM nmv__institution WHERE ID_institution = '.(int) $_GET['ID_institution'])->fetch_row();
 	$suche_nach[] = 'institution = '.$institution[0];
 }
 if (isset($_GET['ID_tissue_institution']) && $_GET['ID_tissue_institution']){
-	$tissue_institution = $dbi->connection->query('SELECT institution_name FROM nmv__institution WHERE ID_institution = '.$_GET['ID_tissue_institution'])->fetch_row();
+	$tissue_institution = $dbi->connection->query('SELECT institution_name FROM nmv__institution WHERE ID_institution = '.(int) $_GET['ID_tissue_institution'])->fetch_row();
 	$suche_nach[] = 'tissue-institution = '.$tissue_institution[0];
 }
 if (isset($_GET['ID_dataset_origin']) && $_GET['ID_dataset_origin']) {
-	$workgroup = $dbi->connection->query('SELECT work_group FROM nmv__dataset_origin WHERE ID_dataset_origin = '.$_GET['ID_dataset_origin'])->fetch_row();
+	$workgroup = $dbi->connection->query('SELECT work_group FROM nmv__dataset_origin WHERE ID_dataset_origin = '.(int) $_GET['ID_dataset_origin'])->fetch_row();
 	$suche_nach[] = 'workgroup = '.$workgroup[0];
 }
 // breadcrumbs

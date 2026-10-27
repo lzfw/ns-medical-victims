@@ -120,35 +120,35 @@ $replace_chars = array('', ' ', ' ', '%', '%');
 
 foreach ($exact_fields as $field) {
     if (getUrlParameter($field)) {
-        $querystring_where[] = "v.$field = '".getUrlParameter($field)."'";
+        $querystring_where[] = "v.$field = '".escapeSQL(getUrlParameter($field))."'";
     }
 }
 foreach ($like_fields as $field) {
     if (getUrlParameter($field)) {
-			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
+			$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
 			$querystring_where[] = "TRIM(v.$field) LIKE TRIM('".$filtered_field."')";
     }
 }
 foreach ($contain_fields as $field) {
     if (getUrlParameter($field)) {
-			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
+			$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
 			$querystring_where[] = "v.$field LIKE '%".$filtered_field."%'";
     }
 }
 foreach ($double_fields as $field) {
     if (getUrlParameter($field)) {
-			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
-			$querystring_where[] = "(v.$field LIKE '".$filtered_field."' OR v.$field = '".getUrlParameter($field)."')";
+			$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
+			$querystring_where[] = "(v.$field LIKE '".$filtered_field."' OR v.$field = '".escapeSQL(getUrlParameter($field))."')";
     }
 }
 foreach ($special_fields as $key=>$field) {
     if (getUrlParameter($field)) {
-			$querystring_where[] = "$key = '".getUrlParameter($field)."'";
+			$querystring_where[] = "$key = '".escapeSQL(getUrlParameter($field))."'";
     }
 }
 foreach ($special_contain_fields as $key=>$field) {
     if (getUrlParameter($field)) {
-			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
+			$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
 			$querystring_where[] = "$key LIKE '%".$filtered_field."%'";
     }
 }
@@ -177,11 +177,11 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 // ausgabe der suchtermini
 $suche_nach = array();
 if (isset($_GET['ID_birth_country']) && $_GET['ID_birth_country']) {
-	$search_term = $dbi->connection->query('SELECT country FROM nmv__country WHERE ID_country = '.$_GET['ID_birth_country'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT country FROM nmv__country WHERE ID_country = '.(int) $_GET['ID_birth_country'])->fetch_row();
 	$suche_nach[] = 'country of birth = '.$search_term[0];
 }
 if (isset($_GET['ID_nationality_1938']) && $_GET['ID_nationality_1938']) {
-	$search_term = $dbi->connection->query('SELECT nationality  FROM nmv__nationality WHERE ID_nationality = '.$_GET['ID_nationality_1938'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT nationality  FROM nmv__nationality WHERE ID_nationality = '.(int) $_GET['ID_nationality_1938'])->fetch_row();
 	$suche_nach[] = 'nationality in 1938 = '.$search_term[0];
 }
 

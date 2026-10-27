@@ -117,18 +117,18 @@ $replace_chars = array('', ' ', ' ', '%', '%');
 
 foreach ($exact_fields as $field) {
     if (getUrlParameter($field)) {
-        $querystring_where[] = "v.$field = '".getUrlParameter($field)."'";
+        $querystring_where[] = "v.$field = '".escapeSQL(getUrlParameter($field))."'";
     }
 }
 foreach ($like_fields as $field) {
     if (getUrlParameter($field)) {
-			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
+			$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
 			$querystring_where[] = "TRIM(v.$field) LIKE TRIM('".$filtered_field."')";
     }
 }
 foreach ($contain_fields as $field) {
     if (getUrlParameter($field)) {
-			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
+			$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
 			$querystring_where[] = "v.cause_of_death LIKE '%".$filtered_field."%' OR
                               b.diagnosis LIKE '%".$filtered_field."%' OR
                               h.diagnosis LIKE '%".$filtered_field."%' OR
@@ -139,18 +139,18 @@ foreach ($contain_fields as $field) {
 }
 foreach ($double_fields as $field) {
     if (getUrlParameter($field)) {
-			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
-			$querystring_where[] = "(v.$field LIKE '".$filtered_field."' OR v.$field = '".getUrlParameter($field)."')";
+			$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
+			$querystring_where[] = "(v.$field LIKE '".$filtered_field."' OR v.$field = '".escapeSQL(getUrlParameter($field))."')";
     }
 }
 foreach ($special_fields as $key=>$field) {
     if (getUrlParameter($field)) {
-			$querystring_where[] = "$key = ".getUrlParameter($field)."";
+			$querystring_where[] = "$key = ".(int) getUrlParameter($field)."";
     }
 }
 foreach ($special_contain_fields as $key=>$field) {
     if (getUrlParameter($field)) {
-			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
+			$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
 			$querystring_where[] = "$key LIKE '%".$filtered_field."%'";
     }
 }
@@ -180,7 +180,7 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 $suche_nach = array();
 if (isset($_GET['keyword']) && $_GET['keyword']) $suche_nach[] = 'victims with diagnoses containing: '.$_GET['keyword'];
 if (isset($_GET['diagnosis_tag']) && $_GET['diagnosis_tag']) {
-	$search_term = $dbi->connection->query('SELECT diagnosis FROM nmv__diagnosis_tag WHERE ID_diagnosis = '.$_GET['diagnosis_tag'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT diagnosis FROM nmv__diagnosis_tag WHERE ID_diagnosis = '.(int) $_GET['diagnosis_tag'])->fetch_row();
 	$suche_nach[] = 'diagnosis tag = '.$search_term[0];
 }
 

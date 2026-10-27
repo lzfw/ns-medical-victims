@@ -115,56 +115,56 @@ foreach ($exact_fields as $field) {
 			if (getUrlParameter($field) == 'NULL') :
 				$querystring_where[] = "p.$field IS NULL";
 			else:
-        $querystring_where[] = "p.$field = '".getUrlParameter($field)."'";
+        $querystring_where[] = "p.$field = '".escapeSQL(getUrlParameter($field))."'";
 			endif;
     endif;
 }
 foreach ($like_fields as $field) {
     if (getUrlParameter($field)) {
-			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
+			$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
 			$querystring_where[] = "TRIM(p.$field) LIKE TRIM('".$filtered_field."')";
     }
 }
 foreach ($contain_fields as $field) {
     if (getUrlParameter($field)) {
-			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
+			$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
 			$querystring_where[] = "p.$field LIKE '%".$filtered_field."%'";
     }
 }
 foreach ($double_fields as $field) {
     if (getUrlParameter($field)) {
-			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
-			$querystring_where[] = "(p.$field LIKE '".$filtered_field."' OR p.$field = '".getUrlParameter($field)."')";
+			$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
+			$querystring_where[] = "(p.$field LIKE '".$filtered_field."' OR p.$field = '".escapeSQL(getUrlParameter($field))."')";
     }
 }
 foreach ($special_fields as $key=>$field) {
     if (getUrlParameter($field)) {
-			$querystring_where[] = "$key = '".getUrlParameter($field)."'";
+			$querystring_where[] = "$key = '".escapeSQL(getUrlParameter($field))."'";
     }
 }
 foreach ($special_contain_fields as $key=>$field) {
     if (getUrlParameter($field)) {
-			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
+			$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
 			$querystring_where[] = "$key LIKE '%".$filtered_field."%'";
     }
 }
 //customized queries
 if (getUrlParameter('prison_time-info')) {
-	$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter('prison_time-info'));
+	$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter('prison_time-info')));
 	$querystring_where[] = "(p.prison_time IS NOT NULL)";
 }
 if (getUrlParameter('prosecution-info')) {
-	$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter('prosecution-info'));
+	$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter('prosecution-info')));
 	$querystring_where[] = "(p.prosecution IS NOT NULL)";
 }
 if (getUrlParameter('freetext-fields')) {
-	$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter('freetext-fields'));
+	$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter('freetext-fields')));
 	$querystring_where[] = "(CONCAT(IFNULL(p.occupation, ''), ' ', IFNULL(p.career_history, ''), ' ', IFNULL(p.details_all_memberships, ''),
 	 																' ', IFNULL(p.career_after_1945, ''), ' ', IFNULL(p.prosecution, ''), ' ', IFNULL(p.prison_time, ''),
 																	' ', IFNULL(p.notes, ''), ' ') LIKE '%".$filtered_field."%')";
 }
 if (getUrlParameter('died_before_end_of_war')) {
-	$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter('died_before_end_of_war'));
+	$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter('died_before_end_of_war')));
 	$querystring_where[] = "(p.death_year BETWEEN 1933 AND 1945 AND p.death_month BETWEEN 1 AND 5)";
 	// $querystring_where[] = "(p.death_year = 1956 AND p.death_month = 6)";
 }
@@ -195,20 +195,20 @@ $query_items = $dbi->connection->query($querystring_items.$querystring_orderby);
 // output of search expressions
 $suche_nach = array();
 if (isset($_GET['ID_birth_country']) && $_GET['ID_birth_country']) {
-	$search_term = $dbi->connection->query('SELECT country FROM nmv__country WHERE ID_country = '.$_GET['ID_birth_country'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT country FROM nmv__country WHERE ID_country = '.(int) $_GET['ID_birth_country'])->fetch_row();
 	$suche_nach[] = 'country of birth = '.$search_term[0];
 }if (isset($_GET['birth_year']) && $_GET['birth_year']) $suche_nach[] = 'year of birth = '.$_GET['birth_year'];
 if (isset($_GET['ID_death_country']) && $_GET['ID_death_country'])  {
-	$search_term = $dbi->connection->query('SELECT country FROM nmv__country WHERE ID_country = '.$_GET['ID_death_country'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT country FROM nmv__country WHERE ID_country = '.(int) $_GET['ID_death_country'])->fetch_row();
 	$suche_nach[] = 'country of death = '.$search_term[0];
 }if (isset($_GET['death_year']) && $_GET['death_year']) $suche_nach[] = 'year of death = '.$_GET['death_year'];
 if (isset($_GET['gender']) && $_GET['gender']) $suche_nach[] = 'gender = '.$_GET['gender'];
 if (isset($_GET['ID_religion']) && $_GET['ID_religion']) {
-	$search_term = $dbi->connection->query('SELECT religion FROM nmv__religion WHERE ID_religion = '.$_GET['ID_religion'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT religion FROM nmv__religion WHERE ID_religion = '.(int) $_GET['ID_religion'])->fetch_row();
 	$suche_nach[] = 'religion = '.$search_term[0];
 }
 if (isset($_GET['ID_nationality_1938']) && $_GET['ID_nationality_1938']) {
-	$search_term = $dbi->connection->query('SELECT nationality  FROM nmv__nationality WHERE ID_nationality = '.$_GET['ID_nationality_1938'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT nationality  FROM nmv__nationality WHERE ID_nationality = '.(int) $_GET['ID_nationality_1938'])->fetch_row();
 	$suche_nach[] = 'nationality in 1938 = '.$search_term[0];
 }
 if (isset($_GET['titles']) && $_GET['titles']) $suche_nach[] = 'titles = '.$_GET['titles'];
@@ -217,7 +217,7 @@ if (isset($_GET['qualification_year']) && $_GET['qualification_year']) $suche_na
 if (isset($_GET['thesis_title']) && $_GET['thesis_title']) $suche_nach[] = 'thesis title = '.$_GET['thesis_title'];
 if (isset($_GET['occupation']) && $_GET['occupation']) $suche_nach[] = 'occupation = '.$_GET['occupation'];
 if (isset($_GET['ID_perp_class']) && $_GET['ID_perp_class']) {
-	$search_term = $dbi->connection->query('SELECT classification FROM nmv__perpetrator_classification WHERE ID_perp_class = '.$_GET['ID_perp_class'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT classification FROM nmv__perpetrator_classification WHERE ID_perp_class = '.(int) $_GET['ID_perp_class'])->fetch_row();
 	$suche_nach[] = 'classification = '.$search_term[0];
 }
 if (isset($_GET['career_history']) && $_GET['career_history']) $suche_nach[] = 'career history = '.$_GET['career_history'];

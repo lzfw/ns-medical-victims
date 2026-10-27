@@ -8,6 +8,12 @@ function isUrlParameter ($parameterName) {
 	return isset($_GET[$parameterName]);
 }
 
+// escape a value for use inside an SQL string literal ('...')
+function escapeSQL ($value) {
+	global $dbi;
+	return $dbi->connection->real_escape_string((string) $value);
+}
+
 // export filters stay on the server; links pass only the id
 function registerExportWhereClause ($where_clause) {
 	$id = substr(hash('sha256', $where_clause), 0, 16);

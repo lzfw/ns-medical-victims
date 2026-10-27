@@ -98,6 +98,13 @@ class DBI {
 	public function setUserVar() {
 		// setUserVar ( var_name , value , default )
 		$args = func_get_args();
+		// sort and order end up in ORDER BY clauses: only column names and ASC/DESC lists
+		if (isset($args[1]) && in_array($args[0], array('sort', 'order'), true)) {
+			$pattern = ($args[0] == 'sort')
+				? '/^[A-Za-z_][A-Za-z0-9_.]*(\s*,\s*[A-Za-z_][A-Za-z0-9_.]*)*$/'
+				: '/^(ASC|DESC)(\s*,\s*[A-Za-z_][A-Za-z0-9_.]*\s+(ASC|DESC))*$/i';
+			if (!is_string($args[1]) || !preg_match($pattern, $args[1])) unset($args[1]);
+		}
 		if (isset($args[0]) && isset($args[1])) return $this->user[$args[0]] = $args[1];
 		elseif (isset($args[2])) return $this->user[$args[0]] = $args[2];
 	}
