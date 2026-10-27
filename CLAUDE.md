@@ -25,11 +25,6 @@ Data curation interface of the NMV database. Deployed as the `zefiro` submodule 
   `registerExportWhereClause()` (zefiro/lib/url.php, stored in the session); links carry only
   `export-id`.
 
-## Dead pages (already broken on PHP 7.2, left untouched)
-bookmarks.php, bookmarks_sendmail.php, results.php (missing setup/ini.php),
-z_upload_image.php, z_error_sendmail.php, z_database_recovery.php (missing templates/ini.php),
-zefiro/lib/zefiro.php getDateUserStamp_HTML()/historicalDateFormat() (undefined Z_*_FORMAT).
-
 ## Testing
 No test suite. The PHP upgrade was verified by a throwaway Docker stack (mariadb:10.4 with the
 schema plus synthetic data generated from information_schema, a test user, and the app
