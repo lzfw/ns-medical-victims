@@ -6,11 +6,11 @@ function createHomeLink () {
 }
 
 function createBackLink ($title,$url = 'javascript:history.back()') {
-	return '<p class="icon back"><a href="'.$url.'">'.$title.'</a></p>'.PHP_EOL;
+	return '<p class="icon back"><a href="'.htmlspecialchars((string) $url, ENT_QUOTES, 'UTF-8', false).'">'.safeHTML($title).'</a></p>'.PHP_EOL;
 }
 
 function createNewTabLink ($title,$url) {
-	return '<p class="icon forward"><a href="'.$url.'" target="_blank">'.$title.'</a></p>'.PHP_EOL;
+	return '<p class="icon forward"><a href="'.htmlspecialchars((string) $url, ENT_QUOTES, 'UTF-8', false).'" target="_blank" rel="noopener noreferrer">'.safeHTML($title).'</a></p>'.PHP_EOL;
 }
 
 function isServerScriptName ($string) {

@@ -17,9 +17,9 @@ function breadcrumb($dbi, $item, $record_id) {
 }
 
 function prompt($dbi, $item) {
-    $institution = htmlspecialchars($item->ID_institution, ENT_HTML5).': '.
-        htmlspecialchars($item->institution_name, ENT_HTML5).' '.
-        htmlspecialchars($item->location, ENT_HTML5);
+    $institution = htmlspecialchars((string) $item->ID_institution, ENT_HTML5).': '.
+        htmlspecialchars((string) $item->institution_name, ENT_HTML5).' '.
+        htmlspecialchars((string) $item->location, ENT_HTML5);
     return 'Remove Institution'.': "<em>'.$institution.'</em>".';
 }
 

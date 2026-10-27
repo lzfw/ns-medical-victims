@@ -20,7 +20,7 @@ if ($experiment_id) {
     WHERE ID_experiment = $experiment_id";
     $query = $dbi->connection->query($querystring);
     $experiment = $query->fetch_object();
-    $experiment_name = $experiment->experiment_name;
+    $experiment_name = safeHTML($experiment->experiment_name);
 } else if ($literature_id) {
     $querystring = "
     SELECT CONCAT(COALESCE(lit_title, ''), ' ', COALESCE(authors, '')) experiment_name
@@ -28,7 +28,7 @@ if ($experiment_id) {
     WHERE ID_literature = $literature_id";
     $query = $dbi->connection->query($querystring);
     $literature = $query->fetch_object();
-    $literature_name = $literature->experiment_name;
+    $literature_name = safeHTML($literature->experiment_name);
 } else {
     $exp_literature_id = (int) getUrlParameter('ID_exp_lit', 0);
     $querystring = "
@@ -40,7 +40,7 @@ if ($experiment_id) {
     $query = $dbi->connection->query($querystring);
     $experiment = $query->fetch_object();
     $experiment_id = $experiment->experiment_id;
-    $experiment_name = $experiment->experiment_name;
+    $experiment_name = safeHTML($experiment->experiment_name);
 }
 //query: get experiment-institutions for experiment SELECT
 $querystring_experiment =   "SELECT e.ID_experiment AS value,

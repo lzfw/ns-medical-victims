@@ -85,10 +85,10 @@ function prompt($dbi, $item) {
     $med_hist_brain = get_med_hist_brain($dbi, $item->ID_med_history_brain);
 
     $victim_med_hist_brain =
-        htmlspecialchars($med_hist_brain->institution, ENT_HTML5).' - ' .
-        htmlspecialchars($med_hist_brain->date, ENT_HTML5).' - ' .
-        htmlspecialchars($victim->first_names, ENT_HTML5).' '.
-        htmlspecialchars($victim->surname, ENT_HTML5);
+        htmlspecialchars((string) $med_hist_brain->institution, ENT_HTML5).' - ' .
+        htmlspecialchars((string) $med_hist_brain->date, ENT_HTML5).' - ' .
+        htmlspecialchars((string) $victim->first_names, ENT_HTML5).' '.
+        htmlspecialchars((string) $victim->surname, ENT_HTML5);
     return 'Medical History (Brain)'.': "<em>'.$victim_med_hist_brain.'</em>".';
 }
 

@@ -22,11 +22,11 @@ if ($dbi->checkUserPermission('system')) {
 $content .= '</tr>';
 while ($remote = $remote_query->fetch_object()) {
 	$content .= '<tr>';
-	$content .= "<td>$remote->display_name</td>";
-	$content .= "<td>$remote->name</td>";
-	$content .= "<td>$remote->remote</td>";
-	$content .= "<td>$remote->group</td>";
-	$content .= "<td>$remote->permissions</td>";
+	$content .= '<td>'.safeHTML($remote->display_name).'</td>';
+	$content .= '<td>'.safeHTML($remote->name).'</td>';
+	$content .= '<td>'.safeHTML($remote->remote).'</td>';
+	$content .= '<td>'.safeHTML($remote->group).'</td>';
+	$content .= '<td>'.safeHTML($remote->permissions).'</td>';
 	if ($dbi->checkUserPermission('system')) {
 		$content .= '<td class="nowrap">'.
 			createSmallButton(L_EDIT,'z_edit_remote.php?user_id='.$remote->user_id,'icon edit').

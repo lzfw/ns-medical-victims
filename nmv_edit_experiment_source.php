@@ -20,7 +20,7 @@ if ($experiment_id) {
     WHERE ID_experiment = $experiment_id";
     $query = $dbi->connection->query($querystring);
     $experiment = $query->fetch_object();
-    $experiment_name = $experiment->experiment_name;
+    $experiment_name = safeHTML($experiment->experiment_name);
 } else if ($source_id) {
     $querystring = "
     SELECT COALESCE(source_title, '') experiment_name
@@ -28,7 +28,7 @@ if ($experiment_id) {
     WHERE ID_source = $source_id";
     $query = $dbi->connection->query($querystring);
     $source = $query->fetch_object();
-    $source_name = $source->experiment_name;
+    $source_name = safeHTML($source->experiment_name);
 } else {
     $exp_source_id = (int) getUrlParameter('ID_exp_source', 0);
     $querystring = "
@@ -40,7 +40,7 @@ if ($experiment_id) {
     $query = $dbi->connection->query($querystring);
     $experiment = $query->fetch_object();
     $experiment_id = $experiment->experiment_id;
-    $experiment_name = $experiment->experiment_name;
+    $experiment_name = safeHTML($experiment->experiment_name);
 }
 
 //query: get experiment-institutions for experiment SELECT

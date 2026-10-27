@@ -83,9 +83,9 @@ function prompt($dbi, $item) {
     $experiment = get_experiment($dbi, $item->ID_experiment);
 
     $experiment_literature =
-        htmlspecialchars($experiment->experiment_title, ENT_HTML5).' - ' . 
-        htmlspecialchars($literature->lit_title, ENT_HTML5).' ('.
-        htmlspecialchars($literature->authors, ENT_HTML5) . ')';
+        htmlspecialchars((string) $experiment->experiment_title, ENT_HTML5).' - ' . 
+        htmlspecialchars((string) $literature->lit_title, ENT_HTML5).' ('.
+        htmlspecialchars((string) $literature->authors, ENT_HTML5) . ')';
     return 'Remove biomedical research literature'.': "<em>'.$experiment_literature.'</em>".';
 }
 

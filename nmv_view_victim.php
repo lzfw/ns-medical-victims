@@ -278,14 +278,14 @@ if ($victim = $result->fetch_object()) {
         $content .= '<br>' . createButton("Switch to Pre MPG Project Profile", 'nmv_view_victim.php?ID_victim='.$victim_id_old_profile, 'icon report-paper mpgcolor');
     $content .= '</div>';
     $content .= createBackLink ("Back to Previous Page");
-    $title .= 'Victim: ' . $victim_name . '<br>';
+    $title .= 'Victim: ' . safeHTML($victim_name) . '<br>';
     if($victim->was_prisoner_assistant =='prisoner assistant only'){
-        $title .= '<span class="red">Prisoner Assistant:</span> ' . $victim_name;
+        $title .= '<span class="red">Prisoner Assistant:</span> ' . safeHTML($victim_name);
         $content = 'Prisoner Assistants were forced to participate in the conduction of unethical biomedical research
                   <br>Please find information about involvement in experiments in '.createButton("Biomedical Research",'nmv_list_victim_experiment?ID_victim='.$victim_id,'icon report-paper') . $content;
     } else if($victim->was_prisoner_assistant == 'prisoner assistant AND victim') {
-        $title .= 'Victim and <span class="red">Prisoner Assistant: </span>' .$victim_name;
-        $content = $victim_name . ' was victim of experiments and was also forced to participate in the conduction of unethical biomedical research' . $content;
+        $title .= 'Victim and <span class="red">Prisoner Assistant: </span>' . safeHTML($victim_name);
+        $content = safeHTML($victim_name) . ' was victim of experiments and was also forced to participate in the conduction of unethical biomedical research' . $content;
     }
 
 //complete db

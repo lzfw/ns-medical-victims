@@ -60,7 +60,7 @@ class View_List_Statistics_Survival_Table extends View_List {
                     elseif ($item->survivalID == 3 or $item->survivalID == 9):
                         $survival = 'INVALID ENTRY';
                     else:
-                        $survival = htmlentities($item->survival, ENT_HTML5);
+                        $survival = htmlentities((string) $item->survival, ENT_HTML5);
                     endif;
                     $html .= '<tr>
 							<td>' . $survival . '</td>

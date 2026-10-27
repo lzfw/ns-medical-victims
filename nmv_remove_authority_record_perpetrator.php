@@ -81,8 +81,8 @@ function prompt($dbi, $item) {
     $authority_record = get_authority_record($dbi, $item->ID_authority_record_perpetrator);
 
     $perpetrator_source =
-        htmlspecialchars($authority_record->authority_type, ENT_HTML5).' -- ' .
-        htmlspecialchars($authority_record->authority_id, ENT_HTML5);
+        htmlspecialchars((string) $authority_record->authority_type, ENT_HTML5).' -- ' .
+        htmlspecialchars((string) $authority_record->authority_id, ENT_HTML5);
     return 'Remove Authority Record '.': "<em>'.$perpetrator_source.'</em>".';
 }
 

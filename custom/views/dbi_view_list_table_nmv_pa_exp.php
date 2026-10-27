@@ -42,7 +42,7 @@ class View_List_Table_NMV_PA_Exp extends View_List {
 					$start_year = $item->exp_start_year ?: '-';
 
 			    $html .= '<tr>
-			        <td><a href="nmv_view_victim?ID_victim=' . $item->ID_victim . '">' . htmlentities($item->surname, ENT_HTML5) . '</a></td>
+			        <td><a href="nmv_view_victim?ID_victim=' . $item->ID_victim . '">' . htmlentities((string) $item->surname, ENT_HTML5) . '</a></td>
 							<td>' . htmlentities((string) $item->first_names, ENT_HTML5) . '</td>
 			        <td><a href="nmv_view_victim?ID_victim=' . $item->ID_victim . '">' . $item->ID_victim . '</a></td>
 							<td>' . htmlentities((string) $item->birth_year, ENT_HTML5) . '</td>

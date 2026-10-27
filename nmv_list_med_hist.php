@@ -20,7 +20,7 @@ if ($victim_id) {
     $victim = $query->fetch_object();
 
     if ($victim) {
-        $victim_name = $victim->victim_name;
+        $victim_name = safeHTML($victim->victim_name);
 
         $dbi->addBreadcrumb ($victim_name,'nmv_view_victim?ID_victim='.$victim_id);
 
@@ -50,13 +50,13 @@ if ($victim_id) {
         while ($entry = $query->fetch_object()) {
         	$content .= '<tr>';
           $content .= '<td><a href="nmv_view_med_hist_hosp?ID_med_history_hosp='.$entry->id.'">'.htmlspecialchars((string) $entry->institution,ENT_HTML5). ' <br> ' .htmlspecialchars((string) $entry->other_institution,ENT_HTML5).'</a></td>';
-        	$content .= "<td>$entry->entry_date</td>";
-        	$content .= "<td>$entry->exit_date</td>";
-        	$content .= "<td>$entry->notes</td>";
-            $content .= "<td>$entry->institution_order";
-        	$content .= "<td>$entry->diagnosis</td>";
-        	$content .= "<td>$entry->id</td>";
-            $content .= "<td>$entry->photo</td>";
+        	$content .= '<td>'.safeHTML($entry->entry_date).'</td>';
+        	$content .= '<td>'.safeHTML($entry->exit_date).'</td>';
+        	$content .= '<td>'.safeHTML($entry->notes).'</td>';
+            $content .= '<td>'.safeHTML($entry->institution_order);
+        	$content .= '<td>'.safeHTML($entry->diagnosis).'</td>';
+        	$content .= '<td>'.safeHTML($entry->id).'</td>';
+            $content .= '<td>'.safeHTML($entry->photo).'</td>';
         	$content .= '<td class="nowrap">';
         	$content .= createSmallButton('View Details','nmv_view_med_hist_hosp?ID_med_history_hosp='.$entry->id,'icon view');
         	if ($dbi->checkUserPermission('edit')) {
@@ -104,10 +104,10 @@ if ($victim_id) {
 
             //table body
             $content .= '<tr>';
-            $content .= "<td>$entry->year</td>";
-            $content .= "<td>$entry->diagnosis</td>";
+            $content .= '<td>'.safeHTML($entry->year).'</td>';
+            $content .= '<td>'.safeHTML($entry->diagnosis).'</td>';
             $content .= "<td>" . implode(' | ', $tag_array) . "</td>";
-            $content .= "<td>$entry->id</td>";
+            $content .= '<td>'.safeHTML($entry->id).'</td>';
             $content .= '<td class="nowrap">';
         	$content .= createSmallButton('View Details','nmv_view_med_hist_diagnosis?ID_med_history_diagnosis='.$entry->id,'icon view');
         	if ($dbi->checkUserPermission('edit')) {
@@ -146,9 +146,9 @@ if ($victim_id) {
         while ($entry = $query->fetch_object()) {
         	$content .= '<tr>';
         	$content .= '<td><a href="nmv_view_med_hist_brain?ID_med_history_brain='.$entry->id.'">'.htmlspecialchars((string) $entry->institution,ENT_HTML5).'</a></td>';
-        	$content .= "<td>$entry->date</td>";
-        	$content .= "<td>$entry->id</td>";
-          $content .= "<td>$entry->photo</td>";
+        	$content .= '<td>'.safeHTML($entry->date).'</td>';
+        	$content .= '<td>'.safeHTML($entry->id).'</td>';
+          $content .= '<td>'.safeHTML($entry->photo).'</td>';
         	$content .= '<td class="nowrap">';
         	$content .= createSmallButton('View Details','nmv_view_med_hist_brain?ID_med_history_brain='.$entry->id,'icon view');
         	if ($dbi->checkUserPermission('edit')) {
@@ -190,14 +190,14 @@ if ($victim_id) {
         $content .= '</tr>';
         while ($entry = $query->fetch_object()) {
             $content .= '<tr>';
-            $content .= "<td>$entry->ref_no</td>";
-             $content .= "<td>$entry->ref_no_2</td>";
-            $content .= "<td>$entry->date</td>";
+            $content .= '<td>'.safeHTML($entry->ref_no).'</td>';
+             $content .= '<td>'.safeHTML($entry->ref_no_2).'</td>';
+            $content .= '<td>'.safeHTML($entry->date).'</td>';
             $content .= '<td class="nowrap">'.htmlspecialchars((string) $entry->tissue_form,ENT_HTML5).'</td>';
         	$content .= '<td class="nowrap">'.htmlspecialchars((string) $entry->tissue_state,ENT_HTML5).'</td>';
         	$content .= '<td>'.htmlspecialchars((string) $entry->institution,ENT_HTML5).'</td>';
-            $content .= "<td>$entry->notes</td>";
-            $content .= "<td>$entry->id</td>";
+            $content .= '<td>'.safeHTML($entry->notes).'</td>';
+            $content .= '<td>'.safeHTML($entry->id).'</td>';
         	$content .= '<td class="nowrap">';
             $content .= createSmallButton('View Details','nmv_view_med_hist_tissue?ID_med_history_tissue='.$entry->id,'icon view');
         	if ($dbi->checkUserPermission('edit')) {

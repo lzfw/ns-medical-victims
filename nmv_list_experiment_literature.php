@@ -24,7 +24,7 @@ if ($literature_id) {
     $literature = $query->fetch_object();
 
     if ($literature) {
-        $literature_name = $literature->literature_name;
+        $literature_name = safeHTML($literature->literature_name);
 
         $dbi->addBreadcrumb ($literature_name,'nmv_view_literature?ID_literature='.$literature_id);
 
@@ -102,7 +102,7 @@ if ($experiment_id) {
     $experiment = $query->fetch_object();
 
     if ($experiment) {
-        $experiment_name = $experiment->experiment_name;
+        $experiment_name = safeHTML($experiment->experiment_name);
 
         $dbi->addBreadcrumb ($experiment_name,'nmv_view_experiment?ID_experiment='.$experiment_id);
 

@@ -83,9 +83,9 @@ function prompt($dbi, $item) {
     $literature = get_literature($dbi, $item->ID_literature);
 
     $victim_literature =
-        htmlspecialchars($literature->lit_title, ENT_HTML5).' - ' . 
-        htmlspecialchars($victim->first_names, ENT_HTML5).' '.
-        htmlspecialchars($victim->surname, ENT_HTML5);
+        htmlspecialchars((string) $literature->lit_title, ENT_HTML5).' - ' . 
+        htmlspecialchars((string) $victim->first_names, ENT_HTML5).' '.
+        htmlspecialchars((string) $victim->surname, ENT_HTML5);
     return 'Remove Victim Literature '.': "<em>'.$victim_literature.'</em>".';
 }
 

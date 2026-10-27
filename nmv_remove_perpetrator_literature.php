@@ -83,9 +83,9 @@ function prompt($dbi, $item) {
     $perpetrator = get_perpetrator($dbi, $item->ID_perpetrator);
 
     $perpetrator_literature =
-        htmlspecialchars($literature->lit_title, ENT_HTML5).' - ' . 
-        htmlspecialchars($perpetrator->first_names, ENT_HTML5).' '.
-        htmlspecialchars($perpetrator->surname, ENT_HTML5);
+        htmlspecialchars((string) $literature->lit_title, ENT_HTML5).' - ' . 
+        htmlspecialchars((string) $perpetrator->first_names, ENT_HTML5).' '.
+        htmlspecialchars((string) $perpetrator->surname, ENT_HTML5);
     return 'Remove Literature Perpetrator '.': "<em>'.$perpetrator_literature.'</em>".';
 }
 

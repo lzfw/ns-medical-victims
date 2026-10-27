@@ -16,9 +16,9 @@ function breadcrumb($dbi, $item, $record_id) {
 }
 
 function prompt($dbi, $item) {
-    $perpetrator = htmlspecialchars($item->ID_perpetrator, ENT_HTML5).': '.
-        htmlspecialchars($item->first_names, ENT_HTML5).' '.
-        htmlspecialchars($item->surname, ENT_HTML5);
+    $perpetrator = htmlspecialchars((string) $item->ID_perpetrator, ENT_HTML5).': '.
+        htmlspecialchars((string) $item->first_names, ENT_HTML5).' '.
+        htmlspecialchars((string) $item->surname, ENT_HTML5);
     return 'Remove Perpetrator'.': "<em>'.$perpetrator.'</em>".';
 }
 

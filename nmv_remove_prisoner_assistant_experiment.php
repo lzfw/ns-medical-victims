@@ -83,9 +83,9 @@ function prompt($dbi, $item) {
     $experiment = get_experiment($dbi, $item->ID_experiment);
 
     $victim_experiment =
-        htmlspecialchars($experiment->experiment_title, ENT_HTML5).' - ' .
-        htmlspecialchars($victim->first_names, ENT_HTML5).' '.
-        htmlspecialchars($victim->surname, ENT_HTML5);
+        htmlspecialchars((string) $experiment->experiment_title, ENT_HTML5).' - ' .
+        htmlspecialchars((string) $victim->first_names, ENT_HTML5).' '.
+        htmlspecialchars((string) $victim->surname, ENT_HTML5);
     return 'Remove link between biomedical research and prisoner assistant '.': "<em>'.$victim_experiment.'</em>".';
 }
 

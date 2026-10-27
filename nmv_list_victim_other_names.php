@@ -22,7 +22,7 @@ if ($victim_id) {
     $victim = $query->fetch_object();
 
     if ($victim) {
-        $victim_name = $victim->victim_name;
+        $victim_name = safeHTML($victim->victim_name);
 
         $dbi->addBreadcrumb ($victim_name,'nmv_view_victim?ID_victim='.$victim_id);
 

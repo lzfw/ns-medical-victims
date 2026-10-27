@@ -18,7 +18,7 @@ if ($perpetrator_id) {
     WHERE ID_perpetrator = $perpetrator_id";
     $query = $dbi->connection->query($querystring);
     $perpetrator = $query->fetch_object();
-    $perpetrator_name = $perpetrator->perpetrator_name;
+    $perpetrator_name = safeHTML($perpetrator->perpetrator_name);
 } else {
     $querystring = "
     SELECT CONCAT(COALESCE(p.surname, ''), ' ', COALESCE(p.first_names, '')) perpetrator_name,
@@ -29,7 +29,7 @@ if ($perpetrator_id) {
     $query = $dbi->connection->query($querystring);
     $perpetrator = $query->fetch_object();
     $perpetrator_id = $perpetrator->perpetrator_id;
-    $perpetrator_name = $perpetrator->perpetrator_name;
+    $perpetrator_name = safeHTML($perpetrator->perpetrator_name);
 }
 
 //query: get experiment-institutions for experiment SELECT

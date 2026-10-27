@@ -114,7 +114,7 @@ class Form {
 
 	public function getLabel () {
 		if ($this->label!='') {
-			return "\t".'<tr><th colspan="4" class="form-header">'.($this->label?$this->label:$this->name).'</th></tr>'.PHP_EOL;
+			return "\t".'<tr><th colspan="4" class="form-header">'.(function_exists('safeHTML') ? safeHTML($this->label) : $this->label).'</th></tr>'.PHP_EOL;
 		}
 	}
 

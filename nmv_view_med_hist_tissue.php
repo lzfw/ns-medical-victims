@@ -52,7 +52,7 @@ if ($victim = $query->fetch_object()) {
     $content .= '<tr><th>State since dmyyyy</th><td>'.
         htmlspecialchars((string) $victim->date, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Tissue location<br>(Institution)</th><td>'.
-        htmlspecialchars((string) $victim->institution_name, ENT_HTML5) . '<br>in ' . htmlspecialchars($victim->institution_location, ENT_HTML5) .  ', ' . htmlspecialchars($victim->institution_country, ENT_HTML5) . '</td></tr>';
+        htmlspecialchars((string) $victim->institution_name, ENT_HTML5) . '<br>in ' . htmlspecialchars((string) $victim->institution_location, ENT_HTML5) .  ', ' . htmlspecialchars((string) $victim->institution_country, ENT_HTML5) . '</td></tr>';
     $content .= '<tr><th>htmlspNotes</th><td>'.
         htmlspecialchars((string) $victim->notes, ENT_HTML5).'</td></tr>';
     $content .= '<tr><th>Reference number</th><td>'.

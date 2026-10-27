@@ -83,10 +83,10 @@ function prompt($dbi, $item) {
     $qualification = get_qualification($dbi, $item->ID_qualification);
 
     $perpetrator_source =
-        htmlspecialchars($qualification->qualification_year, ENT_HTML5).', ' .
-        htmlspecialchars($qualification->qualification_place, ENT_HTML5).', ' .
-        htmlspecialchars($qualification->qualification_type, ENT_HTML5).', '.
-        htmlspecialchars($qualification->thesis_title, ENT_HTML5);
+        htmlspecialchars((string) $qualification->qualification_year, ENT_HTML5).', ' .
+        htmlspecialchars((string) $qualification->qualification_place, ENT_HTML5).', ' .
+        htmlspecialchars((string) $qualification->qualification_type, ENT_HTML5).', '.
+        htmlspecialchars((string) $qualification->thesis_title, ENT_HTML5);
     return 'Remove perpetrator qualification '.': "<em>'.$perpetrator_source.'</em>".';
 }
 

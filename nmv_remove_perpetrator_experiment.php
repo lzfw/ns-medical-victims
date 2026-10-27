@@ -83,9 +83,9 @@ function prompt($dbi, $item) {
     $experiment = get_experiment($dbi, $item->ID_experiment);
 
     $perpetrator_experiment =
-        htmlspecialchars($experiment->experiment_title, ENT_HTML5).' - ' . 
-        htmlspecialchars($perpetrator->first_names, ENT_HTML5).' '.
-        htmlspecialchars($perpetrator->surname, ENT_HTML5);
+        htmlspecialchars((string) $experiment->experiment_title, ENT_HTML5).' - ' . 
+        htmlspecialchars((string) $perpetrator->first_names, ENT_HTML5).' '.
+        htmlspecialchars((string) $perpetrator->surname, ENT_HTML5);
     return 'Remove perpetrator biomedical research '.': "<em>'.$perpetrator_experiment.'</em>".';
 }
 

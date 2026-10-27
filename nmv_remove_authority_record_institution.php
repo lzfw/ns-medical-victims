@@ -72,7 +72,7 @@ function get_authority_record($dbi, $id) {
 
 function breadcrumb($dbi, $item, $record_id) {
     $institution = get_institution($dbi, $item->ID_institution);
-    $institution_name = $institution->institution_name;
+    $institution_name = safeHTML($institution->institution_name);
     $institution_name = strlen($institution_name) > 1 ? $institution_name : 'unknown';
     $dbi->addBreadcrumb ($institution_name,'nmv_view_institution?ID_institution='.$item->ID_institution);
 }
@@ -81,8 +81,8 @@ function prompt($dbi, $item) {
     $authority_record = get_authority_record($dbi, $item->ID_authority_record_institution);
 
     $institution_source =
-        htmlspecialchars($authority_record->authority_type, ENT_HTML5).'  --  ' .
-        htmlspecialchars($authority_record->authority_id, ENT_HTML5);
+        htmlspecialchars((string) $authority_record->authority_type, ENT_HTML5).'  --  ' .
+        htmlspecialchars((string) $authority_record->authority_id, ENT_HTML5);
     return 'Remove Authority Record '.': "<em>'.$institution_source.'</em>".';
 }
 

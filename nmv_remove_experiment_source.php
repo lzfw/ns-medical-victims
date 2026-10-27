@@ -83,9 +83,9 @@ function prompt($dbi, $item) {
     $experiment = get_experiment($dbi, $item->ID_experiment);
 
     $experiment_source =
-        htmlspecialchars($experiment->experiment_title, ENT_HTML5).' - ' . 
-        htmlspecialchars($source->source_title, ENT_HTML5).' '.
-        htmlspecialchars($source->creation_year, ENT_HTML5);
+        htmlspecialchars((string) $experiment->experiment_title, ENT_HTML5).' - ' . 
+        htmlspecialchars((string) $source->source_title, ENT_HTML5).' '.
+        htmlspecialchars((string) $source->creation_year, ENT_HTML5);
     return 'Remove biomedical research source'.': "<em>'.$experiment_source.'</em>".';
 }
 

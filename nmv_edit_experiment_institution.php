@@ -13,7 +13,7 @@ $title_query = $dbi->connection->query(" SELECT e.experiment_title
                                         FROM nmv__experiment e
                                         WHERE e.ID_experiment = $ID_experiment");
 $experiment = $title_query->fetch_object();
-$experiment_title = $experiment->experiment_title;
+$experiment_title = safeHTML($experiment->experiment_title);
 
 // query: get array of institutions of this experiment
 $institution_array = array();

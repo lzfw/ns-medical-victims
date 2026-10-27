@@ -24,7 +24,7 @@ if ($source_id) {
     $source = $query->fetch_object();
 
     if ($source) {
-        $source_name = $source->source_name;
+        $source_name = safeHTML($source->source_name);
 
         $dbi->addBreadcrumb ($source_name,'nmv_view_source?ID_source='.$source_id);
 
@@ -108,7 +108,7 @@ if ($experiment_id) {
     $experiment = $query->fetch_object();
 
     if ($experiment) {
-        $experiment_name = $experiment->experiment_name;
+        $experiment_name = safeHTML($experiment->experiment_name);
 
         $dbi->addBreadcrumb ($experiment_name,'nmv_view_experiment?ID_experiment='.$experiment_id);
 

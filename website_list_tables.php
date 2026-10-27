@@ -53,7 +53,7 @@ function generateTableHtml($title, $description, $query, $dbi) {
                 </tr>';
     while ($entry = $query->fetch_object()) {
         $content .= '<tr>';
-        $content .= '<td class="nowrap"><a href="website_view_table?ID_website_table=' . $entry->ID_website_table . '">' . htmlentities($entry->website_table, ENT_HTML5) .  '</a></td>';
+        $content .= '<td class="nowrap"><a href="website_view_table?ID_website_table=' . $entry->ID_website_table . '">' . htmlentities((string) $entry->website_table, ENT_HTML5) .  '</a></td>';
         $content .= "<td class='nowrap'>$entry->type_of_table</td>";
         $content .= "<td class='nowrap'>$entry->website_page</td>";
         $content .= "<td class='nowrap'>$entry->ID_website_page</td>";

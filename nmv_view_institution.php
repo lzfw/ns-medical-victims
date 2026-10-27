@@ -45,7 +45,7 @@ $institution_name = 'Unknown institution - Maybe deleted?';
 $institution_type = 0;
 
 if ($institution = $result->fetch_object()) {
-    $institution_name = $institution->institution_name;
+    $institution_name = safeHTML($institution->institution_name);
     $institution_type = $institution->institution_type;
     $content .= buildElement('table','grid',
         buildDataSheetRow('Institution ID',             $institution_id).

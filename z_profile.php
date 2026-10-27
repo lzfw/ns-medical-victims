@@ -52,7 +52,7 @@ else {
 	$content .= '<ul>'.PHP_EOL;
 	while ($user = $users_query->fetch_object()) {
 		$content .= '<li>';
-		$content .= '<a href="z_profile.php?user_id='.$user->user_id.'">'.$user->display_name.'</a>';
+		$content .= '<a href="z_profile.php?user_id='.$user->user_id.'">'.safeHTML($user->display_name).'</a>';
 		$content .= '</li>'.PHP_EOL;
 	}
 	$content .= '</ul>'.PHP_EOL;

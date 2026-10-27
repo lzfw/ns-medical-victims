@@ -23,7 +23,7 @@ if ($perpetrator_id) {
     WHERE p.ID_perpetrator = $perpetrator_id";
     $query = $dbi->connection->query($querystring);
     $perpetrator = $query->fetch_object();
-    $perpetrator_name = $perpetrator->perpetrator_name;
+    $perpetrator_name = safeHTML($perpetrator->perpetrator_name);
 } else {
     $querystring = "
     SELECT CONCAT(surname, ' ', first_names) AS perpetrator_name, p.ID_perpetrator        
@@ -33,7 +33,7 @@ if ($perpetrator_id) {
     $query = $dbi->connection->query($querystring);
     $perpetrator = $query->fetch_object();
     $perpetrator_id = $perpetrator->ID_perpetrator;
-    $perpetrator_name = $perpetrator->perpetrator_name;
+    $perpetrator_name = safeHTML($perpetrator->perpetrator_name);
 }
 
 

@@ -16,9 +16,9 @@ function breadcrumb($dbi, $item, $record_id) {
 }
 
 function prompt($dbi, $item) {
-    $victim = htmlspecialchars($item->ID_victim, ENT_HTML5).': '.
-        htmlspecialchars($item->first_names, ENT_HTML5).' '.
-        htmlspecialchars($item->surname, ENT_HTML5);
+    $victim = htmlspecialchars((string) $item->ID_victim, ENT_HTML5).': '.
+        htmlspecialchars((string) $item->first_names, ENT_HTML5).' '.
+        htmlspecialchars((string) $item->surname, ENT_HTML5);
     return 'Remove complete person\'s entry with all links'.': "<em>'.$victim.'</em>".';
 }
 
