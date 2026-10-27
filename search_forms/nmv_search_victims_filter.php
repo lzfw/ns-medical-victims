@@ -9,7 +9,7 @@
 
 //query: get experiment-institutions for experiment SELECT
 $querystring_experiment = "  SELECT e.ID_experiment AS value,
-                                    CONCAT(IFNULL(e.experiment_title, 'no entry'), ' &ensp; - &ensp; ID ',
+                                    CONCAT(IFNULL(e.experiment_title, 'no entry'), '   -   ID ',
                                                   e.ID_experiment, ' &ensp; - &ensp; ',
                                                   IFNULL(GROUP_CONCAT(i.institution_name), 'no entry')) AS title
                               FROM nmv__experiment e
@@ -145,7 +145,7 @@ if (!($dbi->checkUserPermission('mpg'))) :
   $victimsVariableForm->addField('exp_institution', SELECT)
       ->setLabel('experiment - institution')
       ->addOption(NO_VALUE, 'all experiment-institutions')
-      ->addOptionsFromTable('nmv__institution', 'ID_institution', "CONCAT(IFNULL(institution_name, '-/-'), '&emsp;---&emsp;', LEFT(IFNULL(location, '-/-'), 50))",
+      ->addOptionsFromTable('nmv__institution', 'ID_institution', "CONCAT(IFNULL(institution_name, '-/-'), ' --- ', LEFT(IFNULL(location, '-/-'), 50))",
                             'EXISTS (SELECT *
                                       FROM nmv__experiment_institution
                                       WHERE nmv__experiment_institution.ID_institution = nmv__institution.ID_institution)');
@@ -218,7 +218,7 @@ $victimsVariableForm->addField('br-tissue', STATIC_TEXT, '<br>');
 $victimsVariableForm->addField('tissue_institution', SELECT)
     ->setLabel('tissue - institution')
     ->addOption(NO_VALUE, 'all institutions')
-    ->addValidOptionsFromTable('nmv__institution', 'ID_institution', "CONCAT(IFNULL(institution_name, '-/-'), '&emsp;---&emsp;', LEFT(IFNULL(location, '-/-'), 50))", 'nmv__med_history_tissue');
+    ->addValidOptionsFromTable('nmv__institution', 'ID_institution', "CONCAT(IFNULL(institution_name, '-/-'), ' --- ', LEFT(IFNULL(location, '-/-'), 50))", 'nmv__med_history_tissue');
 
 $victimsVariableForm->addField('ID_tissue_form', SELECT)
   ->setLabel('tissue - form')
@@ -243,7 +243,7 @@ $victimsVariableForm->addField('brain_report_year', SELECT)
 $victimsVariableForm->addField('brain_report_institution', SELECT)
   ->setLabel('brain report - institution')
   ->addOption(NO_VALUE,'all institutions')
-  ->addValidOptionsFromTable('nmv__institution', 'ID_institution', "CONCAT(IFNULL(institution_name, '-/-'), '&emsp;---&emsp;', LEFT(IFNULL(location, '-/-'), 50))", 'nmv__med_history_brain');
+  ->addValidOptionsFromTable('nmv__institution', 'ID_institution', "CONCAT(IFNULL(institution_name, '-/-'), ' --- ', LEFT(IFNULL(location, '-/-'), 50))", 'nmv__med_history_brain');
 
 $victimsVariableForm->addField('ref_no_brain', TEXT, 120)
   ->setLabel('brain report - Reference Number');
@@ -267,7 +267,7 @@ $victimsVariableForm->addField('hospitalisation_year', TEXT, 4)
   $victimsVariableForm->addField('hospitalisation_institution', SELECT)
     ->setLabel('hospitalisation - institution')
     ->addOption(NO_VALUE,'all institutions')
-    ->addValidOptionsFromTable('nmv__institution', 'ID_institution', "CONCAT(IFNULL(institution_name, '-/-'), '&emsp;---&emsp;', LEFT(IFNULL(location, '-/-'), 50))", 'nmv__med_history_hosp');
+    ->addValidOptionsFromTable('nmv__institution', 'ID_institution', "CONCAT(IFNULL(institution_name, '-/-'), ' --- ', LEFT(IFNULL(location, '-/-'), 50))", 'nmv__med_history_hosp');
 
 $victimsVariableForm->addField('autopsy_ref_no', TEXT, 120)
     ->setLabel('hospitalisation - Autopsy Number');

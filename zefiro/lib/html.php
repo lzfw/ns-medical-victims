@@ -2,6 +2,23 @@
 
 // generic functions
 
+/**
+ * Escape a (database) value for HTML output. Existing entities are kept, and simple formatting
+ * tags without attributes (b, i, em, strong, u, s, sub, sup, small, br) are allowed.
+ */
+function safeHTML ($value) {
+	$html = htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8', false);
+	return preg_replace('#&lt;(/?)(b|i|em|strong|u|s|sub|sup|small|br)\s*/?&gt;#i', '<$1$2>', $html);
+}
+
+// page titles: like safeHTML, plus the red highlight some pages use
+function safeTitleHTML ($value) {
+	return str_replace(
+		array('&lt;span class=&quot;red&quot;&gt;', '&lt;/span&gt;'),
+		array('<span class="red">', '</span>'),
+		safeHTML($value));
+}
+
 function buildElement () {
 	$args = func_get_args();
 	switch (func_num_args()) {
@@ -109,7 +126,7 @@ function buildRowsFromQuery($rowElementName, $cellElementName, $querystring, $ma
 				// ersetzt jedes {x} durch $row->x
 				$cellElementContent = preg_replace_callback('/(\{(\w*)\})/',
 				    function ($matches) use ($row) {
-				        return $row->{$matches[2]};
+				        return safeHTML($row->{$matches[2]});
 				    }, $mask);
 				if ($cellElementContent != NULL) :
 					$html .= '<'.$cellElementName.'>'.$cellElementContent.'</'.$cellElementName.'>'.PHP_EOL;
@@ -180,7 +197,7 @@ function buildListFromQuery($listElementName, $querystring, $mask) {
 			// ersetzt jedes {x} durch $row->x
 		    $listElementContent = preg_replace_callback('/(\{(\w*)\})/',
 		        function ($matches) use ($row) {
-		            return $row->{$matches[2]};
+		            return safeHTML($row->{$matches[2]});
 		        }, $mask);
 			$html .= '<'.$listElementName.'>'.$listElementContent.'</'.$listElementName.'>'.PHP_EOL;
 		}

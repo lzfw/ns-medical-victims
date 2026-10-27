@@ -55,7 +55,7 @@ if ($victim_id) {
 
 //query: get experiment-institutions for experiment SELECT
 $querystring_experiment = "  SELECT e.ID_experiment AS value,
-                                    CONCAT(IFNULL(e.experiment_title, 'no entry'), ' &ensp; - &ensp; ID ',
+                                    CONCAT(IFNULL(e.experiment_title, 'no entry'), '   -   ID ',
                                                   e.ID_experiment, ' &ensp; - &ensp; ',
                                                   GROUP_CONCAT(IFNULL(i.institution_name, 'no entry'))) AS title
                               FROM nmv__experiment e

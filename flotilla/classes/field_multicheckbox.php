@@ -135,11 +135,11 @@ class MultiCheckbox_Option {
 		$output .= ' name="'.$this->name.'[]"';
 		$output .= ' id="'.$this->getId().'"';
 		$output .= ' type="checkbox"';
-		if (isset($this->title)) $output .= ' value="'.$this->value.'"';
+		if (isset($this->title)) $output .= ' value="'.htmlspecialchars((string) $this->value, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8', false).'"';
 		if ($is_checked) $output .= ' checked="checked"';
 		$output .= '/> <label for="'.$this->getId().'">';
-		if (isset($this->title)) $output .= $this->title;
-		else $output .= $this->value;
+		if (isset($this->title)) $output .= htmlspecialchars((string) $this->title, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8', false);
+		else $output .= htmlspecialchars((string) $this->value, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8', false);
 		$output .= '</label><br/>'.PHP_EOL;
 		return $output;
 	}

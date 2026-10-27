@@ -59,7 +59,7 @@
 		</div> <!-- #options -->
 		<div id="body">
 			<div id="content">
-				<h2><?php $this->cast('title') ?></h2>
+				<h2><?php echo safeTitleHTML($this->get('title')) ?></h2>
 				<?php $this->cast('content') ?>
 			</div> <!-- #content -->
 			<div id="sidebar" class="right">
@@ -70,7 +70,7 @@
 			<div class="left">
 				<?php
 					echo L_VERSION;
-					if ($dbi->user) echo ' - '.L_AUTHENTICATED_AS.' <b>'.$dbi->user['display_name'].'</b>';
+					if ($dbi->user) echo ' - '.L_AUTHENTICATED_AS.' <b>'.safeHTML($dbi->user['display_name']).'</b>';
 					echo ' - '.L_SESSION_TIMEOUT.' '
 				        .date("H:i", time() + ini_get('session.gc_maxlifetime'));
 				?>

@@ -24,6 +24,9 @@ Data curation interface of the NMV database. Deployed as the `zefiro` submodule 
 - Request values in HTML: `htmlspecialchars()`; in links: `http_build_query()`/`urlencode()`;
   in onclick handlers: `Button::HTMLOnclickLocation()` (JSON + HTML escaping). `skip` must be
   digits (`DBI::setUserVar()`), flotilla's "last page" only accepts referers from this site.
+- Database values in HTML: `safeHTML()` (zefiro/lib/html.php; keeps entities and simple tags
+  without attributes), page titles/breadcrumbs: `safeTitleHTML()`. Trusted (admin-only) rich
+  content, printed raw: textblocks, the public-site `website_*` tables, user profiles.
 - Never pass SQL through URLs. Result pages hand their WHERE clause to nmv_export.php via
   `registerExportWhereClause()` (zefiro/lib/url.php, stored in the session); links carry only
   `export-id`.

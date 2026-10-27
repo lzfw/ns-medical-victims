@@ -273,10 +273,10 @@ class Select_Option {
     public function HTMLOutput ($is_selected): string
     {
         $output = "\t\t\t\t<option";
-        if ($this->title) $output .= ' value="'.$this->value.'"';
+        if ($this->title) $output .= ' value="'.htmlspecialchars((string) $this->value, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8', false).'"';
         if ($is_selected) $output .= ' selected="selected"';
-        if ($this->title) $output .= '>'.$this->title;
-        else $output .='>'.$this->value;
+        if ($this->title) $output .= '>'.htmlspecialchars((string) $this->title, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8', false);
+        else $output .='>'.htmlspecialchars((string) $this->value, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8', false);
         $output .= '</option>'.PHP_EOL;
         return $output;
     }

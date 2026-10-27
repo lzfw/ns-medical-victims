@@ -133,10 +133,10 @@ class DBI {
 		foreach($this->breadcrumbs as $index => $crumb) {
 			switch (count($crumb)) {
 				case 1:
-					$html .= ' '.Z_BREADCRUMB_SYMBOL.$crumb[0];
+					$html .= ' '.Z_BREADCRUMB_SYMBOL.safeTitleHTML($crumb[0]);
 					break;
 				case 2:
-					$html .= ' '.Z_BREADCRUMB_SYMBOL.'<a class="breadcrumb" href="'.$crumb[1].'">'.$crumb[0].'</a>';
+					$html .= ' '.Z_BREADCRUMB_SYMBOL.'<a class="breadcrumb" href="'.htmlspecialchars($crumb[1], ENT_QUOTES, 'UTF-8', false).'">'.safeTitleHTML($crumb[0]).'</a>';
 					break;
 				case 3:
 					$html .= ' '.Z_BREADCRUMB_SYMBOL.'<div class="breadcrumb"><span class="tooltip-text">'.$crumb[2].'</span><a href="'.$crumb[1].'">'.$crumb[0].'</a></div>';

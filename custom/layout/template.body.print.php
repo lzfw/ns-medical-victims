@@ -15,7 +15,7 @@ $template_content = preg_replace("/<\/?a[^>]*>/",'',$template_content);
 		</div> <!-- #header -->
 		<div id="body">
 			<div id="content">
-				<h2><?php $this->cast('title') ?></h2>
+				<h2><?php echo safeTitleHTML($this->get('title')) ?></h2>
 				<?php $this->cast('content') ?>
 			</div>
 		</div> <!-- #body -->
