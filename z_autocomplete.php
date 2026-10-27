@@ -6,9 +6,9 @@ header('Content-type: text/html; charset=utf-8');
 $dbi->requireUserPermission ('view');
 
 // Benutzereingabe
-$table = $dbi->connection->escape_string( $_GET['table'] );
-$field = $dbi->connection->escape_string( $_GET['field'] );
-$input = $dbi->connection->escape_string( $_GET['term'] );
+$table = $dbi->connection->escape_string( $_GET['table'] ?? '' );
+$field = $dbi->connection->escape_string( $_GET['field'] ?? '' );
+$input = $dbi->connection->escape_string( $_GET['term'] ?? '' );
 $label = isset($_GET['label'])
     ? $dbi->connection->escape_string($_GET['label'])
     : NULL;

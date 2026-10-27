@@ -6,6 +6,11 @@
 
 class SortOption {
 
+	public $alternative_order;
+	public $default_order;
+	public $field_name;
+	public $title;
+
 	// CONSTRUCTORS --------------------------------------------------------------
 
 	protected function __construct ($title,$field_name,$default_order,$alternative_order) {

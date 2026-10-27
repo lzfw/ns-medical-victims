@@ -6,7 +6,7 @@
 *
 */
 function filterData(&$str){
-    $str = preg_replace("/\t/", "\\t", $str);
+    $str = preg_replace("/\t/", "\\t", (string) $str);
     $str = preg_replace("/\r?\n/", "\\n", $str);
     $str = str_replace("\\n", "---------------", $str);
     if(strstr($str, '"')) $str = '"' . str_replace('"', '""', $str) . '"';
@@ -63,8 +63,8 @@ switch ($entity) {
 // $export_query_where = " WHERE was_prisoner_assistant != 'prisoner assistant only' AND (TRIM(v.surname) LIKE '%Adler%' OR TRIM(vn.victim_name) LIKE '%Adler%')";
 if (getUrlParameter('where-clause')) {
   $export_query_where = getUrlParameter('where-clause');
-  $export_query_where = utf8_decode($export_query_where);
-  $export_query_where = htmlspecialchars($export_query_where);
+  $export_query_where = mb_convert_encoding($export_query_where, 'ISO-8859-1', 'UTF-8');
+  $export_query_where = htmlspecialchars($export_query_where, ENT_COMPAT | ENT_HTML401);
   } else {
   // $export_query_where = 'WHERE 1';
   $export_query_where = ' ';
@@ -94,7 +94,7 @@ if(getUrlParameter('type') == 'csv') {
               $fields = array_keys($row);
             }
           }
-          fputcsv($file, $fields, $delimiter);
+          fputcsv($file, $fields, $delimiter, '"', '\\');
 
           // Output each row of the data, format line as csv and write to file pointer
           $query_items = $dbi->connection->query($export_query);
@@ -105,7 +105,7 @@ if(getUrlParameter('type') == 'csv') {
               foreach($fields as $field) {
                 $lineData[] = $row[$field];
               }
-              fputcsv($file, $lineData, $delimiter);
+              fputcsv($file, $lineData, $delimiter, '"', '\\');
           }
 
           // Move back to beginning of file

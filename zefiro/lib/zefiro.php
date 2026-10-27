@@ -60,7 +60,7 @@ function mysql_get_random_row($table, $column) {
 
 function parseSimpleMarkup ($text) {
 	// **bold**
-	$text = preg_replace ('#\*\*([^\*]+)\*\*#', '<b>$1</b>', $text);
+	$text = preg_replace ('#\*\*([^\*]+)\*\*#', '<b>$1</b>', (string) $text);
 	$text = preg_replace ('#\*\~\*#', '**', $text);
 	// __italics__
 	$text = preg_replace ('#\_\_([^\_]+)\_\_#', '<i>$1</i>', $text);
@@ -145,7 +145,7 @@ function getDateUserStamp_HTML ($stamp,$date,$user) {
 			$patterns = array('/ISO 8859/', '/Y/', '/m/', '/d/', '/M/');
 			preg_match('/([0-9]{4})-([0-9]{2})-([0-9]{2})/',$date,$replacements);
 			// local month name
-			$replacements[4] = strftime('%B',mktime(0,0,0,$replacements[2]));
+			$replacements[4] = date('F',mktime(0,0,0,(int)$replacements[2],1));
 			$html .= Z_STAMP_ON_DATE.preg_replace ($patterns, $replacements, Z_DATE_FORMAT);
 		}
 		$html .= '</p>'.PHP_EOL;
@@ -159,7 +159,7 @@ function historicalDateFormat ($date) {
 	$patterns = array('/ISO 8859/', '/Y/', '/m/', '/d/', '/M/');
 	preg_match('/([0-9]{4})-([0-9]{2})-([0-9]{2})/',$date,$replacements);
 	// local month name
-	$replacements[4] = strftime('%B',mktime(0,0,0,$replacements[2]));
+	$replacements[4] = date('F',mktime(0,0,0,(int)$replacements[2],1));
 	if ($replacements[1] != '0000' && $replacements[2] != '00' && $replacements[3] != '00') {
 		return preg_replace ($patterns, $replacements, Z_DATE_FORMAT);
 	}

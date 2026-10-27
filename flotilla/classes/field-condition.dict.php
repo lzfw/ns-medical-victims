@@ -16,6 +16,9 @@ define ('DOMAIN',						6);
 define ('EMAIL',						7);
 define ('WEBSITE',						8);
 define ('URL',							9);
+define ('REGEX',						'REGEX');
+define ('ENGLISH',						'ENGLISH');
+define ('GERMAN',						'GERMAN');
 
 define ('TYPE',							'Type');
 define ('INTEGER',						'integer');

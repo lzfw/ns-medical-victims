@@ -2,11 +2,13 @@
 
 class Field_MultiSelect extends Field {
 
+	public $size;
+
 	public $Options = array();
 
 	// CONSTRUCTORS --------------------------------------------------------------
 
-	protected function __construct (Form $Creator, $name, $size = AUTOSIZE, $required, $default_option) {
+	protected function __construct (Form $Creator, $name, $size, $required, $default_option) {
 		if (isset($name)) {
 			$this->Creator = $Creator;
 			$this->name = $name;

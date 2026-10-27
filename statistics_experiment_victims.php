@@ -33,7 +33,7 @@ $experiment_query = "SELECT experiment_title
           FROM nmv__experiment
           WHERE ID_experiment=$experiment_id";
 $query_item = $dbi->connection->query($experiment_query)->fetch_array();
-$experiment_title = $query_item['experiment_title'];
+$experiment_title = $query_item['experiment_title'] ?? NULL;
 
 
 //get the data: queries

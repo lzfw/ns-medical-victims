@@ -3,6 +3,9 @@
 
 class Form {
 
+	public $append_mode;
+	public $title;
+
 	public $name;
 
 	// sub-objects

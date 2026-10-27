@@ -39,6 +39,7 @@ define('L_RESULTS_LAST',				'Ende');
 define('L_OF_TOTAL_RESULTS',			'von');
 define('L_RESULTS_ORDER',				'Reihenfolge');
 define('L_RESULTS',						'Ergebnisse');
+define('L_RESULTS_PAGE',				'Seite');
 define('L_NO_RESULTS',					'Die Anfrage ergab keine Ergebnisse.');
 define('L_ERROR_QUERY',					'Die Anfrage konnte nicht ausgeführt werden.');
 

@@ -131,7 +131,7 @@ foreach ($diy_fields as $field) {
 $where_clause = '';
 if (count($querystring_where) > 0) {
     $where_clause = ' WHERE '.implode(' AND ',$querystring_where);
-		$where_clause_encoded = urlencode(utf8_encode($where_clause)); //encode for url-transfer to export
+		$where_clause_encoded = urlencode(mb_convert_encoding($where_clause, 'UTF-8', 'ISO-8859-1')); //encode for url-transfer to export
     $querystring_items .= $where_clause;
 }
 $querystring_items .= "GROUP BY v.ID_victim";

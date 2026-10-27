@@ -39,6 +39,7 @@ define('L_RESULTS_LAST',				'last');
 define('L_OF_TOTAL_RESULTS',			'of');
 define('L_RESULTS_ORDER',				'Order');
 define('L_RESULTS',						'Results');
+define('L_RESULTS_PAGE',				'Page');
 define('L_NO_RESULTS',					'The query did not return any results.');
 define('L_ERROR_QUERY',					'The database query could not be executed.');
 

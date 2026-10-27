@@ -5,7 +5,7 @@ class Action_DataFile extends Action {
 	var $filename;
 	var $separator;
 
-	protected function __construct ($Creator, $filename, $separator = ACTION_DATAFILE_SEPARATOR) {
+	protected function __construct ($Creator, $filename, $separator = FLO_DATAFILE_SEPARATOR) {
 		$this->Creator = $Creator;
 		if (is_file($filename)) {
 			$this->filename = $filename;

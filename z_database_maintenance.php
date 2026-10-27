@@ -34,7 +34,7 @@ switch ($task) {
 		while ($row = $optimize_q->fetch_row()) {
 			$template_content .= '<p>'.$row[0].': '.$row[1].' / '.$row[2].': '.$row[3].'</p>'.PHP_EOL;
 		}
-		$template_content .= '<p>'.createButton (Z_OK,'z_database_maintenance.php','icon ok').'</p>'.PHP_EOL;
+		$template_content .= '<p>'.createButton (L_OK,'z_database_maintenance.php','icon ok').'</p>'.PHP_EOL;
 	break;
 
 	// CUSTOM FUNCTIONS -------------------------------------------------------

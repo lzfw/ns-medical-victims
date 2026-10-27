@@ -92,7 +92,7 @@ $form
 
 $form
 	->addAction (QUERY_TO_SESSION,
-	    "SELECT * FROM z_users WHERE name='{name}'", L_SESSION_NAME)
+	    "SELECT * FROM z_users WHERE name='{name}'", Z_SESSION_NAME)
 	->addAction (REDIRECT);
 
 $layout

@@ -8,9 +8,9 @@ $connection = openDB($_SESSION['flotilla']['connection'][1],
        $_SESSION['flotilla']['connection'][4]);
 
 $relation = $_SESSION['flotilla']['subtables'][$_GET['table']];
-$subtable_name = $relation[name];
-$subtable_key = $relation[key];
-$subtable_value = $relation[value];
+$subtable_name = $relation['name'];
+$subtable_key = $relation['key'];
+$subtable_value = $relation['value'];
 $subtable_initial = empty($_GET['initial'])?0:$_GET['initial'];
 
 if (is_array($subtable_value)) {

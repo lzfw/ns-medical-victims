@@ -64,7 +64,7 @@ $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']} LIM
 //$querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 
 // WHERE CLAUSE for data exports
-$where_clause_encoded = urlencode(utf8_encode("WHERE v.was_prisoner_assistant != 'victim only'"));
+$where_clause_encoded = urlencode(mb_convert_encoding("WHERE v.was_prisoner_assistant != 'victim only'", 'UTF-8', 'ISO-8859-1'));
 
 
 // query ausführen

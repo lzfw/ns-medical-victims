@@ -21,6 +21,7 @@ class DBI {
 	// CONSTRUCTOR ---------------------------------------------------------------
 
 	public function __construct ($db_host,$db_user,$db_pass,$db_name) {
+	    mysqli_report(MYSQLI_REPORT_OFF);
 	    $this->connection = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
 	    if ($this->connection->connect_error) {
 			echo L_ERROR_CONNECTION;

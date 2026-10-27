@@ -29,7 +29,7 @@ require_once '../flotilla/lib/opendb_mysql.php';
 $connection = openDB($db_host,$db_user,$db_pass,$db_name);
 
 // Standardwerte
-define (AC_DEFAULT_LIMIT, 5);
+define ('AC_DEFAULT_LIMIT', 5);
 
 $table = isset($_GET['table'])?$_GET['table']:NULL;					// Tabellenauswahl (Pflicht)
 $field = isset($_GET['field'])?$_GET['field']:NULL;					// Feldauswahl (Pflicht)

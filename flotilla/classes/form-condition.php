@@ -2,6 +2,8 @@
 
 class FormCondition {
 
+	public $parameter;
+
 	public $type;
 	public $error_message;
 

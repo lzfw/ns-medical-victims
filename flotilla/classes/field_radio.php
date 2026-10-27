@@ -2,6 +2,8 @@
 
 class Field_Radio extends Field {
 
+	public $alignment;
+
 	public $RadioButtons = array();
 
 	// CONSTRUCTORS -----------------------------------------------------------

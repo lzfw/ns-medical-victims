@@ -99,6 +99,8 @@ class Field_MultiCheckbox extends Field {
 
 class MultiCheckbox_Option {
 
+	public $tagged;
+
 	protected $name;
 	protected $value;
 	protected $title;

@@ -10,6 +10,7 @@
  * @return boolean|mysqli
  */
 function openDB($db_host,$db_user,$db_pass,$db_name) {
+    mysqli_report(MYSQLI_REPORT_OFF);
     $link = @new mysqli($db_host,$db_user,$db_pass,$db_name);
     if ($link->connect_error) {
 		die ('MYSQL : connection failed');

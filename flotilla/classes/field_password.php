@@ -35,7 +35,7 @@ class Field_Password extends Field {
 		$output .= " id=\"{$this->getId()}\"";
 		$output .= ' type="password"';
 		if ($this->length) $output .= " maxlength=\"$this->length\" size=\"$this->length\"";
-		$output .= ' value="'.htmlspecialchars(stripslashes($this->user_value)).'"';
+		$output .= ' value="'.htmlspecialchars(stripslashes((string) $this->user_value)).'"';
 		if ($this->is_not_hidden()) {
 			$output .= $this->HTMLTitle();
 			$output .= $this->HTMLClass();
