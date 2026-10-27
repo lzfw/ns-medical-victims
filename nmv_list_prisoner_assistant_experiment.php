@@ -26,7 +26,7 @@ WHERE ID_experiment = $experiment_id";
 $query = $dbi->connection->query($querystring);
 $experiment = $query->fetch_object();
 
-$experiment_name = $experiment->experiment_name;
+$experiment_name = safeHTML($experiment->experiment_name);
 
 //browsing options --> $_GET in url
 $dbi->setUserVar('querystring', "ID_experiment=$experiment_id");

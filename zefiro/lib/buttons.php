@@ -8,13 +8,13 @@ function createButton () {
 	// 3: title
 	// 4: onclick
 	return
-		(isset($args[1])?'<a href="'.$args[1].'">':'')
+		(isset($args[1])?'<a href="'.htmlspecialchars((string) $args[1], ENT_QUOTES, 'UTF-8', false).'">':'')
 		.'<span'
 		.' class="button'.(isset($args[2])?' '.$args[2]:'').'"'
 		.(isset($args[4])?' onclick="'.$args[4].'"':'')
-		.(isset($args[3])?' title="'.$args[3].'"':'')
+		.(isset($args[3])?' title="'.htmlspecialchars((string) $args[3], ENT_QUOTES, 'UTF-8', false).'"':'')
 		.'>'
-		.(isset($args[0])?$args[0]:'')
+		.(isset($args[0])?safeHTML($args[0]):'')
 		.'</span>'
 		.(isset($args[1])?'</a>':'').PHP_EOL;
 }
@@ -31,13 +31,13 @@ function createSmallButton () {
 	// 3: title
 	// 4: onclick
 	return
-		(isset($args[1])?'<a href="'.$args[1].'">':'')
+		(isset($args[1])?'<a href="'.htmlspecialchars((string) $args[1], ENT_QUOTES, 'UTF-8', false).'">':'')
 		.'<span'
 		.' class="smallbutton'.(isset($args[2])?' '.$args[2]:'').'"'
 		.(isset($args[4])?' onclick="'.$args[4].'"':'')
-		.(isset($args[3])?' title="'.$args[3].'"':'')
+		.(isset($args[3])?' title="'.htmlspecialchars((string) $args[3], ENT_QUOTES, 'UTF-8', false).'"':'')
 		.'>'
-		.(isset($args[0])?$args[0]:'')
+		.(isset($args[0])?safeHTML($args[0]):'')
 		.'</span>'
 		.(isset($args[1])?'</a>':'').PHP_EOL;
 }
@@ -48,8 +48,8 @@ function createListItem () {
 	// 1: link
 	// 2: class
 	return
-		'<li'.(isset($args[2])?' class="'.$args[2].'"':'').'><a href="'.$args[1].'">'
-		.(isset($args[0])?$args[0]:'').'</a></li>';
+		'<li'.(isset($args[2])?' class="'.$args[2].'"':'').'><a href="'.htmlspecialchars((string) $args[1], ENT_QUOTES, 'UTF-8', false).'">'
+		.(isset($args[0])?safeHTML($args[0]):'').'</a></li>';
 }
 
 function createIcon () {

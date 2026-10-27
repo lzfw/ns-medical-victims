@@ -31,7 +31,7 @@ if ($victim_id) {
     WHERE ID_victim = $victim_id";
     $query = $dbi->connection->query($querystring);
     $victim = $query->fetch_object();
-    $victim_name = $victim->victim_name;
+    $victim_name = safeHTML($victim->victim_name);
 } else {
     $name_id = (int) getUrlParameter('ID_imprisonment', 0);
     $querystring = "
@@ -49,7 +49,7 @@ if ($victim_id) {
     else:
         $dbi->requireUserPermission ('edit');
     endif;
-    $victim_name = $victim->victim_name;
+    $victim_name = safeHTML($victim->victim_name);
 }
 // query: get array of classification for this imprisonment
 $tagged = $dbi->connection->query("SELECT ic.ID_classification, vc.classification

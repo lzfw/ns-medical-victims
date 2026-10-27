@@ -44,7 +44,7 @@ $content .= '<br><table class="grid">';
 if ($pae = $query->fetch_object()) {
     $victim_id = $pae->ID_victim;
     $victim_name = $pae->first_names . ' ' . $pae->surname;
-    $experiment_title = $pae->experiment;
+    $experiment_title = safeHTML($pae->experiment);
     $experiment_id = $pae->ID_experiment;
     $ei_info = $pae->ei_info;
 

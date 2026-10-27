@@ -24,10 +24,10 @@ if ($dbi->checkUserPermission('admin')) {
 $content .= '</tr>';
 while ($user = $user_query->fetch_object()) {
 	$content .= '<tr>';
-	$content .= '<td><a href="z_profile?user_id='.$user->user_id.'">'.$user->display_name.'</a></td>';
-	$content .= "<td>$user->name</td>";
-	$content .= "<td>$user->group</td>";
-	$content .= "<td>$user->permissions</td>";
+	$content .= '<td><a href="z_profile?user_id='.$user->user_id.'">'.safeHTML($user->display_name).'</a></td>';
+	$content .= '<td>'.safeHTML($user->name).'</td>';
+	$content .= '<td>'.safeHTML($user->group).'</td>';
+	$content .= '<td>'.safeHTML($user->permissions).'</td>';
 	if ($dbi->checkUserPermission('admin')) {
 		$content .= '<td class="nowrap">'.
 			createSmallButton(L_EDIT,'z_edit_user?user_id='.$user->user_id,'icon edit').

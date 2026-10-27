@@ -21,8 +21,8 @@ function update_user_pass($user_name, $pass, $link) {
 
 function log_login_attempt($result, $uid, $name) {
     $details = 'NAME: ' .     $name .
-        '; REMOTE: ' .        $_SERVER['HTTP_X_FORWARDED_FOR'] .
-        '; FORWARDED_FOR: ' . $_SERVER['HTTP_X_FORWARDED_FOR'];
+        '; REMOTE: ' .        ($_SERVER['REMOTE_ADDR'] ?? '') .
+        '; FORWARDED_FOR: ' . ($_SERVER['HTTP_X_FORWARDED_FOR'] ?? '');
 
     if (is_null($uid)) {
         $uid = -1;
@@ -82,6 +82,9 @@ $form->addCondition (USER_FUNCTION, function() use ($form) {
 
     // Logging
     log_login_attempt($password_matches, $stored_uid, $name);
+
+    // new session id for the logged-in session (session fixation)
+    if ($password_matches) session_regenerate_id(true);
 
 	return $password_matches;
 }, L_INVALID_LOGIN);

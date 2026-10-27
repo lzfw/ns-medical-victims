@@ -32,7 +32,7 @@ class View_List_Statistics_Experiment_FOI_Table extends View_List {
 				$bsum = 0;
 			while ($item = $results->fetch_object()) {
 					$field_of_interest = $item->field_of_interest == '' ? 'No indication of the "field of interest" in the experiment' : htmlentities((string) $item->field_of_interest, ENT_HTML5);
-					$experiments = $item->experiments;
+					$experiments = safeHTML($item->experiments); // GROUP_CONCAT with <br>, kept by safeHTML
 					$html .= '<tr>
 			        <td>' . $field_of_interest . '</td>
 			        <td>' . $experiments . '</td>

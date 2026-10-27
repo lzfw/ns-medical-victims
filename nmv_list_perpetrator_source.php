@@ -24,7 +24,7 @@ if ($perpetrator_id) {
     $perpetrator = $query->fetch_object();
 
     if ($perpetrator) {
-        $perpetrator_name = $perpetrator->perpetrator_name;
+        $perpetrator_name = safeHTML($perpetrator->perpetrator_name);
 
         $dbi->addBreadcrumb ($perpetrator_name,'nmv_view_perpetrator?ID_perpetrator='.$perpetrator_id);
 
@@ -95,7 +95,7 @@ if ($source_id) {
     $source = $query->fetch_object();
 
     if ($source) {
-        $source_name = $source->source_name;
+        $source_name = safeHTML($source->source_name);
 
         $dbi->addBreadcrumb ($source_name,'nmv_view_source?ID_source='.$source_id);
 

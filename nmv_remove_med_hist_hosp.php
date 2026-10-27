@@ -85,10 +85,10 @@ function prompt($dbi, $item) {
     $med_hist_hosp = get_med_hist_hosp($dbi, $item->ID_med_history_hosp);
 
     $victim_med_hist_hosp =
-        htmlspecialchars($med_hist_hosp->institution, ENT_HTML5).' - ' .
-        htmlspecialchars($med_hist_hosp->date, ENT_HTML5).' - ' .
-        htmlspecialchars($victim->first_names, ENT_HTML5).' '.
-        htmlspecialchars($victim->surname, ENT_HTML5);
+        htmlspecialchars((string) $med_hist_hosp->institution, ENT_HTML5).' - ' .
+        htmlspecialchars((string) $med_hist_hosp->date, ENT_HTML5).' - ' .
+        htmlspecialchars((string) $victim->first_names, ENT_HTML5).' '.
+        htmlspecialchars((string) $victim->surname, ENT_HTML5);
     return 'Medical History (Hospital)'.': "<em>'.$victim_med_hist_hosp.'</em>".';
 }
 

@@ -25,7 +25,7 @@ if ($perpetrator_id) {
     $perpetrator = $query->fetch_object();
 
     if ($perpetrator) {
-        $perpetrator_name = $perpetrator->perpetrator_name;
+        $perpetrator_name = safeHTML($perpetrator->perpetrator_name);
         $title = 'Biomedical Research: ' . $perpetrator_name;
 
         $dbi->addBreadcrumb ($perpetrator_name,'nmv_view_perpetrator?ID_perpetrator='.$perpetrator_id);
@@ -112,7 +112,7 @@ if ($experiment_id) {
     $experiment = $query->fetch_object();
 
     if ($experiment) {
-        $experiment_name = $experiment->experiment_name;
+        $experiment_name = safeHTML($experiment->experiment_name);
 
         $dbi->addBreadcrumb ($experiment_name,'nmv_view_experiment?ID_experiment='.$experiment_id);
 

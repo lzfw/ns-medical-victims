@@ -29,7 +29,7 @@ if ($victim_id) {
     $victim = $query->fetch_object();
 
     if ($victim) {
-        $victim_name = $victim->victim_name;
+        $victim_name = safeHTML($victim->victim_name);
         $title = 'Biomedical Research: ' . $victim_name . ' - ID ' . $victim_id;
 
         $dbi->addBreadcrumb ($victim_name,'nmv_view_victim?ID_victim='.$victim_id);
@@ -189,7 +189,7 @@ if ($experiment_id) {
     $experiment = $query->fetch_object();
 
     if ($experiment) {
-        $experiment_name = $experiment->experiment_name;
+        $experiment_name = safeHTML($experiment->experiment_name);
         $title = 'Victims List: ' . $experiment_name;
 
         //browsing options --> $_GET in url

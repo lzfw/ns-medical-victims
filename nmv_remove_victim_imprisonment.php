@@ -83,10 +83,10 @@ function prompt($dbi, $item) {
     $imprisonment = get_imprisonment($dbi, $item->ID_imprisonment);
 
     $victim_source =
-        htmlspecialchars($imprisonment->location, ENT_HTML5).', ' .
-        htmlspecialchars($imprisonment->number, ENT_HTML5).' - ' .
-        htmlspecialchars($victim->first_names, ENT_HTML5).' '.
-        htmlspecialchars($victim->surname, ENT_HTML5);
+        htmlspecialchars((string) $imprisonment->location, ENT_HTML5).', ' .
+        htmlspecialchars((string) $imprisonment->number, ENT_HTML5).' - ' .
+        htmlspecialchars((string) $victim->first_names, ENT_HTML5).' '.
+        htmlspecialchars((string) $victim->surname, ENT_HTML5);
     return 'Remove Victim Classification (prison number) '.': "<em>'.$victim_source.'</em>".';
 }
 

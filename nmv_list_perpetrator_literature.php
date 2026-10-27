@@ -24,7 +24,7 @@ if ($perpetrator_id) {
     $perpetrator = $query->fetch_object();
 
     if ($perpetrator) {
-        $perpetrator_name = $perpetrator->perpetrator_name;
+        $perpetrator_name = safeHTML($perpetrator->perpetrator_name);
 
         $dbi->addBreadcrumb ($perpetrator_name,'nmv_view_perpetrator?ID_perpetrator='.$perpetrator_id);
 
@@ -94,7 +94,7 @@ if ($literature_id) {
     $literature = $query->fetch_object();
 
     if ($literature) {
-        $literature_name = $literature->literature_name;
+        $literature_name = safeHTML($literature->literature_name);
 
         $dbi->addBreadcrumb ($literature_name,'nmv_view_literature?ID_literature='.$literature_id);
 

@@ -8,6 +8,11 @@ function isUrlParameter ($parameterName) {
 	return isset($_GET[$parameterName]);
 }
 
+// CSRF token of the session (see zefiro/ini.php)
+function csrfToken () {
+	return $_SESSION[Z_SESSION_NAME]['csrf_token'];
+}
+
 // escape a value for use inside an SQL string literal ('...')
 function escapeSQL ($value) {
 	global $dbi;

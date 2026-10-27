@@ -83,9 +83,9 @@ function prompt($dbi, $item) {
     $source = get_source($dbi, $item->ID_source);
 
     $perpetrator_source =
-        htmlspecialchars($source->source_title, ENT_HTML5).' - ' . 
-        htmlspecialchars($perpetrator->first_names, ENT_HTML5).' '.
-        htmlspecialchars($perpetrator->surname, ENT_HTML5);
+        htmlspecialchars((string) $source->source_title, ENT_HTML5).' - ' . 
+        htmlspecialchars((string) $perpetrator->first_names, ENT_HTML5).' '.
+        htmlspecialchars((string) $perpetrator->surname, ENT_HTML5);
     return 'Remove Perpetrator Source '.': "<em>'.$perpetrator_source.'</em>".';
 }
 

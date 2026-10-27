@@ -45,7 +45,7 @@ $content .= '<table class="grid">';
 if ($ve = $query->fetch_object()) {
     $victim_id = $ve->ID_victim;
     $victim_name = $ve->first_names . ' ' . $ve->surname;
-    $experiment_title = $ve->experiment;
+    $experiment_title = safeHTML($ve->experiment);
     $experiment_id = $ve->ID_experiment;
     $ei_info = $ve->ei_info;
 

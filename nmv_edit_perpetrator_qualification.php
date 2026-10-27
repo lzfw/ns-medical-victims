@@ -19,7 +19,7 @@ if ($perpetrator_id) {
     WHERE ID_perpetrator = $perpetrator_id";
     $query = $dbi->connection->query($querystring);
     $perpetrator = $query->fetch_object();
-    $perpetrator_name = $perpetrator->perpetrator_name;
+    $perpetrator_name = safeHTML($perpetrator->perpetrator_name);
 } else {
     $qualification_id = (int) getUrlParameter('ID_qualification', 0);
     $querystring = "
@@ -31,7 +31,7 @@ if ($perpetrator_id) {
     $query = $dbi->connection->query($querystring);
     $perpetrator = $query->fetch_object();
     $perpetrator_id = $perpetrator->perpetrator_id;
-    $perpetrator_name = $perpetrator->perpetrator_name;
+    $perpetrator_name = safeHTML($perpetrator->perpetrator_name);
 }
 
 $form

@@ -11,14 +11,14 @@ $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 $dbi->addBreadcrumb ('Biomedical Research','nmv_list_experiments');
 
 function breadcrumb($dbi, $item, $record_id) {
-    $experiment_name = $item->experiment_title;
+    $experiment_name = safeHTML($item->experiment_title);
     $dbi->addBreadcrumb ($experiment_name,'nmv_view_experiment?ID_experiment='.$record_id);
 }
 
 function prompt($dbi, $item) {
-    $experiment = htmlspecialchars($item->ID_experiment, ENT_HTML5).': '.
-        htmlspecialchars($item->experiment_title, ENT_HTML5).' '.
-        htmlspecialchars($item->field_of_interest, ENT_HTML5);
+    $experiment = htmlspecialchars((string) $item->ID_experiment, ENT_HTML5).': '.
+        htmlspecialchars((string) $item->experiment_title, ENT_HTML5).' '.
+        htmlspecialchars((string) $item->field_of_interest, ENT_HTML5);
     return 'Remove Biomedical Research: "<em>'.$experiment.'</em>".';
 }
 

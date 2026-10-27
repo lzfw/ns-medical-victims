@@ -23,7 +23,7 @@ if ($institution_id) {
     WHERE i.ID_institution = $institution_id";
     $query = $dbi->connection->query($querystring);
     $institution = $query->fetch_object();
-    $institution_name = $institution->institution_name;
+    $institution_name = safeHTML($institution->institution_name);
 } else {
     $querystring = "
     SELECT i.institution_name, i.ID_institution        
@@ -33,7 +33,7 @@ if ($institution_id) {
     $query = $dbi->connection->query($querystring);
     $institution = $query->fetch_object();
     $institution_id = $institution->ID_institution;
-    $institution_name = $institution->institution_name;
+    $institution_name = safeHTML($institution->institution_name);
 }
 
 

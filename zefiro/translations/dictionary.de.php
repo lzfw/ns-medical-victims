@@ -178,6 +178,7 @@ define('L_RECOVER',						'wiederherstellen');
 define('L_DELETE',						'löschen');
 
 define('L_ARE_YOU_SURE',				'Sind Sie sicher?');
+define('L_FORM_EXPIRED',				'Das Formular ist abgelaufen oder wurde nicht von dieser Seite gesendet. Bitte gehen Sie zurück, laden Sie die Seite neu und versuchen Sie es noch einmal.');
 define('L_YES_CONTINUE',				'Ja, weiter');
 define('L_NO_CANCEL',					'Nein, halt');
 

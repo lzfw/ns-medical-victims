@@ -195,6 +195,7 @@ define('L_REMOVE',						'Remove');
 define('L_DELETE',						'Delete');
 
 define('L_ARE_YOU_SURE',				'Are you sure?');
+define('L_FORM_EXPIRED',				'The form has expired or was not sent from this site. Please go back, reload the page and try again.');
 define('L_YES_CONTINUE',				'Yes, continue');
 define('L_NO_CANCEL',					'No, cancel');
 

@@ -11,14 +11,14 @@ $dbi->addBreadcrumb (L_CONTENTS,'z_menu_contents');
 $dbi->addBreadcrumb ('Literature','nmv_list_literature');
 
 function breadcrumb($dbi, $item, $record_id) {
-    $literature_name = $item->lit_title;
+    $literature_name = safeHTML($item->lit_title);
     $dbi->addBreadcrumb ($literature_name,'nmv_view_literature?ID_literature='.$record_id);
 }
 
 function prompt($dbi, $item) {
-    $literature = htmlspecialchars($item->ID_literature, ENT_HTML5).': '.
-        '"' . htmlspecialchars($item->lit_title, ENT_HTML5).'" by '.
-        htmlspecialchars($item->authors, ENT_HTML5);
+    $literature = htmlspecialchars((string) $item->ID_literature, ENT_HTML5).': '.
+        '"' . htmlspecialchars((string) $item->lit_title, ENT_HTML5).'" by '.
+        htmlspecialchars((string) $item->authors, ENT_HTML5);
     return 'Remove Literature'.': "<em>'.$literature.'</em>".';
 }
 

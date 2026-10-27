@@ -105,7 +105,7 @@ class Field_Subtable extends Field {
 					    if (substr($target, -1) === '=') {
 					            $target .= $row->key;
 					    }
-					    $target = htmlspecialchars( $target );
+					    $target = htmlspecialchars((string) $target);
 					    $label = $linkInfo['label'];
 					    $output .= ' <a href="'.$target.'">'.$label.'</a>';
 					}

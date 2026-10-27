@@ -83,10 +83,10 @@ function prompt($dbi, $item) {
     $victim_name = get_victim_name($dbi, $item->ID_name);
 
     $victim_source =
-        htmlspecialchars($victim_name->first_names, ENT_HTML5).' ' .
-        htmlspecialchars($victim_name->surname, ENT_HTML5).' - ' .
-        htmlspecialchars($victim->first_names, ENT_HTML5).' '.
-        htmlspecialchars($victim->surname, ENT_HTML5);
+        htmlspecialchars((string) $victim_name->first_names, ENT_HTML5).' ' .
+        htmlspecialchars((string) $victim_name->surname, ENT_HTML5).' - ' .
+        htmlspecialchars((string) $victim->first_names, ENT_HTML5).' '.
+        htmlspecialchars((string) $victim->surname, ENT_HTML5);
     return 'Remove Victim Name '.': "<em>'.$victim_source.'</em>".';
 }
 

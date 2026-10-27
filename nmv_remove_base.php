@@ -110,7 +110,7 @@ function remove_record($id_param, $id_col, $table, $subject, $successLocation, $
         			    'icon no').
         			createButton (L_YES_CONTINUE,
         		    	$_SERVER['SCRIPT_NAME'] .
-        		    	    "?$id_param=$record_id&confirm=yes",
+        		    	    "?$id_param=$record_id&confirm=yes&csrf-token=".csrfToken(),
         		    	'icon yes')
     		    )): ''))
     	->cast();

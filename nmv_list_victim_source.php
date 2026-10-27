@@ -25,7 +25,7 @@ if ($victim_id) {
     $victim = $query->fetch_object();
 
     if ($victim) {
-        $victim_name = $victim->victim_name;
+        $victim_name = safeHTML($victim->victim_name);
 
         $dbi->addBreadcrumb ($victim_name,'nmv_view_victim?ID_victim='.$victim_id);
 
@@ -95,7 +95,7 @@ if ($source_id) {
     $source = $query->fetch_object();
 
     if ($source) {
-        $source_name = $source->source_name;
+        $source_name = safeHTML($source->source_name);
 
         //browsing options --> $_GET in url
         $dbi->setUserVar('querystring', "ID_source=$source_id");

@@ -40,10 +40,10 @@ $dbi->addBreadcrumb (L_REMOTE_ACCESS,'z_list_remote');
 $layout
 	->set('title',L_REMOVE_REMOTE_ACCESS)
 	->set('content',
-		buildElement('p',L_REMOVE_REMOTE_ACCESS.': "<em>'.$item->name.'</em>". '.L_ARE_YOU_SURE).
+		buildElement('p',L_REMOVE_REMOTE_ACCESS.': "<em>'.safeHTML($item->name).'</em>". '.L_ARE_YOU_SURE).
 		buildElement('div','buttons',
 			createButton (L_NO_CANCEL,'z_remove_remote?user_id='.$item_id.'&confirm=no','icon no').
-			createButton (L_YES_CONTINUE,'z_remove_remote?user_id='.$item_id.'&confirm=yes','icon yes')
+			createButton (L_YES_CONTINUE,'z_remove_remote?user_id='.$item_id.'&confirm=yes&csrf-token='.csrfToken(),'icon yes')
 		)
 	)
 	->cast();
