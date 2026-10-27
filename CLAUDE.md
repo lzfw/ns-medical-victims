@@ -27,6 +27,13 @@ Data curation interface of the NMV database. Deployed as the `zefiro` submodule 
 - Database values in HTML: `safeHTML()` (zefiro/lib/html.php; keeps entities and simple tags
   without attributes), page titles/breadcrumbs: `safeTitleHTML()`. Trusted (admin-only) rich
   content, printed raw: textblocks, the public-site `website_*` tables, user profiles.
+- CSRF: zefiro/ini.php rejects every POST and every `confirm=yes` request without the session
+  token (`csrfToken()`, zefiro/lib/url.php). Flotilla forms add it automatically; links that
+  change data need `&csrf-token=`.csrfToken().
+- zefiro/ini.php also sets the session cookie flags (HttpOnly, SameSite=Lax, Secure behind TLS)
+  and security headers; z_login.php/z_logout.php regenerate the session id.
+- Output before headers (e.g. warnings in dev mode) breaks redirects, the 403 and session id
+  renewal: keep pages free of warnings.
 - Never pass SQL through URLs. Result pages hand their WHERE clause to nmv_export.php via
   `registerExportWhereClause()` (zefiro/lib/url.php, stored in the session); links carry only
   `export-id`.

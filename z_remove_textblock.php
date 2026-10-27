@@ -43,7 +43,7 @@ $layout
 		buildElement('p',L_REMOVE_TEXTBLOCK.': "<em>'.$item->name.'</em>". '.L_ARE_YOU_SURE).
 		buildElement('div','buttons',
 			createButton (L_NO_CANCEL,'z_remove_textblock?textblock_id='.$item_id.'&confirm=no','icon no').
-			createButton (L_YES_CONTINUE,'z_remove_textblock?textblock_id='.$item_id.'&confirm=yes','icon yes')
+			createButton (L_YES_CONTINUE,'z_remove_textblock?textblock_id='.$item_id.'&confirm=yes&csrf-token='.csrfToken(),'icon yes')
 		)
 	)
 	->cast();

@@ -43,7 +43,7 @@ $layout
 		buildElement('p',L_REMOVE_USER_ACCOUNT.': "<em>'.$item->name.'</em>". '.L_ARE_YOU_SURE).
 		buildElement('div','buttons',
 			createButton (L_NO_CANCEL,'website_user_remove?id='.$item_id.'&confirm=no','icon no').
-			createButton (L_YES_CONTINUE,'website_user_remove?id='.$item_id.'&confirm=yes','icon yes')
+			createButton (L_YES_CONTINUE,'website_user_remove?id='.$item_id.'&confirm=yes&csrf-token='.csrfToken(),'icon yes')
 		)
 	)
 	->cast();

@@ -362,6 +362,10 @@ class Form {
 		$output .= ' class="form'.($this->css_class?' '.$this->css_class:'').'"';
 		if ($this->css_style) $output .= ' style="'.$this->css_style.'"';
 		$output .= '>'.PHP_EOL;
+		// CSRF token, checked in zefiro/ini.php
+		if (strtolower($this->method) == 'post' && function_exists('csrfToken')) {
+			$output .= '<input type="hidden" name="csrf-token" value="'.csrfToken().'"/>'.PHP_EOL;
+		}
 		// form table
 		$output .= '<table>'.PHP_EOL;
 		// form table header
