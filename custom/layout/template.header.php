@@ -25,7 +25,7 @@
 	<!-- <meta name="keywords" lang="fr" content="French keywords"/> -->
 	
 	<!-- title -->
-	<title><?php echo strip_tags(MY_META_TITLE.' - '.$this->get('title')) ?></title>
+	<title><?php echo htmlspecialchars(strip_tags(MY_META_TITLE.' - '.$this->get('title')), ENT_QUOTES, 'UTF-8', false) ?></title>
 	
 	<!-- favicon -->
 	<link rel="shortcut icon" href="custom/images/favicons/zefiro-16.ico">

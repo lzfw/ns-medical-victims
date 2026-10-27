@@ -2,6 +2,8 @@
 
 class Field_Radio extends Field {
 
+	public $alignment;
+
 	public $RadioButtons = array();
 
 	// CONSTRUCTORS -----------------------------------------------------------
@@ -69,14 +71,14 @@ class Field_Radio extends Field {
 		foreach ($this->RadioButtons as $number => $button) {
 			$output .= "\t\t\t<input";
 			$output .= ' type="radio" name="'.$this->name.'" id="'.$this->getId().'-'.$number.'"';
-			$output .= ' value="'.$button->value.'"';
+			$output .= ' value="'.htmlspecialchars((string) $button->value, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8', false).'"';
 			if (isset($this->user_value) && $button->value==$this->user_value) $output .= ' checked="checked"';
 			if ($this->is_not_hidden()) {
 				$output .= $this->HTMLTitle();
 				$output .= $this->HTMLClass();
 				$output .= $this->HTMLStyle();
 			}
-			$label = $button->title?$button->title:$button->value;
+			$label = htmlspecialchars((string) ($button->title?$button->title:$button->value), ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8', false);
 			// no space between button and label
 			$output .= '>'.'<label for="'.$this->getId().'-'.$number.'">'.$label.'</label>';
 			if ($this->alignment == VERTICAL) $output .= '<br/>';

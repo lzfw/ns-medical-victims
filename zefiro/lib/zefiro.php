@@ -60,7 +60,7 @@ function mysql_get_random_row($table, $column) {
 
 function parseSimpleMarkup ($text) {
 	// **bold**
-	$text = preg_replace ('#\*\*([^\*]+)\*\*#', '<b>$1</b>', $text);
+	$text = preg_replace ('#\*\*([^\*]+)\*\*#', '<b>$1</b>', (string) $text);
 	$text = preg_replace ('#\*\~\*#', '**', $text);
 	// __italics__
 	$text = preg_replace ('#\_\_([^\_]+)\_\_#', '<i>$1</i>', $text);
@@ -131,47 +131,6 @@ function SimpleParagraphs_HTML($text) {
 
 function SimpleLists_HTML($text) {
 	return '<li>'.parseSimpleMarkup($text).'</li>';
-}
-
-function getDateUserStamp_HTML ($stamp,$date,$user) {
-	// this works best with dates from 1970-01-01 on
-	// in other cases, use historicalDateFormat
-	$html = '<p class="small">';
-	if (($date != '0000-00-00') || $user) {
-		$html .= ''.$stamp.'';
-		if ($user) $html .= Z_STAMP_BY_USER.$user;
-		if ($date != '0000-00-00') {
-			$replacements = array();
-			$patterns = array('/ISO 8859/', '/Y/', '/m/', '/d/', '/M/');
-			preg_match('/([0-9]{4})-([0-9]{2})-([0-9]{2})/',$date,$replacements);
-			// local month name
-			$replacements[4] = strftime('%B',mktime(0,0,0,$replacements[2]));
-			$html .= Z_STAMP_ON_DATE.preg_replace ($patterns, $replacements, Z_DATE_FORMAT);
-		}
-		$html .= '</p>'.PHP_EOL;
-	}
-	return $html;
-}
-
-function historicalDateFormat ($date) {
-	// attention - this might produce errors
-	$replacements = array();
-	$patterns = array('/ISO 8859/', '/Y/', '/m/', '/d/', '/M/');
-	preg_match('/([0-9]{4})-([0-9]{2})-([0-9]{2})/',$date,$replacements);
-	// local month name
-	$replacements[4] = strftime('%B',mktime(0,0,0,$replacements[2]));
-	if ($replacements[1] != '0000' && $replacements[2] != '00' && $replacements[3] != '00') {
-		return preg_replace ($patterns, $replacements, Z_DATE_FORMAT);
-	}
-	elseif ($replacements[1] != '0000' && $replacements[2] != '00') {
-		return preg_replace ($patterns, $replacements, Z_YEAR_MONTH_FORMAT);
-	}
-	elseif ($replacements[1] != '0000') {
-		return preg_replace ($patterns, $replacements, Z_YEAR_FORMAT);
-	}
-	else {
-		return NULL;
-	}
 }
 
 function mysql_backup ($tableNames,$appendix='') {

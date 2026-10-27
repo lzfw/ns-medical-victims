@@ -8,9 +8,9 @@
 //ini_set('display_errors', 0);
 //error_reporting(0);
 
-// uncomment this line in development environment
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+// set in custom/config.php (custom/config.default.php for development)
+//ini_set('display_errors', 1);
+//error_reporting(E_ALL);
 
 abstract class Variable {
 

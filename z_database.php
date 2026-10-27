@@ -16,9 +16,7 @@ $layout
 			createListItem(L_DATABASE_MAINTENANCE,'z_database_maintenance','dbMaintenance').
 			($dbi->checkUserPermission('system')
 				? (
-					createListItem(L_DATABASE_IMPORT,'z_database_import','dbImport').
-					createListItem(L_DATABASE_BACKUP,'z_database_backup','dbBackup').
-					createListItem(L_DATABASE_RECOVERY,'z_database_recovery','dbRecovery')
+					createListItem(L_DATABASE_BACKUP,'z_database_backup','dbBackup')
 				) : NULL
 			).
 		'</ul>'.

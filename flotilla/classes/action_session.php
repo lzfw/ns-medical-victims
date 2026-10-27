@@ -2,6 +2,8 @@
 
 class Action_Session extends Action {
 
+	public $Fields;
+
 	protected $vars;
 
 	protected function __construct ($Creator,$vars) {
@@ -43,7 +45,7 @@ class Action_Session extends Action {
 			$_SESSION[$this->Creator->name] = array();
 		}
 		reset($this->Creator->Fields);
-		while (list($index, $Field) = each($this->Creator->Fields)) {
+		foreach ($this->Creator->Fields as $index => $Field) {
 			$_SESSION[$this->Creator->name][$Field->name] = $Field->user_value;
 			$this->Creator->debuglog->Write(DEBUG_INFO,"SESSION ACTION - writing ... {$_SESSION[$this->Creator->name][$Field->name]} => $Field->user_value");
 		}

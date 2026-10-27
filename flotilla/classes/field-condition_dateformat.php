@@ -2,6 +2,8 @@
 
 class FieldCondition_Date extends Field {
 
+	public $parameters;
+
 	static public function create() {
 		return new FieldCondition_Date (func_get_args());
 	}

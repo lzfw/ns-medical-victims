@@ -36,7 +36,7 @@ $nationality_query = "SELECT nationality
           FROM nmv__nationality
           WHERE ID_nationality=$nationality_id";
 $query_item = $dbi->connection->query($nationality_query)->fetch_array();
-$nationality = $query_item['nationality'];
+$nationality = $query_item['nationality'] ?? NULL;
 
 if(is_int($nationality_id) && $nationality_id != 999):
   $where_clause = "v.ID_nationality_1938 = $nationality_id";

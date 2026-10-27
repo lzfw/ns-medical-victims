@@ -16,7 +16,7 @@
 				<span id="breadcrumbs"><?php echo $dbi->getBreadcrumbs_HTML(); ?></span>
 			</div> <!-- .left -->
 			<div class="right">
-				<span id="print"><a href="<?php echo $_SERVER['REQUEST_URI'].'?'.($_SERVER['QUERY_STRING']?$_SERVER['QUERY_STRING'].'&':'') ?>view=print"><?php echo L_PRINTABLE_PAGE ?></a></span>
+				<span id="print"><a href="<?php echo htmlspecialchars(strtok($_SERVER['REQUEST_URI'], '?').'?'.http_build_query(array_merge($_GET, array('view' => 'print')))) ?>"><?php echo L_PRINTABLE_PAGE ?></a></span>
 				<?php echo Z_SEPARATOR_SYMBOL ?>
 				<span id="languages">
 				<?php echo L_LANGUAGE.': ' ?>
@@ -59,7 +59,7 @@
 		</div> <!-- #options -->
 		<div id="body">
 			<div id="content">
-				<h2><?php $this->cast('title') ?></h2>
+				<h2><?php echo safeTitleHTML($this->get('title')) ?></h2>
 				<?php $this->cast('content') ?>
 			</div> <!-- #content -->
 			<div id="sidebar" class="right">
@@ -70,7 +70,7 @@
 			<div class="left">
 				<?php
 					echo L_VERSION;
-					if ($dbi->user) echo ' - '.L_AUTHENTICATED_AS.' <b>'.$dbi->user['display_name'].'</b>';
+					if ($dbi->user) echo ' - '.L_AUTHENTICATED_AS.' <b>'.safeHTML($dbi->user['display_name']).'</b>';
 					echo ' - '.L_SESSION_TIMEOUT.' '
 				        .date("H:i", time() + ini_get('session.gc_maxlifetime'));
 				?>

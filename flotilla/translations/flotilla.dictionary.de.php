@@ -3,6 +3,10 @@
 // TRANSLATION FILE: GERMAN
 
 define('FLO_INVALID_POST',				'Bitte korrigieren Sie die Eingaben.');
+define('FLO_CHECK_PARAMETER',			'Bitte überprüfen Sie die Parameter.');
+define('FLO_FORM_CONDITION_ERROR',		'Bitte korrigieren Sie die Eingaben.');
+define('FLO_REMOVE_SUBTABLE_FIELD',		'entfernen');
+define('FLO_INVALID_WEBSITE_FORMAT',	'Die Adresse der Website ist ungültig.');
 //define('FLO_CHECK_PARAMETER',			'Bitte überprüfen Sie den Parameter.');
 define('FLO_REQUIRED_FIELD',			'Dieses Feld muss ausgefüllt werden.');
 define('FLO_REQUIRED_FIELD_SYMBOL',		'*');

@@ -2,6 +2,11 @@
 
 class Field_Upload extends Field {
 
+	public $filetype;
+	public $max_filesize;
+	public $prefix;
+	public $target_dir;
+
 	var $temp_name;
 
 	// CONSTRUCTORS -----------------------------------------------------------

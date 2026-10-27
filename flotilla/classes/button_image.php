@@ -1,6 +1,9 @@
 <?php
 
 class ImageButton extends Button {
+
+	public $image_position;
+	public $image_url;
 	
 	// CONSTRUCTORS --------------------------------------------------------------
 	

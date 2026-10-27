@@ -167,9 +167,9 @@ if ($source_id) {
 
 
         //table export - button
-        $where_clause_encoded = urlencode(utf8_encode( " WHERE v.ID_victim IN (SELECT vs1.ID_victim FROM nmv__victim_source vs1 WHERE vs1.ID_source = $source_id) ")); //encode for url-transfer to export
-        $content .= '<div class="buttons">'.createButton ('Export Table to .csv',"nmv_export.php?type=csv&entity=victim&where-clause=$where_clause_encoded",'icon download')
-            .createButton ('Export Table to .xls',"nmv_export.php?type=xls&entity=victim&where-clause=$where_clause_encoded",'icon download')
+        $export_id = registerExportWhereClause( " WHERE v.ID_victim IN (SELECT vs1.ID_victim FROM nmv__victim_source vs1 WHERE vs1.ID_source = $source_id) ");
+        $content .= '<div class="buttons">'.createButton ('Export Table to .csv',"nmv_export.php?type=csv&entity=victim&export-id=$export_id",'icon download')
+            .createButton ('Export Table to .xls',"nmv_export.php?type=xls&entity=victim&export-id=$export_id",'icon download')
             . '</div>';
         // new entry - button
         if ($dbi->checkUserPermission('edit')) {

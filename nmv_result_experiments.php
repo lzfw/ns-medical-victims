@@ -44,19 +44,19 @@ $special_fields = array('ef.ID_foi'						=> 'ID_foi',
 // GET-String rekonstruieren (für Blätterfunktion)
 $query = array();
 foreach ($exact_fields as $field) {
-	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
+	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = http_build_query(array($field => $_GET[$field]));
 }
 foreach ($like_fields as $field) {
-	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
+	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = http_build_query(array($field => $_GET[$field]));
 }
 foreach ($contain_fields as $field) {
-	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
+	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = http_build_query(array($field => $_GET[$field]));
 }
 foreach ($double_fields as $field) {
-	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
+	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = http_build_query(array($field => $_GET[$field]));
 }
 foreach ($special_fields as $field) {
-	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
+	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = http_build_query(array($field => $_GET[$field]));
 }
 $dbi->setUserVar('querystring',implode('&',$query));
 
@@ -82,30 +82,30 @@ $replace_chars = array('', ' ', ' ', '%', '%');
 // Strings zusammenbauen
 foreach ($exact_fields as $field) {
     if (getUrlParameter($field)) {
-        $querystring_where[] = "e.$field = '".getUrlParameter($field)."'";
+        $querystring_where[] = "e.$field = '".escapeSQL(getUrlParameter($field))."'";
     }
 }
 foreach ($like_fields as $field) {
     if (getUrlParameter($field)) {
-		$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
+		$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
 		$querystring_where[] = "TRIM(e.$field) LIKE '%".$filtered_field."%'";
     }
 }
 foreach ($contain_fields as $field) {
 	if (getUrlParameter($field)) {
 			if ($field == 'surname'):
-				$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
+				$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
 				$querystring_where[] = "p.$field LIKE '%".$filtered_field."%'";
 			else:
-				$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
+				$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
 				$querystring_where[] = "e.$field LIKE '%".$filtered_field."%'";
 			endif;
 	}
 }
 foreach ($double_fields as $field) {
     if (getUrlParameter($field)) {
-		$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
-		$querystring_where[] = "(e.$field LIKE '".$filtered_field."' OR e.$field = '".getUrlParameter($field)."')";
+		$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
+		$querystring_where[] = "(e.$field LIKE '".$filtered_field."' OR e.$field = '".escapeSQL(getUrlParameter($field))."')";
     }
 }
 foreach ($special_fields as $key=>$field) {
@@ -113,12 +113,12 @@ foreach ($special_fields as $key=>$field) {
 			$querystring_where[] = "e.ID_experiment IN (
 	    SELECT DISTINCT ef.ID_experiment
 	    FROM nmv__experiment_foi ef
-			WHERE ef.ID_foi = '".getUrlParameter($field)."')";
+			WHERE ef.ID_foi = '".escapeSQL(getUrlParameter($field))."')";
     } elseif (getUrlParameter($field) && $key == 'ei.ID_institution') {
 			$querystring_where[] = "e.ID_experiment IN (
 	    SELECT DISTINCT ei.ID_experiment
 	    FROM nmv__experiment_institution ei
-			WHERE ei.ID_institution = '".getUrlParameter($field)."')";
+			WHERE ei.ID_institution = '".escapeSQL(getUrlParameter($field))."')";
     }
 }
 
@@ -126,7 +126,7 @@ foreach ($special_fields as $key=>$field) {
 $where_clause = '';
 if (count($querystring_where) > 0) {
     $where_clause = ' WHERE '.implode(' AND ',$querystring_where);
-		$where_clause_encoded = urlencode(utf8_encode($where_clause)); //encode for url-transfer to export
+		$export_id = registerExportWhereClause($where_clause);
     $querystring_items .= $where_clause;
 }
 $querystring_items .= ' GROUP BY e.ID_experiment';
@@ -150,17 +150,17 @@ if (isset($_GET['ID_experiment']) && $_GET['ID_experiment']) $suche_nach[] = 'ID
 if (isset($_GET['experiment_title']) && $_GET['experiment_title']) $suche_nach[] = 'title = '.$_GET['experiment_title'];
 if (isset($_GET['funding']) && $_GET['funding']) $suche_nach[] = 'funding = '.$_GET['funding'];
 if (isset($_GET['ID_foi']) && $_GET['ID_foi']) {
-	$search_term = $dbi->connection->query('SELECT field_of_interest FROM nmv__field_of_interest WHERE ID_foi = '.$_GET['ID_foi'])->fetch_row();
+	$search_term = $dbi->connection->query('SELECT field_of_interest FROM nmv__field_of_interest WHERE ID_foi = '.(int) $_GET['ID_foi'])->fetch_row();
 	$suche_nach[] = 'field of interest = '.$search_term[0];
 }
 if (isset($_GET['objective']) && $_GET['objective']) $suche_nach[] = 'objective = '.$_GET['objective'];
 if (isset($_GET['surname']) && $_GET['surname']) $suche_nach[] = 'surname perpetrator = '.$_GET['surname'];
 if (isset($_GET['ID_exp_classification']) && $_GET['ID_exp_classification']) {
-	$classification = $dbi->connection->query('SELECT classification FROM nmv__experiment_classification WHERE ID_exp_classification = '.$_GET['ID_exp_classification'])->fetch_row();
+	$classification = $dbi->connection->query('SELECT classification FROM nmv__experiment_classification WHERE ID_exp_classification = '.(int) $_GET['ID_exp_classification'])->fetch_row();
 	$suche_nach[] = 'classification = '.$classification[0];
 }
 if (isset($_GET['ID_institution']) && $_GET['ID_institution']) {
-	$institution = $dbi->connection->query('SELECT institution_name FROM nmv__institution WHERE ID_institution = '.$_GET['ID_institution'])->fetch_row();
+	$institution = $dbi->connection->query('SELECT institution_name FROM nmv__institution WHERE ID_institution = '.(int) $_GET['ID_institution'])->fetch_row();
 	$suche_nach[] = 'institution = '.$institution[0];
 }
 
@@ -171,10 +171,10 @@ $dbi->addBreadcrumb (L_SEARCH,'search.php');
 $layout
 	->set('title',L_RESULTS)
 	->set('content',
-        '<p>Search for: <em>'.implode(', ',$suche_nach).'</em><br>
+        '<p>Search for: <em>'.htmlspecialchars(implode(', ', $suche_nach)).'</em><br>
 				Number of results: '. $total_results->total. '</p>'
-				. '<div class="buttons">'.createButton ('Export Table to .csv',"nmv_export.php?type=csv&entity=experiment&where-clause=$where_clause_encoded",'icon download')
-																 .createButton ('Export Table to .xls',"nmv_export.php?type=xls&entity=experiment&where-clause=$where_clause_encoded",'icon download')
+				. '<div class="buttons">'.createButton ('Export Table to .csv',"nmv_export.php?type=csv&entity=experiment&export-id=$export_id",'icon download')
+																 .createButton ('Export Table to .xls',"nmv_export.php?type=xls&entity=experiment&export-id=$export_id",'icon download')
 				. '</div>'
         .$dbi->getListView('nmv_experiments_table',$query_items)
         .'<div class="buttons">'

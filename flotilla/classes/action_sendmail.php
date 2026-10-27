@@ -4,6 +4,15 @@ define('SENDMAIL_WRAP',70);
 
 class Action_Sendmail extends Action {
 
+	public $additional_headers;
+	public $additional_parameters;
+	public $content;
+	public $from_email;
+	public $from_name;
+	public $from_sender;
+	public $recipient_email;
+	public $subject;
+
 	protected $querystring;
 
 	protected function __construct () {

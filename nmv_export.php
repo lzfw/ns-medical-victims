@@ -6,7 +6,7 @@
 *
 */
 function filterData(&$str){
-    $str = preg_replace("/\t/", "\\t", $str);
+    $str = preg_replace("/\t/", "\\t", (string) $str);
     $str = preg_replace("/\r?\n/", "\\n", $str);
     $str = str_replace("\\n", "---------------", $str);
     if(strstr($str, '"')) $str = '"' . str_replace('"', '""', $str) . '"';
@@ -60,15 +60,17 @@ switch ($entity) {
 
 
 
-// $export_query_where = " WHERE was_prisoner_assistant != 'prisoner assistant only' AND (TRIM(v.surname) LIKE '%Adler%' OR TRIM(vn.victim_name) LIKE '%Adler%')";
-if (getUrlParameter('where-clause')) {
-  $export_query_where = getUrlParameter('where-clause');
-  $export_query_where = utf8_decode($export_query_where);
-  $export_query_where = htmlspecialchars($export_query_where);
-  } else {
-  // $export_query_where = 'WHERE 1';
+// the filter comes from the search page via the session, never from the URL
+if (getUrlParameter('export-id') || getUrlParameter('where-clause')) {
+  // links from before (where-clause=...) are treated as expired
+  $export_query_where = getExportWhereClause(getUrlParameter('export-id'));
+  if (is_null($export_query_where)) {
+    echo 'This export link has expired. Please repeat the search and export again.';
+    exit;
+  }
+} else {
   $export_query_where = ' ';
-};
+}
 $export_query = $export_query_start . ' ' . $export_query_where . ' ' . $export_query_end;
 //Obacht
 //echo $export_query;
@@ -94,7 +96,7 @@ if(getUrlParameter('type') == 'csv') {
               $fields = array_keys($row);
             }
           }
-          fputcsv($file, $fields, $delimiter);
+          fputcsv($file, $fields, $delimiter, '"', '\\');
 
           // Output each row of the data, format line as csv and write to file pointer
           $query_items = $dbi->connection->query($export_query);
@@ -105,7 +107,7 @@ if(getUrlParameter('type') == 'csv') {
               foreach($fields as $field) {
                 $lineData[] = $row[$field];
               }
-              fputcsv($file, $lineData, $delimiter);
+              fputcsv($file, $lineData, $delimiter, '"', '\\');
           }
 
           // Move back to beginning of file

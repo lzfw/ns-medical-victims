@@ -8,7 +8,7 @@ require_once 'zefiro/lib/url.php';
 $dbi->requireUserPermission ('system');
 
 // url parameters
-$item_id = getUrlParameter('textblock_id',0);
+$item_id = (int) getUrlParameter('textblock_id',0);
 $user_confirm = getUrlParameter('confirm',NULL);
 
 // database connection

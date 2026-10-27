@@ -2,11 +2,13 @@
 
 class Field_MultiSelect extends Field {
 
+	public $size;
+
 	public $Options = array();
 
 	// CONSTRUCTORS --------------------------------------------------------------
 
-	protected function __construct (Form $Creator, $name, $size = AUTOSIZE, $required, $default_option) {
+	protected function __construct (Form $Creator, $name, $size, $required, $default_option) {
 		if (isset($name)) {
 			$this->Creator = $Creator;
 			$this->name = $name;
@@ -173,10 +175,10 @@ class MultiSelect_Option {
 
 	public function HTMLOutput ($is_selected) {
 		$output = "\t\t\t\t<option";
-		if ($this->title) $output .= ' value="'.$this->value.'"';
+		if ($this->title) $output .= ' value="'.htmlspecialchars((string) $this->value, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8', false).'"';
 		if ($is_selected) $output .= ' selected="selected"';
-		if ($this->title) $output .= '>'.$this->title;
-		else $output .='>'.$this->value;
+		if ($this->title) $output .= '>'.htmlspecialchars((string) $this->title, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8', false);
+		else $output .='>'.htmlspecialchars((string) $this->value, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, 'UTF-8', false);
 		$output .= '</option>'.PHP_EOL;
 		return $output;
 	}

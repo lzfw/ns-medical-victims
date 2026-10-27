@@ -46,8 +46,8 @@ $layout
 			($dbi->checkUserPermission('edit')
 			? '<div class="buttons">'.createButton ('New Biomedical Research','nmv_edit_experiment','icon add').'</div>'
 			: '')
-			. '<div class="buttons">'.createButton ('Export Table to .csv','nmv_export.php?type=csv&entity=experiment&where-clause=','icon download')
-															.createButton ('Export Table to .xls (Excel)','nmv_export.php?type=xls&entity=experiment&where-clause=','icon download')
+			. '<div class="buttons">'.createButton ('Export Table to .csv','nmv_export.php?type=csv&entity=experiment','icon download')
+															.createButton ('Export Table to .xls (Excel)','nmv_export.php?type=xls&entity=experiment','icon download')
 			. '</div>'
 			. '<p>Number of experiments: '. $total_results->total. ' </p>'
 			. $dbi->getListView('nmv_experiments_table',$query_items)

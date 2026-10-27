@@ -2,6 +2,8 @@
 
 class Action_Query_to_Session extends Action {
 
+	public $namespace;
+
 	protected $querystring;
 
 	protected function __construct (Form $Creator,$querystring,$namespace = NULL) {

@@ -47,7 +47,7 @@ if ($victim_id) {
 
         // query: get experiment data (victim)
         $querystring_v = "SELECT ve.ID_vict_exp AS ID_vict_exp, 
-                            COALESCE(e.experiment_title, 'unspecified') AS title, c.classification, REPLACE(GROUP_CONCAT(i.institution_name SEPARATOR '<br>'), ' ', '&nbsp;') AS institution,
+                            COALESCE(e.experiment_title, 'unspecified') AS title, c.classification, REPLACE(GROUP_CONCAT(i.institution_name SEPARATOR '<br>'), ' ', ' ') AS institution,
                             ve.ID_experiment AS ID_experiment
                         FROM nmv__victim_experiment ve
                         LEFT JOIN nmv__experiment e                 ON e.ID_experiment = ve.ID_experiment
@@ -113,7 +113,7 @@ if ($victim_id) {
 
       // query: get experiment data (prisoner assistant)
       $querystring_pa = "SELECT pae.ID_pa_exp AS ID_pa_exp,
-                          COALESCE(e.experiment_title, 'unspecified') AS title, c.classification, REPLACE(GROUP_CONCAT(i.institution_name SEPARATOR '<br>'), ' ', '&nbsp;') AS institution,
+                          COALESCE(e.experiment_title, 'unspecified') AS title, c.classification, REPLACE(GROUP_CONCAT(i.institution_name SEPARATOR '<br>'), ' ', ' ') AS institution,
                           pae.ID_experiment AS ID_experiment, pa.was_prisoner_assistant AS role
                       FROM nmv__prisoner_assistant_experiment pae
                       LEFT JOIN nmv__experiment e                 ON e.ID_experiment = pae.ID_experiment

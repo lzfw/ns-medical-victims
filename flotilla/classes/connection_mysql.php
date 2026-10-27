@@ -10,6 +10,10 @@ require_once 'flotilla/lib/opendb_mysql.php';
 
 class Connection_MySQL extends Connection {
 
+	public $db_host;
+	public $db_password;
+	public $db_user;
+
     /**
      * Constructor for MySQLConnection.
      *

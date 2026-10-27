@@ -19,10 +19,10 @@ if ($dbi->checkUserPermission('admin')) {
 $content .= '</tr>';
 while ($victim = $query->fetch_object()) {
 	$content .= '<tr>';
-	$content .= '<td><a href="nmv_view_victim?ID_victim='.$victim->ID_victim.'">'.htmlspecialchars($victim->surname,ENT_HTML5).'</a></td>';
-	$content .= '<td>'.htmlspecialchars($victim->first_names,ENT_HTML5).'</td>';
+	$content .= '<td><a href="nmv_view_victim?ID_victim='.$victim->ID_victim.'">'.htmlspecialchars((string) $victim->surname,ENT_HTML5).'</a></td>';
+	$content .= '<td>'.htmlspecialchars((string) $victim->first_names,ENT_HTML5).'</td>';
 	$content .= "<td>$victim->ID_victim</td>";
-	$content .= '<td>'.htmlspecialchars($victim->birth_place,ENT_HTML5).'</td>';
+	$content .= '<td>'.htmlspecialchars((string) $victim->birth_place,ENT_HTML5).'</td>';
 	$content .= '<td class="nowrap">';
 	if ($dbi->checkUserPermission('edit')) {
 			$content .= createSmallButton(L_EDIT,'nmv_edit_victim?ID_victim='.$victim->ID_victim,'icon edit');

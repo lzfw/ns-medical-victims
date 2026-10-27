@@ -21,6 +21,7 @@ class DBI {
 	// CONSTRUCTOR ---------------------------------------------------------------
 
 	public function __construct ($db_host,$db_user,$db_pass,$db_name) {
+	    mysqli_report(MYSQLI_REPORT_OFF);
 	    $this->connection = mysqli_connect($db_host,$db_user,$db_pass,$db_name);
 	    if ($this->connection->connect_error) {
 			echo L_ERROR_CONNECTION;
@@ -74,18 +75,21 @@ class DBI {
 	public function requireUserAuthentication () {
 		if (!$this->checkUserAuthentication()) {
 			header('Location: index');
+			exit;
 		}
 	}
 
 	public function requireUserPermission ($permission_name) {
 		if (!$this->checkUserPermission ($permission_name)) {
 			header('Location: z_permission');
+			exit;
 		}
 	}
 
 	public function denyUserPermission ($permission_name) {
 		if ($this->checkUserPermission ($permission_name)) {
 			header('Location: z_permission');
+			exit;
 		}
 	}
 
@@ -94,6 +98,16 @@ class DBI {
 	public function setUserVar() {
 		// setUserVar ( var_name , value , default )
 		$args = func_get_args();
+		// sort and order end up in ORDER BY clauses (only column names and ASC/DESC lists),
+		// skip in links (digits only)
+		$patterns = array(
+			'sort' => '/^[A-Za-z_][A-Za-z0-9_.]*(\s*,\s*[A-Za-z_][A-Za-z0-9_.]*)*$/',
+			'order' => '/^(ASC|DESC)(\s*,\s*[A-Za-z_][A-Za-z0-9_.]*\s+(ASC|DESC))*$/i',
+			'skip' => '/^\d+$/'
+		);
+		if (isset($args[1]) && isset($patterns[$args[0]])) {
+			if (!(is_string($args[1]) || is_int($args[1])) || !preg_match($patterns[$args[0]], (string) $args[1])) unset($args[1]);
+		}
 		if (isset($args[0]) && isset($args[1])) return $this->user[$args[0]] = $args[1];
 		elseif (isset($args[2])) return $this->user[$args[0]] = $args[2];
 	}
@@ -119,10 +133,10 @@ class DBI {
 		foreach($this->breadcrumbs as $index => $crumb) {
 			switch (count($crumb)) {
 				case 1:
-					$html .= ' '.Z_BREADCRUMB_SYMBOL.$crumb[0];
+					$html .= ' '.Z_BREADCRUMB_SYMBOL.safeTitleHTML($crumb[0]);
 					break;
 				case 2:
-					$html .= ' '.Z_BREADCRUMB_SYMBOL.'<a class="breadcrumb" href="'.$crumb[1].'">'.$crumb[0].'</a>';
+					$html .= ' '.Z_BREADCRUMB_SYMBOL.'<a class="breadcrumb" href="'.htmlspecialchars($crumb[1], ENT_QUOTES, 'UTF-8', false).'">'.safeTitleHTML($crumb[0]).'</a>';
 					break;
 				case 3:
 					$html .= ' '.Z_BREADCRUMB_SYMBOL.'<div class="breadcrumb"><span class="tooltip-text">'.$crumb[2].'</span><a href="'.$crumb[1].'">'.$crumb[0].'</a></div>';

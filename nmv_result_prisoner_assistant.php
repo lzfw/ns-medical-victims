@@ -49,19 +49,19 @@ $diy_fields = array ('surname', 'first_names');
 // reconstruct GET-String (for scroll-function)
 $query = array();
 foreach ($exact_fields as $field) {
-	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
+	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = http_build_query(array($field => $_GET[$field]));
 }
 foreach ($like_fields as $field) {
-	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
+	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = http_build_query(array($field => $_GET[$field]));
 }
 foreach ($contain_fields as $field) {
-	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
+	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = http_build_query(array($field => $_GET[$field]));
 }
 foreach ($double_fields as $field) {
-	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
+	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = http_build_query(array($field => $_GET[$field]));
 }
 foreach ($diy_fields as $field) {
-	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = "$field={$_GET[$field]}";
+	if (isset($_GET[$field]) && $_GET[$field] != '') $query[] = http_build_query(array($field => $_GET[$field]));
 }
 $dbi->setUserVar('querystring',implode('&',$query));
 
@@ -89,36 +89,36 @@ $replace_chars = array(' ', ' ', '%', '%', '_');
 // WHERE Strings zusammenbauen
 foreach ($exact_fields as $field) {
     if (getUrlParameter($field)) {
-        $querystring_where[] = "v.$field = '".getUrlParameter($field)."'";
+        $querystring_where[] = "v.$field = '".escapeSQL(getUrlParameter($field))."'";
     }
 }
 foreach ($like_fields as $field) {
     if (getUrlParameter($field)) {
-		$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
+		$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
 		$querystring_where[] = "TRIM(v.$field) LIKE TRIM('".$filtered_field."')";
     }
 }
 foreach ($contain_fields as $field) {
     if (getUrlParameter($field)) {
-		$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
+		$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
 		$querystring_where[] = "v.$field LIKE '%".$filtered_field."%'";
     }
 }
 foreach ($double_fields as $field) {
     if (getUrlParameter($field)) {
-		$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
-		$querystring_where[] = "(v.$field LIKE '".$filtered_field."' OR v.$field = '".getUrlParameter($field)."')";
+		$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
+		$querystring_where[] = "(v.$field LIKE '".$filtered_field."' OR v.$field = '".escapeSQL(getUrlParameter($field))."')";
     }
 }
 //diy-WHERE-clauses for including Other Names in search
 foreach ($diy_fields as $field) {
 	if (getUrlParameter($field)) {
 		if ($field == 'surname') {
-			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
+			$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
 			$querystring_where[] = "(vn.surname LIKE '%".$filtered_field."%' OR v.$field LIKE '%".$filtered_field."%')";
 		}
 		if ($field == 'first_names') {
-			$filtered_field = str_replace($filter_chars, $replace_chars, getUrlParameter($field));
+			$filtered_field = escapeSQL(str_replace($filter_chars, $replace_chars, getUrlParameter($field)));
 			$querystring_where[] = "(vn.first_names LIKE '%".$filtered_field."%' OR v.$field LIKE '%".$filtered_field."%')";
 		}
 	}
@@ -133,7 +133,7 @@ endif;
 $where_clause = '';
 if (count($querystring_where) > 0) {
     $where_clause = ' WHERE '.implode(' AND ',$querystring_where);
-		$where_clause_encoded = urlencode(utf8_encode($where_clause)); //encode for url-transfer to export
+		$export_id = registerExportWhereClause($where_clause);
     $querystring_items .= $where_clause;
 }
 $querystring_items .= "GROUP BY v.ID_victim";
@@ -162,10 +162,10 @@ $dbi->addBreadcrumb (L_SEARCH,'search.php');
 $layout
 	->set('title',L_RESULTS)
 	->set('content',
-        '<p>Search for: <em>'.implode(', ',$suche_nach).'</em><br>
+        '<p>Search for: <em>'.htmlspecialchars(implode(', ', $suche_nach)).'</em><br>
 				Number of results: '. $total_results->total. '</p>'
-				. '<div class="buttons">'.createButton ('Export Table to .csv',"nmv_export.php?type=csv&entity=prisoner_assistant&where-clause=$where_clause_encoded",'icon download')
-																 .createButton ('Export Table to .xls',"nmv_export.php?type=xls&entity=prisoner_assistant&where-clause=$where_clause_encoded",'icon download')
+				. '<div class="buttons">'.createButton ('Export Table to .csv',"nmv_export.php?type=csv&entity=prisoner_assistant&export-id=$export_id",'icon download')
+																 .createButton ('Export Table to .xls',"nmv_export.php?type=xls&entity=prisoner_assistant&export-id=$export_id",'icon download')
 				. '</div>'
         .$dbi->getListView('table_nmv_victims_details',$query_items)
         .'<div class="buttons">'

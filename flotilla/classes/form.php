@@ -3,6 +3,9 @@
 
 class Form {
 
+	public $append_mode;
+	public $title;
+
 	public $name;
 
 	// sub-objects
@@ -52,8 +55,9 @@ class Form {
 		if (isset ($_SESSION['flotilla']['last_page']) && isset ($_SERVER['HTTP_REFERER']) ) {
 			// is last page different from the referer?
 			if ($_SESSION['flotilla']['last_page'] != $_SERVER['HTTP_REFERER']) {
-				// is referer different from the current url?
-				if ($_SERVER['HTTP_REFERER'] != 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'])
+				// is referer different from the current url and from this site?
+				if ($_SERVER['HTTP_REFERER'] != 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']
+					&& parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST) === $_SERVER['SERVER_NAME'])
 					$_SESSION['flotilla']['last_page'] = $_SERVER['HTTP_REFERER'];
 			}
 		}
@@ -286,7 +290,7 @@ class Form {
 					$this->error = FLO_CHECK_PARAMETER;
 				} else {
 					if ($this->primary_key == $field->name) {
-						$this->SetPrimaryKeyValue ($_GET[$field->name]);
+						$this->SetPrimaryKeyValue ((int) $_GET[$field->name]);
 					}
 				}
 			}

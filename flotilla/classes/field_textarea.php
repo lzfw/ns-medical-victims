@@ -2,6 +2,8 @@
 
 class Field_TextArea extends Field {
 
+	public $rows;
+
 	// CONSTRUCTORS --------------------------------------------------------------
 
     protected function __construct (Form $Creator, $name, $rows = FLO_TEXTAREA_ROWS, $required = OPTIONAL, $default_text = NO_DEFAULT) {

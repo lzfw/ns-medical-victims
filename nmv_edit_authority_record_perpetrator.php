@@ -7,6 +7,7 @@ require_once 'flotilla/ini.php';
  * @var DBI $dbi Calls method require user permission.
  * @see
  */
+$dbi->requireUserPermission ('edit');
 
 $authority_record_id = (int) getUrlParameter('ID_authority_record_perpetrator', 0);
 

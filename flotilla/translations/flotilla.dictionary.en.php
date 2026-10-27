@@ -3,6 +3,10 @@
 // TRANSLATION FILE: ENGLISH
 
 define('FLO_INVALID_POST',				'Please check the fields.');
+define('FLO_CHECK_PARAMETER',			'Please check the parameters.');
+define('FLO_FORM_CONDITION_ERROR',		'Please check the fields.');
+define('FLO_REMOVE_SUBTABLE_FIELD',		'remove');
+define('FLO_INVALID_WEBSITE_FORMAT',	'The website address is invalid.');
 //define('FLO_CHECK_PARAMETER',			'Please check the parameter.');
 define('FLO_REQUIRED_FIELD',			'This field is required.');
 define('FLO_REQUIRED_FIELD_SYMBOL',		'*');
