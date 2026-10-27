@@ -269,7 +269,7 @@ foreach ($special_contain_fields as $key=>$field) {
 $where_clause = '';
 if (count($querystring_where) > 0) {
     $where_clause = ' WHERE '.implode(' AND ',$querystring_where);
-		$where_clause_encoded = urlencode(mb_convert_encoding($where_clause, 'UTF-8', 'ISO-8859-1')); //encode for url-transfer to export
+		$export_id = registerExportWhereClause($where_clause);
     $querystring_items .= $where_clause;
 }
 $querystring_items .= " GROUP BY v.ID_victim, ve.ID_vict_exp";
@@ -465,8 +465,8 @@ if((isset($_GET['ID_experiment']) && $_GET['ID_experiment']) || (isset($_GET['ex
 		->set('content',
 	        '<p>Search for: <em>'.implode(' AND ', $suche_nach).'</em><br>
 					Number of results: '. $total_results->total. '</p>'
-					. '<div class="buttons">'.createButton ('Export Table to .csv',"nmv_export.php?type=csv&entity=victim&where-clause=$where_clause_encoded",'icon download')
-																	 .createButton ('Export Table to .xls',"nmv_export.php?type=xls&entity=victim&where-clause=$where_clause_encoded",'icon download')
+					. '<div class="buttons">'.createButton ('Export Table to .csv',"nmv_export.php?type=csv&entity=victim&export-id=$export_id",'icon download')
+																	 .createButton ('Export Table to .xls',"nmv_export.php?type=xls&entity=victim&export-id=$export_id",'icon download')
 					. '</div>'
 	        . $dbi->getListView('table_nmv_victims_exp',$query_items)
 	        .'<div class="buttons">'
@@ -482,8 +482,8 @@ if((isset($_GET['ID_experiment']) && $_GET['ID_experiment']) || (isset($_GET['ex
 		->set('content',
 	        '<p>Search for: <em>'.implode(', AND ',$suche_nach).'</em><br>
 					Number of results: '. $total_results->total. '</p>'
-					. '<div class="buttons">'.createButton ('Export Table to .csv',"nmv_export.php?type=csv&entity=victim&where-clause=$where_clause_encoded",'icon download')
-																	 .createButton ('Export Table to .xls',"nmv_export.php?type=xls&entity=victim&where-clause=$where_clause_encoded",'icon download')
+					. '<div class="buttons">'.createButton ('Export Table to .csv',"nmv_export.php?type=csv&entity=victim&export-id=$export_id",'icon download')
+																	 .createButton ('Export Table to .xls',"nmv_export.php?type=xls&entity=victim&export-id=$export_id",'icon download')
 					. '</div>'
 	        . $dbi->getListView('table_nmv_victims_details',$query_items)
 	        .'<div class="buttons">'

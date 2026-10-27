@@ -64,7 +64,7 @@ $querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']} LIM
 //$querystring_orderby = " ORDER BY {$dbi->user['sort']} {$dbi->user['order']}";
 
 // WHERE CLAUSE for data exports
-$where_clause_encoded = urlencode(mb_convert_encoding("WHERE v.was_prisoner_assistant != 'victim only'", 'UTF-8', 'ISO-8859-1'));
+$export_id = registerExportWhereClause("WHERE v.was_prisoner_assistant != 'victim only'");
 
 
 // query ausführen
@@ -76,8 +76,8 @@ $layout
 			($dbi->checkUserPermission('edit')
 	        ? '<div class="buttons">'.createButton ('New Prisoner Assistant','nmv_edit_victim?type=prisoner_assistant','icon addUser').'</div>'
 	        : '')
-			. '<div class="buttons">'.createButton ('Export Table to .csv',"nmv_export.php?type=csv&entity=prisoner_assistant&where-clause=$where_clause_encoded",'icon download')
-															 .createButton ('Export Table to .xls',"nmv_export.php?type=xls&entity=prisoner_assistant&where-clause=$where_clause_encoded",'icon download')
+			. '<div class="buttons">'.createButton ('Export Table to .csv',"nmv_export.php?type=csv&entity=prisoner_assistant&export-id=$export_id",'icon download')
+															 .createButton ('Export Table to .xls',"nmv_export.php?type=xls&entity=prisoner_assistant&export-id=$export_id",'icon download')
 			. '</div>'
 	    . $dbi->getListView('nmv_victims_table',$query_items)
 	    . ($dbi->checkUserPermission('edit')

@@ -60,15 +60,17 @@ switch ($entity) {
 
 
 
-// $export_query_where = " WHERE was_prisoner_assistant != 'prisoner assistant only' AND (TRIM(v.surname) LIKE '%Adler%' OR TRIM(vn.victim_name) LIKE '%Adler%')";
-if (getUrlParameter('where-clause')) {
-  $export_query_where = getUrlParameter('where-clause');
-  $export_query_where = mb_convert_encoding($export_query_where, 'ISO-8859-1', 'UTF-8');
-  $export_query_where = htmlspecialchars($export_query_where, ENT_COMPAT | ENT_HTML401);
-  } else {
-  // $export_query_where = 'WHERE 1';
+// the filter comes from the search page via the session, never from the URL
+if (getUrlParameter('export-id') || getUrlParameter('where-clause')) {
+  // links from before (where-clause=...) are treated as expired
+  $export_query_where = getExportWhereClause(getUrlParameter('export-id'));
+  if (is_null($export_query_where)) {
+    echo 'This export link has expired. Please repeat the search and export again.';
+    exit;
+  }
+} else {
   $export_query_where = ' ';
-};
+}
 $export_query = $export_query_start . ' ' . $export_query_where . ' ' . $export_query_end;
 //Obacht
 //echo $export_query;

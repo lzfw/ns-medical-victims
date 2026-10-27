@@ -45,8 +45,8 @@ $layout
 			. ($dbi->checkUserPermission('edit')
 	        ? '<div class="buttons">'.createButton ('New Institution','nmv_edit_institution','icon addUser').'</div>'
 	        : '')
-			. '<div class="buttons">'.createButton ('Export Table to .csv','nmv_export.php?type=csv&entity=institution&where-clause=','icon download')
-																.createButton ('Export Table to .xls','nmv_export.php?type=xls&entity=institution&where-clause=','icon download')
+			. '<div class="buttons">'.createButton ('Export Table to .csv','nmv_export.php?type=csv&entity=institution','icon download')
+																.createButton ('Export Table to .xls','nmv_export.php?type=xls&entity=institution','icon download')
 			.'</div>'
 	    . $dbi->getListView('nmv_institutions_table',$query_items)
 	    . ($dbi->checkUserPermission('edit')

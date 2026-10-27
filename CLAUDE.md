@@ -15,6 +15,13 @@ Data curation interface of the NMV database. Deployed as the `zefiro` submodule 
 - Production config (`custom/config.php`, not in git) is linked in by CI from
   /opt/config on the server.
 
+## Security
+- `DBI::requireUserPermission()` / `requireUserAuthentication()` / `denyUserPermission()` redirect
+  and `exit`. Call them before any output.
+- Never pass SQL through URLs. Result pages hand their WHERE clause to nmv_export.php via
+  `registerExportWhereClause()` (zefiro/lib/url.php, stored in the session); links carry only
+  `export-id`.
+
 ## Dead pages (already broken on PHP 7.2, left untouched)
 bookmarks.php, bookmarks_sendmail.php, results.php (missing setup/ini.php),
 z_upload_image.php, z_error_sendmail.php, z_database_recovery.php (missing templates/ini.php),

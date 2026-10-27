@@ -75,18 +75,21 @@ class DBI {
 	public function requireUserAuthentication () {
 		if (!$this->checkUserAuthentication()) {
 			header('Location: index');
+			exit;
 		}
 	}
 
 	public function requireUserPermission ($permission_name) {
 		if (!$this->checkUserPermission ($permission_name)) {
 			header('Location: z_permission');
+			exit;
 		}
 	}
 
 	public function denyUserPermission ($permission_name) {
 		if ($this->checkUserPermission ($permission_name)) {
 			header('Location: z_permission');
+			exit;
 		}
 	}
 
